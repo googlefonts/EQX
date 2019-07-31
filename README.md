@@ -1,2 +1,2 @@
 # EQX
-A typographically centric font testing tool.
+A font testing tool that is question and typography based.
