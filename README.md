@@ -8,7 +8,7 @@ Requirements: Please make sure to use Node 10 or more.
 cd frontend
 npm install
 killall -9 node # Port in use?
-node run dev
+npm run dev
 ```
 
 ## Starting Backend Server (Strapi)
@@ -40,16 +40,16 @@ strapi start
 
 # Stack
 
-Google's OFFICAL Material Components
+Google's OFFICAL Material Components  
 https://github.com/material-components/material-components-web-react
 
-NextJS for the frontend framework
+NextJS for the frontend framework  
 https://github.com/zeit/next.js
 
-Strapi for the Headless CMS
+Strapi for the Headless CMS  
 https://github.com/strapi/strapi
 
-PostgreSQL for the Database
+PostgreSQL for the Database  
 https://www.postgresql.org/download/
 
 
@@ -58,10 +58,10 @@ https://www.postgresql.org/download/
 
 ## Tutorials
 
-Strapi and Next
+Strapi and Next  
 https://blog.strapi.io/strapi-next-setup/ 
 
-What is the _app.js File?
+What is the _app.js File?  
 https://nextjs.org/docs/#custom-app
 
 
