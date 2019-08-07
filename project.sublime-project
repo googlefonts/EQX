@@ -1,0 +1,14 @@
+{
+	"folders":
+	[
+		{
+			"path": ".",
+			"folder_exclude_patterns": [".npm", "node_modules", "dist", "dump", ".cache", ".config", ".forever", ".node-gyp", "static", "tmp"],
+			"file_exclude_patterns": ["*.css"]
+		}
+    ],
+    "settings":
+    {
+        "tab_size": 3
+    }
+}
