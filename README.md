@@ -40,7 +40,7 @@ strapi start
 
 # Stack
 
-Google's OFFICAL Material Components  
+Google's OFFICIAL Material Components  
 https://github.com/material-components/material-components-web-react
 
 NextJS for the frontend framework  
