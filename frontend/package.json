@@ -15,6 +15,7 @@
     "@material/react-button": "^0.15.0",
     "bootstrap": "^4.3.1",
     "next": "^9.0.3",
+    "node-sass": "^4.12.0",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "reactstrap": "^8.0.1"
