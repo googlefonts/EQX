@@ -1,4 +1,11 @@
+/* Assigns material theme colours */
+$mdc-theme-primary: #6A1B9A; // Purple
+$mdc-theme-secondary: #283593; // Blue
+$mdc-theme-on-primary: #ffffff; // White on purple
+$mdc-theme-on-secondary: #ffffff; // White on blue
+
 @import "@material/react-button/index.scss";
+@import "./react-button-overrides";
 
 $font-size: 50px;
 .example {
