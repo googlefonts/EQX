@@ -15,12 +15,12 @@ const Header = () => (
   <TopAppBar className="top-bar">
     <TopAppBarRow>
       <TopAppBarSection align='start'>
-        <TopAppBarTitle>EQX</TopAppBarTitle>
+        <TopAppBarTitle><Headline5 className="mdc-typography--black" tag="h1">EQX</Headline5></TopAppBarTitle>
       </TopAppBarSection>
       <TopAppBarSection align='end'>
         <Button
           href="login"
-          className="button-alternate"
+          className="login-button mdc-typography--body1"
           onClick={() => console.log("clicked!")}
         >
           Login
@@ -28,7 +28,7 @@ const Header = () => (
         <Button
           raised
           href="signup"
-          className="button-alternate"
+          className="sign-up-button"
           onClick={() => console.log("clicked!")}
         >
           Sign Up
