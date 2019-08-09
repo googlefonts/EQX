@@ -1,0 +1,13 @@
+.top-bar{
+	@include mdc-top-app-bar-fill-color($mdc-theme-background);	
+	@include mdc-top-app-bar-ink-color($mdc-theme-dark-grey);
+}
+
+.top-bar .login-button{
+	@include mdc-button-ink-color($mdc-theme-dark-grey);
+	margin-right: 20px;
+}
+
+.top-bar .sign-up-button{
+	margin-right: 20px;
+}

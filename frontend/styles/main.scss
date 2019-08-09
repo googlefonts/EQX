@@ -1,18 +1,33 @@
-// Theme colours 
-@import "./_color-overrides"; // Sets theme colors and adds utility classes
+/*———————————————*/
+/* Theme colours */
+/*———————————————*/
+
+@import "./_color-overrides"; // Must be imported first
+
+/*——————————————————————————————*/
+/* Import default material scss */
+/*——————————————————————————————*/
+
 // Typography
 @import "@material/react-typography/index.scss";
-@import "./_react-typography-overrides"; // Adds weight ultity classes
 // Top App Bar
 @import "@material/react-top-app-bar/index.scss";
 // Button
 @import "@material/react-button/index.scss";
 
+/*—————————————————————————————————————————————*/
+/* Custom classes that alter material defaults */
+/*—————————————————————————————————————————————*/
+
+// Adds font-weight ultity classes
+@import "./_react-typography-overrides"; 
+// Top bar
+@import "./_top-bar-overrides";
+
+/*—————————————————————————*/
+/* Adjust browser defaults */
+/*—————————————————————————*/
+
 html, body{
 	margin: 0;
-}
-
-.top-bar{
-	@include mdc-top-app-bar-fill-color($mdc-theme-background);	
-	@include mdc-top-app-bar-ink-color($mdc-theme-dark-grey);
 }
