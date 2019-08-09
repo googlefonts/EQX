@@ -1,0 +1,47 @@
+// Sticks footer to bottom of page
+.layout-wrapper{
+	display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+main{
+	flex: 1;
+}
+
+footer{
+	background-color: $mdc-theme-grey100;
+	padding-top: 2rem;
+	padding-bottom: 6rem;
+  display: flex;
+  align-items: center;
+}
+
+footer h1{
+	color: $mdc-theme-grey600;
+	display: inline;
+	padding-left: 2rem;
+}
+
+footer ul{
+	display: flex;
+	justify-items: space-between;
+}
+
+footer li{
+	padding-right: 15px;
+	margin-right: 15px;
+	border-right: 1px solid $mdc-theme-grey200;
+	&:last-of-type{
+		border-right: none; 
+	}
+}
+
+footer li p{
+	margin: 0;
+}
+
+footer li p a{
+	text-decoration: none;
+	color: $mdc-theme-grey700;
+}

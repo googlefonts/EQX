@@ -3,10 +3,12 @@ import Nav from './Nav';
 import Footer from './Footer';
 
 const Layout = props => (
-  <div>
+  <div class="layout-wrapper">
     <Header />
   	{/* <Nav /> to go here but unfinished currently */}
-    	{props.children}
+		<main>
+  		{props.children}
+  	</main>
   	<Footer/>
   </div>
 );
