@@ -1,13 +1,18 @@
-/* Assigns material theme colours */
-$mdc-theme-primary: #6A1B9A; // Purple
-$mdc-theme-secondary: #283593; // Blue
-$mdc-theme-on-primary: #ffffff; // White on purple
-$mdc-theme-on-secondary: #ffffff; // White on blue
-
+// Theme colours 
+@import "./_color-overrides"; // Sets theme colors and adds utility classes
+// Typography
+@import "@material/react-typography/index.scss";
+@import "./_react-typography-overrides"; // Adds weight ultity classes
+// Top App Bar
+@import "@material/react-top-app-bar/index.scss";
+// Button
 @import "@material/react-button/index.scss";
-@import "./react-button-overrides";
 
-$font-size: 50px;
-.example {
-  font-size: $font-size;
+html, body{
+	margin: 0;
+}
+
+.top-bar{
+	@include mdc-top-app-bar-fill-color($mdc-theme-background);	
+	@include mdc-top-app-bar-ink-color($mdc-theme-dark-grey);
 }
