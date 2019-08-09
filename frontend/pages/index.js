@@ -3,7 +3,7 @@ import "../styles/main.scss"
 
 const Index = props => (
   <Layout>
-    <div className="example">Example css module</div>
+    <div className="example">This is the homepage.</div>
   </Layout>
 );
 
