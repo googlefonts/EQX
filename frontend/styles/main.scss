@@ -2,23 +2,30 @@
 /* Theme colours */
 /*———————————————*/
 
-@import "./_color-overrides"; // Must be imported first
+@import "./_colors"; // Must be imported first
 
 /*——————————————————————————————*/
-/* Import default material scss */
+/* Import material default scss */
 /*——————————————————————————————*/
 
 @import "@material/react-typography/index.scss"; // Typography
 @import "@material/elevation/mdc-elevation.scss"; // Elevation (shadows)
 @import "@material/react-top-app-bar/index.scss"; // Top App Bar
+@import '@material/react-drawer/index.scss'; // Drawer
 @import "@material/react-button/index.scss"; // Buttons
 
-/*—————————————————————————————————————————————*/
-/* Custom classes that alter material defaults */
-/*—————————————————————————————————————————————*/
+/*—————————————————*/
+/* Utility classes */
+/*—————————————————*/
 
-@import "./_react-typography-overrides"; // Adds font-weight ultity classes
-@import "./_top-bar-overrides"; // Top bar
+@import "./_typography-utilities"; // Adds font-weight ultity classes
+
+/*—————————————————————————————————————————————————*/
+/* Custom classes/alterations to material defaults */
+/*—————————————————————————————————————————————————*/
+
+@import "./_header"; // Header/Top app bar
+@import "./_footer"; // Footer
 
 /*—————————————————————————*/
 /* Adjust browser defaults */

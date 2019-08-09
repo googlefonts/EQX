@@ -12,10 +12,12 @@ import TopAppBar, {
 import "../styles/main.scss"
 
 const Header = () => (
-  <TopAppBar className="top-bar">
+  <TopAppBar className="header">
     <TopAppBarRow>
       <TopAppBarSection align='start'>
-        <TopAppBarTitle><Headline5 className="mdc-typography--black" tag="h1">EQX</Headline5></TopAppBarTitle>
+        <TopAppBarTitle>
+          <Headline5 className="mdc-typography--black" tag="h1">EQX</Headline5>
+        </TopAppBarTitle>
       </TopAppBarSection>
       <TopAppBarSection align='end'>
         <Button
