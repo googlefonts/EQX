@@ -8,21 +8,17 @@
 /* Import default material scss */
 /*——————————————————————————————*/
 
-// Typography
-@import "@material/react-typography/index.scss";
-// Top App Bar
-@import "@material/react-top-app-bar/index.scss";
-// Button
-@import "@material/react-button/index.scss";
+@import "@material/react-typography/index.scss"; // Typography
+@import "@material/react-typography/index.scss"; // Elevation
+@import "@material/react-top-app-bar/index.scss"; // Top App Bar
+@import "@material/react-button/index.scss"; // Buttons
 
 /*—————————————————————————————————————————————*/
 /* Custom classes that alter material defaults */
 /*—————————————————————————————————————————————*/
 
-// Adds font-weight ultity classes
-@import "./_react-typography-overrides"; 
-// Top bar
-@import "./_top-bar-overrides";
+@import "./_react-typography-overrides"; // Adds font-weight ultity classes
+@import "./_top-bar-overrides"; // Top bar
 
 /*—————————————————————————*/
 /* Adjust browser defaults */
