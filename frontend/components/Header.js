@@ -42,7 +42,7 @@ const Header = () => (
       <TopAppBarSection align='end'>
         {/* Placeholder for avatar */}
         <div className="header-avatar"></div>
-        <IconButton>
+        <IconButton className="header-notifications">
           <MaterialIcon icon='notifications' />
         </IconButton>
       </TopAppBarSection>
