@@ -5,7 +5,7 @@ import Footer from './Footer';
 const Layout = props => (
   <div class="layout-wrapper">
     <Header />
-  	{/* <Nav /> to go here but unfinished currently */}
+  	<Nav />
 		<main>
   		{props.children}
   	</main>
