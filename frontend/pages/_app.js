@@ -17,15 +17,15 @@ export default class MyApp extends App {
   render() {
     const { Component, pageProps } = this.props;
     return (
-      <>
+      <div>
         <Head>
-          
+          <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
         </Head>
 
         <Container>
           <Component {...pageProps} />
         </Container>
-      </>
+      </div>
     );
   }
 }
