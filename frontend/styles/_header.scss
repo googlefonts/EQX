@@ -12,3 +12,12 @@
 .header .sign-up-button{
 	margin-right: 20px;
 }
+
+/* Placeholder avatar */
+.header .header-avatar{
+	width: 30px;
+	height: 30px;
+	border-radius: 50%;
+	background-color: $mdc-theme-grey100;
+	margin-right: 1rem;
+}

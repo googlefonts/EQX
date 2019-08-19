@@ -8,8 +8,11 @@ import TopAppBar, {
   TopAppBarSection,
   TopAppBarTitle,
 } from '@material/react-top-app-bar';
+import IconButton from '@material/react-icon-button';
+import MaterialIcon from '@material/react-material-icon';
 
 import "../styles/main.scss"
+
 
 const Header = () => (
   <TopAppBar className="header">
@@ -19,22 +22,29 @@ const Header = () => (
           <Headline5 className="mdc-typography--black" tag="h1">EQX</Headline5>
         </TopAppBarTitle>
       </TopAppBarSection>
+      {/*<TopAppBarSection align='end'>
+              <Button
+                href="login"
+                className="login-button mdc-typography--body1"
+                onClick={() => console.log("clicked!")}
+              >
+                Login
+              </Button>
+              <Button
+                raised
+                href="signup"
+                className="sign-up-button"
+                onClick={() => console.log("clicked!")}
+              >
+                Sign Up
+              </Button>
+            </TopAppBarSection>*/}
       <TopAppBarSection align='end'>
-        <Button
-          href="login"
-          className="login-button mdc-typography--body1"
-          onClick={() => console.log("clicked!")}
-        >
-          Login
-        </Button>
-        <Button
-          raised
-          href="signup"
-          className="sign-up-button"
-          onClick={() => console.log("clicked!")}
-        >
-          Sign Up
-        </Button>
+        {/* Placeholder for avatar */}
+        <div className="header-avatar"></div>
+        <IconButton>
+          <MaterialIcon icon='notifications' />
+        </IconButton>
       </TopAppBarSection>
     </TopAppBarRow>
   </TopAppBar>

@@ -3,8 +3,8 @@ import Nav from './Nav';
 import Footer from './Footer';
 
 const Layout = props => (
-  <div class="layout-wrapper">
-    <Header />
+  <div className="layout-wrapper">
+    <Header/>
   	<Nav />
 		<main>
   		{props.children}
