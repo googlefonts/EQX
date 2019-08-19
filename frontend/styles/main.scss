@@ -14,6 +14,8 @@
 @import '@material/react-drawer/index.scss'; // Drawer
 @import "@material/react-button/index.scss"; // Buttons
 @import '@material/react-list/index.scss'; // Lists
+@import '@material/react-material-icon/index.scss';
+
 
 
 /*—————————————————*/
@@ -27,6 +29,7 @@
 /*—————————————————————————————————————————————————*/
 
 @import "./_header"; // Header/Top app bar
+@import "./_nav"; // Nav
 @import "./_footer"; // Footer
 
 /*—————————————————————————*/

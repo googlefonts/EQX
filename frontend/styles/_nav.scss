@@ -1,0 +1,7 @@
+.nav-drawer{
+	@include mdc-drawer-z-index(3);	
+	position: fixed;
+	right: 0;
+  height: 100vh;
+  border-left: 1px solid rgba(0, 0, 0, 0.12);
+}
