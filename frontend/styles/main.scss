@@ -16,6 +16,10 @@
 @import '@material/react-list/index.scss'; // Lists
 @import '@material/react-material-icon/index.scss'; // Icons
 @import '@material/react-icon-button/index.scss'; // Icon Button
+@import '@material/react-tab-bar/index.scss'; // Tab Bar
+@import '@material/react-tab-scroller/index.scss'; // Tab Bar
+@import '@material/react-tab/index.scss'; // Tab Bar
+@import '@material/react-tab-indicator/index.scss'; // Tab Bar
 
 
 
@@ -43,7 +47,9 @@ body{
 }
 
 main{
-	padding-top: 64px; // Height of top-bar
+	// padding-top: 64px; // Height of top-bar
+	padding-top: 10rem;
+	width: calc(100% - 254px); // 100% minus sidebar width
 }
 
 ul{
