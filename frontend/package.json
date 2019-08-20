@@ -18,6 +18,7 @@
     "@material/react-layout-grid": "^0.15.0",
     "@material/react-list": "^0.15.0",
     "@material/react-material-icon": "^0.15.0",
+    "@material/react-tab-bar": "^0.15.0",
     "@material/react-top-app-bar": "^0.15.0",
     "@material/react-typography": "^0.15.0",
     "@zeit/next-sass": "^1.0.1",
