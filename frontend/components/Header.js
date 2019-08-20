@@ -1,6 +1,6 @@
 import Link from "next/link"
 import Button from "@material/react-button";
-import {Headline5} from "@material/react-typography";
+import {Headline5, Body1, Subtitle1} from "@material/react-typography";
 import TopAppBar, {
   TopAppBarFixedAdjust, 
   TopAppBarIcon,
@@ -45,6 +45,15 @@ const Header = () => (
         </IconButton>
         {/* Placeholder for avatar */}
         <div className="header-avatar"></div>
+      </TopAppBarSection>
+    </TopAppBarRow>
+    <TopAppBarRow className="second-row">
+      <TopAppBarSection class="">
+        <Body1 className="question-counter" tag="h2">9 Questions</Body1>
+        <div className="titles-wrapper">
+          <Subtitle1 className="font-title" tag="h2">Merriweather v.2.11</Subtitle1>
+          <Subtitle1 className="project-title" tag="h3"><span class="emphasis">Extended Latin Support</span> v.1.12</Subtitle1>
+        </div>
       </TopAppBarSection>
     </TopAppBarRow>
   </TopAppBar>
