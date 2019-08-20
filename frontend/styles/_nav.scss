@@ -1,0 +1,9 @@
+.nav-drawer{
+	@include mdc-drawer-z-index(3);	
+	@include mdc-drawer-surface-fill-color($mdc-theme-grey50);
+	@include mdc-elevation(2);
+	position: fixed;
+	right: 0;
+  height: 100vh;
+  border-left: 1px solid rgba(0, 0, 0, 0.12);
+}

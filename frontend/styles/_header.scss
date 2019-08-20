@@ -1,0 +1,66 @@
+.header{
+	@include mdc-top-app-bar-fill-color($mdc-theme-background);	
+	@include mdc-top-app-bar-ink-color($mdc-theme-grey600);
+	@include mdc-elevation(3);
+}
+
+.header .login-button{
+	@include mdc-button-ink-color($mdc-theme-grey600);
+	margin-right: 20px;
+}
+
+.header .sign-up-button{
+	margin-right: 20px;
+}
+
+/* Placeholder avatar */
+.header .header-avatar{
+	width: 30px;
+	height: 30px;
+	border-radius: 50%;
+	background-color: $mdc-theme-grey100;
+	margin-right: 9rem;
+}
+
+.header .header-notifications{
+	margin-right: 1rem;
+}
+
+/*————————————*/
+/* Second Row */
+/*————————————*/
+// For when the header needs to show extra info
+
+.header .second-row{
+	position: relative;
+	border-top: 2px solid $mdc-theme-grey100;
+}
+
+.second-row .question-counter{
+	position: absolute;
+	top: -0.9rem;
+	left: 0;
+	right: 0;
+	margin: 0;
+	margin: auto;
+	width: fit-content;
+	background-color: $mdc-theme-surface;
+	padding-left: 1rem;
+	padding-right: 1rem;
+}
+
+.second-row .titles-wrapper{
+	margin-top: 0.4rem;
+	margin-left: 2rem;
+}
+
+.second-row .font-title, .second-row .project-title{
+	margin: 0;
+	line-height: 1.4;
+	color: $mdc-theme-grey500;
+}
+
+.second-row .emphasis{
+	font-weight: 700;
+	color: black;
+}

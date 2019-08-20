@@ -1,0 +1,51 @@
+/*———————————————*/
+/* Theme colours */
+/*———————————————*/
+
+@import "./_colors"; // Must be imported first
+
+/*——————————————————————————————*/
+/* Import material default scss */
+/*——————————————————————————————*/
+
+@import "@material/react-typography/index.scss"; // Typography
+@import "@material/elevation/mdc-elevation.scss"; // Elevation (shadows)
+@import "@material/react-top-app-bar/index.scss"; // Top App Bar
+@import '@material/react-drawer/index.scss'; // Drawer
+@import "@material/react-button/index.scss"; // Buttons
+@import '@material/react-list/index.scss'; // Lists
+@import '@material/react-material-icon/index.scss'; // Icons
+@import '@material/react-icon-button/index.scss'; // Icon Button
+
+
+
+
+/*—————————————————*/
+/* Utility classes */
+/*—————————————————*/
+
+@import "./_typography-utilities"; // Adds font-weight ultity classes
+
+/*—————————————————————————————————————————————————*/
+/* Custom classes/alterations to material defaults */
+/*—————————————————————————————————————————————————*/
+
+@import "./_header"; // Header/Top app bar
+@import "./_nav"; // Nav
+@import "./_footer"; // Footer
+
+/*—————————————————————————*/
+/* Adjust browser defaults */
+/*—————————————————————————*/
+
+body{
+	margin: 0;
+}
+
+main{
+	padding-top: 64px; // Height of top-bar
+}
+
+ul{
+	list-style: none;
+}
