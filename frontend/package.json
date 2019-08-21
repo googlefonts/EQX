@@ -15,6 +15,7 @@
     "@material/react-button": "^0.15.0",
     "@material/react-drawer": "^0.15.0",
     "@material/react-icon-button": "^0.15.0",
+    "@material/react-layout-grid": "^0.15.0",
     "@material/react-list": "^0.15.0",
     "@material/react-material-icon": "^0.15.0",
     "@material/react-tab-bar": "^0.15.0",
