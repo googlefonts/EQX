@@ -1,0 +1,47 @@
+.editor-images-import{
+	margin-bottom: 4rem;
+}
+
+.editor-images-import-tab-bar{
+	padding-left: 2rem;
+	padding-right: 2rem;
+}
+
+/*————————————*/
+/* Images Tab */
+/*————————————*/
+
+.images-tab .question-image-upload::-webkit-file-upload-button {
+  visibility: hidden;
+}
+
+#images-tab-upload{
+	display: none;
+}
+
+.images-tab .images-tab-upload-label{
+	position: relative;
+	display: block;
+	width: 100%;
+	height: 415px;
+	background-color: $mdc-theme-grey100;
+	text-align: center;
+}
+
+// Attach your images here text
+.images-tab .images-tab-upload-label .mdc-typography--button{
+	position: absolute;
+  top: 45%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.images-tab .paperclip-icon{
+	position: absolute;
+  top: 45%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  opacity: .12;
+  font-size: 12rem;
+  writing-mode: vertical-rl;
+}
