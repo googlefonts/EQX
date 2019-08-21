@@ -21,8 +21,7 @@
 @import '@material/react-tab-scroller/index.scss'; // Tab Bar
 @import '@material/react-tab/index.scss'; // Tab Bar
 @import '@material/react-tab-indicator/index.scss'; // Tab Bar
-
-
+@import '@material/react-text-field/index.scss'; // Text field
 
 /*—————————————————*/
 /* Utility classes */
@@ -34,10 +33,14 @@
 /* Custom classes/alterations to material defaults */
 /*—————————————————————————————————————————————————*/
 
+// Global
 @import "./_header"; // Header/Top app bar
 @import "./_nav"; // Nav
 @import "./_footer"; // Footer
-@import "./_editor-images-import"; // Editor Images Import tabs in create question page
+
+// Page Specific
+@import "./create-question"; // Create Question page
+	@import "./_editor-images-import"; // Editor Images Import tabs
 
 /*—————————————————————————*/
 /* Adjust browser defaults */
