@@ -48,11 +48,11 @@ const Header = () => (
       </TopAppBarSection>
     </TopAppBarRow>
     <TopAppBarRow className="second-row">
-      <TopAppBarSection class="">
+      <TopAppBarSection>
         <Body1 className="question-counter" tag="h2">9 Questions</Body1>
         <div className="titles-wrapper">
           <Subtitle1 className="font-title" tag="h2">Merriweather v.2.11</Subtitle1>
-          <Subtitle1 className="project-title" tag="h3"><span class="emphasis">Extended Latin Support</span> v.1.12</Subtitle1>
+          <Subtitle1 className="project-title" tag="h3"><span className="emphasis">Extended Latin Support</span> v.1.12</Subtitle1>
         </div>
       </TopAppBarSection>
     </TopAppBarRow>
