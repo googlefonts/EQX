@@ -34,6 +34,9 @@
 .header .second-row{
 	position: relative;
 	border-top: 2px solid $mdc-theme-grey100;
+	.second-grid{
+		width: 100%;
+	}
 }
 
 .second-row .question-counter{
@@ -49,10 +52,10 @@
 	padding-right: 1rem;
 }
 
-.second-row .titles-wrapper{
-	margin-top: 0.4rem;
-	margin-left: 2rem;
-}
+// .second-row .titles-wrapper{
+// 	margin-top: 0.4rem;
+// 	margin-left: 2rem;
+// }
 
 .second-row .font-title, .second-row .project-title{
 	margin: 0;

@@ -16,7 +16,7 @@
 @import '@material/react-list/index.scss'; // Lists
 @import '@material/react-material-icon/index.scss'; // Icons
 @import '@material/react-icon-button/index.scss'; // Icon Button
-
+@import '@material/react-layout-grid/index.scss';
 
 
 
@@ -42,10 +42,36 @@ body{
 	margin: 0;
 }
 
-main{
-	padding-top: 64px; // Height of top-bar
-}
-
 ul{
 	list-style: none;
 }
+
+
+
+/*—————————————————————————*/
+/* Main Container          */
+/*—————————————————————————*/
+
+main{
+	margin-top: 64px; // Height of top-bar
+	[data-has-progress-header="true"] &{
+		margin-top: 128px; // Height of top-bar
+	}
+	margin-right: 200px;
+}
+
+
+
+
+/*—————————————————————————*/
+/* Sidebar Adjustments     */
+/*—————————————————————————*/
+
+.mdc-drawer{
+	margin-top: 64px; // Height of top-bar
+	[data-has-progress-header="true"] &{
+		margin-top: 128px; // Height of top-bar
+	}
+	width: 200px;
+}
+

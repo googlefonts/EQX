@@ -15,38 +15,50 @@ import "../styles/main.scss"
 // Unfinished, just sample shows where to place items
 const Nav = () => (
   <Drawer className="nav-drawer">
-    <DrawerHeader>
+    {/*<DrawerHeader>
       <DrawerTitle tag='h2'>
         Menu
       </DrawerTitle>
-    </DrawerHeader>
+    </DrawerHeader>*/}
 
     <DrawerContent >
       <List>
-        <ListItem>
-          <ListItemGraphic graphic={<MaterialIcon icon='dashboard'/>} />
-          <ListItemText primaryText='Nav Item'/>
-        </ListItem>
-        <ListItem>
-        <ListItemGraphic graphic={<MaterialIcon icon='folder'/>} />
-          <ListItemText primaryText='Nav Item'/>
-        </ListItem>
-        <ListItem>
-          <ListItemGraphic graphic={<MaterialIcon icon='folder_shared'/>} />
-          <ListItemText primaryText='Nav Item'/>
-        </ListItem>
-        <ListItem>
-          <ListItemGraphic graphic={<MaterialIcon icon='create_new_folder'/>} />
-          <ListItemText primaryText='Nav Item'/>
-        </ListItem>
-        <ListItem>
-          <ListItemGraphic graphic={<MaterialIcon icon='group'/>} />
-          <ListItemText primaryText='Nav Item'/>
-        </ListItem>
-        <ListItem>
-        <ListItemGraphic graphic={<MaterialIcon icon='settings'/>} />
-          <ListItemText primaryText='Nav Item'/>
-        </ListItem>
+        <Link href="/dashboard">
+          <ListItem>
+            <ListItemGraphic graphic={<MaterialIcon icon='dashboard'/>} />
+            <ListItemText primaryText='Dashboard'/>
+          </ListItem>
+        </Link>
+        <Link href="/tests">
+          <ListItem>
+            <ListItemGraphic graphic={<MaterialIcon icon='note'/>} />
+            <ListItemText primaryText='Your Tests'/>
+          </ListItem>
+        </Link>
+        <Link href="/shared-tests">
+          <ListItem>
+            <ListItemGraphic graphic={<MaterialIcon icon='folder'/>} />
+            <ListItemText primaryText='Shared Tests'/>
+          </ListItem>
+        </Link>
+        <Link href="/projects">
+          <ListItem>
+            <ListItemGraphic graphic={<MaterialIcon icon='work'/>} />
+            <ListItemText primaryText='Projects'/>
+          </ListItem>
+        </Link>
+        <Link href="/groups">
+          <ListItem>
+            <ListItemGraphic graphic={<MaterialIcon icon='group'/>} />
+            <ListItemText primaryText='Groups'/>
+          </ListItem>
+        </Link>
+        <Link href="/settings">
+          <ListItem>
+            <ListItemGraphic graphic={<MaterialIcon icon='settings'/>} />
+            <ListItemText primaryText='Settings'/>
+          </ListItem>
+        </Link>
       </List>
     </DrawerContent>
   </Drawer>
