@@ -68,7 +68,7 @@ const Header = props => (
         <div className="header-avatar"></div>
       </TopAppBarSection>
     </TopAppBarRow>
-  
+      
     {/* props.hasProgressHeader ?  <ProgressHeader/> : Null */}
     {(function() { 
       if (props.hasProgressHeader) { return ProgressHeader }
