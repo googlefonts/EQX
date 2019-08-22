@@ -23,15 +23,15 @@ const EditorTab = props => (
 // Import Tab
 const ImportTab = props => (
   <div className="import-tab">
-    <div className="import-html">
+    <div className="column import-html">
         <input type="file" name="import-html-upload" id="import-html-upload"/>
         <label htmlFor="import-html-upload" className="import-html-upload-label"><MaterialIcon className="paperclip-icon" icon='attach_file' /><Button>Attach your images here</Button></label>
       </div>
-      <div className="import-css">
+      <div className="column import-css">
         <input type="file" name="import-css-upload" id="import-css-upload"/>
         <label htmlFor="import-css-upload" className="import-css-upload-label"><MaterialIcon className="paperclip-icon" icon='attach_file' /><Button>Attach your images here</Button></label>
       </div>
-    <div className="import-fonts">
+    <div className="column import-fonts">
       <ul>
         <li>
           list item

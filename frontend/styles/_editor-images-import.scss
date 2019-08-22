@@ -8,39 +8,42 @@ $eii-height: 415px;
 /* Images Tab */
 /*————————————*/
 
-.images-tab .question-image-upload::-webkit-file-upload-button {
-  visibility: hidden;
-}
+.images-tab{
 
-#images-tab-upload{
-	display: none;
-}
+	.question-image-upload::-webkit-file-upload-button {
+	  visibility: hidden;
+	}
 
-.images-tab .images-tab-upload-label{
-	position: relative;
-	display: block;
-	width: 100%;
-	height: $eii-height;
-	background-color: $mdc-theme-grey100;
-	text-align: center;
-	cursor: pointer;
-}
+	.images-tab-upload-label{
+		position: relative;
+		display: block;
+		width: 100%;
+		height: $eii-height;
+		background-color: $mdc-theme-grey100;
+		text-align: center;
+		cursor: pointer;
+	}
 
-// Attach your images here text
-.images-tab .images-tab-upload-label .mdc-typography--button{
-	position: absolute;
-  top: 45%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
+	.images-tab-upload-label .mdc-typography--button{
+		position: absolute;
+	  top: 45%;
+	  left: 50%;
+	  transform: translate(-50%, -50%);
+	}
 
-.images-tab .paperclip-icon{
-	position: absolute;
-  top: 45%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  opacity: .12;
-  font-size: 12rem;
+	.paperclip-icon{
+		position: absolute;
+	  top: 45%;
+	  left: 50%;
+	  transform: translate(-50%, -50%);
+	  opacity: .12;
+	  font-size: 12rem;
+	}
+
+	#images-tab-upload{
+		display: none;
+	}
+
 }
 
 /*————————————*/
@@ -49,21 +52,46 @@ $eii-height: 415px;
 
 .import-tab{
 	display: flex;
+
+	.column{
+		flex: 1 1 0;
+	}
+
+	label{
+		position: relative;
+		display: block;
+		height: $eii-height;
+		background-color: $mdc-theme-grey100;
+		text-align: center;
+		cursor: pointer;
+
+		// Attach your images here text
+		.mdc-typography--button{
+			position: absolute;
+		  top: 45%;
+		  left: 50%;
+		  transform: translate(-50%, -50%);
+		  width: 100%;
+		}
+
+		.paperclip-icon{
+			position: absolute;
+		  top: 45%;
+		  left: 50%;
+		  transform: translate(-50%, -50%);
+		  opacity: .12;
+		  font-size: 12rem;
+		}
+
+	}
+
 }
 
 #import-html-upload, #import-css-upload{
 	display: none;
 }
 
-.import-tab label, .import-css label{
-	position: relative;
-	display: block;
-	height: $eii-height;
-	background-color: $mdc-theme-grey100;
-	text-align: center;
-	cursor: pointer;
-	flex-grow: 1;
-}
+
 
 .import-css label{
 	background-color: $mdc-theme-grey200;
