@@ -59,12 +59,36 @@ body{
 	margin: 0;
 }
 
-main{
-	// padding-top: 64px; // Height of top-bar
-	padding-top: 10rem;
-	width: calc(100% - 254px); // 100% minus sidebar width
-}
-
 ul{
 	list-style: none;
 }
+
+
+
+/*—————————————————————————*/
+/* Main Container          */
+/*—————————————————————————*/
+
+main{
+	margin-top: 64px; // Height of top-bar
+	[data-has-progress-header="true"] &{
+		margin-top: 128px; // Height of top-bar
+	}
+	margin-right: 200px;
+}
+
+
+
+
+/*—————————————————————————*/
+/* Sidebar Adjustments     */
+/*—————————————————————————*/
+
+.mdc-drawer{
+	margin-top: 64px; // Height of top-bar
+	[data-has-progress-header="true"] &{
+		margin-top: 128px; // Height of top-bar
+	}
+	width: 200px;
+}
+
