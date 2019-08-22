@@ -1,10 +1,7 @@
+$eii-height: 415px;
+
 .editor-images-import{
 	margin-bottom: 4rem;
-}
-
-.editor-images-import-tab-bar{
-	padding-left: 2rem;
-	padding-right: 2rem;
 }
 
 /*————————————*/
@@ -23,7 +20,7 @@
 	position: relative;
 	display: block;
 	width: 100%;
-	height: 415px;
+	height: $eii-height;
 	background-color: $mdc-theme-grey100;
 	text-align: center;
 	cursor: pointer;
@@ -44,4 +41,30 @@
   transform: translate(-50%, -50%);
   opacity: .12;
   font-size: 12rem;
+}
+
+/*————————————*/
+/* Import Tab */
+/*————————————*/
+
+.import-tab{
+	display: flex;
+}
+
+#import-html-upload, #import-css-upload{
+	display: none;
+}
+
+.import-tab label, .import-css label{
+	position: relative;
+	display: block;
+	height: $eii-height;
+	background-color: $mdc-theme-grey100;
+	text-align: center;
+	cursor: pointer;
+	flex-grow: 1;
+}
+
+.import-css label{
+	background-color: $mdc-theme-grey200;
 }
