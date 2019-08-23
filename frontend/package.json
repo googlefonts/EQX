@@ -12,7 +12,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@material-ui/core": "^4.3.3",
     "@material/react-button": "^0.15.0",
     "@material/react-drawer": "^0.15.0",
     "@material/react-icon-button": "^0.15.0",
