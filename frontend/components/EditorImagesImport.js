@@ -10,7 +10,7 @@ import EditorTab from '../components/EditorImagesImport/EditorTab';
 import ImportTab from '../components/EditorImagesImport/ImportTab';
 
 class EditorImagesImport extends React.Component {
-  state = {activeIndex: 1};
+  state = {activeIndex: 0};
 
   handleActiveIndexUpdate = (activeIndex) => this.setState({activeIndex});
 

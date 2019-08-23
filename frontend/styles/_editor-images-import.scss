@@ -5,6 +5,62 @@ $eii-height: 392px; // Height of 7 dropdown menus
 }
 
 /*————————————*/
+/* Editor Tab */
+/*————————————*/
+
+.editor-tab{
+	display: flex;
+	min-height: $eii-height;
+	
+	$editor-side-bar-width: 300px;
+	.editor-side-bar{
+		position: relative;
+		z-index: 1;
+		background-color: $mdc-theme-grey50;
+		width: $editor-side-bar-width;
+		min-height: $eii-height;
+		@include mdc-elevation(1);
+
+			.sliders-wrapper{
+				padding-left: 2rem;
+				padding-right: 2rem;
+			}
+
+			.slider-name{
+				display: block;
+				margin-top: 1rem;
+			}
+
+			.mdc-select{
+				width: 100%;
+			}
+
+			.mdc-select__selected-text{
+				padding-top: 15px;
+				padding-bottom: 9px;
+			}
+	}
+
+	.editor-main{
+		@include mdc-elevation(1);
+		flex: 1 1 0;
+		background-color: $mdc-theme-grey50;
+		position: relative;
+	}
+
+	.editor-toolbar{
+		position: absolute;
+		top: 1rem;
+		right: 1rem;
+		display: inline-block;
+		background-color: white;
+		border-radius: 25px;
+		padding: 4px;
+	}
+
+}
+
+/*————————————*/
 /* Images Tab */
 /*————————————*/
 
