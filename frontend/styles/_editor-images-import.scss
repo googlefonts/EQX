@@ -112,7 +112,7 @@ $eii-height: 392px; // Height of 7 dropdown menus
 			top: 17px;
 			margin: 0;
 			z-index: 1;
-			color: $mdc-theme-grey500;
+			pointer-events: none;
 		}
 		// Font select
 		.font-selection{
