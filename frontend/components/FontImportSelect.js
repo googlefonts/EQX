@@ -1,4 +1,3 @@
-import React from 'react';
 import Select, {Option} from '@material/react-select';
 
 class FontImportSelect extends React.Component {
