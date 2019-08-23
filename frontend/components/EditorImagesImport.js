@@ -2,10 +2,10 @@ import React from 'react';
 import Tab from '@material/react-tab';
 import TabBar from '@material/react-tab-bar';
 import MaterialIcon from '@material/react-material-icon';
-import {
-  Button
-} from '@material/react-typography';
+import {Button , Body1} from '@material/react-typography';
 import {Cell, Grid, Row} from '@material/react-layout-grid';
+import List, {ListItem, ListItemText} from '@material/react-list';
+import FontImportSelect from '../components/FontImportSelect';
 
 // Images Tab
 const ImagesTab = props => (
@@ -21,24 +21,26 @@ const EditorTab = props => (
 )
 
 // Import Tab
+const tagList = ['H1', 'H2', 'H3','H4','H5','H6', 'P'];
+
 const ImportTab = props => (
   <div className="import-tab">
     <div className="column import-html">
         <input type="file" name="import-html-upload" id="import-html-upload"/>
-        <label htmlFor="import-html-upload" className="import-html-upload-label"><MaterialIcon className="paperclip-icon" icon='attach_file' /><Button>Attach your images here</Button></label>
+        <label htmlFor="import-html-upload" className="import-html-upload-label"><MaterialIcon className="paperclip-icon" icon='attach_file' /><Button>Attach your HTML</Button></label>
       </div>
       <div className="column import-css">
         <input type="file" name="import-css-upload" id="import-css-upload"/>
-        <label htmlFor="import-css-upload" className="import-css-upload-label"><MaterialIcon className="paperclip-icon" icon='attach_file' /><Button>Attach your images here</Button></label>
+        <label htmlFor="import-css-upload" className="import-css-upload-label"><MaterialIcon className="paperclip-icon" icon='attach_file' /><Button>Attach your CSS</Button></label>
       </div>
     <div className="column import-fonts">
       <ul>
-        <li>
-          list item
-        </li>
-        <li>
-          list item
-        </li>
+        {tagList.map((tag, index) => (
+          <li class="tag-list-item" key={index}>
+            <Body1 className="tag-title mdc-typography--bold">{tag}</Body1>
+            <FontImportSelect/>
+          </li>
+        ))}
       </ul>
     </div>
   </div>
@@ -51,7 +53,7 @@ class EditorImagesImport extends React.Component {
 
   render() {
     return (
-      <Grid>
+      <Grid className="editor-images-import">
         <Row>
           <Cell columns={12}>
             <TabBar

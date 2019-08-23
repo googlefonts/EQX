@@ -1,4 +1,4 @@
-$eii-height: 415px;
+$eii-height: 392px; // Height of 7 dropdown menus
 
 .editor-images-import{
 	margin-bottom: 4rem;
@@ -56,7 +56,13 @@ $eii-height: 415px;
 	.column{
 		flex: 1 1 0;
 	}
-
+	
+	// Hide input field
+	#import-html-upload, #import-css-upload{
+		display: none;
+	}
+	
+	// Style label in place of input field
 	label{
 		position: relative;
 		display: block;
@@ -85,14 +91,38 @@ $eii-height: 415px;
 
 	}
 
-}
+	.import-css label{
+		background-color: $mdc-theme-grey200;
+	}
 
-#import-html-upload, #import-css-upload{
-	display: none;
-}
+	.import-fonts{
+		ul{
+			padding: 0;
+			margin: 0;
+		}
 
+		li{
+			position: relative;
+		}
+		
+		// h1,h2,h3 etc
+		.tag-title{
+			position: absolute;
+			left: 1rem;
+			top: 17px;
+			margin: 0;
+			z-index: 1;
+			color: $mdc-theme-grey500;
+		}
+		// Font select
+		.font-selection{
+			width: 100%;
+		}
 
-
-.import-css label{
-	background-color: $mdc-theme-grey200;
+		.mdc-select__selected-text{
+			padding-left: 4rem;
+			padding-top: 15px;
+			padding-bottom: 9px;
+		}
+	}
 }
