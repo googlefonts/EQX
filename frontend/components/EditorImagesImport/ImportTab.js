@@ -18,7 +18,7 @@ const ImportTab = props => (
     <div className="column import-fonts">
       <ul>
         {tagList.map((tag, index) => (
-          <li class="tag-list-item" key={index}>
+          <li className="tag-list-item" key={index}>
             <Body1 className="tag-title mdc-typography--bold">{tag}</Body1>
             <FontImportSelect/>
           </li>
