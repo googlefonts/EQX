@@ -18,7 +18,7 @@ $eii-height: 392px; // Height of 7 dropdown menus
 		position: relative;
 		display: block;
 		width: 100%;
-		height: $eii-height;
+		min-height: $eii-height;
 		background-color: $mdc-theme-grey100;
 		text-align: center;
 		cursor: pointer;
@@ -42,6 +42,12 @@ $eii-height: 392px; // Height of 7 dropdown menus
 
 	#images-tab-upload{
 		display: none;
+	}
+	
+	// Demo output image
+	#output-image{
+		display: block;
+		width: 100%;
 	}
 
 }
