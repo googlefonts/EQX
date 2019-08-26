@@ -3,6 +3,7 @@ import MaterialIcon from '@material/react-material-icon';
 import {Cell, Grid, Row} from '@material/react-layout-grid';
 import { Headline4, Body1, Body2 } from '@material/react-typography';
 import Fab from '@material/react-fab'
+import Button from '@material/react-button';
 
 import "../styles/main.scss"
 
@@ -30,8 +31,11 @@ class AnswerQuestionFields extends React.Component {
             <img className="question-image" src="static/type-example.png" alt=""/>
             <Fab className="question-image-fab" icon={<MaterialIcon icon="fullscreen"/>}/>
           </Cell>
-          <Cell desktopColumns={6}>
-            <Body1>Your answer</Body1>
+          <Cell desktopColumns={6} className="answer-comments">
+            <Body1 className="your-answer">Your answer</Body1>
+            <Button className="yes" outlined>Yes</Button>
+            <Button className="no" outlined>No</Button>
+            <Button className="next" raised icon={<MaterialIcon icon="arrow_forward"/>}>Next Question</Button>
           </Cell>
         </Row>
       </Grid>
