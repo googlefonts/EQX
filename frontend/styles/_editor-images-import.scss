@@ -128,7 +128,7 @@ $eii-height: 392px; // Height of 7 dropdown menus
 	label{
 		position: relative;
 		display: block;
-		height: $eii-height;
+		min-height: $eii-height;
 		background-color: $mdc-theme-grey100;
 		text-align: center;
 		cursor: pointer;
