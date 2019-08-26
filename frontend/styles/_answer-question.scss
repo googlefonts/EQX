@@ -1,4 +1,6 @@
 .answer-question-fields{
+	margin-bottom: 4rem;
+
 	p.question-number{
 		margin-bottom: 0.5rem;
 	}
@@ -6,4 +8,28 @@
 		margin-top: 0.5rem;
 		margin-bottom: 1rem;
 	}
+
+}
+
+.answer-question-images-comments{
+	margin-bottom: 4rem;
+
+	.question-image-wrapper{
+		position: relative;
+		@include mdc-elevation(1);
+
+		.question-image{
+			display: block;
+			width: 100%;
+		}
+
+		.question-image-fab{
+			@include mdc-fab-container-color($mdc-theme-primary);
+			position: absolute;
+			bottom: -28px; // 1/2 of fab height (56px)
+			right: 28px;
+		}
+
+	}
+
 }
