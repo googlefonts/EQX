@@ -47,7 +47,8 @@
 
 // Page Specific
 @import "./create-question"; // Create Question page
-	@import "./_editor-images-import"; // Editor Images Import tabs
+	@import "./_editor-images-import"; // Editor Images Import tabs inside create question page
+@import "./answer-question"; // Answer Question page
 
 /*—————————————————————————*/
 /* Adjust browser defaults */
