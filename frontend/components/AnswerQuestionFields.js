@@ -38,17 +38,24 @@ class AnswerQuestionFields extends React.Component {
           </Cell>
         </Row>
         <Row className="answer-question-images-comments">
-          <Cell desktopColumns={8} className="question-image-wrapper">
-            <img className="question-image" src="static/type-example.png" alt=""/>
-            <Fab className="question-image-fab" icon={<MaterialIcon icon="fullscreen"/>}/>
+          <Cell desktopColumns={8}>
+            <div className="question-image-wrapper">
+              <img className="question-image" src="static/type-example.png" alt=""/>
+              <Fab className="question-image-fab" icon={<MaterialIcon icon="fullscreen"/>}/>
+            </div>
           </Cell>
-          <Cell desktopColumns={4} className="answer-comments">
-            <Body1 className="your-answer">Your answer</Body1>
-            <Button className="yes" outlined>Yes</Button>
-            <Button className="no" outlined>No</Button>
-            <Button className="next" raised icon={<MaterialIcon icon="arrow_forward"/>}>Next Question</Button>
-            <CommentBox/>
+          <Cell desktopColumns={4}>
+            <div className="answer-comments">
+              <Body1 className="your-answer">Your answer</Body1>
+              <Button className="yes" outlined>Yes</Button>
+              <Button className="no" outlined>No</Button>
+              <Button className="next" raised icon={<MaterialIcon icon="arrow_forward"/>}>Next Question</Button>
+              <CommentBox/>
+            </div>
           </Cell>
+        </Row>
+        <Row className="lightbox">
+          <div className="shadow"></div>
         </Row>
       </Grid>
 
