@@ -50,9 +50,58 @@
 		}
 		.next{
 			width: 100%;
-			margin-top: 2rem;
+			margin-top: 1.5rem;
+			margin-bottom: 2rem;
 		}
 
+	}
+
+}
+
+.comment-box{
+	@include mdc-elevation(1);
+	border-radius: 4px;
+	overflow: hidden;
+
+	.comment-box-header{
+		display: flex;
+		align-items: center;
+		background-color: $mdc-theme-primary;
+		padding: 1rem;
+
+		p{
+			color: $mdc-theme-on-primary;
+			margin: 0;
+		}
+		
+		$number-ring-size: 36px;
+		.number{
+			display: inline-block;
+			border: 2px solid $mdc-theme-on-primary;
+		  border-radius: 100%;
+		  color: #ffffff;
+		  line-height: $number-ring-size;
+		  text-align: center;
+		  width: $number-ring-size + 4px; // Adds double border width
+		  font-size: 1.5rem;
+		  margin-right: 1rem;
+		}
+		.header-text{
+			display: inline-block;
+		}
+
+	}
+
+	.comment-list{
+		padding: 0;
+
+		img{
+			display: block;
+			width: 40px;
+			height: 40px;
+			margin-right: 16px;
+			border-radius: 100%;
+		}
 	}
 
 }
