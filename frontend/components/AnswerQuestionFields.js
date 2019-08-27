@@ -78,6 +78,7 @@ class AnswerQuestionFields extends React.Component {
                      />
                   <ListItemMeta meta='7:03pm' />
                 </ListItem>
+                <Fab className="comment-list-fab" icon={<MaterialIcon icon="expand_more"/>}/>
               </List>
             </div>
           </Cell>
