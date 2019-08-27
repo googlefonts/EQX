@@ -1,0 +1,74 @@
+.comment-box{
+	@include mdc-elevation(1);
+	border-radius: 4px;
+
+	.comment-box-header{
+		display: flex;
+		align-items: center;
+		background-color: $mdc-theme-primary;
+		padding: 1rem;
+		border-radius: 4px 4px 0 0;
+
+		p{
+			color: $mdc-theme-on-primary;
+			margin: 0;
+		}
+		
+		$number-ring-size: 36px;
+		.number{
+			display: inline-block;
+			border: 2px solid $mdc-theme-on-primary;
+		  border-radius: 100%;
+		  color: #ffffff;
+		  line-height: $number-ring-size;
+		  text-align: center;
+		  width: $number-ring-size + 4px; // Adds double border width
+		  font-size: 1.5rem;
+		  margin-right: 1rem;
+		}
+		.header-text{
+			display: inline-block;
+		}
+
+	}
+
+	.comment-list{
+		position: relative;
+		padding: 0;
+
+		img{
+			display: block;
+			width: 40px;
+			height: 40px;
+			margin-right: 16px;
+			border-radius: 100%;
+		}
+
+		.comment-list-fab{
+			@include mdc-fab-container-color($mdc-theme-primary);
+			position: absolute;
+			bottom: -28px; // 1/2 of fab height (56px)
+			right: 28px;
+			z-index: 1;
+		}
+
+	}
+
+	.add-comment-wrapper{
+		margin-bottom: 1rem;
+		padding-left: 1rem;
+		padding-right: 1rem;
+
+	}
+
+	.post-cancel-wrapper{
+		padding-left: 1rem;
+		padding-bottom: 1rem;
+
+		.post{
+			margin-right: 1rem;
+		}
+
+	}
+
+}
