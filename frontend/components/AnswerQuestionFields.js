@@ -5,6 +5,7 @@ import { Headline4, Body1, Body2 } from '@material/react-typography';
 import Fab from '@material/react-fab'
 import Button from '@material/react-button';
 import List, {ListItem, ListItemText, ListItemGraphic, ListItemMeta} from '@material/react-list';
+import TextField, {Input} from '@material/react-text-field';
 
 import "../styles/main.scss"
 
@@ -20,7 +21,8 @@ class AnswerQuestionFields extends React.Component {
   state = {
     questionNumber: '9',
     questionValue: 'Does the middle dot on “Ŀ” align with  the center bar of “R”?',
-    descriptionValue: 'Certe, inquam, pertinax non numquam eius modi tempora incidunt, ut ita ruant itaque turbent, ut de voluptate ponit.'
+    descriptionValue: 'Certe, inquam, pertinax non numquam eius modi tempora incidunt, ut ita ruant itaque turbent, ut de voluptate ponit.',
+    commentValue: ''
   };
 
   render() {
@@ -53,7 +55,7 @@ class AnswerQuestionFields extends React.Component {
                   <Body1>Created 10/13/2019</Body1>
                 </div>
               </div>
-              <List twoLine avatarList className="comment-list">
+              <List twoLine className="comment-list">
                 <ListItem>
                   <ListItemGraphic graphic={<EbenAvi/>} />
                   <ListItemText
@@ -80,6 +82,21 @@ class AnswerQuestionFields extends React.Component {
                 </ListItem>
                 <Fab className="comment-list-fab" icon={<MaterialIcon icon="expand_more"/>}/>
               </List>
+              <div className="add-comment-wrapper">
+                <TextField
+                  inputType='textarea'
+                  fullWidth
+                  label="Add a comment"
+                >
+                  <Input
+                    value={this.state.commentValue}
+                    onChange={(e) => this.setState({commentValue: e.currentTarget.value})} />
+                </TextField>
+              </div>
+              <div className="post-cancel-wrapper">
+                <Button raised>Post</Button>
+                <Button>Cancel</Button>
+              </div>
             </div>
           </Cell>
         </Row>

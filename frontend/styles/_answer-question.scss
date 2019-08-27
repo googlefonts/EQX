@@ -61,13 +61,13 @@
 .comment-box{
 	@include mdc-elevation(1);
 	border-radius: 4px;
-	overflow: hidden;
 
 	.comment-box-header{
 		display: flex;
 		align-items: center;
 		background-color: $mdc-theme-primary;
 		padding: 1rem;
+		border-radius: 4px 4px 0 0;
 
 		p{
 			color: $mdc-theme-on-primary;
@@ -109,6 +109,24 @@
 			position: absolute;
 			bottom: -28px; // 1/2 of fab height (56px)
 			right: 28px;
+			z-index: 1;
+		}
+
+	}
+
+	.add-comment-wrapper{
+		margin-bottom: 1rem;
+		padding-left: 1rem;
+		padding-right: 1rem;
+
+	}
+
+	.post-cancel-wrapper{
+		padding-left: 1rem;
+		padding-bottom: 1rem;
+
+		.post{
+			margin-right: 1rem;
 		}
 
 	}
