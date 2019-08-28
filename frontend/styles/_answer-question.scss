@@ -38,6 +38,12 @@
 			color: $mdc-theme-grey500;
 			margin-top: 0;
 		}
+		.yes ,.no , .next {
+			height: auto;
+			padding-top: 1rem;
+			padding-bottom: 1rem;
+		}
+
 		.yes{
 			@include mdc-button-shape-radius(4px 0 0 4px);
 			border-right: 1px solid $mdc-theme-primary;
