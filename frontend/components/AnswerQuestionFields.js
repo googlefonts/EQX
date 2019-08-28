@@ -19,10 +19,20 @@ const EbenAvi = props => (
 );
 
 class AnswerQuestionFields extends React.Component {
+
   state = {
+    lightboxOpen: false,
     questionNumber: '9',
     questionValue: 'Does the middle dot on “Ŀ” align with  the center bar of “R”?',
     descriptionValue: 'Certe, inquam, pertinax non numquam eius modi tempora incidunt, ut ita ruant itaque turbent, ut de voluptate ponit.',
+  };
+
+  closeLightbox = () => {
+    this.setState({lightboxOpen:false})
+  };
+
+  openLightbox = () => {
+    this.setState({lightboxOpen:true})
   };
 
   render() {
@@ -42,7 +52,10 @@ class AnswerQuestionFields extends React.Component {
           <div className="column">
             <div className="question-image-wrapper">
               <img className="question-image" src="static/type-example.png" alt=""/>
-              <Fab className="question-image-fab" icon={<MaterialIcon icon="fullscreen"/>}/>
+              <Fab 
+                className="question-image-fab" 
+                icon={<MaterialIcon icon="fullscreen"/>}
+                onClick={this.openLightbox} />
             </div>
           </div>
           <div className="answer-comments-wrapper column">
@@ -53,11 +66,20 @@ class AnswerQuestionFields extends React.Component {
             <CommentBox size="small"/>
           </div>
         </div>
-        {/*
-        <div className="lightbox">
-          <img className="lightbox-image" src="static/type-example.png" alt=""/>
+        <div 
+          className={`lightbox ${this.state.lightboxOpen ? 'open' : null }`}
+          onClick={this.closeLightbox}
+          >
+          <Grid>
+            <Row>
+              <Cell desktopColumns={1}></Cell>
+              <Cell desktopColumns={10}>
+                  <img className="lightbox-image" src="static/type-example.png" alt=""/>
+                  <CommentBox/>
+              </Cell>
+            </Row>
+          </Grid>
         </div>
-        */}
       </div>
 
     );
