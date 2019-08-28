@@ -54,9 +54,11 @@ class AnswerQuestionFields extends React.Component {
             </div>
           </Cell>
         </Row>
-        <Row className="lightbox">
-          <div className="shadow"></div>
-        </Row>
+        {/*
+        <div className="lightbox">
+          <img className="lightbox-image" src="static/type-example.png" alt=""/>
+        </div>
+        */}
       </Grid>
 
     );

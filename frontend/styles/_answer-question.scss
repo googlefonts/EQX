@@ -57,3 +57,24 @@
 	}
 
 }
+
+.lightbox{
+	position: fixed;
+	background-color: rgba(black, 0.5);
+	z-index: 4; // drawer and top bar are 3
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	overflow-y: scroll;
+
+	.lightbox-image{
+		position: relative;
+		max-width: 800px;
+		margin: auto;
+		top: 0;
+		display: block;
+		width: 100%;
+	}
+
+}
