@@ -16,6 +16,10 @@
 	display: flex;
 	margin-bottom: 4rem;
 
+	.column{
+		padding-right: 24px;
+	}
+
 	.question-image-wrapper{
 		position: relative;
 		@include mdc-elevation(1);

@@ -39,13 +39,13 @@ class AnswerQuestionFields extends React.Component {
           </Row>
         </Grid>
         <div className="answer-question-images-comments">
-          <div>
+          <div className="column">
             <div className="question-image-wrapper">
               <img className="question-image" src="static/type-example.png" alt=""/>
               <Fab className="question-image-fab" icon={<MaterialIcon icon="fullscreen"/>}/>
             </div>
           </div>
-          <div className="answer-comments-wrapper">
+          <div className="answer-comments-wrapper column">
             <Body1 className="your-answer">Your answer</Body1>
             <Button className="yes" outlined>Yes</Button>
             <Button className="no" outlined>No</Button>
