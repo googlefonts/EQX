@@ -45,7 +45,7 @@ class AnswerQuestionFields extends React.Component {
             </div>
           </Cell>
           <Cell desktopColumns={4}>
-            <div className="answer-comments">
+            <div className="answer-comments-wrapper">
               <Body1 className="your-answer">Your answer</Body1>
               <Button className="yes" outlined>Yes</Button>
               <Button className="no" outlined>No</Button>
