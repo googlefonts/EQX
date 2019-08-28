@@ -74,7 +74,7 @@ class CommentBox extends React.Component {
           </TextField>
         </div>
         <div className="post-cancel-wrapper">
-          <Button raised>Post</Button>
+          <Button raised className="post">Post</Button>
           <Button>Cancel</Button>
         </div>
       </div>
