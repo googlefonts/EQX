@@ -15,8 +15,8 @@ import {Cell, Grid, Row} from '@material/react-layout-grid';
 import "../styles/main.scss"
 
 const ProgressHeader = (
-  <TopAppBarRow className="second-row">
-    <Grid className="second-grid">
+  <TopAppBarRow className="header-row-2">
+    <Grid className="header-grid-2">
       <Row>
         <Cell columns={12} >
           {/*<TopAppBarSection className="">*/}
@@ -35,38 +35,43 @@ const ProgressHeader = (
 
 const Header = props => (
   <TopAppBar className="header">
-    <TopAppBarRow>
-      <TopAppBarSection align='start'>
-        <TopAppBarTitle>
-          <Link href="/">
-            <Headline5 className="mdc-typography--black" tag="h1">EQX</Headline5>
-          </Link>
-        </TopAppBarTitle>
-      </TopAppBarSection>
-      {/*<TopAppBarSection align='end'>
-              <Button
-                href="login"
-                className="login-button mdc-typography--body1"
-                onClick={() => console.log("clicked!")}
-              >
-                Login
-              </Button>
-              <Button
-                raised
-                href="signup"
-                className="sign-up-button"
-                onClick={() => console.log("clicked!")}
-              >
-                Sign Up
-              </Button>
-            </TopAppBarSection>*/}
-      <TopAppBarSection align='end'>
-        <IconButton className="header-notifications">
-          <MaterialIcon icon='notifications' />
-        </IconButton>
-        {/* Placeholder for avatar */}
-        <div className="header-avatar"></div>
-      </TopAppBarSection>
+    <TopAppBarRow className="header-row-1">
+      <Grid className="header-grid-1">
+        <Row>
+          <Cell columns={6}>
+            <Link href="/">
+              <a>
+                <Headline5 className="mdc-typography--black" tag="h1">EQX</Headline5>
+              </a>
+            </Link>
+          </Cell>
+          { /*<TopAppBarSection align='end'>
+            <Button
+              href="login"
+              className="login-button mdc-typography--body1"
+              onClick={() => console.log("clicked!")}
+            >
+              Login
+            </Button>
+            <Button
+              raised
+              href="signup"
+              className="sign-up-button"
+              onClick={() => console.log("clicked!")}
+            >
+              Sign Up
+            </Button>
+          </TopAppBarSection>*/ }
+          <Cell columns={6} className="text-align-right">
+            <IconButton className="header-notifications">
+              <MaterialIcon icon='notifications' />
+            </IconButton>
+            <IconButton className="header-notifications my-avatar">
+              <MaterialIcon icon='avatar' />
+            </IconButton>
+          </Cell>
+        </Row>
+      </Grid>
     </TopAppBarRow>
   
     {/* props.hasProgressHeader ?  <ProgressHeader/> : Null */}
