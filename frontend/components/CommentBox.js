@@ -26,7 +26,7 @@ class CommentBox extends React.Component {
   render() {
     return (
 
-      <div className="comment-box">
+      <div className={`comment-box ${this.props.size}`}>
         <div className="comment-box-header">
           <Body1 className="number">{this.state.commentNumber}</Body1>
           <div className="header-text">

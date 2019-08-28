@@ -1,6 +1,10 @@
 .comment-box{
 	@include mdc-elevation(1);
 	border-radius: 4px;
+	
+	&.small{
+		max-width: 380px;
+	}
 
 	.comment-box-header{
 		display: flex;

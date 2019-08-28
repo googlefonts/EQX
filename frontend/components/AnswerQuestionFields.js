@@ -27,39 +27,38 @@ class AnswerQuestionFields extends React.Component {
 
   render() {
     return (
-
-      <Grid>
-        <Row className="answer-question-fields">
-          <Cell desktopColumns={2}></Cell>
-          <Cell columns={8}>
-            <Body1 className="question-number">Question #{this.state.questionNumber}</Body1>
-            <Headline4 tag="h1" className="question">{this.state.questionValue}</Headline4>
-            <Body1>{this.state.descriptionValue}</Body1>
-          </Cell>
-        </Row>
-        <Row className="answer-question-images-comments">
-          <Cell desktopColumns={8}>
+      <div>
+        <Grid>
+          <Row className="answer-question-fields">
+            <Cell desktopColumns={2}></Cell>
+            <Cell columns={8}>
+              <Body1 className="question-number">Question #{this.state.questionNumber}</Body1>
+              <Headline4 tag="h1" className="question">{this.state.questionValue}</Headline4>
+              <Body1>{this.state.descriptionValue}</Body1>
+            </Cell>
+          </Row>
+        </Grid>
+        <div className="answer-question-images-comments">
+          <div>
             <div className="question-image-wrapper">
               <img className="question-image" src="static/type-example.png" alt=""/>
               <Fab className="question-image-fab" icon={<MaterialIcon icon="fullscreen"/>}/>
             </div>
-          </Cell>
-          <Cell desktopColumns={4}>
-            <div className="answer-comments-wrapper">
-              <Body1 className="your-answer">Your answer</Body1>
-              <Button className="yes" outlined>Yes</Button>
-              <Button className="no" outlined>No</Button>
-              <Button className="next" raised icon={<MaterialIcon icon="arrow_forward"/>}>Next Question</Button>
-              <CommentBox/>
-            </div>
-          </Cell>
-        </Row>
+          </div>
+          <div className="answer-comments-wrapper">
+            <Body1 className="your-answer">Your answer</Body1>
+            <Button className="yes" outlined>Yes</Button>
+            <Button className="no" outlined>No</Button>
+            <Button className="next" raised icon={<MaterialIcon icon="arrow_forward"/>}>Next Question</Button>
+            <CommentBox size="small"/>
+          </div>
+        </div>
         {/*
         <div className="lightbox">
           <img className="lightbox-image" src="static/type-example.png" alt=""/>
         </div>
         */}
-      </Grid>
+      </div>
 
     );
   }
