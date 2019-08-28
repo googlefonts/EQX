@@ -68,6 +68,7 @@ class CommentBox extends React.Component {
             label="Add a comment"
           >
             <Input
+              placeholder="Add a comment"
               value={this.state.commentValue}
               onChange={(e) => this.setState({commentValue: e.currentTarget.value})} />
           </TextField>

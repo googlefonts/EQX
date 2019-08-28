@@ -38,7 +38,8 @@
 
 	.comment-list{
 		position: relative;
-		padding: 0;
+		padding-bottom: 0.5rem;
+		background-color: $mdc-theme-grey50;
 
 		img{
 			display: block;
