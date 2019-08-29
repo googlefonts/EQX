@@ -17,6 +17,7 @@
     "@material/react-fab": "^0.15.0",
     "@material/react-icon-button": "^0.15.0",
     "@material/react-layout-grid": "^0.15.0",
+    "@material/react-linear-progress": "^0.15.0",
     "@material/react-list": "^0.15.0",
     "@material/react-material-icon": "^0.15.0",
     "@material/react-menu": "^0.15.0",
