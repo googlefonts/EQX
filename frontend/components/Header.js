@@ -1,6 +1,6 @@
 import Link from "next/link"
 import Button from "@material/react-button";
-import {Headline5, Body1, Subtitle1} from "@material/react-typography";
+import {Headline5, Body1, Body2, Subtitle1} from "@material/react-typography";
 import TopAppBar, {
   TopAppBarFixedAdjust, 
   TopAppBarIcon,
@@ -11,44 +11,68 @@ import TopAppBar, {
 import IconButton from '@material/react-icon-button';
 import MaterialIcon from '@material/react-material-icon';
 import {Cell, Grid, Row} from '@material/react-layout-grid';
+import Switch from '@material/react-switch';
 
 import "../styles/main.scss"
 
-const CreatingHeader = props => (
-  <TopAppBarRow className="header-row-2">
-    <Grid className="header-grid-2">
-      <Row>
-        <Cell columns={12} >
-          {/*<TopAppBarSection className="">*/}
-            <Body1 className="question-counter" tag="h2">9 Questions</Body1>
-            <div className="titles-wrapper">
-              <Subtitle1 className="font-title" tag="h2">Merriweather v.2.11</Subtitle1>
-              <Subtitle1 className="project-title" tag="h3"><span className="emphasis">Extended Latin Support</span> v.1.12</Subtitle1>
-            </div>
-          {/*</TopAppBarSection>*/}
-        </Cell>
-      </Row>
-    </Grid>
-  </TopAppBarRow>
-);
+class CreatingHeader extends React.Component {
 
-const AnsweringHeader = props => (
-  <TopAppBarRow className="header-row-2">
-    <Grid className="header-grid-2">
-      <Row>
-        <Cell columns={12} >
-          {/*<TopAppBarSection className="">*/}
-            <Body1 className="question-counter" tag="h2">8 Questions</Body1>
-            <div className="titles-wrapper">
-              <Subtitle1 className="font-title" tag="h2">Merriweather v.2.11</Subtitle1>
-              <Subtitle1 className="project-title" tag="h3"><span className="emphasis">Extended Latin Support</span> v.1.12</Subtitle1>
-            </div>
-          {/*</TopAppBarSection>*/}
-        </Cell>
-      </Row>
-    </Grid>
-  </TopAppBarRow>
-);
+  render(){
+    return(
+      <TopAppBarRow className="header-row-2">
+        <Grid className="header-grid-2">
+          <Row>
+            <Cell columns={12} >
+              {/*<TopAppBarSection className="">*/}
+                <Body1 className="question-counter" tag="h2">9 Questions</Body1>
+                <div className="titles-wrapper">
+                  <Subtitle1 className="font-title" tag="h2">Merriweather v.2.11</Subtitle1>
+                  <Subtitle1 className="project-title" tag="h3"><span className="emphasis">Extended Latin Support</span> v.1.12</Subtitle1>
+                </div>
+              {/*</TopAppBarSection>*/}
+            </Cell>
+          </Row>
+        </Grid>
+      </TopAppBarRow>
+    );
+  }
+}
+
+class AnsweringHeader extends React.Component {
+
+  state = {showComments: true};
+
+  render(){
+    return(
+      <TopAppBarRow className="header-row-2">
+        <Grid className="header-grid-2">
+          <Row>
+            <Cell columns={9} >
+                <Body1 className="question-counter" tag="h2">13% Done</Body1>
+                <div className="titles-wrapper">
+                  <Subtitle1 className="font-title" tag="h2">Merriweather v.2.11</Subtitle1>
+                  <Subtitle1 className="project-title" tag="h3"><span className="emphasis">Extended Latin Support</span> v.1.12</Subtitle1>
+                </div>
+            </Cell>
+            <Cell columns={3}>
+              <Switch
+                className="show-comments-switch"
+                nativeControlId='show-comments-switch'
+                checked={this.state.showComments}
+                onChange={(e) => this.setState({showComments: e.target.showComments})} />
+              <Body2 
+                tag="label"
+                htmlFor='show-comments-switch'
+                className="show-comments-switch-label">
+                  Show comments
+              </Body2>
+            </Cell>
+          </Row>
+        </Grid>
+      </TopAppBarRow>
+    );
+  }
+}
 
 const Header = props => (
   <TopAppBar className="header">
