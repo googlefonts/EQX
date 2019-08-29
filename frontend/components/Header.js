@@ -14,7 +14,7 @@ import {Cell, Grid, Row} from '@material/react-layout-grid';
 
 import "../styles/main.scss"
 
-const ProgressHeader = (
+const ProgressHeader = props => (
   <TopAppBarRow className="header-row-2">
     <Grid className="header-grid-2">
       <Row>
@@ -31,7 +31,6 @@ const ProgressHeader = (
     </Grid>
   </TopAppBarRow>
 );
-
 
 const Header = props => (
   <TopAppBar className="header">
@@ -73,11 +72,7 @@ const Header = props => (
         </Row>
       </Grid>
     </TopAppBarRow>
-  
-    {/* props.hasProgressHeader ?  <ProgressHeader/> : Null */}
-    {(function() { 
-      if (props.hasProgressHeader) { return ProgressHeader }
-    })()}
+    {props.hasProgressHeader ? <ProgressHeader/> : null}    
   </TopAppBar>
 );
 
