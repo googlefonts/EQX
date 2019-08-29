@@ -14,13 +14,31 @@ import {Cell, Grid, Row} from '@material/react-layout-grid';
 
 import "../styles/main.scss"
 
-const ProgressHeader = props => (
+const CreatingHeader = props => (
   <TopAppBarRow className="header-row-2">
     <Grid className="header-grid-2">
       <Row>
         <Cell columns={12} >
           {/*<TopAppBarSection className="">*/}
             <Body1 className="question-counter" tag="h2">9 Questions</Body1>
+            <div className="titles-wrapper">
+              <Subtitle1 className="font-title" tag="h2">Merriweather v.2.11</Subtitle1>
+              <Subtitle1 className="project-title" tag="h3"><span className="emphasis">Extended Latin Support</span> v.1.12</Subtitle1>
+            </div>
+          {/*</TopAppBarSection>*/}
+        </Cell>
+      </Row>
+    </Grid>
+  </TopAppBarRow>
+);
+
+const AnsweringHeader = props => (
+  <TopAppBarRow className="header-row-2">
+    <Grid className="header-grid-2">
+      <Row>
+        <Cell columns={12} >
+          {/*<TopAppBarSection className="">*/}
+            <Body1 className="question-counter" tag="h2">8 Questions</Body1>
             <div className="titles-wrapper">
               <Subtitle1 className="font-title" tag="h2">Merriweather v.2.11</Subtitle1>
               <Subtitle1 className="project-title" tag="h3"><span className="emphasis">Extended Latin Support</span> v.1.12</Subtitle1>
@@ -72,7 +90,8 @@ const Header = props => (
         </Row>
       </Grid>
     </TopAppBarRow>
-    {props.hasProgressHeader ? <ProgressHeader/> : null}    
+    {props.headerType == "creating" ? <CreatingHeader/> : null}  
+    {props.headerType == "answering" ? <AnsweringHeader/> : null}    
   </TopAppBar>
 );
 

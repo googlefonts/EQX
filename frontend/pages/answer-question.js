@@ -4,7 +4,7 @@ import AnswerQuestionFields from '../components/AnswerQuestionFields'
 import "../styles/main.scss"
 
 const Index = props => (
-  <Layout hasProgressHeader="true">
+  <Layout headerType="answering">
   	<AnswerQuestionFields/>
   </Layout>
 );

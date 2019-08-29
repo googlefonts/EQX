@@ -5,7 +5,7 @@ import CreateQuestionFields from '../components/CreateQuestionFields'
 import "../styles/main.scss"
 
 const Index = props => (
-  <Layout>
+  <Layout headerType="creating">
   	<CreateQuestionFields/>
     <EditorImagesImport/>
   </Layout>
