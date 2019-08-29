@@ -68,10 +68,15 @@
 			font-weight: 700;
 			color: black;
 		}
+		.progress-bar{
+			position: absolute;
+			top: -3px;
+		}
+
 		.show-comments-switch{
 			@include mdc-switch-toggled-on-color($mdc-theme-primary);	
-			margin-right: 0.5rem;
-			margin-top: 1rem;
+			margin-right: 0.6rem;
+			margin-top: 0.9rem;
 		}
 		.show-comments-switch-label{
 			text-transform: uppercase;

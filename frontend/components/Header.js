@@ -12,6 +12,7 @@ import IconButton from '@material/react-icon-button';
 import MaterialIcon from '@material/react-material-icon';
 import {Cell, Grid, Row} from '@material/react-layout-grid';
 import Switch from '@material/react-switch';
+import LinearProgress from '@material/react-linear-progress';
 
 import "../styles/main.scss"
 
@@ -45,10 +46,15 @@ class AnsweringHeader extends React.Component {
   render(){
     return(
       <TopAppBarRow className="header-row-2">
+        <LinearProgress
+          className="progress-bar"
+            progress={0.32}
+            bufferingDots={false}
+          />
         <Grid className="header-grid-2">
           <Row>
             <Cell columns={9} >
-                <Body1 className="question-counter" tag="h2">13% Done</Body1>
+                <Body1 className="question-counter" tag="h2">32% Done</Body1>
                 <div className="titles-wrapper">
                   <Subtitle1 className="font-title" tag="h2">Merriweather v.2.11</Subtitle1>
                   <Subtitle1 className="project-title" tag="h3"><span className="emphasis">Extended Latin Support</span> v.1.12</Subtitle1>
