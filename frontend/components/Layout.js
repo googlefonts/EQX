@@ -3,8 +3,8 @@ import Nav from './Nav';
 import Footer from './Footer';
 
 const Layout = props => (
-  	<div className="layout-wrapper">
-   		<Header headerType={props.headerType}/>
+  	<div className="layout-wrapper" data-has-progress-header={props.headerType}>
+   	<Header headerType={props.headerType}/>
   		<Nav />
 			<main>
   			{props.children}

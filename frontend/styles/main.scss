@@ -87,7 +87,7 @@ a, a:focus, a:active, a:hover{
 
 main{
 	margin-top: 64px; // Height of top-bar
-	[data-has-progress-header="true"] &{
+	.layout-wrapper[data-has-progress-header="answering"] &, .layout-wrapper[data-has-progress-header="creating"] &{
 		margin-top: 128px; // Height of top-bar
 	}
 	margin-right: 200px;
@@ -109,7 +109,7 @@ main{
 }
 .mdc-drawer{
 	margin-top: 64px; // Height of top-bar
-	[data-has-progress-header="true"] &{
+	.layout-wrapper[data-has-progress-header="answering"] &, .layout-wrapper[data-has-progress-header="creating"] &{
 		margin-top: 128px; // Height of top-bar
 	}
 	width: 200px;
