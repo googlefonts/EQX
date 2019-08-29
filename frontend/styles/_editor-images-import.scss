@@ -70,6 +70,16 @@ $eii-height: 392px; // Height of 7 dropdown menus
 	  visibility: hidden;
 	}
 
+	.circle{
+		position: absolute;
+	  top: 45%;
+	  left: 50%;
+	  transform: translate(-50%, -50%);
+	  background-color: $mdc-theme-grey100;
+	  border-radius: 100%;
+	  padding: 4rem;
+	}
+
 	.images-tab-upload-label{
 		position: relative;
 		display: block;
@@ -82,18 +92,15 @@ $eii-height: 392px; // Height of 7 dropdown menus
 
 	.images-tab-upload-label .mdc-typography--button{
 		position: absolute;
-	  top: 45%;
+	  top: 50%;
 	  left: 50%;
 	  transform: translate(-50%, -50%);
+	  width: 100%;
 	}
 
 	.paperclip-icon{
-		position: absolute;
-	  top: 45%;
-	  left: 50%;
-	  transform: translate(-50%, -50%);
 	  opacity: .12;
-	  font-size: 12rem;
+	  font-size: 8rem;
 	}
 
 	#images-tab-upload{

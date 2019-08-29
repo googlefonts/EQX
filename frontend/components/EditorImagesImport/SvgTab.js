@@ -13,7 +13,13 @@ class SvgTab extends React.Component {
 		return(
 		  <div className="images-tab">
 		    <input type="file" name="images-tab-upload" id="images-tab-upload" accept="image/*" onChange={this.loadFile}/>
-		    <label htmlFor="images-tab-upload" className="images-tab-upload-label"><MaterialIcon className="paperclip-icon" icon='attach_file' /><Button>Attach your images here</Button><img id="output-image"/></label>
+		    <label htmlFor="images-tab-upload" className="images-tab-upload-label">
+		    	<div className="circle">
+		    		<MaterialIcon className="paperclip-icon" icon='attach_file' />
+		    		<Button>Upload your SVG here</Button>
+		    	</div>
+		    	<img id="output-image"/>
+		    </label>
 		  </div>
 		);
 	}
