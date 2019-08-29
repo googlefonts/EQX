@@ -60,7 +60,8 @@ class AnsweringHeader extends React.Component {
                   <Subtitle1 className="project-title" tag="h3"><span className="emphasis">Extended Latin Support</span> v.1.12</Subtitle1>
                 </div>
             </Cell>
-            <Cell columns={3}>
+            <Cell columns={3} className="text-align-right"
+            >
               <Switch
                 className="show-comments-switch"
                 nativeControlId='show-comments-switch'
@@ -109,13 +110,15 @@ const Header = props => (
               Sign Up
             </Button>
           </TopAppBarSection>*/ }
-          <Cell columns={6} className="text-align-right">
-            <IconButton className="header-notifications">
-              <MaterialIcon icon='notifications' />
-            </IconButton>
-            <IconButton className="header-notifications my-avatar">
-              <MaterialIcon icon='avatar' />
-            </IconButton>
+          <Cell columns={6}>
+            <div className="sidebar-align">
+              <IconButton className="header-notifications">
+                <MaterialIcon icon='notifications' />
+              </IconButton>
+              <IconButton className="header-notifications header-avatar">
+                <MaterialIcon icon='avatar' />
+              </IconButton>
+            </div>
           </Cell>
         </Row>
       </Grid>

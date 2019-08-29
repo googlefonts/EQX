@@ -13,12 +13,15 @@
 	}
 
 	/* Placeholder avatar */
-	.header-avatar{
-		width: 30px;
-		height: 30px;
+	.header-avatar i{
 		border-radius: 50%;
-		background-color: $mdc-theme-grey100;
-		margin-right: 9rem;
+		background: rgba($mdc-theme-primary, 1) url(/static/avatar-fallback-50.png) no-repeat;
+		background-size: cover;
+		width: 32px;
+		height: 32px;
+		position: absolute;
+		top: calc(50% - 16px);
+		left: calc(50% - 16px);
 	}
 
 	.header-notifications{
@@ -75,7 +78,7 @@
 
 		.show-comments-switch{
 			@include mdc-switch-toggled-on-color($mdc-theme-primary);	
-			margin-right: 0.6rem;
+			margin-right: 1rem;
 			margin-top: 0.9rem;
 		}
 		.show-comments-switch-label{
