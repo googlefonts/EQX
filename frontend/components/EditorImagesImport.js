@@ -7,7 +7,7 @@ import {Cell, Grid, Row} from '@material/react-layout-grid';
 import List, {ListItem, ListItemText} from '@material/react-list';
 import SvgTab from '../components/EditorImagesImport/SvgTab';
 import EditorTab from '../components/EditorImagesImport/EditorTab';
-import ImportTab from '../components/EditorImagesImport/ImportTab';
+import HtmlCssTab from '../components/EditorImagesImport/HtmlCssTab';
 
 class EditorImagesImport extends React.Component {
   state = {activeIndex: 0};
@@ -31,12 +31,12 @@ class EditorImagesImport extends React.Component {
                 <span className='mdc-tab__text-label'>SVG</span>
               </Tab>
               <Tab>
-                <span className='mdc-tab__text-label'>Import</span>
+                <span className='mdc-tab__text-label'>HTML/CSS</span>
               </Tab>
             </TabBar>
             {this.state.activeIndex == 0 ? <EditorTab/> : null}
             {this.state.activeIndex == 1 ? <SvgTab/> : null}
-            {this.state.activeIndex == 2 ? <ImportTab/> : null}
+            {this.state.activeIndex == 2 ? <HtmlCssTab/> : null}
           </Cell>
         </Row>
       </Grid>
