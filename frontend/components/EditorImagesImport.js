@@ -5,7 +5,7 @@ import MaterialIcon from '@material/react-material-icon';
 import {Button , Body1} from '@material/react-typography';
 import {Cell, Grid, Row} from '@material/react-layout-grid';
 import List, {ListItem, ListItemText} from '@material/react-list';
-import ImagesTab from '../components/EditorImagesImport/ImagesTab';
+import SvgTab from '../components/EditorImagesImport/SvgTab';
 import EditorTab from '../components/EditorImagesImport/EditorTab';
 import ImportTab from '../components/EditorImagesImport/ImportTab';
 
@@ -28,14 +28,14 @@ class EditorImagesImport extends React.Component {
                 <span className='mdc-tab__text-label'>Editor</span>
               </Tab>
               <Tab>
-                <span className='mdc-tab__text-label'>Images</span>
+                <span className='mdc-tab__text-label'>SVG</span>
               </Tab>
               <Tab>
                 <span className='mdc-tab__text-label'>Import</span>
               </Tab>
             </TabBar>
             {this.state.activeIndex == 0 ? <EditorTab/> : null}
-            {this.state.activeIndex == 1 ? <ImagesTab/> : null}
+            {this.state.activeIndex == 1 ? <SvgTab/> : null}
             {this.state.activeIndex == 2 ? <ImportTab/> : null}
           </Cell>
         </Row>

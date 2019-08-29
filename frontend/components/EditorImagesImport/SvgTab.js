@@ -1,7 +1,7 @@
 import MaterialIcon from '@material/react-material-icon';
 import {Button } from '@material/react-typography';
 
-class ImagesTab extends React.Component {
+class SvgTab extends React.Component {
 
 	loadFile(event) {
 		console.log("run loadfile");
@@ -19,4 +19,4 @@ class ImagesTab extends React.Component {
 	}
 }
 
-export default ImagesTab;
+export default SvgTab;
