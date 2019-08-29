@@ -21,6 +21,7 @@
     "@material/react-material-icon": "^0.15.0",
     "@material/react-menu": "^0.15.0",
     "@material/react-select": "^0.15.0",
+    "@material/react-switch": "^0.15.0",
     "@material/react-tab-bar": "^0.15.0",
     "@material/react-text-field": "^0.15.0",
     "@material/react-top-app-bar": "^0.15.0",
