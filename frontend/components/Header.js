@@ -44,6 +44,7 @@ class AnsweringHeader extends React.Component {
         <LinearProgress
           className="progress-bar"
           progress={this.props.progressBar}
+          buffer={1}
           bufferingDots={false}
           />
         <Grid className="header-grid-2">
