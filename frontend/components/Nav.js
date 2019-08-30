@@ -10,8 +10,6 @@ import Drawer, {
 import MaterialIcon from '@material/react-material-icon';
 import List, {ListItem, ListItemGraphic, ListItemText} from '@material/react-list';
 
-import "../styles/main.scss"
-
 // Unfinished, just sample shows where to place items
 const Nav = () => (
   <Drawer className="nav-drawer">

@@ -14,8 +14,6 @@ import {Cell, Grid, Row} from '@material/react-layout-grid';
 import Switch from '@material/react-switch';
 import LinearProgress from '@material/react-linear-progress';
 
-import "../styles/main.scss"
-
 const CreatingHeader = props => (
   <TopAppBarRow className="header-row-2">
     <Grid className="header-grid-2">

@@ -1,9 +1,6 @@
 import {Cell, Grid, Row} from '@material/react-layout-grid';
 import CommentBox from '../components/CommentBox';
 
-import "../styles/main.scss";
-
-
 class Lightbox extends React.Component {
 
 	state = {

@@ -6,8 +6,6 @@ import Button from '@material/react-button';
 import List, {ListItem, ListItemText, ListItemGraphic, ListItemMeta} from '@material/react-list';
 import TextField, {Input} from '@material/react-text-field';
 
-import "../styles/main.scss"
-
 const QuinnAvi = props => (
   <img src="static/quinn-avi.png" alt="avatar"/>
 );
