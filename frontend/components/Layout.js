@@ -4,7 +4,7 @@ import Footer from './Footer';
 
 const Layout = props => (
   	<div className="layout-wrapper" data-has-progress-header={props.headerType}>
-   	<Header headerType={props.headerType}/>
+   	<Header headerType={props.headerType} progressBar={props.progressBar}/>
   		<Nav />
 			<main>
   			{props.children}
