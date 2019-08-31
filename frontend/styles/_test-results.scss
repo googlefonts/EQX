@@ -13,15 +13,12 @@
 	.action-list{
 		padding: 0;
 		margin: 0;
-		margin-bottom: 2rem;
 		li{
 			display: inline-block;
 		}
 		p{
 			color: $mdc-theme-primary;
 			margin-right: 1rem;
-			margin-top: 0.5rem;
-			margin-bottom: 0.5rem;
 			padding-right: 1rem;
 			border-right: 2px solid $mdc-theme-grey100;
 		}
@@ -29,5 +26,22 @@
 			border-right: none;
 		}
 	}
+}
 
+.user-completion{
+	padding-top: 0;
+	padding-right: 0;
+
+	.user-completion-progress-bar{
+		margin-top: 1rem;
+	}
+	.user-completion-percentage{
+		color: $mdc-theme-grey400;
+		margin: 0;
+		margin-left: 1rem;
+	}
+	.user-completion-fraction{
+		color: $mdc-theme-grey500;
+		margin-top: 0.5rem;
+	}
 }
