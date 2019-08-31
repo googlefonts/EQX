@@ -8,8 +8,6 @@ import TextField, {Input} from '@material/react-text-field';
 
 import CommentBox from '../components/CommentBox';
 
-import "../styles/main.scss"
-
 const QuinnAvi = props => (
   <img src="static/quinn-avi.png" alt="avatar"/>
 );
