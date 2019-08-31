@@ -3,10 +3,10 @@ import AnswerQuestionFields from '../components/AnswerQuestionFields'
 
 import "../styles/main.scss"
 
-const Index = props => (
-  <Layout hasProgressHeader="true">
+const AnswerQuestion = props => (
+  <Layout headerType="answering" progressBar={0.32}>
   	<AnswerQuestionFields/>
   </Layout>
 );
 
-export default Index;
+export default AnswerQuestion;

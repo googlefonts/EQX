@@ -1,11 +1,12 @@
 import Header from './Header';
 import Nav from './Nav';
 import Footer from './Footer';
+
 const Layout = props => (
-  	<div className="layout-wrapper" data-has-progress-header={props.hasProgressHeader}>
-   	<Header hasProgressHeader={props.hasProgressHeader}/>
+  	<div className="layout-wrapper" data-has-progress-header={props.headerType}>
+   	<Header headerType={props.headerType} progressBar={props.progressBar}/>
   		<Nav />
-		<main>
+			<main>
   			{props.children}
   		</main>
   		<Footer />

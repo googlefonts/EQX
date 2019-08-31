@@ -2,68 +2,89 @@
 	@include mdc-top-app-bar-fill-color($mdc-theme-background);	
 	@include mdc-top-app-bar-ink-color($mdc-theme-grey600);
 	@include mdc-elevation(3);
-}
 
-.header .login-button{
-	@include mdc-button-ink-color($mdc-theme-grey600);
-	margin-right: 20px;
-}
-
-.header .sign-up-button{
-	margin-right: 20px;
-}
-
-/* Placeholder avatar */
-.header .header-avatar{
-	width: 30px;
-	height: 30px;
-	border-radius: 50%;
-	background-color: $mdc-theme-grey100;
-	margin-right: 9rem;
-}
-
-.header .header-notifications{
-	margin-right: 1rem;
-}
-
-/*————————————*/
-/* Second Row */
-/*————————————*/
-// For when the header needs to show extra info
-
-.header .second-row{
-	position: relative;
-	border-top: 2px solid $mdc-theme-grey100;
-	.second-grid{
-		width: 100%;
+	.login-button{
+		@include mdc-button-ink-color($mdc-theme-grey600);
+		margin-right: 20px;
 	}
-}
 
-.second-row .question-counter{
-	position: absolute;
-	top: -0.9rem;
-	left: 0;
-	right: 0;
-	margin: 0;
-	margin: auto;
-	width: fit-content;
-	background-color: $mdc-theme-surface;
-	padding-left: 1rem;
-	padding-right: 1rem;
-}
+	.sign-up-button{
+		margin-right: 20px;
+	}
 
-// .second-row .titles-wrapper{
-// 	margin-top: 0.4rem;
-// 	margin-left: 2rem;
-// }
+	/* Placeholder avatar */
+	.header-avatar i{
+		border-radius: 50%;
+		background: rgba($mdc-theme-primary, 1) url(/static/avatar-fallback-50.png) no-repeat;
+		background-size: cover;
+		width: 32px;
+		height: 32px;
+		position: absolute;
+		top: calc(50% - 16px);
+		left: calc(50% - 16px);
+	}
 
-.second-row .font-title, .second-row .project-title{
-	margin: 0;
-	line-height: 1.4;
-	color: $mdc-theme-grey500;
-}
+	.header-notifications{
+		margin-right: 1rem;
+	}
+	.header-grid-1{
+		padding-top: 9px;
+		padding-bottom: 0;
+		width: 100%;
+		h1{
+			margin: 0;
+			line-height: 45px;
+		}
+	}
 
-.second-row .emphasis{
-	font-weight: 700;
-	color: black;
+	/*———————*/
+	/* Row 2 */
+	/*———————*/
+	// For when the header needs to show extra info
+
+	.header-row-2{
+		position: relative;
+		border-top: 2px solid $mdc-theme-grey100;
+		.header-grid-2{
+			padding-top: 9px;
+			padding-bottom: 0;
+			width: 100%;
+		}
+		.question-counter{
+			position: absolute;
+			top: -0.9rem;
+			left: 0;
+			right: 0;
+			margin: 0;
+			margin: auto;
+			width: fit-content;
+			background-color: $mdc-theme-surface;
+			padding-left: 1rem;
+			padding-right: 1rem;
+		}
+		.font-title, .project-title{
+			margin: 0;
+			line-height: 1.4;
+			color: $mdc-theme-grey500;
+		}
+		.emphasis{
+			font-weight: 700;
+			color: black;
+		}
+		.progress-bar{
+			position: absolute;
+			top: -3px;
+		}
+
+		.show-comments-switch{
+			@include mdc-switch-toggled-on-color($mdc-theme-primary);	
+			margin-right: 1rem;
+			margin-top: 0.9rem;
+		}
+		.show-comments-switch-label{
+			text-transform: uppercase;
+			position: relative;
+			top: -2px; // aligns label to switch
+		}
+	}
 }

@@ -1,0 +1,28 @@
+// Lightbox closed
+.lightbox{
+	position: fixed;
+	background-color: rgba(black, 0.5);
+	opacity: 0;
+	pointer-events: none;
+	z-index: 4; // drawer and top bar are 3
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	overflow-y: scroll;
+	transition: opacity 0.3s ease-in-out;
+	
+	// Lightbox open
+	&.open{
+		pointer-events: auto;
+		opacity: 1;
+	}
+
+	.lightbox-image{
+		position: relative;
+		display: block;
+		width: 100%;
+		margin-bottom: var(--mdc-layout-grid-margin-desktop, 24px);
+	}
+
+}

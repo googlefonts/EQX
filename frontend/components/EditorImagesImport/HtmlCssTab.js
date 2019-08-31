@@ -5,7 +5,7 @@ import FontImportSelect from '../FontImportSelect';
 // Import Tab
 const tagList = ['H1', 'H2', 'H3','H4','H5','H6', 'P'];
 
-const ImportTab = props => (
+const HtmlCssTab = props => (
   <div className="import-tab">
     <div className="column import-html">
         <input type="file" name="import-html-upload" id="import-html-upload"/>
@@ -28,4 +28,4 @@ const ImportTab = props => (
   </div>
 )
 
-export default ImportTab;
+export default HtmlCssTab;

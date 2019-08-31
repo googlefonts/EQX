@@ -10,8 +10,6 @@ import Drawer, {
 import MaterialIcon from '@material/react-material-icon';
 import List, {ListItem, ListItemGraphic, ListItemText} from '@material/react-list';
 
-import "../styles/main.scss"
-
 // Unfinished, just sample shows where to place items
 const Nav = () => (
   <Drawer className="nav-drawer">
@@ -23,42 +21,42 @@ const Nav = () => (
 
     <DrawerContent >
       <List>
-        <Link href="/dashboard">
+        <Link href="/dashboard"><a>
           <ListItem>
             <ListItemGraphic graphic={<MaterialIcon icon='dashboard'/>} />
             <ListItemText primaryText='Dashboard'/>
           </ListItem>
-        </Link>
-        <Link href="/tests">
+        </a></Link>
+        <Link href="/tests"><a>
           <ListItem>
             <ListItemGraphic graphic={<MaterialIcon icon='note'/>} />
             <ListItemText primaryText='Your Tests'/>
           </ListItem>
-        </Link>
-        <Link href="/shared-tests">
+        </a></Link>
+        <Link href="/shared-tests"><a>
           <ListItem>
             <ListItemGraphic graphic={<MaterialIcon icon='folder'/>} />
             <ListItemText primaryText='Shared Tests'/>
           </ListItem>
-        </Link>
-        <Link href="/projects">
+        </a></Link>
+        <Link href="/projects"><a>
           <ListItem>
             <ListItemGraphic graphic={<MaterialIcon icon='work'/>} />
             <ListItemText primaryText='Projects'/>
           </ListItem>
-        </Link>
-        <Link href="/groups">
+        </a></Link>
+        <Link href="/groups"><a>
           <ListItem>
             <ListItemGraphic graphic={<MaterialIcon icon='group'/>} />
             <ListItemText primaryText='Groups'/>
           </ListItem>
-        </Link>
-        <Link href="/settings">
+        </a></Link>
+        <Link href="/settings"><a>
           <ListItem>
             <ListItemGraphic graphic={<MaterialIcon icon='settings'/>} />
             <ListItemText primaryText='Settings'/>
           </ListItem>
-        </Link>
+        </a></Link>
       </List>
     </DrawerContent>
   </Drawer>
