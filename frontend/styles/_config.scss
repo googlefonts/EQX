@@ -23,3 +23,23 @@ $mdc-theme-grey400: #9E9E9E;
 $mdc-theme-grey200: #C5C6C5;
 $mdc-theme-grey100: #E1E2E1;
 $mdc-theme-grey50: #F5F5F6;
+
+// Breakpoints
+$bp-xsmall: 350px !default;
+$bp-small: 576px !default;
+$bp-medium: 768px !default;
+$bp-large: 992px !default;
+$bp-xlarge: 1200px !default;
+$bp-xxlarge: 1500px !default;
+
+// Transition
+$xfast: 0.1s;
+$fast: 0.3s;
+$medium: 1s;
+$slow: 3s;
+
+// Border Radius
+$border-radius: 4px;
+
+//Letter Spacing
+$tracked: 0.05em;
