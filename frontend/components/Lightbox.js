@@ -23,7 +23,7 @@ class Lightbox extends React.Component {
 			    <Row>
 			      <Cell desktopColumns={1}></Cell>
 			      <Cell desktopColumns={10}>
-			          <img className="lightbox-image" src="static/type-example.png" alt=""/>
+			          <img className="lightbox-image" src="static/img/type-example.png" alt=""/>
 			          <CommentBox/>
 			      </Cell>
 			    </Row>

@@ -146,322 +146,322 @@ $spread: 1.5;
 @mixin pb-1() {
 	$multi: 1;
 	padding-bottom: ($base*$multi)*$spread;
-	@include m(min, $bp-small){
-		padding-bottom: ($base*$multi)*2*$spread;
-	}
-	@include m(min, $bp-medium){
-		padding-bottom: ($base*$multi)*3*$spread;
-	}
-	@include m(min, $bp-large){
-		padding-bottom: ($base*$multi)*4*$spread;
-	}
-	@include m(min, $bp-xlarge){
-		padding-bottom: ($base*$multi)*5*$spread;
-	}
+	// @include m(min, $bp-small){
+	// 	padding-bottom: ($base*$multi)*2*$spread;
+	// }
+	// @include m(min, $bp-medium){
+	// 	padding-bottom: ($base*$multi)*3*$spread;
+	// }
+	// @include m(min, $bp-large){
+	// 	padding-bottom: ($base*$multi)*4*$spread;
+	// }
+	// @include m(min, $bp-xlarge){
+	// 	padding-bottom: ($base*$multi)*5*$spread;
+	// }
 }
 @mixin pt-1() {
 	$multi: 1;
 	padding-top: ($base*$multi)*$spread;
-	@include m(min, $bp-small){
-		padding-top: ($base*$multi)*2*$spread;
-	}
-	@include m(min, $bp-medium){
-		padding-top: ($base*$multi)*3*$spread;
-	}
-	@include m(min, $bp-large){
-		padding-top: ($base*$multi)*4*$spread;
-	}
-	@include m(min, $bp-xlarge){
-		padding-top: ($base*$multi)*5*$spread;
-	}
+	// @include m(min, $bp-small){
+	// 	padding-top: ($base*$multi)*2*$spread;
+	// }
+	// @include m(min, $bp-medium){
+	// 	padding-top: ($base*$multi)*3*$spread;
+	// }
+	// @include m(min, $bp-large){
+	// 	padding-top: ($base*$multi)*4*$spread;
+	// }
+	// @include m(min, $bp-xlarge){
+	// 	padding-top: ($base*$multi)*5*$spread;
+	// }
 }
 @mixin p-1() {
 	$multi: 1;
 	padding-top: ($base*$multi)*$spread;
 	padding-bottom: ($base*$multi)*$spread;
-	@include m(min, $bp-small){
-		padding-top: ($base*$multi)*2*$spread;
-		padding-bottom: ($base*$multi)*2*$spread;
-	}
-	@include m(min, $bp-medium){
-		padding-top: ($base*$multi)*3*$spread;
-		padding-bottom: ($base*$multi)*3*$spread;
-	}
-	@include m(min, $bp-large){
-		padding-top: ($base*$multi)*4*$spread;
-		padding-bottom: ($base*$multi)*4*$spread;
-	}
-	@include m(min, $bp-xlarge){
-		padding-top: ($base*$multi)*5*$spread;
-		padding-bottom: ($base*$multi)*5*$spread;
-	}
+	// @include m(min, $bp-small){
+	// 	padding-top: ($base*$multi)*2*$spread;
+	// 	padding-bottom: ($base*$multi)*2*$spread;
+	// }
+	// @include m(min, $bp-medium){
+	// 	padding-top: ($base*$multi)*3*$spread;
+	// 	padding-bottom: ($base*$multi)*3*$spread;
+	// }
+	// @include m(min, $bp-large){
+	// 	padding-top: ($base*$multi)*4*$spread;
+	// 	padding-bottom: ($base*$multi)*4*$spread;
+	// }
+	// @include m(min, $bp-xlarge){
+	// 	padding-top: ($base*$multi)*5*$spread;
+	// 	padding-bottom: ($base*$multi)*5*$spread;
+	// }
 }
 @mixin mb-1() {
 	$multi: 1;
 	margin-bottom: ($base*$multi)*$spread;
-	@include m(min, $bp-small){
-		margin-bottom: ($base*$multi)*2*$spread;
-	}
-	@include m(min, $bp-medium){
-		margin-bottom: ($base*$multi)*3*$spread;
-	}
-	@include m(min, $bp-large){
-		margin-bottom: ($base*$multi)*4*$spread;
-	}
-	@include m(min, $bp-xlarge){
-		margin-bottom: ($base*$multi)*5*$spread;
-	}
+	// @include m(min, $bp-small){
+	// 	margin-bottom: ($base*$multi)*2*$spread;
+	// }
+	// @include m(min, $bp-medium){
+	// 	margin-bottom: ($base*$multi)*3*$spread;
+	// }
+	// @include m(min, $bp-large){
+	// 	margin-bottom: ($base*$multi)*4*$spread;
+	// }
+	// @include m(min, $bp-xlarge){
+	// 	margin-bottom: ($base*$multi)*5*$spread;
+	// }
 }
 @mixin mt-1() {
 	$multi: 1;
 	margin-top: ($base*$multi)*$spread;
-	@include m(min, $bp-small){
-		margin-top: ($base*$multi)*2*$spread;
-	}
-	@include m(min, $bp-medium){
-		margin-top: ($base*$multi)*3*$spread;
-	}
-	@include m(min, $bp-large){
-		margin-top: ($base*$multi)*4*$spread;
-	}
-	@include m(min, $bp-xlarge){
-		margin-top: ($base*$multi)*5*$spread;
-	}
+	// @include m(min, $bp-small){
+	// 	margin-top: ($base*$multi)*2*$spread;
+	// }
+	// @include m(min, $bp-medium){
+	// 	margin-top: ($base*$multi)*3*$spread;
+	// }
+	// @include m(min, $bp-large){
+	// 	margin-top: ($base*$multi)*4*$spread;
+	// }
+	// @include m(min, $bp-xlarge){
+	// 	margin-top: ($base*$multi)*5*$spread;
+	// }
 }
 @mixin m-1() {
 	$multi: 1;
 	margin-top: ($base*$multi)*$spread;
 	margin-bottom: ($base*$multi)*$spread;
-	@include m(min, $bp-small){
-		margin-top: ($base*$multi)*2*$spread;
-		margin-bottom: ($base*$multi)*2*$spread;
-	}
-	@include m(min, $bp-medium){
-		margin-top: ($base*$multi)*3*$spread;
-		margin-bottom: ($base*$multi)*3*$spread;
-	}
-	@include m(min, $bp-large){
-		margin-top: ($base*$multi)*4*$spread;
-		margin-bottom: ($base*$multi)*4*$spread;
-	}
-	@include m(min, $bp-xlarge){
-		margin-top: ($base*$multi)*5*$spread;
-		margin-bottom: ($base*$multi)*5*$spread;
-	}
+	// @include m(min, $bp-small){
+	// 	margin-top: ($base*$multi)*2*$spread;
+	// 	margin-bottom: ($base*$multi)*2*$spread;
+	// }
+	// @include m(min, $bp-medium){
+	// 	margin-top: ($base*$multi)*3*$spread;
+	// 	margin-bottom: ($base*$multi)*3*$spread;
+	// }
+	// @include m(min, $bp-large){
+	// 	margin-top: ($base*$multi)*4*$spread;
+	// 	margin-bottom: ($base*$multi)*4*$spread;
+	// }
+	// @include m(min, $bp-xlarge){
+	// 	margin-top: ($base*$multi)*5*$spread;
+	// 	margin-bottom: ($base*$multi)*5*$spread;
+	// }
 }
 
 @mixin pb-2() {
 	$multi: 2;
 	padding-bottom: ($base*$multi)*$spread;
-	@include m(min, $bp-small){
-		padding-bottom: ($base*$multi)*2*$spread;
-	}
-	@include m(min, $bp-medium){
-		padding-bottom: ($base*$multi)*3*$spread;
-	}
-	@include m(min, $bp-large){
-		padding-bottom: ($base*$multi)*4*$spread;
-	}
-	@include m(min, $bp-xlarge){
-		padding-bottom: ($base*$multi)*5*$spread;
-	}
+	// @include m(min, $bp-small){
+	// 	padding-bottom: ($base*$multi)*2*$spread;
+	// }
+	// @include m(min, $bp-medium){
+	// 	padding-bottom: ($base*$multi)*3*$spread;
+	// }
+	// @include m(min, $bp-large){
+	// 	padding-bottom: ($base*$multi)*4*$spread;
+	// }
+	// @include m(min, $bp-xlarge){
+	// 	padding-bottom: ($base*$multi)*5*$spread;
+	// }
 }
 @mixin pt-2() {
 	$multi: 2;
 	padding-top: ($base*$multi)*$spread;
-	@include m(min, $bp-small){
-		padding-top: ($base*$multi)*2*$spread;
-	}
-	@include m(min, $bp-medium){
-		padding-top: ($base*$multi)*3*$spread;
-	}
-	@include m(min, $bp-large){
-		padding-top: ($base*$multi)*4*$spread;
-	}
-	@include m(min, $bp-xlarge){
-		padding-top: ($base*$multi)*5*$spread;
-	}
+	// @include m(min, $bp-small){
+	// 	padding-top: ($base*$multi)*2*$spread;
+	// }
+	// @include m(min, $bp-medium){
+	// 	padding-top: ($base*$multi)*3*$spread;
+	// }
+	// @include m(min, $bp-large){
+	// 	padding-top: ($base*$multi)*4*$spread;
+	// }
+	// @include m(min, $bp-xlarge){
+	// 	padding-top: ($base*$multi)*5*$spread;
+	// }
 }
 @mixin p-2() {
 	$multi: 2;
 	padding-top: ($base*$multi)*$spread;
 	padding-bottom: ($base*$multi)*$spread;
-	@include m(min, $bp-small){
-		padding-top: ($base*$multi)*2*$spread;
-		padding-bottom: ($base*$multi)*2*$spread;
-	}
-	@include m(min, $bp-medium){
-		padding-top: ($base*$multi)*3*$spread;
-		padding-bottom: ($base*$multi)*3*$spread;
-	}
-	@include m(min, $bp-large){
-		padding-top: ($base*$multi)*4*$spread;
-		padding-bottom: ($base*$multi)*4*$spread;
-	}
-	@include m(min, $bp-xlarge){
-		padding-top: ($base*$multi)*5*$spread;
-		padding-bottom: ($base*$multi)*5*$spread;
-	}
+	// @include m(min, $bp-small){
+	// 	padding-top: ($base*$multi)*2*$spread;
+	// 	padding-bottom: ($base*$multi)*2*$spread;
+	// }
+	// @include m(min, $bp-medium){
+	// 	padding-top: ($base*$multi)*3*$spread;
+	// 	padding-bottom: ($base*$multi)*3*$spread;
+	// }
+	// @include m(min, $bp-large){
+	// 	padding-top: ($base*$multi)*4*$spread;
+	// 	padding-bottom: ($base*$multi)*4*$spread;
+	// }
+	// @include m(min, $bp-xlarge){
+	// 	padding-top: ($base*$multi)*5*$spread;
+	// 	padding-bottom: ($base*$multi)*5*$spread;
+	// }
 }
 @mixin mb-2() {
 	$multi: 2;
 	margin-bottom: ($base*$multi)*$spread;
-	@include m(min, $bp-small){
-		margin-bottom: ($base*$multi)*2*$spread;
-	}
-	@include m(min, $bp-medium){
-		margin-bottom: ($base*$multi)*3*$spread;
-	}
-	@include m(min, $bp-large){
-		margin-bottom: ($base*$multi)*4*$spread;
-	}
-	@include m(min, $bp-xlarge){
-		margin-bottom: ($base*$multi)*5*$spread;
-	}
+	// @include m(min, $bp-small){
+	// 	margin-bottom: ($base*$multi)*2*$spread;
+	// }
+	// @include m(min, $bp-medium){
+	// 	margin-bottom: ($base*$multi)*3*$spread;
+	// }
+	// @include m(min, $bp-large){
+	// 	margin-bottom: ($base*$multi)*4*$spread;
+	// }
+	// @include m(min, $bp-xlarge){
+	// 	margin-bottom: ($base*$multi)*5*$spread;
+	// }
 }
 @mixin mt-2() {
 	$multi: 2;
 	margin-top: ($base*$multi)*$spread;
-	@include m(min, $bp-small){
-		margin-top: ($base*$multi)*2*$spread;
-	}
-	@include m(min, $bp-medium){
-		margin-top: ($base*$multi)*3*$spread;
-	}
-	@include m(min, $bp-large){
-		margin-top: ($base*$multi)*4*$spread;
-	}
-	@include m(min, $bp-xlarge){
-		margin-top: ($base*$multi)*5*$spread;
-	}
+	// @include m(min, $bp-small){
+	// 	margin-top: ($base*$multi)*2*$spread;
+	// }
+	// @include m(min, $bp-medium){
+	// 	margin-top: ($base*$multi)*3*$spread;
+	// }
+	// @include m(min, $bp-large){
+	// 	margin-top: ($base*$multi)*4*$spread;
+	// }
+	// @include m(min, $bp-xlarge){
+	// 	margin-top: ($base*$multi)*5*$spread;
+	// }
 }
 @mixin m-2() {
 	$multi: 2;
 	margin-top: ($base*$multi)*$spread;
 	margin-bottom: ($base*$multi)*$spread;
-	@include m(min, $bp-small){
-		margin-top: ($base*$multi)*2*$spread;
-		margin-bottom: ($base*$multi)*2*$spread;
-	}
-	@include m(min, $bp-medium){
-		margin-top: ($base*$multi)*3*$spread;
-		margin-bottom: ($base*$multi)*3*$spread;
-	}
-	@include m(min, $bp-large){
-		margin-top: ($base*$multi)*4*$spread;
-		margin-bottom: ($base*$multi)*4*$spread;
-	}
-	@include m(min, $bp-xlarge){
-		margin-top: ($base*$multi)*5*$spread;
-		margin-bottom: ($base*$multi)*5*$spread;
-	}
+	// @include m(min, $bp-small){
+	// 	margin-top: ($base*$multi)*2*$spread;
+	// 	margin-bottom: ($base*$multi)*2*$spread;
+	// }
+	// @include m(min, $bp-medium){
+	// 	margin-top: ($base*$multi)*3*$spread;
+	// 	margin-bottom: ($base*$multi)*3*$spread;
+	// }
+	// @include m(min, $bp-large){
+	// 	margin-top: ($base*$multi)*4*$spread;
+	// 	margin-bottom: ($base*$multi)*4*$spread;
+	// }
+	// @include m(min, $bp-xlarge){
+	// 	margin-top: ($base*$multi)*5*$spread;
+	// 	margin-bottom: ($base*$multi)*5*$spread;
+	// }
 }
 
 @mixin pb-3() {
 	$multi: 4;
 	padding-bottom: ($base*$multi)*$spread;
-	@include m(min, $bp-small){
-		padding-bottom: ($base*$multi)*2*$spread;
-	}
-	@include m(min, $bp-medium){
-		padding-bottom: ($base*$multi)*3*$spread;
-	}
-	@include m(min, $bp-large){
-		padding-bottom: ($base*$multi)*4*$spread;
-	}
-	@include m(min, $bp-xlarge){
-		padding-bottom: ($base*$multi)*5*$spread;
-	}
+	// @include m(min, $bp-small){
+	// 	padding-bottom: ($base*$multi)*2*$spread;
+	// }
+	// @include m(min, $bp-medium){
+	// 	padding-bottom: ($base*$multi)*3*$spread;
+	// }
+	// @include m(min, $bp-large){
+	// 	padding-bottom: ($base*$multi)*4*$spread;
+	// }
+	// @include m(min, $bp-xlarge){
+	// 	padding-bottom: ($base*$multi)*5*$spread;
+	// }
 }
 @mixin pt-3() {
 	$multi: 4;
 	padding-top: ($base*$multi)*$spread;
-	@include m(min, $bp-small){
-		padding-top: ($base*$multi)*2*$spread;
-	}
-	@include m(min, $bp-medium){
-		padding-top: ($base*$multi)*3*$spread;
-	}
-	@include m(min, $bp-large){
-		padding-top: ($base*$multi)*4*$spread;
-	}
-	@include m(min, $bp-xlarge){
-		padding-top: ($base*$multi)*5*$spread;
-	}
+	// @include m(min, $bp-small){
+	// 	padding-top: ($base*$multi)*2*$spread;
+	// }
+	// @include m(min, $bp-medium){
+	// 	padding-top: ($base*$multi)*3*$spread;
+	// }
+	// @include m(min, $bp-large){
+	// 	padding-top: ($base*$multi)*4*$spread;
+	// }
+	// @include m(min, $bp-xlarge){
+	// 	padding-top: ($base*$multi)*5*$spread;
+	// }
 }
 @mixin p-3() {
 	$multi: 4;
 	padding-top: ($base*$multi)*$spread;
 	padding-bottom: ($base*$multi)*$spread;
-	@include m(min, $bp-small){
-		padding-top: ($base*$multi)*2*$spread;
-		padding-bottom: ($base*$multi)*2*$spread;
-	}
-	@include m(min, $bp-medium){
-		padding-top: ($base*$multi)*3*$spread;
-		padding-bottom: ($base*$multi)*3*$spread;
-	}
-	@include m(min, $bp-large){
-		padding-top: ($base*$multi)*4*$spread;
-		padding-bottom: ($base*$multi)*4*$spread;
-	}
-	@include m(min, $bp-xlarge){
-		padding-top: ($base*$multi)*5*$spread;
-		padding-bottom: ($base*$multi)*5*$spread;
-	}
+	// @include m(min, $bp-small){
+	// 	padding-top: ($base*$multi)*2*$spread;
+	// 	padding-bottom: ($base*$multi)*2*$spread;
+	// }
+	// @include m(min, $bp-medium){
+	// 	padding-top: ($base*$multi)*3*$spread;
+	// 	padding-bottom: ($base*$multi)*3*$spread;
+	// }
+	// @include m(min, $bp-large){
+	// 	padding-top: ($base*$multi)*4*$spread;
+	// 	padding-bottom: ($base*$multi)*4*$spread;
+	// }
+	// @include m(min, $bp-xlarge){
+	// 	padding-top: ($base*$multi)*5*$spread;
+	// 	padding-bottom: ($base*$multi)*5*$spread;
+	// }
 }
 @mixin mb-3() {
 	$multi: 4;
 	margin-bottom: ($base*$multi)*$spread;
-	@include m(min, $bp-small){
-		margin-bottom: ($base*$multi)*2*$spread;
-	}
-	@include m(min, $bp-medium){
-		margin-bottom: ($base*$multi)*3*$spread;
-	}
-	@include m(min, $bp-large){
-		margin-bottom: ($base*$multi)*4*$spread;
-	}
-	@include m(min, $bp-xlarge){
-		margin-bottom: ($base*$multi)*5*$spread;
-	}
+	// @include m(min, $bp-small){
+	// 	margin-bottom: ($base*$multi)*2*$spread;
+	// }
+	// @include m(min, $bp-medium){
+	// 	margin-bottom: ($base*$multi)*3*$spread;
+	// }
+	// @include m(min, $bp-large){
+	// 	margin-bottom: ($base*$multi)*4*$spread;
+	// }
+	// @include m(min, $bp-xlarge){
+	// 	margin-bottom: ($base*$multi)*5*$spread;
+	// }
 }
 @mixin mt-3() {
 	$multi: 4;
 	margin-top: ($base*$multi)*$spread;
-	@include m(min, $bp-small){
-		margin-top: ($base*$multi)*2*$spread;
-	}
-	@include m(min, $bp-medium){
-		margin-top: ($base*$multi)*3*$spread;
-	}
-	@include m(min, $bp-large){
-		margin-top: ($base*$multi)*4*$spread;
-	}
-	@include m(min, $bp-xlarge){
-		margin-top: ($base*$multi)*5*$spread;
-	}
+	// @include m(min, $bp-small){
+	// 	margin-top: ($base*$multi)*2*$spread;
+	// }
+	// @include m(min, $bp-medium){
+	// 	margin-top: ($base*$multi)*3*$spread;
+	// }
+	// @include m(min, $bp-large){
+	// 	margin-top: ($base*$multi)*4*$spread;
+	// }
+	// @include m(min, $bp-xlarge){
+	// 	margin-top: ($base*$multi)*5*$spread;
+	// }
 }
 @mixin m-3() {
 	$multi: 4;
 	margin-top: ($base*$multi)*$spread;
 	margin-bottom: ($base*$multi)*$spread;
-	@include m(min, $bp-small){
-		margin-top: ($base*$multi)*2*$spread;
-		margin-bottom: ($base*$multi)*2*$spread;
-	}
-	@include m(min, $bp-medium){
-		margin-top: ($base*$multi)*3*$spread;
-		margin-bottom: ($base*$multi)*3*$spread;
-	}
-	@include m(min, $bp-large){
-		margin-top: ($base*$multi)*4*$spread;
-		margin-bottom: ($base*$multi)*4*$spread;
-	}
-	@include m(min, $bp-xlarge){
-		margin-top: ($base*$multi)*5*$spread;
-		margin-bottom: ($base*$multi)*5*$spread;
-	}
+	// @include m(min, $bp-small){
+	// 	margin-top: ($base*$multi)*2*$spread;
+	// 	margin-bottom: ($base*$multi)*2*$spread;
+	// }
+	// @include m(min, $bp-medium){
+	// 	margin-top: ($base*$multi)*3*$spread;
+	// 	margin-bottom: ($base*$multi)*3*$spread;
+	// }
+	// @include m(min, $bp-large){
+	// 	margin-top: ($base*$multi)*4*$spread;
+	// 	margin-bottom: ($base*$multi)*4*$spread;
+	// }
+	// @include m(min, $bp-xlarge){
+	// 	margin-top: ($base*$multi)*5*$spread;
+	// 	margin-bottom: ($base*$multi)*5*$spread;
+	// }
 }
 
 .m-1{

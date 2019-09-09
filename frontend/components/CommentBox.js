@@ -7,17 +7,17 @@ import List, {ListItem, ListItemText, ListItemGraphic, ListItemMeta} from '@mate
 import TextField, {Input} from '@material/react-text-field';
 
 const QuinnAvi = props => (
-  <img src="static/quinn-avi.png" alt="avatar"/>
+  <img src="static/img/quinn-avi.png" alt="avatar"/>
 );
 
 const EbenAvi = props => (
-  <img src="static/eben-avi.jpeg" alt="avatar"/>
+  <img src="static/img/eben-avi.jpeg" alt="avatar"/>
 );
 
 class CommentBox extends React.Component {
   state = {
     commentNumber: '1',
-    numberOfComments: '5',
+    numberOfComments: '2',
     commentValue: '',
   };
 
@@ -37,25 +37,17 @@ class CommentBox extends React.Component {
             <ListItemGraphic graphic={<EbenAvi/>} />
             <ListItemText
               primaryText='Eben Sorkin'
-              secondaryText='Certe, inquam, pertinax non numquam eius modi tempora incidunt, ut ita.'
+              secondaryText='The textural contract is OK but the weight is not a match.'
                />
-            <ListItemMeta meta='5:30pm' />
+            {/*<ListItemMeta meta='5:30pm' />*/}
           </ListItem>
           <ListItem>
             <ListItemGraphic graphic={<QuinnAvi/>} />
             <ListItemText
               primaryText='Quinn Keaveney'
-              secondaryText='Certe, inquam, pertinax non numquam eius modi tempora incidunt, ut ita.'
+              secondaryText='I agree, we will have that next week’s test.'
               />
-            <ListItemMeta meta='5:37pm' />
-          </ListItem>
-          <ListItem>
-            <ListItemGraphic graphic={<EbenAvi/>} />
-            <ListItemText
-              primaryText='Eben Sorkin'
-              secondaryText='Certe, inquam, pertinax non numquam eius modi tempora incidunt, ut ita.'
-               />
-            <ListItemMeta meta='7:03pm' />
+            {/*<ListItemMeta meta='5:37pm' />*/}
           </ListItem>
           <Fab className="comment-list-fab" icon={<MaterialIcon icon="expand_more"/>}/>
         </List>

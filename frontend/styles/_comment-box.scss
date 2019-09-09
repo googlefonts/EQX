@@ -23,13 +23,13 @@
 		.number{
 			display: inline-block;
 			border: 2px solid $mdc-theme-on-primary;
-		  border-radius: 100%;
-		  color: #ffffff;
-		  line-height: $number-ring-size;
-		  text-align: center;
-		  width: $number-ring-size + 4px; // Adds double border width
-		  font-size: 1.5rem;
-		  margin-right: 1rem;
+			border-radius: 100%;
+			color: #ffffff;
+			line-height: $number-ring-size;
+			text-align: center;
+			width: $number-ring-size + 4px; // Adds double border width
+			font-size: 1.5rem;
+			margin-right: 1rem;
 		}
 		.header-text{
 			display: inline-block;
@@ -38,8 +38,8 @@
 	}
 
 	.comment-list{
+		@include pb-2;
 		position: relative;
-		padding-bottom: 0.5rem;
 		background-color: $mdc-theme-grey50;
 
 		img{

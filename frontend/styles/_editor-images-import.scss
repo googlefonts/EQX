@@ -1,7 +1,9 @@
 $eii-height: 392px; // Height of 7 dropdown menus
 
 .editor-images-import{
-	margin-bottom: 4rem;
+	margin: 0;
+	padding: 0;
+	@include mb-1();
 }
 
 /*————————————*/
@@ -19,6 +21,8 @@ $eii-height: 392px; // Height of 7 dropdown menus
 		background-color: $mdc-theme-grey50;
 		width: $editor-side-bar-width;
 		min-height: $eii-height;
+	   overflow: scroll;
+	   max-height: 392px;
 		@include mdc-elevation(1);
 
 			.sliders-wrapper{
@@ -48,6 +52,14 @@ $eii-height: 392px; // Height of 7 dropdown menus
 		position: relative;
 	}
 
+	.editor-content{
+		overflow: hidden;
+		width: 100%;
+		height: 100%;
+		cursor: grab;
+		user-select: none;
+	}
+
 	.editor-toolbar{
 		position: absolute;
 		top: 1rem;
@@ -67,17 +79,17 @@ $eii-height: 392px; // Height of 7 dropdown menus
 .images-tab{
 
 	.question-image-upload::-webkit-file-upload-button {
-	  visibility: hidden;
+		visibility: hidden;
 	}
 
 	.circle{
 		position: absolute;
-	  top: 45%;
-	  left: 50%;
-	  transform: translate(-50%, -50%);
-	  background-color: $mdc-theme-grey100;
-	  border-radius: 100%;
-	  padding: 4rem;
+		top: 45%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		background-color: $mdc-theme-grey100;
+		border-radius: 100%;
+		padding: 4rem;
 	}
 
 	.images-tab-upload-label{
@@ -92,15 +104,15 @@ $eii-height: 392px; // Height of 7 dropdown menus
 
 	.images-tab-upload-label .mdc-typography--button{
 		position: absolute;
-	  top: 50%;
-	  left: 50%;
-	  transform: translate(-50%, -50%);
-	  width: 100%;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		width: 100%;
 	}
 
 	.paperclip-icon{
-	  opacity: .12;
-	  font-size: 8rem;
+		opacity: .12;
+		font-size: 8rem;
 	}
 
 	#images-tab-upload{
@@ -143,19 +155,19 @@ $eii-height: 392px; // Height of 7 dropdown menus
 		// Attach your images here text
 		.mdc-typography--button{
 			position: absolute;
-		  top: 45%;
-		  left: 50%;
-		  transform: translate(-50%, -50%);
-		  width: 100%;
+			top: 45%;
+			left: 50%;
+			transform: translate(-50%, -50%);
+			width: 100%;
 		}
 
 		.paperclip-icon{
 			position: absolute;
-		  top: 45%;
-		  left: 50%;
-		  transform: translate(-50%, -50%);
-		  opacity: .12;
-		  font-size: 12rem;
+			top: 45%;
+			left: 50%;
+			transform: translate(-50%, -50%);
+			opacity: .12;
+			font-size: 12rem;
 		}
 
 	}
@@ -195,3 +207,4 @@ $eii-height: 392px; // Height of 7 dropdown menus
 		}
 	}
 }
+

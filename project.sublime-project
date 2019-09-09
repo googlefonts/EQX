@@ -5,7 +5,7 @@
 			"path": ".",
 			// IGNORE BACKEND FOR NOW
 			// "folder_exclude_patterns": [".npm", ".next", "node_modules", "dist", "dump", ".cache", ".config", ".forever", ".node-gyp", "static", "tmp"],
-			"folder_exclude_patterns": ["backend", ".npm", ".next", "node_modules", "dist", "dump", ".cache", ".config", ".forever", ".node-gyp", "static", "tmp"],
+			"folder_exclude_patterns": ["backend", ".npm", ".next", "node_modules", "dist", "dump", ".cache", ".config", ".forever", ".node-gyp", "tmp"],
 			"file_exclude_patterns": ["*.css"]
 		}
     ],

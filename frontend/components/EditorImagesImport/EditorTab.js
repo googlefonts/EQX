@@ -1,3 +1,5 @@
+// import {MDCSlider} from '@material/slider';
+import { Slider } from '@rmwc/slider';
 import {MDCSlider} from '@material/slider';
 import FontImportSelect from '../FontImportSelect';
 import {Caption} from '@material/react-typography';
@@ -12,44 +14,63 @@ class EditorTab extends React.Component {
 	render() {
 
 		return(
-		  <div className="editor-tab">
-		    <div className="editor-side-bar">
-		    	<FontImportSelect/>
-	    		<div className="sliders-wrapper">
-	    			<Caption className="slider-name">SliderName</Caption>
-			    	{/* Non-react slider, currently not functional */}
-			    	<div className="mdc-slider" tabIndex="0" role="slider"
-					     aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"
-					     aria-label="Select Value">
-					  	<div className="mdc-slider__track-container">
-					    	<div className="mdc-slider__track"></div>
-					  	</div>
-					  	<div className="mdc-slider__thumb-container">
-						    <svg className="mdc-slider__thumb" width="21" height="21">
-						      <circle cx="10.5" cy="10.5" r="7.875"></circle>
-						    </svg>
-					    	<div className="mdc-slider__focus-ring"></div>
-					    </div>
-					  </div>
+		  	<div className="editor-tab">
+		    	<div className="editor-side-bar">
+			    	<FontImportSelect/>
+		    		<div className="sliders-wrapper">
+		    			<Caption className="slider-name">Font Size</Caption>
+				    	<Slider discrete min={0} max={100} step={1} />
+					</div>
+		    		<div className="sliders-wrapper">
+		    			<Caption className="slider-name">Letter Space</Caption>
+				    	<Slider discrete min={0} max={100} step={1} />
+					</div>
+		    		<div className="sliders-wrapper">
+		    			<Caption className="slider-name">Line Height</Caption>
+				    	<Slider discrete min={0} max={100} step={1} />
+					</div>
+		    		<div className="sliders-wrapper">
+		    			<Caption className="slider-name">Blur</Caption>
+				    	<Slider discrete min={0} max={100} step={1} />
+					</div>
+		    		<div className="sliders-wrapper">
+		    			<Caption className="slider-name">Opacity</Caption>
+				    	<Slider discrete min={0} max={100} step={1} />
+					</div>
+		    		<div className="sliders-wrapper">
+		    			<Caption className="slider-name">Perspective</Caption>
+				    	<Slider discrete min={0} max={100} step={1} />
+					</div>
+		    		<div className="sliders-wrapper">
+		    			<Caption className="slider-name">Test</Caption>
+				    	<Slider discrete min={0} max={100} step={1} />
 					</div>
 				</div>
 				<div className="editor-main">
+					<div id="editor-content" className="editor-content">
+						<div className='item item-1'>Aa</div>
+					</div>
 					<div className="editor-toolbar">
 						<IconButton>
-			        <MaterialIcon icon='format_color_fill' />
-			      </IconButton>
+			      		<MaterialIcon icon='format_color_fill' />
+			      	</IconButton>
 						<IconButton>
-			        <MaterialIcon icon='format_color_text' />
-			      </IconButton>
+			        		<MaterialIcon icon='format_color_text' />
+			      	</IconButton>
 						<IconButton>
-			        <MaterialIcon icon='3d_rotation' />
-			      </IconButton>
-			      <IconButton>
-			        <MaterialIcon icon='refresh' />
-			      </IconButton>
+			        		<MaterialIcon icon='3d_rotation' />
+			      	</IconButton>
+			      	<IconButton>
+			        		<MaterialIcon icon='refresh' />
+			      	</IconButton>
 					</div>
 				</div>
-		  </div>
+				<script
+					src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+					integrity="sha256-pasqAKBDmFT4eHoN2ndd6lN370kFiGUFyTiUHWhU7k8="
+					crossOrigin="anonymous"></script>
+				<script src="static/js/editor.js"></script>
+		  	</div>
 		);
 	}
 

@@ -1,5 +1,5 @@
 .answer-question-fields{
-	margin-bottom: 4rem;
+	@include mb-1
 
 	p.question-number{
 		color: $mdc-theme-grey500;
