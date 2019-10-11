@@ -11,7 +11,12 @@ killall -9 node # Port in use?
 npm run dev
 ```
 
-## Starting Backend Server (Strapi)
+## Backend server for Dev
+
+We are using SQLite since its easier and can be easily swapped out for Postgres on launch/prod.
+
+
+## Starting Backend Server (Strapi) for Production 
 
 Requirements: Have Postgres installed and running on your machine.
 
