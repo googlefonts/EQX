@@ -1,0 +1,35 @@
+{
+  "connection": "default",
+  "collectionName": "comments",
+  "info": {
+    "name": "comment",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": [
+      "created_at",
+      "updated_at"
+    ],
+    "comment": ""
+  },
+  "attributes": {
+    "Text": {
+      "type": "text"
+    },
+    "X": {
+      "type": "float"
+    },
+    "Y": {
+      "type": "float"
+    },
+    "Radius": {
+      "type": "float"
+    },
+    "user": {
+      "model": "user",
+      "via": "comment",
+      "plugin": "users-permissions"
+    }
+  }
+}

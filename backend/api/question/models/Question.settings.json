@@ -1,0 +1,49 @@
+{
+  "connection": "default",
+  "collectionName": "questions",
+  "info": {
+    "name": "question",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "comment": ""
+  },
+  "attributes": {
+    "Question": {
+      "type": "string",
+      "required": true
+    },
+    "Description": {
+      "type": "text"
+    },
+    "Reference_Images": {
+      "collection": "file",
+      "via": "related",
+      "plugin": "upload"
+    },
+    "Uploaded_Image": {
+      "model": "file",
+      "via": "related",
+      "plugin": "upload"
+    },
+    "Disabled": {
+      "type": "boolean"
+    },
+    "Editor_Image": {
+      "type": "json"
+    },
+    "Code_Image": {
+      "type": "json"
+    },
+    "Image": {
+      "enum": [
+        "Uploaded_Image",
+        "Code_Image",
+        "Editor_Image"
+      ],
+      "type": "enumeration"
+    }
+  }
+}

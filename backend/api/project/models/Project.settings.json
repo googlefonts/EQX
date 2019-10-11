@@ -1,0 +1,48 @@
+{
+  "connection": "default",
+  "collectionName": "projects",
+  "info": {
+    "name": "project",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": [
+      "created_at",
+      "updated_at"
+    ],
+    "comment": ""
+  },
+  "attributes": {
+    "Name": {
+      "required": true,
+      "type": "string"
+    },
+    "Major_Version": {
+      "type": "integer",
+      "required": true,
+      "default": "0"
+    },
+    "Minor_Version": {
+      "type": "integer",
+      "min": 1,
+      "default": "1",
+      "required": true
+    },
+    "Fonts": {
+      "collection": "file",
+      "via": "related",
+      "plugin": "upload"
+    },
+    "Tags": {
+      "type": "json"
+    },
+    "tests": {
+      "collection": "test"
+    },
+    "users": {
+      "collection": "user",
+      "plugin": "users-permissions"
+    }
+  }
+}

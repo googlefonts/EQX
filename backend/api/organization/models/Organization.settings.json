@@ -1,0 +1,25 @@
+{
+  "connection": "default",
+  "collectionName": "organizations",
+  "info": {
+    "name": "organization",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": [
+      "created_at",
+      "updated_at"
+    ],
+    "comment": ""
+  },
+  "attributes": {
+    "projects": {
+      "collection": "project"
+    },
+    "users": {
+      "collection": "user",
+      "plugin": "users-permissions"
+    }
+  }
+}

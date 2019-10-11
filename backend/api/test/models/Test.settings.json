@@ -1,0 +1,39 @@
+{
+  "connection": "default",
+  "collectionName": "tests",
+  "info": {
+    "name": "test",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": [
+      "created_at",
+      "updated_at"
+    ],
+    "comment": ""
+  },
+  "attributes": {
+    "Questions": {
+      "collection": "question"
+    },
+    "Name": {
+      "type": "string",
+      "required": true
+    },
+    "Tags": {
+      "type": "json"
+    },
+    "Major_Version": {
+      "type": "integer",
+      "required": true,
+      "default": "0"
+    },
+    "Minor_Version": {
+      "type": "integer",
+      "min": 1,
+      "default": "1",
+      "required": true
+    }
+  }
+}

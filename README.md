@@ -18,7 +18,7 @@ We are using SQLite since its easier and can be easily swapped out for Postgres 
 ```bash
 cd backend
 npm install
-npm start
+npm start #or npm run develop
 ```
 
 <!-- 
