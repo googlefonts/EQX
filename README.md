@@ -13,12 +13,15 @@ npm run dev
 
 ## Starting Backend Server (Strapi)
 
-Requirements: Have Postgres installed and running on your machine. I personally had issues with Postgre Homebrew and have been using it's EnterpriseDB.
+Requirements: Have Postgres installed and running on your machine.
 
-### Install PostgreSQL
-https://www.postgresql.org/download/
+Brew? Follow this. https://www.robinwieruch.de/postgres-sql-macos-setup
 
-Create PostgreSQL database as specified in database.json
+```bash 
+createdb eqx
+```
+
+otherwise.. install PostgreSQL yourself. https://www.postgresql.org/download/ and create a PostgreSQL database as specified in database.json.
 
 ```json
 "client": "postgres",
