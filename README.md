@@ -15,7 +15,13 @@ npm run dev
 
 We are using SQLite since its easier and can be easily swapped out for Postgres on launch/prod.
 
+```bash
+cd backend
+npm install
+npm start
+```
 
+<!-- 
 ## Starting Backend Server (Strapi) for Production 
 
 Requirements: Have Postgres installed and running on your machine.
@@ -44,7 +50,7 @@ cd backend
 npm install
 strapi start
 ```
-
+ -->
 
 # Stack
 
@@ -57,7 +63,10 @@ https://github.com/zeit/next.js
 Strapi for the Headless CMS  
 https://github.com/strapi/strapi
 
-PostgreSQL for the Database  
+SQLite for the Dev Database  
+https://www.postgresql.org/download/
+
+PostgreSQL for the Prod Database  
 https://www.postgresql.org/download/
 
 
