@@ -56,14 +56,14 @@
       "plugin": "users-permissions",
       "configurable": false
     },
-    "comment": {
-      "model": "comment",
-      "via": "user"
-    },
     "Avatar": {
       "model": "file",
       "via": "related",
       "plugin": "upload"
+    },
+    "comment": {
+      "model": "comment",
+      "via": "user"
     }
   }
 }
