@@ -1,0 +1,645 @@
+type Comment {
+  user: UsersPermissionsUser
+  text: String!
+  x: Int
+  y: Int
+  radius: Int
+  id: ID!
+  created_at: DateTime!
+  updated_at: DateTime!
+}
+
+input CommentInput {
+  user: ID
+  text: String!
+  x: Int
+  y: Int
+  radius: Int
+}
+
+input createCommentInput {
+  data: CommentInput
+}
+
+type createCommentPayload {
+  comment: Comment
+}
+
+input createFontInput {
+  data: FontInput
+}
+
+type createFontPayload {
+  font: Font
+}
+
+input createOrganizationInput {
+  data: OrganizationInput
+}
+
+type createOrganizationPayload {
+  organization: Organization
+}
+
+input createProjectInput {
+  data: ProjectInput
+}
+
+type createProjectPayload {
+  project: Project
+}
+
+input createQuestionInput {
+  data: QuestionInput
+}
+
+type createQuestionPayload {
+  question: Question
+}
+
+input createRoleInput {
+  data: RoleInput
+}
+
+type createRolePayload {
+  role: UsersPermissionsRole
+}
+
+input createTagInput {
+  data: TagInput
+}
+
+type createTagPayload {
+  tag: Tag
+}
+
+input createTestInput {
+  data: TestInput
+}
+
+type createTestPayload {
+  test: Test
+}
+
+input createUserInput {
+  data: UserInput
+}
+
+type createUserPayload {
+  user: UsersPermissionsUser
+}
+
+"""
+The `DateTime` scalar represents a date and time following the ISO 8601 standard
+"""
+scalar DateTime
+
+input deleteCommentInput {
+  where: InputID
+}
+
+type deleteCommentPayload {
+  comment: Comment
+}
+
+input deleteFontInput {
+  where: InputID
+}
+
+type deleteFontPayload {
+  font: Font
+}
+
+input deleteOrganizationInput {
+  where: InputID
+}
+
+type deleteOrganizationPayload {
+  organization: Organization
+}
+
+input deleteProjectInput {
+  where: InputID
+}
+
+type deleteProjectPayload {
+  project: Project
+}
+
+input deleteQuestionInput {
+  where: InputID
+}
+
+type deleteQuestionPayload {
+  question: Question
+}
+
+input deleteRoleInput {
+  where: InputID
+}
+
+type deleteRolePayload {
+  role: UsersPermissionsRole
+}
+
+input deleteTagInput {
+  where: InputID
+}
+
+type deleteTagPayload {
+  tag: Tag
+}
+
+input deleteTestInput {
+  where: InputID
+}
+
+type deleteTestPayload {
+  test: Test
+}
+
+input deleteUserInput {
+  where: InputID
+}
+
+type deleteUserPayload {
+  user: UsersPermissionsUser
+}
+
+input editCommentInput {
+  user: ID
+  text: String
+  x: Int
+  y: Int
+  radius: Int
+}
+
+input editFileInput {
+  name: String
+  hash: String
+  sha256: String
+  ext: String
+  mime: String
+  size: String
+  url: String
+  provider: String
+  public_id: String
+  related: [ID]
+}
+
+input editFontInput {
+  file: ID
+  name: String
+  weight: String
+  style: String
+  variable: Boolean
+  minor_version: Int
+  major_version: Int
+}
+
+input editOrganizationInput {
+  users: [ID]
+  projects: [ID]
+}
+
+input editProjectInput {
+  tests: [ID]
+  users: [ID]
+  name: String
+  major_version: Int
+  minor_version: Int
+  fonts: [ID]
+  tags: [ID]
+}
+
+input editQuestionInput {
+  editor_image: JSON
+  code_image: JSON
+  image_type: ENUM_QUESTION_IMAGE_TYPE
+  description: String
+  question: String
+  reference_images: [ID]
+  uploaded_image: ID
+  published: Boolean
+}
+
+input editRoleInput {
+  name: String
+  description: String
+  type: String
+  permissions: [ID]
+  users: [ID]
+}
+
+input editTagInput {
+  name: String
+  color: String
+}
+
+input editTestInput {
+  name: String
+  tags: JSON
+  major_version: Int
+  minor_version: Int
+  questions: [ID]
+}
+
+input editUserInput {
+  username: String
+  email: String
+  provider: String
+  password: String
+  resetPasswordToken: String
+  confirmed: Boolean
+  blocked: Boolean
+  role: ID
+  Avatar: ID
+  comment: ID
+}
+
+enum ENUM_QUESTION_IMAGE_TYPE {
+  uploaded_image
+  code_image
+  editor_image
+}
+
+input FileInput {
+  name: String!
+  hash: String!
+  sha256: String
+  ext: String
+  mime: String!
+  size: String!
+  url: String!
+  provider: String!
+  public_id: String
+  related: [ID]
+}
+
+type Font {
+  file: UploadFile
+  name: String
+  weight: String
+  style: String
+  variable: Boolean
+  minor_version: Int
+  major_version: Int
+  id: ID!
+  created_at: DateTime!
+  updated_at: DateTime!
+}
+
+input FontInput {
+  file: ID
+  name: String
+  weight: String
+  style: String
+  variable: Boolean
+  minor_version: Int
+  major_version: Int
+}
+
+input InputID {
+  id: ID!
+}
+
+scalar JSON
+
+"""The `Long` scalar type represents 52-bit integers"""
+scalar Long
+
+union Morph = UsersPermissionsMe | UsersPermissionsMeRole | Comment | createCommentPayload | updateCommentPayload | deleteCommentPayload | Font | createFontPayload | updateFontPayload | deleteFontPayload | Organization | createOrganizationPayload | updateOrganizationPayload | deleteOrganizationPayload | Project | createProjectPayload | updateProjectPayload | deleteProjectPayload | Question | createQuestionPayload | updateQuestionPayload | deleteQuestionPayload | Tag | createTagPayload | updateTagPayload | deleteTagPayload | Test | createTestPayload | updateTestPayload | deleteTestPayload | UploadFile | UsersPermissionsPermission | UsersPermissionsRole | createRolePayload | updateRolePayload | deleteRolePayload | UsersPermissionsUser | createUserPayload | updateUserPayload | deleteUserPayload
+
+type Mutation {
+  createComment(input: createCommentInput): createCommentPayload
+  updateComment(input: updateCommentInput): updateCommentPayload
+  deleteComment(input: deleteCommentInput): deleteCommentPayload
+  createFont(input: createFontInput): createFontPayload
+  updateFont(input: updateFontInput): updateFontPayload
+  deleteFont(input: deleteFontInput): deleteFontPayload
+  createOrganization(input: createOrganizationInput): createOrganizationPayload
+  updateOrganization(input: updateOrganizationInput): updateOrganizationPayload
+  deleteOrganization(input: deleteOrganizationInput): deleteOrganizationPayload
+  createProject(input: createProjectInput): createProjectPayload
+  updateProject(input: updateProjectInput): updateProjectPayload
+  deleteProject(input: deleteProjectInput): deleteProjectPayload
+  createQuestion(input: createQuestionInput): createQuestionPayload
+  updateQuestion(input: updateQuestionInput): updateQuestionPayload
+  deleteQuestion(input: deleteQuestionInput): deleteQuestionPayload
+  createTag(input: createTagInput): createTagPayload
+  updateTag(input: updateTagInput): updateTagPayload
+  deleteTag(input: deleteTagInput): deleteTagPayload
+  createTest(input: createTestInput): createTestPayload
+  updateTest(input: updateTestInput): updateTestPayload
+  deleteTest(input: deleteTestInput): deleteTestPayload
+
+  """Create a new role"""
+  createRole(input: createRoleInput): createRolePayload
+
+  """Update an existing role"""
+  updateRole(input: updateRoleInput): updateRolePayload
+
+  """Delete an existing role"""
+  deleteRole(input: deleteRoleInput): deleteRolePayload
+
+  """Create a new user"""
+  createUser(input: createUserInput): createUserPayload
+
+  """Update an existing user"""
+  updateUser(input: updateUserInput): updateUserPayload
+
+  """Delete an existing user"""
+  deleteUser(input: deleteUserInput): deleteUserPayload
+  upload(refId: ID, ref: String, field: String, source: String, file: Upload!): UploadFile!
+  multipleUpload(refId: ID, ref: String, field: String, source: String, files: [Upload]!): [UploadFile]!
+}
+
+type Organization {
+  users(sort: String, limit: Int, start: Int, where: JSON): [UsersPermissionsUser]
+  projects(sort: String, limit: Int, start: Int, where: JSON): [Project]
+  id: ID!
+  created_at: DateTime!
+  updated_at: DateTime!
+}
+
+input OrganizationInput {
+  users: [ID]
+  projects: [ID]
+}
+
+type Project {
+  name: String!
+  major_version: Int
+  minor_version: Int
+  tests(sort: String, limit: Int, start: Int, where: JSON): [Test]
+  users(sort: String, limit: Int, start: Int, where: JSON): [UsersPermissionsUser]
+  fonts(sort: String, limit: Int, start: Int, where: JSON): [Font]
+  tags(sort: String, limit: Int, start: Int, where: JSON): [Tag]
+  id: ID!
+  created_at: DateTime!
+  updated_at: DateTime!
+}
+
+input ProjectInput {
+  tests: [ID]
+  users: [ID]
+  name: String!
+  major_version: Int
+  minor_version: Int
+  fonts: [ID]
+  tags: [ID]
+}
+
+type Query {
+  comment(id: ID!): Comment
+  comments(sort: String, limit: Int, start: Int, where: JSON): [Comment]
+  font(id: ID!): Font
+  fonts(sort: String, limit: Int, start: Int, where: JSON): [Font]
+  organization(id: ID!): Organization
+  organizations(sort: String, limit: Int, start: Int, where: JSON): [Organization]
+  project(id: ID!): Project
+  projects(sort: String, limit: Int, start: Int, where: JSON): [Project]
+  question(id: ID!): Question
+  questions(sort: String, limit: Int, start: Int, where: JSON): [Question]
+  tag(id: ID!): Tag
+  tags(sort: String, limit: Int, start: Int, where: JSON): [Tag]
+  test(id: ID!): Test
+  tests(sort: String, limit: Int, start: Int, where: JSON): [Test]
+  files(sort: String, limit: Int, start: Int, where: JSON): [UploadFile]
+  role(id: ID!): UsersPermissionsRole
+
+  """
+  Retrieve all the existing roles. You can't apply filters on this query.
+  """
+  roles(sort: String, limit: Int, start: Int, where: JSON): [UsersPermissionsRole]
+  user(id: ID!): UsersPermissionsUser
+  users(sort: String, limit: Int, start: Int, where: JSON): [UsersPermissionsUser]
+  me: UsersPermissionsMe
+}
+
+type Question {
+  editor_image: JSON
+  code_image: JSON
+  image_type: ENUM_QUESTION_IMAGE_TYPE
+  description: String
+  question: String
+  uploaded_image: UploadFile
+  published: Boolean
+  reference_images(sort: String, limit: Int, start: Int, where: JSON): [UploadFile]
+  id: ID!
+  created_at: DateTime!
+  updated_at: DateTime!
+}
+
+input QuestionInput {
+  editor_image: JSON
+  code_image: JSON
+  image_type: ENUM_QUESTION_IMAGE_TYPE
+  description: String
+  question: String
+  reference_images: [ID]
+  uploaded_image: ID
+  published: Boolean
+}
+
+input RoleInput {
+  name: String!
+  description: String
+  type: String
+  permissions: [ID]
+  users: [ID]
+}
+
+type Tag {
+  name: String
+  color: String
+  id: ID!
+  created_at: DateTime!
+  updated_at: DateTime!
+}
+
+input TagInput {
+  name: String
+  color: String
+}
+
+type Test {
+  name: String!
+  tags: JSON
+  major_version: Int!
+  minor_version: Int!
+  questions(sort: String, limit: Int, start: Int, where: JSON): [Question]
+  id: ID!
+  created_at: DateTime!
+  updated_at: DateTime!
+}
+
+input TestInput {
+  name: String!
+  tags: JSON
+  major_version: Int!
+  minor_version: Int!
+  questions: [ID]
+}
+
+input updateCommentInput {
+  where: InputID
+  data: editCommentInput
+}
+
+type updateCommentPayload {
+  comment: Comment
+}
+
+input updateFontInput {
+  where: InputID
+  data: editFontInput
+}
+
+type updateFontPayload {
+  font: Font
+}
+
+input updateOrganizationInput {
+  where: InputID
+  data: editOrganizationInput
+}
+
+type updateOrganizationPayload {
+  organization: Organization
+}
+
+input updateProjectInput {
+  where: InputID
+  data: editProjectInput
+}
+
+type updateProjectPayload {
+  project: Project
+}
+
+input updateQuestionInput {
+  where: InputID
+  data: editQuestionInput
+}
+
+type updateQuestionPayload {
+  question: Question
+}
+
+input updateRoleInput {
+  where: InputID
+  data: editRoleInput
+}
+
+type updateRolePayload {
+  role: UsersPermissionsRole
+}
+
+input updateTagInput {
+  where: InputID
+  data: editTagInput
+}
+
+type updateTagPayload {
+  tag: Tag
+}
+
+input updateTestInput {
+  where: InputID
+  data: editTestInput
+}
+
+type updateTestPayload {
+  test: Test
+}
+
+input updateUserInput {
+  where: InputID
+  data: editUserInput
+}
+
+type updateUserPayload {
+  user: UsersPermissionsUser
+}
+
+"""The `Upload` scalar type represents a file upload."""
+scalar Upload
+
+type UploadFile {
+  name: String!
+  hash: String!
+  sha256: String
+  ext: String
+  mime: String!
+  size: String!
+  url: String!
+  provider: String!
+  public_id: String
+  related(sort: String, limit: Int, start: Int, where: JSON): [Morph]
+  id: ID!
+  created_at: DateTime!
+  updated_at: DateTime!
+}
+
+input UserInput {
+  username: String!
+  email: String!
+  provider: String
+  password: String
+  resetPasswordToken: String
+  confirmed: Boolean
+  blocked: Boolean
+  role: ID
+  Avatar: ID
+  comment: ID
+}
+
+type UsersPermissionsMe {
+  id: ID!
+  username: String!
+  email: String!
+  confirmed: Boolean
+  blocked: Boolean
+  role: UsersPermissionsMeRole
+}
+
+type UsersPermissionsMeRole {
+  id: ID!
+  name: String!
+  description: String
+  type: String
+}
+
+type UsersPermissionsPermission {
+  type: String!
+  controller: String!
+  action: String!
+  enabled: Boolean!
+  policy: String
+  role: UsersPermissionsRole
+  id: ID!
+}
+
+type UsersPermissionsRole {
+  name: String!
+  description: String
+  type: String
+  permissions(sort: String, limit: Int, start: Int, where: JSON): [UsersPermissionsPermission]
+  users(sort: String, limit: Int, start: Int, where: JSON): [UsersPermissionsUser]
+  id: ID!
+}
+
+type UsersPermissionsUser {
+  username: String!
+  email: String!
+  provider: String
+  confirmed: Boolean
+  blocked: Boolean
+  role: UsersPermissionsRole
+  Avatar: UploadFile
+  comment: Comment
+  id: ID!
+  created_at: DateTime!
+  updated_at: DateTime!
+}

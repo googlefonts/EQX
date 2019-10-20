@@ -1,0 +1,39 @@
+{
+  "connection": "default",
+  "collectionName": "fonts",
+  "info": {
+    "name": "font",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "comment": ""
+  },
+  "attributes": {
+    "file": {
+      "model": "file",
+      "via": "related",
+      "plugin": "upload"
+    },
+    "name": {
+      "type": "string"
+    },
+    "weight": {
+      "type": "string"
+    },
+    "style": {
+      "type": "string"
+    },
+    "variable": {
+      "type": "boolean"
+    },
+    "minor_version": {
+      "type": "integer",
+      "default": "1"
+    },
+    "major_version": {
+      "type": "integer"
+    }
+  }
+}

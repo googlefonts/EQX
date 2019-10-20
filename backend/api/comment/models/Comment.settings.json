@@ -14,22 +14,23 @@
     "comment": ""
   },
   "attributes": {
-    "Text": {
-      "type": "text"
-    },
-    "X": {
-      "type": "float"
-    },
-    "Y": {
-      "type": "float"
-    },
-    "Radius": {
-      "type": "float"
-    },
     "user": {
       "model": "user",
       "via": "comment",
       "plugin": "users-permissions"
+    },
+    "text": {
+      "required": true,
+      "type": "text"
+    },
+    "x": {
+      "type": "integer"
+    },
+    "y": {
+      "type": "integer"
+    },
+    "radius": {
+      "type": "integer"
     }
   }
 }

@@ -14,26 +14,26 @@
     "comment": ""
   },
   "attributes": {
-    "Questions": {
-      "collection": "question"
-    },
-    "Name": {
+    "name": {
       "type": "string",
       "required": true
     },
-    "Tags": {
+    "tags": {
       "type": "json"
     },
-    "Major_Version": {
+    "major_version": {
       "type": "integer",
       "required": true,
       "default": "0"
     },
-    "Minor_Version": {
+    "minor_version": {
       "type": "integer",
       "min": 1,
       "default": "1",
       "required": true
+    },
+    "questions": {
+      "collection": "question"
     }
   }
 }
