@@ -7,43 +7,46 @@
   },
   "options": {
     "increments": true,
-    "timestamps": true,
+    "timestamps": [
+      "created_at",
+      "updated_at"
+    ],
     "comment": ""
   },
   "attributes": {
-    "Question": {
-      "type": "string",
-      "required": true
+    "editor_image": {
+      "type": "json"
     },
-    "Description": {
+    "code_image": {
+      "type": "json"
+    },
+    "image_type": {
+      "enum": [
+        "uploaded_image",
+        "code_image",
+        "editor_image"
+      ],
+      "type": "enumeration"
+    },
+    "description": {
       "type": "text"
     },
-    "Reference_Images": {
+    "question": {
+      "type": "string"
+    },
+    "reference_images": {
       "collection": "file",
       "via": "related",
       "plugin": "upload"
     },
-    "Uploaded_Image": {
+    "uploaded_image": {
       "model": "file",
       "via": "related",
       "plugin": "upload"
     },
-    "Disabled": {
+    "published": {
+      "default": true,
       "type": "boolean"
-    },
-    "Editor_Image": {
-      "type": "json"
-    },
-    "Code_Image": {
-      "type": "json"
-    },
-    "Image": {
-      "enum": [
-        "Uploaded_Image",
-        "Code_Image",
-        "Editor_Image"
-      ],
-      "type": "enumeration"
     }
   }
 }

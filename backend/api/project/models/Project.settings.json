@@ -14,35 +14,30 @@
     "comment": ""
   },
   "attributes": {
-    "Name": {
-      "required": true,
-      "type": "string"
-    },
-    "Major_Version": {
-      "type": "integer",
-      "required": true,
-      "default": "0"
-    },
-    "Minor_Version": {
-      "type": "integer",
-      "min": 1,
-      "default": "1",
-      "required": true
-    },
-    "Fonts": {
-      "collection": "file",
-      "via": "related",
-      "plugin": "upload"
-    },
-    "Tags": {
-      "type": "json"
-    },
     "tests": {
       "collection": "test"
     },
     "users": {
       "collection": "user",
       "plugin": "users-permissions"
+    },
+    "name": {
+      "required": true,
+      "type": "string"
+    },
+    "major_version": {
+      "type": "integer",
+      "default": "0"
+    },
+    "minor_version": {
+      "type": "integer",
+      "default": "1"
+    },
+    "fonts": {
+      "collection": "font"
+    },
+    "tags": {
+      "collection": "tag"
     }
   }
 }

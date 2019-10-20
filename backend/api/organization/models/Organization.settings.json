@@ -14,12 +14,12 @@
     "comment": ""
   },
   "attributes": {
-    "projects": {
-      "collection": "project"
-    },
     "users": {
       "collection": "user",
       "plugin": "users-permissions"
+    },
+    "projects": {
+      "collection": "project"
     }
   }
 }
