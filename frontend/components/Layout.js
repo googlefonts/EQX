@@ -6,7 +6,7 @@ const Layout = props => (
   	<div className="layout-wrapper" data-has-progress-header={props.headerType}>
    	<Header headerType={props.headerType} progressBar={props.progressBar}/>
   		<Nav />
-			<main>
+		<main>
   			{props.children}
   		</main>
   		<Footer />
