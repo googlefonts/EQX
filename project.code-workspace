@@ -1,0 +1,28 @@
+{
+	"folders": [
+		{
+			"path": ".",
+		}
+	],
+	"settings": {
+		"editor.fontFamily": "Input, Menlo, Monaco, 'Courier New', monospace",
+		"files.exclude": {
+			"**/.test": true,
+			".npm":true,
+			".next":true,
+			"node_modules":true,
+			"package-lock.json":true,
+			"dist":true,
+			"dump":true,
+			".cache":true,
+			".config":true,
+			".forever":true,
+			".node-gyp":true,
+			"static":true,
+			"LICENSE":true,
+			"tmp":true,
+			"**.css":true,
+			"**.sublime-project":true
+		}
+	},
+}

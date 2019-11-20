@@ -2,16 +2,11 @@
 
 import ProjectList from "../components/ProjectList";
 import React from "react";
+import defaultPage from "../hocs/defaultPage";
+import {Cell, Grid, Row} from '@material/react-layout-grid';
+import { FormGroup, FormControl, FormLabel, Input, InputLabel, FormHelperText, Button } from '@material-ui/core';
 
-import {
-  Alert,
-  Button,
-  Col,
-  Input,
-  InputGroup,
-  InputGroupAddon,
-  Row
-} from "reactstrap";
+import "../styles/main.scss";
 
 class Index extends React.Component {
   constructor(props) {
@@ -21,36 +16,32 @@ class Index extends React.Component {
       query: ""
     };
   }
+  
   onChange(e) {
     //set the state = to the input typed in the search Input Component
     //this.state.query gets passed into ProjectList to filter the results
     this.setState({ query: e.target.value.toLowerCase() });
   }
+
   render() {
     return (
-      <div className="container-fluid">
-        <Row>
-          <Col>
-            <div className="search">
-              <InputGroup>
-                <InputGroupAddon addonType="append"> Search </InputGroupAddon>
-                <Input onChange={this.onChange.bind(this)} />
-              </InputGroup>
-            </div>
-            <ProjectList search={this.state.query} />
-          </Col>
-        </Row>
-        <style jsx>
-          {`
-            .search {
-              margin: 20px;
-              width: 500px;
-            }
-          `}
-        </style>
-      </div>
+			<Layout>
+				<Grid>
+					<Row>
+						<Cell desktopColumns={12}>
+              <div className="search">
+                <FormGroup>
+                  <InputLabel> Search </InputLabel>
+                  <Input onChange={this.onChange.bind(this)} />
+                </FormGroup>
+              </div>
+              <ProjectList search={this.state.query} />
+						</Cell>
+					</Row>
+				</Grid>
+			</Layout>
     );
   }
 }
 
-export default Index;
+export default defaultPage(Index);
