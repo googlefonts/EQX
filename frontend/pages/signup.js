@@ -2,6 +2,7 @@
 
 import React from "react";
 import { strapiRegister } from "../lib/auth";
+import axios from 'axios';
 
 // import Router from "next/router";
 
@@ -33,13 +34,28 @@ class SignUp extends React.Component {
   	}
   	onSubmit() {
 		const {
-			data: { email, username, password }
+			data: { email, password }
 		} = this.state;
 		this.setState({ loading: true });
 
-		strapiRegister(username, email, password)
-			.then(() => this.setState({ loading: false }))
-			.catch(error => this.setState({ error: error }));
+		// strapiRegister(email, password)
+		// 	.then(() => this.setState({ loading: false }))
+		// 	.catch(error => this.setState({ error: error }));
+		axios
+			.post('http://localhost:1337/auth/local/register', {
+				email: email,
+				password: password,
+			})
+			.then(response => {
+				// Handle success.
+				console.log('Well done!');
+				console.log('User profile', response.data.user);
+				console.log('User token', response.data.jwt);
+			})
+			.catch(error => {
+				// Handle error.
+				console.log('An error occurred:', error);
+			});
   	}
 
   	render() {

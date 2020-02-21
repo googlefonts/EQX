@@ -14,11 +14,10 @@
     "comment": ""
   },
   "attributes": {
-    "tests": {
-      "collection": "test"
-    },
     "users": {
       "collection": "user",
+      "via": "projects",
+      "dominant": true,
       "plugin": "users-permissions"
     },
     "name": {
@@ -37,7 +36,21 @@
       "collection": "font"
     },
     "tags": {
-      "collection": "tag"
+      "collection": "tag",
+      "via": "projects",
+      "dominant": true
+    },
+    "owners": {
+      "collection": "user",
+      "via": "projects",
+      "dominant": true,
+      "plugin": "users-permissions"
+    },
+    "archived": {
+      "type": "boolean"
+    },
+    "tests": {
+      "collection": "test"
     }
   }
 }

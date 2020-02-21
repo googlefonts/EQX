@@ -1,10 +1,12 @@
 /* /pages/index.js */
 
-import ProjectList from "../components/ProjectList";
+// import ProjectList from "../components/ProjectList";
 import React from "react";
 import defaultPage from "../hocs/defaultPage";
-import {Cell, Grid, Row} from '@material/react-layout-grid';
+import Layout from "../components/Layout";
+import {Cell, Row} from '@material/react-layout-grid';
 import { FormGroup, FormControl, FormLabel, Input, InputLabel, FormHelperText, Button } from '@material-ui/core';
+import { Container, Grid } from '@material-ui/core';
 
 import "../styles/main.scss";
 
@@ -13,6 +15,7 @@ class Index extends React.Component {
     super(props);
     //query state will be passed to ProjectList for the filter query
     this.state = {
+      page: "dashboard",
       query: ""
     };
   }
@@ -25,21 +28,23 @@ class Index extends React.Component {
 
   render() {
     return (
-			<Layout>
-				<Grid>
-					<Row>
-						<Cell desktopColumns={12}>
-              <div className="search">
+      <Layout page={this.state.page} {...this.props}>
+
+        <Container maxWidth={false}>
+          <Grid container spacing={2}>
+            <Grid item xs={12}>
+              {/* <div className="search">
                 <FormGroup>
                   <InputLabel> Search </InputLabel>
                   <Input onChange={this.onChange.bind(this)} />
                 </FormGroup>
               </div>
-              <ProjectList search={this.state.query} />
-						</Cell>
-					</Row>
-				</Grid>
-			</Layout>
+              <ProjectList search={this.state.query} /> */}
+            </Grid>
+          </Grid>
+
+        </Container>      
+      </Layout>
     );
   }
 }

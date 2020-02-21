@@ -1,12 +1,8 @@
 {
   "csp": {
     "enabled": true,
-    "policy": [
-      {
-        "img-src": "'self' http:"
-      },
-      "block-all-mixed-content"
-    ]
+    "policy": ["block-all-mixed-content"]
+
   },
   "p3p": {
     "enabled": false,

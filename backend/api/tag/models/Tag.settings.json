@@ -16,6 +16,10 @@
     },
     "color": {
       "type": "string"
+    },
+    "projects": {
+      "collection": "project",
+      "via": "tags"
     }
   }
 }

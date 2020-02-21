@@ -1,28 +1,36 @@
 import Link from "next/link"
 import Button from "@material/react-button";
 import {Headline5, Body1} from "@material/react-typography";
+import { Container, Grid } from '@material-ui/core';
+import Typography from '@material-ui/core/Typography';
 
 // Unfinished, just sample shows where to place items
 const Footer = () => (
   <footer>
-    <Headline5 className="mdc-typography--black" tag="h1">EQX</Headline5>
-    <ul>
-      <li>
-        <Body1><Link href="#"><a>Privacy</a></Link></Body1>
-      </li>
-      <li>
-        <Body1><Link href="#"><a>Terms</a></Link></Body1>
-      </li>
-      <li>
-        <Body1><Link href="#"><a>Contact</a></Link></Body1>
-      </li>
-      <li>
-        <Body1><Link href="#"><a>Developers</a></Link></Body1>
-      </li>
-      <li>
-        <Body1><Link href="#"><a>About</a></Link></Body1>
-      </li>
-    </ul>
+    <Container maxWidth={false}>
+      <Grid container>
+        <Grid item xs={12}>
+          <Typography variant="h5" className="logo" display="inline" style={{fontWeight:700}}>EQX</Typography>
+          <ul style={{display: 'inline-flex'}}>
+            <li>
+              <Typography variant="body1" gutterBottom><Link href="#"><a>Privacy</a></Link></Typography>
+            </li>
+            <li>
+              <Typography variant="body1" gutterBottom><Link href="#"><a>Terms</a></Link></Typography>
+            </li>
+            <li>
+              <Typography variant="body1" gutterBottom><Link href="#"><a>Contact</a></Link></Typography>
+            </li>
+            <li>
+              <Typography variant="body1" gutterBottom><Link href="#"><a>Developers</a></Link></Typography>
+            </li>
+            <li>
+              <Typography variant="body1" gutterBottom><Link href="#"><a>About</a></Link></Typography>
+            </li>
+          </ul>
+        </Grid>
+      </Grid>
+    </Container>
   </footer>
 );
 

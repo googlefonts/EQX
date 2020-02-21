@@ -2,6 +2,8 @@
 
 import React from "react";
 import Router from "next/router";
+import Layout from "../components/Layout";
+import Head from "next/head";
 
 import { getUserFromServerCookie, getUserFromLocalCookie } from "../lib/auth";
 
@@ -12,18 +14,13 @@ export default Page =>
         ? getUserFromLocalCookie()
         : getUserFromServerCookie(req);
       const pageProps = Page.getInitialProps && Page.getInitialProps(req);
-      console.log("is authenticated");
-      console.log(loggedUser);
-      let path = req ? req.pathname : "";
-      path = "";
       return {
         ...pageProps,
         loggedUser,
-        currentUrl: path,
         isAuthenticated: !!loggedUser
       };
     }
-
+    
     logout = eve => {
       if (eve.key === "logout") {
         Router.push(`/?logout=${eve.newValue}`);
@@ -37,8 +34,16 @@ export default Page =>
     componentWillUnmount() {
       window.removeEventListener("storage", this.logout, false);
     }
-
     render() {
-      return <Page {...this.props} />;
+      return(
+        <>
+          {/* <Head>
+            <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+            <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,400i,700,700i,900&display=swap" rel="stylesheet" />
+          </Head> */}
+
+          <Page {...this.props} />
+       </>
+      );
     }
   };

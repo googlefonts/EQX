@@ -18,6 +18,9 @@
       "collection": "user",
       "plugin": "users-permissions"
     },
+    "name": {
+      "type": "string"
+    },
     "projects": {
       "collection": "project"
     }

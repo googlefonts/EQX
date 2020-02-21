@@ -3,7 +3,7 @@
 import jwtDecode from "jwt-decode";
 import Cookies from "js-cookie";
 import Strapi from "strapi-sdk-javascript/build/main";
-
+import axios from 'axios';
 import Router from "next/router";
 
 const apiUrl = process.env.API_URL || "http://localhost:1337";
@@ -20,25 +20,61 @@ export const strapiRegister = (username, email, password) => {
 };
 
 //use strapi to get a JWT and token object, save
-//to approriate cookei for future requests
+//to approriate cookie for future requests
 export const strapiLogin = (email, password) => {
   if (!process.browser) {
     return;
   }
   // Get a token
-  strapi.login(email, password).then(res => {
-    setToken(res);
-  });
-  return Promise.resolve();
+  axios
+    .post(apiUrl+"/auth/local", {
+      identifier: email,
+      password: password,
+    }).then(response => {
+      // Handle success.
+      // console.log('Well done!');
+      // console.log('User profile', response.data.user);
+      // console.log('User token', response.data.jwt);
+      setToken(response.data);
+      return Promise.resolve();
+    }).catch(error => {
+      // Handle error.
+      console.log('An error occurred:', error);
+      return Promise.resolve();
+    });
 };
+
+// Authenticate the user
+// export const checkAuth = () => {
+//   if (!process.browser) {
+//     return;
+//   }
+//   if  (Cookies.get("jwt")){
+//     axios
+//     .get(apiUrl+"/organizations/count", {
+//       headers: {
+//         Authorization: 'Bearer ' + Cookies.get("jwt")
+//       },
+//     }).then(response => {
+//       // Handle success.
+//       return true;
+//     }).catch(error => {
+//       // Handle error.
+//       console.log('An error occurred:', error);
+//       return false;
+//     });
+//   } else {
+//     return false;
+//   }
+// };
 
 export const setToken = token => {
   if (!process.browser) {
     return;
   }
   Cookies.set("username", token.user.username);
+  Cookies.set("id", token.user.id);
   Cookies.set("jwt", token.jwt);
-
   if (Cookies.get("username")) {
     Router.push("/");
   }
@@ -49,9 +85,7 @@ export const unsetToken = () => {
     return;
   }
   Cookies.remove("jwt");
-  Cookies.remove("username");
-  Cookies.remove("cart");
-
+  Cookies.remove("username")
   // to support logging out from all windows
   window.localStorage.setItem("logout", Date.now());
   Router.push("/");

@@ -34,6 +34,10 @@
     },
     "questions": {
       "collection": "question"
+    },
+    "completness": {
+      "type": "float",
+      "default": "0"
     }
   }
 }

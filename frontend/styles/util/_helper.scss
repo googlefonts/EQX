@@ -3,11 +3,66 @@
 //////////////////////////////////////////////////////
 // Utility Classes
 
+.text-primary-light {
+	color: $mdc-theme-primary-light !important;
+}
+.text-primary {
+	color: $mdc-theme-primary !important;
+}
+.text-primary-dark {
+	color: $mdc-theme-primary-dark !important;
+}
+.text-secondary {
+	color: $mdc-theme-secondary !important;
+}
+.text-on-primary {
+	color: $mdc-theme-on-primary !important;
+}
+.text-on-secondary {
+	color: $mdc-theme-on-secondary !important;
+}
+.text-background {
+	color: $mdc-theme-background !important;
+}
+.text-surface {
+	color: $mdc-theme-surface !important;
+}
+ 
+.bg-primary-light {
+	background: $mdc-theme-primary-light !important;
+}
+.bg-primary {
+	background: $mdc-theme-primary !important;
+}
+.bg-primary-dark {
+	background: $mdc-theme-primary-dark !important;
+}
+.bg-secondary {
+	background: $mdc-theme-secondary !important;
+}
+.bg-on-primary {
+	background: $mdc-theme-on-primary !important;
+}
+.bg-on-secondary {
+	background: $mdc-theme-on-secondary !important;
+}
+.bg-background {
+	background: $mdc-theme-background !important;
+}
+.bg-surface {
+	background: $mdc-theme-surface !important;
+}
+ 
 .text-align-right{
-	text-align: right;
+	text-align: right!important;
 }
 .text-align-left{
-	text-align: right;
+	text-align: right!important;
+}
+.align-center{
+	margin-left: auto!important;
+	margin-right: auto!important;
+	display: block!important;
 }
 
 .z-index-1{

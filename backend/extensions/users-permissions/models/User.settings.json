@@ -64,6 +64,10 @@
     "comment": {
       "model": "comment",
       "via": "user"
+    },
+    "projects": {
+      "collection": "project",
+      "via": "owners"
     }
   }
 }

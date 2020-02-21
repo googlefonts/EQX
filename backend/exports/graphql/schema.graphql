@@ -90,7 +90,16 @@ type createUserPayload {
 }
 
 """
-The `DateTime` scalar represents a date and time following the ISO 8601 standard
+A date string, such as 2007-12-03, compliant with the `full-date` format
+outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for
+representation of dates and times using the Gregorian calendar.
+"""
+scalar Date
+
+"""
+A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the
+`date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO
+8601 standard for representation of dates and times using the Gregorian calendar.
 """
 scalar DateTime
 
@@ -180,10 +189,10 @@ input editFileInput {
   sha256: String
   ext: String
   mime: String
-  size: String
+  size: Float
   url: String
   provider: String
-  public_id: String
+  provider_metadata: JSON
   related: [ID]
 }
 
@@ -199,17 +208,20 @@ input editFontInput {
 
 input editOrganizationInput {
   users: [ID]
+  name: String
   projects: [ID]
 }
 
 input editProjectInput {
-  tests: [ID]
   users: [ID]
   name: String
   major_version: Int
   minor_version: Int
   fonts: [ID]
   tags: [ID]
+  owners: [ID]
+  archived: Boolean
+  tests: [ID]
 }
 
 input editQuestionInput {
@@ -234,6 +246,7 @@ input editRoleInput {
 input editTagInput {
   name: String
   color: String
+  projects: [ID]
 }
 
 input editTestInput {
@@ -242,6 +255,7 @@ input editTestInput {
   major_version: Int
   minor_version: Int
   questions: [ID]
+  completness: Float
 }
 
 input editUserInput {
@@ -255,6 +269,7 @@ input editUserInput {
   role: ID
   Avatar: ID
   comment: ID
+  projects: [ID]
 }
 
 enum ENUM_QUESTION_IMAGE_TYPE {
@@ -269,10 +284,10 @@ input FileInput {
   sha256: String
   ext: String
   mime: String!
-  size: String!
+  size: Float!
   url: String!
   provider: String!
-  public_id: String
+  provider_metadata: JSON
   related: [ID]
 }
 
@@ -303,12 +318,15 @@ input InputID {
   id: ID!
 }
 
+"""
+The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).
+"""
 scalar JSON
 
 """The `Long` scalar type represents 52-bit integers"""
 scalar Long
 
-union Morph = UsersPermissionsMe | UsersPermissionsMeRole | Comment | createCommentPayload | updateCommentPayload | deleteCommentPayload | Font | createFontPayload | updateFontPayload | deleteFontPayload | Organization | createOrganizationPayload | updateOrganizationPayload | deleteOrganizationPayload | Project | createProjectPayload | updateProjectPayload | deleteProjectPayload | Question | createQuestionPayload | updateQuestionPayload | deleteQuestionPayload | Tag | createTagPayload | updateTagPayload | deleteTagPayload | Test | createTestPayload | updateTestPayload | deleteTestPayload | UploadFile | UsersPermissionsPermission | UsersPermissionsRole | createRolePayload | updateRolePayload | deleteRolePayload | UsersPermissionsUser | createUserPayload | updateUserPayload | deleteUserPayload
+union Morph = UsersPermissionsMe | UsersPermissionsMeRole | UsersPermissionsLoginPayload | Comment | createCommentPayload | updateCommentPayload | deleteCommentPayload | Font | createFontPayload | updateFontPayload | deleteFontPayload | Organization | createOrganizationPayload | updateOrganizationPayload | deleteOrganizationPayload | Project | createProjectPayload | updateProjectPayload | deleteProjectPayload | Question | createQuestionPayload | updateQuestionPayload | deleteQuestionPayload | Tag | createTagPayload | updateTagPayload | deleteTagPayload | Test | createTestPayload | updateTestPayload | deleteTestPayload | UploadFile | UsersPermissionsPermission | UsersPermissionsRole | createRolePayload | updateRolePayload | deleteRolePayload | UsersPermissionsUser | createUserPayload | updateUserPayload | deleteUserPayload
 
 type Mutation {
   createComment(input: createCommentInput): createCommentPayload
@@ -352,9 +370,12 @@ type Mutation {
   deleteUser(input: deleteUserInput): deleteUserPayload
   upload(refId: ID, ref: String, field: String, source: String, file: Upload!): UploadFile!
   multipleUpload(refId: ID, ref: String, field: String, source: String, files: [Upload]!): [UploadFile]!
+  login(input: UsersPermissionsLoginInput!): UsersPermissionsLoginPayload!
+  register(input: UserInput!): UsersPermissionsLoginPayload!
 }
 
 type Organization {
+  name: String
   users(sort: String, limit: Int, start: Int, where: JSON): [UsersPermissionsUser]
   projects(sort: String, limit: Int, start: Int, where: JSON): [Project]
   id: ID!
@@ -364,6 +385,7 @@ type Organization {
 
 input OrganizationInput {
   users: [ID]
+  name: String
   projects: [ID]
 }
 
@@ -371,23 +393,27 @@ type Project {
   name: String!
   major_version: Int
   minor_version: Int
-  tests(sort: String, limit: Int, start: Int, where: JSON): [Test]
+  archived: Boolean
   users(sort: String, limit: Int, start: Int, where: JSON): [UsersPermissionsUser]
   fonts(sort: String, limit: Int, start: Int, where: JSON): [Font]
   tags(sort: String, limit: Int, start: Int, where: JSON): [Tag]
+  owners(sort: String, limit: Int, start: Int, where: JSON): [UsersPermissionsUser]
+  tests(sort: String, limit: Int, start: Int, where: JSON): [Test]
   id: ID!
   created_at: DateTime!
   updated_at: DateTime!
 }
 
 input ProjectInput {
-  tests: [ID]
   users: [ID]
   name: String!
   major_version: Int
   minor_version: Int
   fonts: [ID]
   tags: [ID]
+  owners: [ID]
+  archived: Boolean
+  tests: [ID]
 }
 
 type Query {
@@ -453,6 +479,7 @@ input RoleInput {
 type Tag {
   name: String
   color: String
+  projects(sort: String, limit: Int, start: Int, where: JSON): [Project]
   id: ID!
   created_at: DateTime!
   updated_at: DateTime!
@@ -461,6 +488,7 @@ type Tag {
 input TagInput {
   name: String
   color: String
+  projects: [ID]
 }
 
 type Test {
@@ -468,6 +496,7 @@ type Test {
   tags: JSON
   major_version: Int!
   minor_version: Int!
+  completness: Float
   questions(sort: String, limit: Int, start: Int, where: JSON): [Question]
   id: ID!
   created_at: DateTime!
@@ -480,7 +509,11 @@ input TestInput {
   major_version: Int!
   minor_version: Int!
   questions: [ID]
+  completness: Float
 }
+
+"""A time string with format: HH:mm:ss.SSS"""
+scalar Time
 
 input updateCommentInput {
   where: InputID
@@ -572,10 +605,10 @@ type UploadFile {
   sha256: String
   ext: String
   mime: String!
-  size: String!
+  size: Float!
   url: String!
   provider: String!
-  public_id: String
+  provider_metadata: JSON
   related(sort: String, limit: Int, start: Int, where: JSON): [Morph]
   id: ID!
   created_at: DateTime!
@@ -593,6 +626,18 @@ input UserInput {
   role: ID
   Avatar: ID
   comment: ID
+  projects: [ID]
+}
+
+input UsersPermissionsLoginInput {
+  identifier: String!
+  password: String!
+  provider: String = "local"
+}
+
+type UsersPermissionsLoginPayload {
+  jwt: String!
+  user: UsersPermissionsMe!
 }
 
 type UsersPermissionsMe {
@@ -639,6 +684,7 @@ type UsersPermissionsUser {
   role: UsersPermissionsRole
   Avatar: UploadFile
   comment: Comment
+  projects(sort: String, limit: Int, start: Int, where: JSON): [Project]
   id: ID!
   created_at: DateTime!
   updated_at: DateTime!

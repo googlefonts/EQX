@@ -91,7 +91,12 @@ main{
 	.layout-wrapper[data-has-progress-header="answering"] &, .layout-wrapper[data-has-progress-header="creating"] &{
 		margin-top: 128px; // Height of top-bar
 	}
-	margin-right: 200px;
+	min-height: 90vh;
+	min-height: calc(100vh - 64px - 190px);
+	background: linear-gradient(45deg, $mdc-theme-primary-light, $mdc-theme-primary-dark);
+	&:not(.no-auth){
+		padding-right: 230px;
+	}
 }
 
 
@@ -116,3 +121,71 @@ main{
 	width: 200px;
 }
 
+
+
+/*—————————————————————————*/
+/* M UI Adjustments        */
+/*—————————————————————————*/
+
+.auth-card{
+	max-width: 500px;
+}
+.MuiDivider-vertical{
+	display: inline-block;
+   margin: 0 10px!important;
+   top: 5px!important;
+   height: 20px!important;
+   position: relative;
+}
+.inline-button{
+	cursor: pointer;
+	&:hover{
+		opacity: 0.5;
+	}
+}
+
+
+////////////////////////
+// Tab Changes
+
+.tabContainer{
+	max-height: 250px;
+	overflow: scroll;
+}
+
+
+
+/////////////////////
+// List Changes
+
+
+.MuiListItem-root{
+	+ .MuiListItem-root{
+		&:before{
+			content: "";
+			background: rgba(0,0,0,0.1);
+			height: 1px;
+			width: 100%;
+			float: left;
+			display: block;
+			clear: both;
+			position: absolute;
+			top: 0;
+			left: 0;
+		}
+	}
+}
+
+
+/////////////////////
+// FAB Changes
+
+.overflow-fab-wrap{
+	// height: 10px;
+	// position: relative;
+	.overflow-fab{
+		position: absolute;
+		right: 1rem; 
+		bottom: -20px;
+	}
+}

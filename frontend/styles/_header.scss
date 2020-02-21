@@ -3,13 +3,12 @@
 	@include mdc-top-app-bar-ink-color($mdc-theme-grey600);
 	@include mdc-elevation(3);
 
-	.login-button{
+	.sign-in-button{
 		@include mdc-button-ink-color($mdc-theme-grey600);
 		margin-right: 20px;
 	}
-
-	.sign-up-button{
-		margin-right: 20px;
+	.logo{
+		line-height: 50px;
 	}
 
 	/* Placeholder avatar */
