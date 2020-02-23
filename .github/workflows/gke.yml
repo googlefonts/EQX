@@ -16,11 +16,10 @@ env:
   REGISTRY_HOSTNAME: gcr.io
 
 jobs:
-  setup-build-publish-deploy:
-    name: Setup, Build, Publish, and Deploy
+  build_backend:
+    name: Build Backend
     runs-on: ubuntu-latest
     steps:
-
     - name: Checkout
       uses: actions/checkout@v2
 
@@ -44,6 +43,31 @@ jobs:
           --build-arg GITHUB_SHA="$GITHUB_SHA" \
           --build-arg GITHUB_REF="$GITHUB_REF" .
 
+    # Push the Docker image to Google Container Registry
+    - name: Publish
+      run: |
+        docker push $REGISTRY_HOSTNAME/backend/$IMAGE:$GITHUB_SHA
+
+  build_frontend:
+    name: Build Frontend
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    # Setup gcloud CLI
+    - uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
+      with:
+        version: '270.0.0'
+        service_account_key: ${{ secrets.GKE_KEY }}
+
+    # Configure docker to use the gcloud command-line tool as a credential helper
+    - run: |
+        # Set up docker to authenticate
+        # via gcloud command-line tool.
+        gcloud auth configure-docker
+
+    # Build the Docker image
     - name: Build Frontend
       run: |
         cd frontend
@@ -54,8 +78,16 @@ jobs:
     # Push the Docker image to Google Container Registry
     - name: Publish
       run: |
-        docker push $REGISTRY_HOSTNAME/backend/$IMAGE:$GITHUB_SHA
         docker push $REGISTRY_HOSTNAME/frontend/$IMAGE:$GITHUB_SHA
+
+  deploy:
+    needs: [build_frontend, build_backend]
+    name: Deploy
+    runs-on: ubuntu-latest
+    steps:
+
+    - name: Checkout
+      uses: actions/checkout@v2
 
     # Set up kustomize
     - name: Set up Kustomize
