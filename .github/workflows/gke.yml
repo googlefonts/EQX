@@ -46,7 +46,7 @@ jobs:
     # Push the Docker image to Google Container Registry
     - name: Publish
       run: |
-        docker push $REGISTRY_HOSTNAME/backend/$IMAGE:$GITHUB_SHA
+        docker push $REGISTRY_HOSTNAME/$GKE_PROJECT/backend:$GITHUB_SHA
 
   build_frontend:
     name: Build Frontend
@@ -78,7 +78,7 @@ jobs:
     # Push the Docker image to Google Container Registry
     - name: Publish
       run: |
-        docker push $REGISTRY_HOSTNAME/frontend/$IMAGE:$GITHUB_SHA
+        docker push $REGISTRY_HOSTNAME/$GKE_PROJECT/frontend:$GITHUB_SHA
 
   deploy:
     needs: [build_frontend, build_backend]
