@@ -13,7 +13,7 @@ name: Build and Deploy to GKE
 on:
   push:
     branches:
-    - master
+    - continuous-integration
 
 # Environment variables available to all jobs and steps in this workflow
 env:
@@ -47,10 +47,10 @@ jobs:
         # Set up docker to authenticate
         # via gcloud command-line tool.
         gcloud auth configure-docker
-      
+
     # Build the Docker image
     - name: Build
-      run: |        
+      run: |
         docker build -f ./backend/Dockerfile -t "$REGISTRY_HOSTNAME"/"$GKE_PROJECT"/"$IMAGE":"$GITHUB_SHA" \
           --build-arg GITHUB_SHA="$GITHUB_SHA" \
           --build-arg GITHUB_REF="$GITHUB_REF" .
@@ -59,7 +59,7 @@ jobs:
     - name: Publish
       run: |
         docker push $REGISTRY_HOSTNAME/$GKE_PROJECT/$IMAGE:$GITHUB_SHA
-        
+
     # Set up kustomize
     - name: Set up Kustomize
       run: |
