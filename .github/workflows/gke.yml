@@ -17,8 +17,8 @@ on:
 
 # Environment variables available to all jobs and steps in this workflow
 env:
-  GKE_PROJECT: ${{ secrets.GKE_PROJECT }}
-  GKE_EMAIL: ${{ secrets.GKE_EMAIL }}
+  GKE_PROJECT: EQX-host
+  GKE_EMAIL: github-deploy@eqx-host.iam.gserviceaccount.com
   GITHUB_SHA: ${{ github.sha }}
   GKE_ZONE: us-east-1b
   GKE_CLUSTER: eqx-production
