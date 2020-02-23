@@ -10,13 +10,10 @@ on:
 # Environment variables available to all jobs and steps in this workflow
 env:
   GKE_PROJECT: eqx-host
-  GKE_EMAIL: github-deploy@eqx-host.iam.gserviceaccount.com
   GITHUB_SHA: ${{ github.sha }}
   GKE_ZONE: us-east-1b
   GKE_CLUSTER: eqx-production
-  IMAGE: backend
   REGISTRY_HOSTNAME: gcr.io
-  DEPLOYMENT_NAME: backend
 
 jobs:
   setup-build-publish-deploy:
@@ -31,7 +28,6 @@ jobs:
     - uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
       with:
         version: '270.0.0'
-        # service_account_email: $GKE_EMAIL
         service_account_key: ${{ secrets.GKE_KEY }}
 
     # Configure docker to use the gcloud command-line tool as a credential helper
@@ -44,14 +40,14 @@ jobs:
     - name: Build Backend
       run: |
         cd backend
-        docker build -t "$REGISTRY_HOSTNAME"/backend/"$IMAGE":"$GITHUB_SHA" \
+        docker build -t "$REGISTRY_HOSTNAME"/$GKE_PROJECT/backend:"$GITHUB_SHA" \
           --build-arg GITHUB_SHA="$GITHUB_SHA" \
           --build-arg GITHUB_REF="$GITHUB_REF" .
 
     - name: Build Frontend
       run: |
         cd frontend
-        docker build -t "$REGISTRY_HOSTNAME"/frontend/"$IMAGE":"$GITHUB_SHA" \
+        docker build -t "$REGISTRY_HOSTNAME"/$GKE_PROJECT/frontend:"$GITHUB_SHA" \
           --build-arg GITHUB_SHA="$GITHUB_SHA" \
           --build-arg GITHUB_REF="$GITHUB_REF" .
 
