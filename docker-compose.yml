@@ -1,0 +1,40 @@
+---
+version: '3'
+services:
+  backend:
+    build: backend/
+    command: npm run-script develop
+    environment:
+      - APP_NAME=eqx
+      - DATABASE_HOST=db
+      - DATABASE_PORT=5432
+      - DATABASE_CLIENT=postgres
+      - DATABASE_NAME=eqx
+      - DATABASE_USERNAME=postgres
+      - DATABASE_PASSWORD=postgres
+      - HOST=localhost
+    ports:
+      - 1337:1337
+    volumes:
+      - ./backend:/usr/src/app/eqx
+    depends_on:
+      - db
+
+  frontend:
+    build: frontend/
+    ports:
+      - 3000:3000
+    volumes:
+      - ./frontend:/usr/src/app
+      - /usr/src/app/node_modules
+    working_dir: /usr/src/app
+
+  db:
+    image: postgres:11
+    environment:
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=eqx
+    volumes:
+      - ./db-data:/var/lib/postgresql/data
+
