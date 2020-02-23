@@ -1,6 +1,5 @@
 # 1. Ensure that your repository contains the necessary configuration for your Google Kubernetes Engine cluster, including deployment.yml, kustomization.yml, service.yml, etc.
 
-
 name: Build and Deploy to GKE
 
 on:
