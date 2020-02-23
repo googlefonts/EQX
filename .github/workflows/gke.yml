@@ -39,7 +39,10 @@ jobs:
     - name: Build Backend
       run: |
         cd backend
+        PREV_SHA=$(git rev-parse --verify --quiet origin/master || echo "")
+        docker pull$REGISTRY_HOSTNAME/$GKE_PROJECT/backend:$PREV_SHA || true
         docker build -t "$REGISTRY_HOSTNAME"/$GKE_PROJECT/backend:"$GITHUB_SHA" \
+          --cache-from $REGISTRY_HOSTNAME/$GKE_PROJECT/backend:$PREV_SHA
           --build-arg GITHUB_SHA="$GITHUB_SHA" \
           --build-arg GITHUB_REF="$GITHUB_REF" .
 
@@ -71,7 +74,10 @@ jobs:
     - name: Build Frontend
       run: |
         cd frontend
+        PREV_SHA=$(git rev-parse --verify --quiet origin/master || echo "")
+        docker pull$REGISTRY_HOSTNAME/$GKE_PROJECT/frontend:$PREV_SHA || true
         docker build -t "$REGISTRY_HOSTNAME"/$GKE_PROJECT/frontend:"$GITHUB_SHA" \
+          --cache-from $REGISTRY_HOSTNAME/$GKE_PROJECT/frontend:$PREV_SHA
           --build-arg GITHUB_SHA="$GITHUB_SHA" \
           --build-arg GITHUB_REF="$GITHUB_REF" .
 
