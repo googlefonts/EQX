@@ -41,16 +41,25 @@ jobs:
         gcloud auth configure-docker
 
     # Build the Docker image
-    - name: Build
+    - name: Build Backend
       run: |
-        docker build -f ./backend/Dockerfile -t "$REGISTRY_HOSTNAME"/"$GKE_PROJECT"/"$IMAGE":"$GITHUB_SHA" \
+        cd backend
+        docker build -t "$REGISTRY_HOSTNAME"/backend/"$IMAGE":"$GITHUB_SHA" \
+          --build-arg GITHUB_SHA="$GITHUB_SHA" \
+          --build-arg GITHUB_REF="$GITHUB_REF" .
+
+    - name: Build Frontend
+      run: |
+        cd frontend
+        docker build -t "$REGISTRY_HOSTNAME"/frontend/"$IMAGE":"$GITHUB_SHA" \
           --build-arg GITHUB_SHA="$GITHUB_SHA" \
           --build-arg GITHUB_REF="$GITHUB_REF" .
 
     # Push the Docker image to Google Container Registry
     - name: Publish
       run: |
-        docker push $REGISTRY_HOSTNAME/$GKE_PROJECT/$IMAGE:$GITHUB_SHA
+        docker push $REGISTRY_HOSTNAME/backend/$IMAGE:$GITHUB_SHA
+        docker push $REGISTRY_HOSTNAME/frontend/$IMAGE:$GITHUB_SHA
 
     # Set up kustomize
     - name: Set up Kustomize
