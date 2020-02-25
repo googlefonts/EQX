@@ -11,7 +11,7 @@ on:
 env:
   GKE_PROJECT: eqx-host
   GITHUB_SHA: ${{ github.sha }}
-  GKE_ZONE: us-east-1b
+  GKE_ZONE: us-east1-b
   GKE_CLUSTER: eqx-production
   REGISTRY_HOSTNAME: gcr.io
 
