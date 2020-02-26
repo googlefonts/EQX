@@ -1,0 +1,7 @@
+bases:
+- ./base
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+images:
+- name: gcr.io/eqx-host/backend
+  newTag: 71d5489a2cdc1d0cfd4f1a3532249d5a941abde7

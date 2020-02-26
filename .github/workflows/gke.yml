@@ -114,10 +114,22 @@ jobs:
         chmod u+x ./kustomize
 
     # Deploy the Docker image to the GKE cluster
-    - name: Deploy
+    - name: Deploy Backend
       run: |
         gcloud container clusters get-credentials $GKE_CLUSTER --zone $GKE_ZONE --project $GKE_PROJECT
-        ./kustomize edit set image $REGISTRY_HOSTNAME/$GKE_PROJECT/$IMAGE:${GITHUB_SHA}
+        cd backend/_infra/base
+        ./kustomize edit set image $REGISTRY_HOSTNAME/$GKE_PROJECT/backend:${GITHUB_SHA}
+        ./kustomize build . | kubectl apply -f -
+        kubectl rollout status deployment/$DEPLOYMENT_NAME
+        kubectl get services -o wide
+
+
+    # Deploy the Docker image to the GKE cluster
+    - name: Deploy Frontend
+      run: |
+        gcloud container clusters get-credentials $GKE_CLUSTER --zone $GKE_ZONE --project $GKE_PROJECT
+        cd frontend/_infra/base
+        ./kustomize edit set image $REGISTRY_HOSTNAME/$GKE_PROJECT/frontend:${GITHUB_SHA}
         ./kustomize build . | kubectl apply -f -
         kubectl rollout status deployment/$DEPLOYMENT_NAME
         kubectl get services -o wide
