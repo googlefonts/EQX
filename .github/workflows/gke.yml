@@ -112,14 +112,15 @@ jobs:
       run: |
         curl -o kustomize --location https://github.com/kubernetes-sigs/kustomize/releases/download/v3.1.0/kustomize_3.1.0_linux_amd64
         chmod u+x ./kustomize
+        mv ./kustomize /usr/local/bin/kustomize
 
     # Deploy the Docker image to the GKE cluster
     - name: Deploy Backend
       run: |
         gcloud container clusters get-credentials $GKE_CLUSTER --zone $GKE_ZONE --project $GKE_PROJECT
         cd backend/_infra/
-        ./kustomize edit set image $REGISTRY_HOSTNAME/$GKE_PROJECT/backend:${GITHUB_SHA}
-        ./kustomize build . | kubectl apply -f -
+        kustomize edit set image $REGISTRY_HOSTNAME/$GKE_PROJECT/backend:${GITHUB_SHA}
+        kustomize build . | kubectl apply -f -
         kubectl rollout status deployment/$DEPLOYMENT_NAME
         kubectl get services -o wide
 
@@ -129,7 +130,7 @@ jobs:
       run: |
         gcloud container clusters get-credentials $GKE_CLUSTER --zone $GKE_ZONE --project $GKE_PROJECT
         cd frontend/_infra/
-        ./kustomize edit set image $REGISTRY_HOSTNAME/$GKE_PROJECT/frontend:${GITHUB_SHA}
-        ./kustomize build . | kubectl apply -f -
+        kustomize edit set image $REGISTRY_HOSTNAME/$GKE_PROJECT/frontend:${GITHUB_SHA}
+        kustomize build . | kubectl apply -f -
         kubectl rollout status deployment/$DEPLOYMENT_NAME
         kubectl get services -o wide
