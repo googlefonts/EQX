@@ -1,0 +1,17 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend
+spec:
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        deployment: frontend
+    spec:
+      containers:
+      - name: frontend
+        image: gcr.io/eqx-host/frontend
+        ports:
+        - containerPort: 3000

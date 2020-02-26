@@ -1,0 +1,17 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend
+spec:
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        deployment: backend
+    spec:
+      containers:
+      - name: backend
+        image: gcr.io/eqx-host/backend
+        command: ["npm", "start"]
+        ports:
+        - containerPort: 1337
