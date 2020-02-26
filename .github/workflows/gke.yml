@@ -117,7 +117,7 @@ jobs:
     - name: Deploy Backend
       run: |
         gcloud container clusters get-credentials $GKE_CLUSTER --zone $GKE_ZONE --project $GKE_PROJECT
-        cd backend/_infra/base
+        cd backend/_infra/
         ./kustomize edit set image $REGISTRY_HOSTNAME/$GKE_PROJECT/backend:${GITHUB_SHA}
         ./kustomize build . | kubectl apply -f -
         kubectl rollout status deployment/$DEPLOYMENT_NAME
@@ -128,7 +128,7 @@ jobs:
     - name: Deploy Frontend
       run: |
         gcloud container clusters get-credentials $GKE_CLUSTER --zone $GKE_ZONE --project $GKE_PROJECT
-        cd frontend/_infra/base
+        cd frontend/_infra/
         ./kustomize edit set image $REGISTRY_HOSTNAME/$GKE_PROJECT/frontend:${GITHUB_SHA}
         ./kustomize build . | kubectl apply -f -
         kubectl rollout status deployment/$DEPLOYMENT_NAME

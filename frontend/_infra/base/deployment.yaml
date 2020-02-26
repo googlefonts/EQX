@@ -12,6 +12,6 @@ spec:
     spec:
       containers:
       - name: frontend
-        image:
+        image: gcr.io/eqx-host/frontend
         ports:
         - containerPort: 3000
