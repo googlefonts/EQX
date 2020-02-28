@@ -121,7 +121,7 @@ jobs:
         cd backend/_infra/
         kustomize edit set image $REGISTRY_HOSTNAME/$GKE_PROJECT/backend:${GITHUB_SHA}
         kustomize build . | kubectl apply -f -
-        kubectl rollout status deployment/$DEPLOYMENT_NAME
+        kubectl rollout status deployment/backend
         kubectl get services -o wide
 
     # Deploy the Docker image to the GKE cluster
@@ -131,5 +131,5 @@ jobs:
         cd frontend/_infra/
         kustomize edit set image $REGISTRY_HOSTNAME/$GKE_PROJECT/frontend:${GITHUB_SHA}
         kustomize build . | kubectl apply -f -
-        kubectl rollout status deployment/$DEPLOYMENT_NAME
+        kubectl rollout status deployment/frontend
         kubectl get services -o wide
