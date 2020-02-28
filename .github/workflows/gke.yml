@@ -124,7 +124,6 @@ jobs:
         kubectl rollout status deployment/$DEPLOYMENT_NAME
         kubectl get services -o wide
 
-
     # Deploy the Docker image to the GKE cluster
     - name: Deploy Frontend
       run: |
