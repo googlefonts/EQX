@@ -122,6 +122,7 @@ jobs:
     # Deploy the Docker image to the GKE cluster
     - name: Deploy Backend
       run: |
+        gcloud auth application-default login
         gcloud container clusters get-credentials $GKE_CLUSTER --zone $GKE_ZONE --project $GKE_PROJECT
         cd backend/_infra/
 
