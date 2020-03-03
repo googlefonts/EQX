@@ -15,7 +15,7 @@ spec:
         command: ["npm", "start"]
         env:
         - name: DATABASE_HOST
-          value: "postgresql-headless.default.svc.cluster.local"
+          value: "postgresql.default.svc.cluster.local"
         - name: DATABASE_USERNAME
           value: "postgres"
         - name: DATABASE_PASSWORD
