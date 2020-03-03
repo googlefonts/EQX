@@ -98,6 +98,8 @@ jobs:
       with:
         version: '270.0.0'
         service_account_key: ${{ secrets.GKE_KEY }}
+        # needed for kubesec
+        export_default_credentials: true
 
     # Configure docker to use the gcloud command-line tool as a credential helper
     - run: |
@@ -122,7 +124,6 @@ jobs:
     # Deploy the Docker image to the GKE cluster
     - name: Deploy Backend
       run: |
-        gcloud auth application-default login
         gcloud container clusters get-credentials $GKE_CLUSTER --zone $GKE_ZONE --project $GKE_PROJECT
         cd backend/_infra/
 
