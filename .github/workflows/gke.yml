@@ -3,7 +3,7 @@ name: Build and Deploy to GKE
 on:
   push:
     branches:
-    - continuous-integration
+    - master
 
 # Environment variables available to all jobs and steps in this workflow
 env:
