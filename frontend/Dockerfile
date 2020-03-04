@@ -1,3 +1,5 @@
+# gcr.io/eqx-host/frontend:<hash>
+
 FROM node:10
 
 WORKDIR /usr/src/app
