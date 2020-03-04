@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: backend
 spec:
-  replicas: 2
+  replicas: 1
   template:
     metadata:
       labels:
@@ -13,5 +13,25 @@ spec:
       - name: backend
         image: gcr.io/eqx-host/backend
         command: ["npm", "start"]
+        env:
+        - name: DATABASE_HOST
+          value: "postgresql.default.svc.cluster.local"
+        - name: DATABASE_USERNAME
+          value: "postgres"
+        - name: DATABASE_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: backend
+              key: postgresql-password
+        - name: DATABASE_PORT
+          value: "5432"
+        - name: APP_HOST
+          value: "35.231.157.252"
+        - name: NODE_ENV
+          value: "production"
+        - name: DATABASE_SSL
+          value: "false"
+        - name: DATABASE_NAME
+          value: "postgres"
         ports:
         - containerPort: 1337

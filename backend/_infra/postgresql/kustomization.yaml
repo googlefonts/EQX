@@ -1,5 +1,5 @@
 commonLabels:
-  app: backend
+  app: postgresql
 
 resources:
 - deployment.yaml

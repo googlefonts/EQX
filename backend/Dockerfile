@@ -1,3 +1,5 @@
+# gcr.io/eqx-host/backend:<hash>
+
 FROM strapi/base:10
 
 WORKDIR /usr/src/app

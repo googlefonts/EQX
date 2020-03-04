@@ -108,4 +108,20 @@ https://nextjs.org/docs/#custom-app
 
 Remove reactstrap and bootstrap
 
+# Secrets
+
+We use [kubesec](https://github.com/shyiko/kubesec) and Google Cloud KMS to store encrypted secrets in this repo.
+
+## Secret Encryption
+
+```
+kubesec encrypt -i --key=gcp:projects/eqx-host/locations/us-east1/keyRings/eqx/cryptoKeys/kubernetes-secrets postgresql/secrets.yaml
+```
+
+## Secret Decryption
+
+ ```
+ kubesec decrypt -i postgresql/secrets.yaml
+ ```
+
 
