@@ -15,18 +15,24 @@ spec:
         command: ["npm", "start"]
         env:
         - name: DATABASE_HOST
-          value: "postgresql.default.svc.cluster.local"
-        - name: DATABASE_USERNAME
-          value: "postgres"
+          valueFrom:
+            secretKeyRef:
+              name: backend
+              key: database-host
         - name: DATABASE_PASSWORD
           valueFrom:
             secretKeyRef:
               name: backend
               key: postgresql-password
+        - name: APP_HOST
+          valueFrom:
+            secretKeyRef:
+              name: backend
+              key: app-host
         - name: DATABASE_PORT
           value: "5432"
-        - name: APP_HOST
-          value: "35.231.157.252"
+        - name: DATABASE_USERNAME
+          value: "postgres"
         - name: NODE_ENV
           value: "production"
         - name: DATABASE_SSL
