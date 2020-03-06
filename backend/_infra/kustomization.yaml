@@ -1,3 +1,2 @@
 bases:
 - ./base
-- ./postgresql

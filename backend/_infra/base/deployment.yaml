@@ -30,7 +30,7 @@ spec:
         - name: NODE_ENV
           value: "production"
         - name: DATABASE_SSL
-          value: "false"
+          value: "true"
         - name: DATABASE_NAME
           value: "postgres"
         ports:
