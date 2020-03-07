@@ -24,7 +24,7 @@ class CreateQuestionFields extends React.Component {
           <Cell desktopColumns={8}>
             <TextField
               className="field"
-              label='Question #9'
+              label='Question #1'
               textarea  
             >
               <Input

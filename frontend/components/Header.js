@@ -22,7 +22,7 @@ class CreatingHeader extends React.Component {
         <Grid container className="header-grid-2">
           <Grid item xs={12} >
             {/*<TopAppBarSection className="">*/}
-              <Body1 className="question-counter" tag="h2">9 Questions</Body1>
+              <Body1 className="question-counter" tag="h2">0 Questions</Body1>
               <div className="titles-wrapper">
                 <Subtitle1 className="font-title" tag="h2">Merriweather v.2.11</Subtitle1>
                 <Subtitle1 className="project-title" tag="h3"><span className="emphasis">Extended Latin Support</span> v.1.12</Subtitle1>
