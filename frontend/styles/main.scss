@@ -93,7 +93,7 @@ main{
 	}
 	min-height: 90vh;
 	min-height: calc(100vh - 64px - 190px);
-	background: linear-gradient(45deg, $mdc-theme-primary-light, $mdc-theme-primary-dark);
+	background: linear-gradient(45deg, $mdc-theme-primary-light, $mdc-theme-primary-light, $mdc-theme-primary);
 	&:not(.no-auth){
 		padding-right: 230px;
 	}
