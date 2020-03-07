@@ -1,0 +1,23 @@
+---
+version: '3'
+services:
+  backend:
+    build: backend/
+    command: npm run-script develop
+    ports:
+      - 1337:1337
+    volumes:
+      - ./backend:/usr/src/app/eqx
+      - sqlite3:/usr/src/app/eqx/.tmp/db.data
+
+  frontend:
+    build: frontend/
+    ports:
+      - 3000:3000
+    volumes:
+      - ./frontend:/usr/src/app
+      - /usr/src/app/node_modules
+    working_dir: /usr/src/app
+
+volumes:
+  sqlite3:

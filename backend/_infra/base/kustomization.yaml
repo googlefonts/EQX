@@ -1,0 +1,7 @@
+commonLabels:
+  app: backend
+
+resources:
+- deployment.yaml
+- service.yaml
+- secrets.yaml

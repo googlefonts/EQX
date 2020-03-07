@@ -1,0 +1,146 @@
+name: Build and Deploy to GKE
+
+on:
+  push:
+    branches:
+    - master
+
+# Environment variables available to all jobs and steps in this workflow
+env:
+  GKE_PROJECT: eqx-host
+  GITHUB_SHA: ${{ github.sha }}
+  GKE_ZONE: us-east1-b
+  GKE_CLUSTER: eqx-production
+  REGISTRY_HOSTNAME: gcr.io
+
+jobs:
+  build_backend:
+    name: Build Backend
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    # Setup gcloud CLI
+    - uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
+      with:
+        version: '270.0.0'
+        service_account_key: ${{ secrets.GKE_KEY }}
+
+    # Configure docker to use the gcloud command-line tool as a credential helper
+    - run: |
+        # Set up docker to authenticate
+        # via gcloud command-line tool.
+        gcloud auth configure-docker
+
+    # Build the Docker image
+    - name: Build Backend
+      run: |
+        cd backend
+        PREV_SHA=$(git rev-parse --verify --quiet origin/master || echo "")
+        docker pull $REGISTRY_HOSTNAME/$GKE_PROJECT/backend:$PREV_SHA || true
+        docker build -t "$REGISTRY_HOSTNAME"/"$GKE_PROJECT"/backend:"$GITHUB_SHA" \
+          --cache-from "$REGISTRY_HOSTNAME"/"$GKE_PROJECT"/backend:"$PREV_SHA" \
+          --build-arg GITHUB_SHA="$GITHUB_SHA" \
+          --build-arg GITHUB_REF="$GITHUB_REF" .
+
+    # Push the Docker image to Google Container Registry
+    - name: Publish
+      run: |
+        docker push $REGISTRY_HOSTNAME/$GKE_PROJECT/backend:$GITHUB_SHA
+
+  build_frontend:
+    name: Build Frontend
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    # Setup gcloud CLI
+    - uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
+      with:
+        version: '270.0.0'
+        service_account_key: ${{ secrets.GKE_KEY }}
+
+    # Configure docker to use the gcloud command-line tool as a credential helper
+    - run: |
+        # Set up docker to authenticate
+        # via gcloud command-line tool.
+        gcloud auth configure-docker
+
+    # Build the Docker image
+    - name: Build Frontend
+      run: |
+        cd frontend
+        PREV_SHA=$(git rev-parse --verify --quiet origin/master || echo "")
+        docker pull $REGISTRY_HOSTNAME/$GKE_PROJECT/frontend:$PREV_SHA || true
+        docker build -t "$REGISTRY_HOSTNAME"/"$GKE_PROJECT"/frontend:"$GITHUB_SHA" \
+          --cache-from "$REGISTRY_HOSTNAME"/"$GKE_PROJECT"/frontend:"$PREV_SHA" \
+          --build-arg GITHUB_SHA="$GITHUB_SHA" \
+          --build-arg GITHUB_REF="$GITHUB_REF" .
+
+    # Push the Docker image to Google Container Registry
+    - name: Publish
+      run: |
+        docker push $REGISTRY_HOSTNAME/$GKE_PROJECT/frontend:$GITHUB_SHA
+
+  deploy:
+    needs: [build_frontend, build_backend]
+    name: Deploy
+    runs-on: ubuntu-latest
+    steps:
+
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    # Setup gcloud CLI
+    - uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
+      with:
+        version: '270.0.0'
+        service_account_key: ${{ secrets.GKE_KEY }}
+        # needed for kubesec
+        export_default_credentials: true
+
+    # Configure docker to use the gcloud command-line tool as a credential helper
+    - run: |
+        # Set up docker to authenticate
+        # via gcloud command-line tool.
+        gcloud auth configure-docker
+
+
+    # Set up kubesec
+    - name: Set up Kustomize
+      run: |
+        curl -sSL https://github.com/shyiko/kubesec/releases/download/0.9.2/kubesec-0.9.2-linux-amd64 \
+        -o kubesec && chmod a+x kubesec && sudo mv kubesec /usr/local/bin/
+
+    # Set up kustomize
+    - name: Set up Kustomize
+      run: |
+        curl -o kustomize --location https://github.com/kubernetes-sigs/kustomize/releases/download/v3.1.0/kustomize_3.1.0_linux_amd64
+        chmod u+x ./kustomize
+        sudo mv ./kustomize /usr/local/bin/kustomize
+
+    # Deploy the Docker image to the GKE cluster
+    - name: Deploy Backend
+      run: |
+        gcloud container clusters get-credentials $GKE_CLUSTER --zone $GKE_ZONE --project $GKE_PROJECT
+        cd backend/_infra/
+
+        kubesec decrypt -i postgresql/secrets.yaml --debug
+        kubesec decrypt -i base/secrets.yaml --debug
+
+        kustomize edit set image $REGISTRY_HOSTNAME/$GKE_PROJECT/backend:${GITHUB_SHA}
+        kustomize build . | kubectl apply -f -
+        kubectl rollout status deployment/backend
+        kubectl get services -o wide
+
+    # Deploy the Docker image to the GKE cluster
+    - name: Deploy Frontend
+      run: |
+        gcloud container clusters get-credentials $GKE_CLUSTER --zone $GKE_ZONE --project $GKE_PROJECT
+        cd frontend/_infra/
+        kustomize edit set image $REGISTRY_HOSTNAME/$GKE_PROJECT/frontend:${GITHUB_SHA}
+        kustomize build . | kubectl apply -f -
+        kubectl rollout status deployment/frontend
+        kubectl get services -o wide
