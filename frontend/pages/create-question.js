@@ -1,14 +1,50 @@
-import Layout from '../components/Layout'
+
+import React from "react";
+import defaultPage from "../hocs/defaultPage";
+import Layout from "../components/Layout";
 import EditorImagesImport from '../components/EditorImagesImport'
 import CreateQuestionFields from '../components/CreateQuestionFields'
+import SharedTest from "../components/SharedTest";
+import Section from "../components/Section";
+import { Box, TextField, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, FormGroup, Input, InputLabel, Button, Typography} from '@material-ui/core';
+import Cookies from "js-cookie";
+import axios from 'axios';
+import "../styles/main.scss";
 
-import "../styles/main.scss"
 
-const CreateQuestion = props => (
-  <Layout headerType="creating">
-  	<CreateQuestionFields/>
-    <EditorImagesImport/>
-  </Layout>
-);
+//////////////////////////////
+// Create Test Page
 
-export default CreateQuestion;
+class CreateQuestionPage extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      page: "test",
+      projects: [],
+    };
+  }
+
+  componentDidMount = () => {
+    this.update();
+  }
+
+  pageUpdate = () => {
+    this.update();
+  }
+
+  update = () => {
+  }
+
+  render() {
+    return (
+      <Layout page={this.state.page} headerType="creating" {...this.props}>
+        <Box pt={5} bgcolor="#fff">
+          <CreateQuestionFields/>
+          <EditorImagesImport/>
+        </Box>
+      </Layout>
+    );
+  }
+}
+
+export default defaultPage(CreateQuestionPage);
