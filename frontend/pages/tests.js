@@ -11,7 +11,6 @@ import axios from 'axios';
 import "../styles/main.scss";
 
 
-
 //////////////////////////////
 // Create test
 
@@ -60,11 +59,10 @@ class NewTest extends React.Component {
           <Typography color="primary" align="center" gutterBottom={true} variant="h2" >Need to make your own test?</Typography>
           <Typography align="center" gutterBottom={true} variant="body1">Certe, inquam, pertinax non numquam eius modi tempora incidunt, ut ita ruant itaque turbent, ut de voluptate ponit, quod summum malum et, quantum possit, a philosophis compluribus permulta dicantur, cur verear, ne ferae quidem faciunt, ut labore et dolorum fuga et dolore suo sanciret militaris.</Typography>
           <br/>
-         
           <Button onClick={this.handleOpen} color="primary" size="large" variant="contained">Create a New Test</Button>
           <Button onClick={console.log("not yet, sry.")} color="primary" size="large" variant="contained">Use a Template</Button>
           <br/>
-          <Typography align="center" gutterBottom={true} variant="caption" display="block">Don’t worry, we’ll help you through it.</Typography>
+          <Typography align="center" gutterBottom={true} variant="body2" display="block">Don’t worry, we’ll help you through it.</Typography>
         </>
 
         <Dialog open={this.state.open} onClose={this.handleClose}>
@@ -117,82 +115,38 @@ class SearchSection extends React.Component {
 //////////////////////////////
 // Create Test Page
 
-import gql from "graphql-tag";
-import { graphql } from "react-apollo";
-
 class TestPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       page: "tests",
-      tests: [],
+      projects: [],
     };
+  }
+
+  componentDidMount = () => {
+    this.update();
+  }
+
+  update = () => {
     axios
-      .get('http://localhost:1337/users/me', { 
-        headers: { Authorization: 'Bearer ' + Cookies.get("jwt") }
-      }).catch(error => { console.log(error); // Handle error 
+      .get('http://localhost:1337/projects?owners.id='+Cookies.get("id")+'&archived_eq=false', { 
+        headers: { Authorization: "Bearer " + Cookies.get("jwt") }
       }).then(response => { // Handle success
-        this.setState({ tests: response.data.tests });
-        console.log(response)
-      });
-    // console.log(Cookies.get("id"))
+        this.setState({ projects: response.data });
 
-    // axios
-    //   .post('http://localhost:1337/graphql', { 
-    //     headers: { Authorization: 'Bearer ' + Cookies.get("jwt") },
-    //     data: {
-    //       query: `
-    //         query {
-    //           user(id: "3") {
-    //             username
-    //             email
-    //           }
-    //         }
-    //       `
-    //     }
-    //   }).catch(error => { console.log(error); // Handle error 
-    //   }).then(response => { // Handle success
-    //     console.log(response)
-    //   });
-
-    // axios({
-    //   url: 'http://localhost:1337/graphql',
-    //   method: 'post',
-      
-    //   data: {
-    //     query: `
-    //       query {
-    //         user(id: "3") {
-    //           username
-    //           email
-    //         }
-    //       }
-    //     `
-    //   }
-    // }).then((result) => {
-    //   console.log(result.data)
-    // });
-    // export default graphql(query, {
-    //   props: ({ data }) => ({
-    //     data
-    //   })
-    // })(ProjectList);
-
+      }).catch(error => { console.log(error); }); // Handle error 
   }
 
   render() {
     return (
       <Layout page={this.state.page} {...this.props}>
         <Section>
-          {/* {this.state.tests.map((test, i) =>
-            <Test key={"test-"+i} testId={test.id}/>
-          )} */}
-        </Section>
-        <Section>
-          <NewTest />
-        </Section>
-        <Section bgcolor="background.paper2">
-          <SearchSection/> 
+          {this.state.projects.map((project, i1) => 
+            project.tests.map((test, i2) =>
+              <Test key={"test-"+i2} testId={test.id} project={project} update={this.update}/>
+            )
+          )}
         </Section>
       </Layout>
     );
