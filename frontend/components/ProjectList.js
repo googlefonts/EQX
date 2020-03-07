@@ -4,15 +4,36 @@ import { graphql } from "react-apollo";
 import { useQuery } from '@apollo/react-hooks';
 import withApollo from '../lib/apollo';
 import { CardText, CardTitle, Col, Row } from "reactstrap";
+import Project from "../components/Project";
 
 const query = gql`
   {
-    projects {
+    projects( where: {
+      archived: true
+    }) {
       id
       name
     }
   }
 `;
+
+// axios
+//   .post('http://localhost:1337/graphql', { 
+//     headers: { Authorization: 'Bearer ' + Cookies.get("jwt") },
+//     data: {
+//       query: `
+//         query {
+//           projects {
+//             name
+//           }
+//         }
+//       `
+//     }
+//   }).catch(error => { console.log(error); // Handle error 
+//   }).then(response => { // Handle success
+//     console.log(response)
+//   });
+
 
 // const ProjectList = () => {
 //   const { loading, data } = useQuery(query);
@@ -39,8 +60,8 @@ const ProjectList = (
     if (searchQuery.length != 0) {
       return (
         <>
-          {searchQuery.map((res, i) => (
-            <div key={"project-list-"+i}>{res.name}</div>
+          {searchQuery.map((project, i) => (
+            <Project key={"project-"+i} projectId={project.id}/>
           ))}
         </>
       );
