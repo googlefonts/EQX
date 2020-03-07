@@ -1,12 +1,12 @@
 type Comment {
+  id: ID!
+  created_at: DateTime!
+  updated_at: DateTime!
   user: UsersPermissionsUser
   text: String!
   x: Int
   y: Int
   radius: Int
-  id: ID!
-  created_at: DateTime!
-  updated_at: DateTime!
 }
 
 input CommentInput {
@@ -23,6 +23,14 @@ input createCommentInput {
 
 type createCommentPayload {
   comment: Comment
+}
+
+input createFileInput {
+  data: FileInput
+}
+
+type createFilePayload {
+  file: UploadFile
 }
 
 input createFontInput {
@@ -109,6 +117,14 @@ input deleteCommentInput {
 
 type deleteCommentPayload {
   comment: Comment
+}
+
+input deleteFileInput {
+  where: InputID
+}
+
+type deleteFilePayload {
+  file: UploadFile
 }
 
 input deleteFontInput {
@@ -214,12 +230,12 @@ input editOrganizationInput {
 
 input editProjectInput {
   users: [ID]
+  owners: [ID]
   name: String
   major_version: Int
   minor_version: Int
   fonts: [ID]
   tags: [ID]
-  owners: [ID]
   archived: Boolean
   tests: [ID]
 }
@@ -250,12 +266,15 @@ input editTagInput {
 }
 
 input editTestInput {
+  users: [ID]
+  owners: [ID]
   name: String
   tags: JSON
   major_version: Int
   minor_version: Int
   questions: [ID]
   completness: Float
+  archived: Boolean
 }
 
 input editUserInput {
@@ -270,6 +289,7 @@ input editUserInput {
   Avatar: ID
   comment: ID
   projects: [ID]
+  tests: [ID]
 }
 
 enum ENUM_QUESTION_IMAGE_TYPE {
@@ -292,6 +312,9 @@ input FileInput {
 }
 
 type Font {
+  id: ID!
+  created_at: DateTime!
+  updated_at: DateTime!
   file: UploadFile
   name: String
   weight: String
@@ -299,9 +322,6 @@ type Font {
   variable: Boolean
   minor_version: Int
   major_version: Int
-  id: ID!
-  created_at: DateTime!
-  updated_at: DateTime!
 }
 
 input FontInput {
@@ -326,7 +346,7 @@ scalar JSON
 """The `Long` scalar type represents 52-bit integers"""
 scalar Long
 
-union Morph = UsersPermissionsMe | UsersPermissionsMeRole | UsersPermissionsLoginPayload | Comment | createCommentPayload | updateCommentPayload | deleteCommentPayload | Font | createFontPayload | updateFontPayload | deleteFontPayload | Organization | createOrganizationPayload | updateOrganizationPayload | deleteOrganizationPayload | Project | createProjectPayload | updateProjectPayload | deleteProjectPayload | Question | createQuestionPayload | updateQuestionPayload | deleteQuestionPayload | Tag | createTagPayload | updateTagPayload | deleteTagPayload | Test | createTestPayload | updateTestPayload | deleteTestPayload | UploadFile | UsersPermissionsPermission | UsersPermissionsRole | createRolePayload | updateRolePayload | deleteRolePayload | UsersPermissionsUser | createUserPayload | updateUserPayload | deleteUserPayload
+union Morph = UsersPermissionsMe | UsersPermissionsMeRole | UsersPermissionsLoginPayload | Comment | createCommentPayload | updateCommentPayload | deleteCommentPayload | Font | createFontPayload | updateFontPayload | deleteFontPayload | Organization | createOrganizationPayload | updateOrganizationPayload | deleteOrganizationPayload | Project | createProjectPayload | updateProjectPayload | deleteProjectPayload | Question | createQuestionPayload | updateQuestionPayload | deleteQuestionPayload | Tag | createTagPayload | updateTagPayload | deleteTagPayload | Test | createTestPayload | updateTestPayload | deleteTestPayload | UploadFile | createFilePayload | updateFilePayload | deleteFilePayload | UsersPermissionsPermission | UsersPermissionsRole | createRolePayload | updateRolePayload | deleteRolePayload | UsersPermissionsUser | createUserPayload | updateUserPayload | deleteUserPayload
 
 type Mutation {
   createComment(input: createCommentInput): createCommentPayload
@@ -375,12 +395,12 @@ type Mutation {
 }
 
 type Organization {
-  name: String
-  users(sort: String, limit: Int, start: Int, where: JSON): [UsersPermissionsUser]
-  projects(sort: String, limit: Int, start: Int, where: JSON): [Project]
   id: ID!
   created_at: DateTime!
   updated_at: DateTime!
+  name: String
+  users(sort: String, limit: Int, start: Int, where: JSON): [UsersPermissionsUser]
+  projects(sort: String, limit: Int, start: Int, where: JSON): [Project]
 }
 
 input OrganizationInput {
@@ -390,28 +410,28 @@ input OrganizationInput {
 }
 
 type Project {
+  id: ID!
+  created_at: DateTime!
+  updated_at: DateTime!
   name: String!
   major_version: Int
   minor_version: Int
   archived: Boolean
   users(sort: String, limit: Int, start: Int, where: JSON): [UsersPermissionsUser]
+  owners(sort: String, limit: Int, start: Int, where: JSON): [UsersPermissionsUser]
   fonts(sort: String, limit: Int, start: Int, where: JSON): [Font]
   tags(sort: String, limit: Int, start: Int, where: JSON): [Tag]
-  owners(sort: String, limit: Int, start: Int, where: JSON): [UsersPermissionsUser]
   tests(sort: String, limit: Int, start: Int, where: JSON): [Test]
-  id: ID!
-  created_at: DateTime!
-  updated_at: DateTime!
 }
 
 input ProjectInput {
   users: [ID]
+  owners: [ID]
   name: String!
   major_version: Int
   minor_version: Int
   fonts: [ID]
   tags: [ID]
-  owners: [ID]
   archived: Boolean
   tests: [ID]
 }
@@ -444,6 +464,9 @@ type Query {
 }
 
 type Question {
+  id: ID!
+  created_at: DateTime!
+  updated_at: DateTime!
   editor_image: JSON
   code_image: JSON
   image_type: ENUM_QUESTION_IMAGE_TYPE
@@ -452,9 +475,6 @@ type Question {
   uploaded_image: UploadFile
   published: Boolean
   reference_images(sort: String, limit: Int, start: Int, where: JSON): [UploadFile]
-  id: ID!
-  created_at: DateTime!
-  updated_at: DateTime!
 }
 
 input QuestionInput {
@@ -477,12 +497,12 @@ input RoleInput {
 }
 
 type Tag {
-  name: String
-  color: String
-  projects(sort: String, limit: Int, start: Int, where: JSON): [Project]
   id: ID!
   created_at: DateTime!
   updated_at: DateTime!
+  name: String
+  color: String
+  projects(sort: String, limit: Int, start: Int, where: JSON): [Project]
 }
 
 input TagInput {
@@ -492,24 +512,30 @@ input TagInput {
 }
 
 type Test {
+  id: ID!
+  created_at: DateTime!
+  updated_at: DateTime!
   name: String!
   tags: JSON
   major_version: Int!
   minor_version: Int!
   completness: Float
+  archived: Boolean
+  users(sort: String, limit: Int, start: Int, where: JSON): [UsersPermissionsUser]
+  owners(sort: String, limit: Int, start: Int, where: JSON): [UsersPermissionsUser]
   questions(sort: String, limit: Int, start: Int, where: JSON): [Question]
-  id: ID!
-  created_at: DateTime!
-  updated_at: DateTime!
 }
 
 input TestInput {
+  users: [ID]
+  owners: [ID]
   name: String!
   tags: JSON
   major_version: Int!
   minor_version: Int!
   questions: [ID]
   completness: Float
+  archived: Boolean
 }
 
 """A time string with format: HH:mm:ss.SSS"""
@@ -522,6 +548,15 @@ input updateCommentInput {
 
 type updateCommentPayload {
   comment: Comment
+}
+
+input updateFileInput {
+  where: InputID
+  data: editFileInput
+}
+
+type updateFilePayload {
+  file: UploadFile
 }
 
 input updateFontInput {
@@ -600,6 +635,9 @@ type updateUserPayload {
 scalar Upload
 
 type UploadFile {
+  id: ID!
+  created_at: DateTime!
+  updated_at: DateTime!
   name: String!
   hash: String!
   sha256: String
@@ -610,9 +648,6 @@ type UploadFile {
   provider: String!
   provider_metadata: JSON
   related(sort: String, limit: Int, start: Int, where: JSON): [Morph]
-  id: ID!
-  created_at: DateTime!
-  updated_at: DateTime!
 }
 
 input UserInput {
@@ -627,6 +662,7 @@ input UserInput {
   Avatar: ID
   comment: ID
   projects: [ID]
+  tests: [ID]
 }
 
 input UsersPermissionsLoginInput {
@@ -657,25 +693,28 @@ type UsersPermissionsMeRole {
 }
 
 type UsersPermissionsPermission {
+  id: ID!
   type: String!
   controller: String!
   action: String!
   enabled: Boolean!
   policy: String
   role: UsersPermissionsRole
-  id: ID!
 }
 
 type UsersPermissionsRole {
+  id: ID!
   name: String!
   description: String
   type: String
   permissions(sort: String, limit: Int, start: Int, where: JSON): [UsersPermissionsPermission]
   users(sort: String, limit: Int, start: Int, where: JSON): [UsersPermissionsUser]
-  id: ID!
 }
 
 type UsersPermissionsUser {
+  id: ID!
+  created_at: DateTime!
+  updated_at: DateTime!
   username: String!
   email: String!
   provider: String
@@ -685,7 +724,5 @@ type UsersPermissionsUser {
   Avatar: UploadFile
   comment: Comment
   projects(sort: String, limit: Int, start: Int, where: JSON): [Project]
-  id: ID!
-  created_at: DateTime!
-  updated_at: DateTime!
+  tests(sort: String, limit: Int, start: Int, where: JSON): [Test]
 }

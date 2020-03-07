@@ -20,6 +20,12 @@
       "dominant": true,
       "plugin": "users-permissions"
     },
+    "owners": {
+      "collection": "user",
+      "via": "projects",
+      "dominant": true,
+      "plugin": "users-permissions"
+    },
     "name": {
       "required": true,
       "type": "string"
@@ -40,14 +46,9 @@
       "via": "projects",
       "dominant": true
     },
-    "owners": {
-      "collection": "user",
-      "via": "projects",
-      "dominant": true,
-      "plugin": "users-permissions"
-    },
     "archived": {
-      "type": "boolean"
+      "type": "boolean",
+      "default": false
     },
     "tests": {
       "collection": "test"

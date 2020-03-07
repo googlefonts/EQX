@@ -68,6 +68,10 @@
     "projects": {
       "collection": "project",
       "via": "owners"
+    },
+    "tests": {
+      "collection": "test",
+      "via": "owners"
     }
   }
 }
