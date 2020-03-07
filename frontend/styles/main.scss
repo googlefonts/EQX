@@ -189,3 +189,49 @@ main{
 		bottom: -20px;
 	}
 }
+
+
+/////////////////////
+// linear progress
+
+.linear-progress-thick{
+	&.MuiLinearProgress-root{
+		height: 8px;
+	}
+}
+
+
+//////////////////////
+// radial-grade
+
+.radial-grade{
+	position: relative;
+	.radial-background{
+		position: absolute;
+		opacity: 0.25;
+	}
+	.radial-info{
+		width: 120px;
+		position: absolute;
+		top: 0;
+		right: 0;
+		margin: 45px 8px 0;
+	}
+	.radial-info-grade{
+		line-height: 30px;
+	}
+}
+
+
+//////////////////////
+// Primary Background Changes
+
+.primary-background{
+	color: rgba(white, 1);
+	.MuiTypography-body2, .MuiTypography-body1, .MuiTypography-h6{
+		color: rgba(white, 0.5);
+	}
+	.inline-button{
+		color: rgba(white, 1);
+	}
+}
