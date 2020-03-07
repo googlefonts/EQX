@@ -61,12 +61,12 @@ class SideNav extends React.Component {
                 <ListItemText primary='Projects'/>
               </ListItem>
             </a></Link>
-            <Link href="/groups"><a>
+            {/* <Link href="/groups"><a>
               <ListItem selected={this.props.page === "groups" ? true : false} button key="groups">
                 <ListItemIcon><GroupIcon /></ListItemIcon>
                 <ListItemText primary='Groups'/>
               </ListItem>
-            </a></Link>
+            </a></Link> */}
           </List>
           {/* {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
             <ListItem button key={text}>
