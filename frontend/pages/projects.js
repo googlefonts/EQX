@@ -1,12 +1,12 @@
 /* /pages/projects.js */
 
-import ProjectList from "../components/ProjectList";
+// import ProjectList from "../components/ProjectList";
 import React from "react";
 import defaultPage from "../hocs/defaultPage";
 import Layout from "../components/Layout";
 import Project from "../components/Project";
 import Section from "../components/Section";
-import { TextField, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, FormGroup, Input, InputLabel, Button, Typography} from '@material-ui/core';
+import { TextField, Box, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, FormGroup, Input, InputLabel, Button, Typography} from '@material-ui/core';
 import Cookies from "js-cookie";
 import axios from 'axios';
 import "../styles/main.scss";
@@ -43,6 +43,7 @@ class NewProject extends React.Component {
         users: [ Cookies.get("id") ],
         major_version: 0,
         minor_version: 1,
+        archived: false,
       }, { headers: { Authorization: 'Bearer ' + Cookies.get("jwt") }
       }).catch(error => { console.log(error); // Handle error 
       }).then(response => { // Handle success
@@ -64,7 +65,7 @@ class NewProject extends React.Component {
           <br/>
           <Button onClick={this.handleOpen} className="align-center" color="primary" size="large" variant="contained">Create a New Project</Button>
           <br/>
-          <Typography align="center" gutterBottom={true} variant="caption" display="block">Don’t worry, we’ll help you through it.</Typography>
+          <Typography align="center" gutterBottom={true} variant="body2" display="block">Don’t worry, we’ll help you through it.</Typography>
         </>
 
         <Dialog open={this.state.open} onClose={this.handleClose}>
@@ -87,28 +88,47 @@ class NewProject extends React.Component {
 //////////////////////////////
 // Search Archived Projects
 
-class SearchSection extends React.Component {
+class SearchProjects extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      query: ""
+      query: "",
+      projects: this.props.projects,
+      searchedProjects: this.props.projects,
     };
   }
 
+  componentDidUpdate(prevProps) {
+    if(this.state.projects !== this.props.projects) {
+      this.setState({projects: this.props.projects, searchedProjects: this.props.projects});
+    }
+  }
+
   onChange(e) {
-    this.setState({ query: e.target.value.toLowerCase() });
+    this.setState({ 
+      query: e.target.value.toLowerCase(), 
+      searchedProjects: this.props.projects.filter( project => project.name.toLowerCase().includes(e.target.value.toLowerCase())  ) 
+    });
+  }
+
+  pageUpdate = () => {
+    this.props.pageUpdate();
   }
 
   render() {
     return (
       <>
-        <div className="search">
-          <FormGroup>
-            <InputLabel>Search</InputLabel>
-            <Input onChange={this.onChange.bind(this)} />
-          </FormGroup>
-        </div>
-        <ProjectList search={this.state.query} />
+        <Box className="search" mb={4}>
+          <TextField onChange={this.handleChange} autoFocus margin="dense" onChange={this.onChange.bind(this)} label="Search archived projects" type="text" fullWidth />
+        </Box>
+
+        {(this.state.searchedProjects && this.state.searchedProjects.length) ?    
+          this.state.searchedProjects.map((project, i) =>
+            <Project key={"archived-project-"+i+"-"+project.id} projectId={project.id} pageUpdate={this.pageUpdate}/>
+          )
+        : 
+          <Typography variant="body1">We couldnt find any archived projects.</Typography>
+        }
       </>
     );
   }
@@ -124,52 +144,54 @@ class ProjectPage extends React.Component {
     this.state = {
       page: "projects",
       projects: [],
+      archivedProjects: [],
     };
-    // axios
-    //   .post('http://localhost:1337/graphql', { 
-    //     headers: { Authorization: 'Bearer ' + Cookies.get("jwt") },
-    //     data: {
-    //       query: `
-    //         query {
-    //           projects {
-    //             name
-    //           }
-    //         }
-    //       `
-    //     }
-    //   }).catch(error => { console.log(error); // Handle error 
-    //   }).then(response => { // Handle success
-    //     console.log(response)
-    //   });
   }
 
   componentDidMount = () => {
     this.update();
   }
 
+  pageUpdate = () => {
+    this.update();
+  }
+
   update = () => {
     axios
-      .get('http://localhost:1337/projects?owners.id='+Cookies.get("id"), { 
+      .get('http://localhost:1337/projects?owners.id='+Cookies.get("id")+'&archived_eq=false', { 
         headers: { Authorization: "Bearer " + Cookies.get("jwt") }
+      }).catch(error => { console.log(error); // Handle error
       }).then(response => { // Handle success
         this.setState({ projects: response.data });
 
-      }).catch(error => { console.log(error); }); // Handle error 
+        axios
+          .get('http://localhost:1337/projects?owners.id='+Cookies.get("id")+'&archived_eq=true', { 
+            headers: { Authorization: "Bearer " + Cookies.get("jwt") }
+          }).catch(error => { console.log(error); // Handle error
+          }).then(response => { // Handle success
+            this.setState({archivedProjects: response.data});
+          });
+        
+      })
   }
 
   render() {
     return (
       <Layout page={this.state.page} {...this.props}>
         <Section>
-          {this.state.projects.map((project, i) =>
-            <Project key={"project-"+i} projectId={project.id} update={this.update}/>
-          )}
+          {(this.state.projects && this.state.projects.length) ?    
+            this.state.projects.map((project, i) =>
+              <Project key={"project-"+i+"-"+project.id} projectId={project.id} update={this.update} pageUpdate={this.pageUpdate}/>
+            )
+          : 
+            <Typography variant="body1">We couldnt find any projects. Try making one.</Typography>
+          }
         </Section>
         <Section>
           <NewProject update={this.update} />
         </Section>
         <Section bgcolor="background.paper2">
-          <SearchSection/> 
+          <SearchProjects projects={this.state.archivedProjects} pageUpdate={this.pageUpdate} /> 
         </Section>
       </Layout>
     );
