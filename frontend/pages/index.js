@@ -4,46 +4,70 @@
 import React from "react";
 import defaultPage from "../hocs/defaultPage";
 import Layout from "../components/Layout";
+import Test from "../components/Test";
+import SharedTest from "../components/SharedTest";
+import Section from "../components/Section";
+import Project from "../components/Project";
 import {Cell, Row} from '@material/react-layout-grid';
-import { FormGroup, FormControl, FormLabel, Input, InputLabel, FormHelperText, Button } from '@material-ui/core';
-import { Container, Grid } from '@material-ui/core';
+import { TextField, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, FormGroup, Input, InputLabel, Button, Typography} from '@material-ui/core';
+import Cookies from "js-cookie";
+import axios from 'axios';
 
 import "../styles/main.scss";
 
 class Index extends React.Component {
   constructor(props) {
     super(props);
-    //query state will be passed to ProjectList for the filter query
     this.state = {
       page: "dashboard",
-      query: ""
+      projects: [],
     };
   }
-  
-  onChange(e) {
-    //set the state = to the input typed in the search Input Component
-    //this.state.query gets passed into ProjectList to filter the results
-    this.setState({ query: e.target.value.toLowerCase() });
+
+  componentDidMount = () => {
+    this.update();
+  }
+
+  update = () => {
+    axios
+      .get('http://localhost:1337/projects?owners.id='+Cookies.get("id")+'&archived_eq=false', { 
+        headers: { Authorization: "Bearer " + Cookies.get("jwt") }
+      }).then(response => { // Handle success
+        this.setState({ projects: response.data });
+
+      }).catch(error => { console.log(error); }); // Handle error 
   }
 
   render() {
     return (
       <Layout page={this.state.page} {...this.props}>
 
-        <Container maxWidth={false}>
-          <Grid container spacing={2}>
-            <Grid item xs={12}>
-              {/* <div className="search">
-                <FormGroup>
-                  <InputLabel> Search </InputLabel>
-                  <Input onChange={this.onChange.bind(this)} />
-                </FormGroup>
-              </div>
-              <ProjectList search={this.state.query} /> */}
-            </Grid>
-          </Grid>
+        <Section bgcolor="none">
+          {this.state.projects.map((project, i1) => 
+            project.tests.map((test, i2) =>
+              <Test key={"test-"+i2} testId={test.id} project={project} update={this.update}/>
+            )
+          )}
+        </Section>
+     
+        <Section bgcolor="background.paper2">
+          {this.state.projects.map((project, i1) => 
+            project.tests.map((test, i2) =>
+              <SharedTest key={"test-"+i2} testId={test.id} project={project} update={this.update}/>
+            )
+          )}
+        </Section>
 
-        </Container>      
+        <Section>
+          {(this.state.projects && this.state.projects.length) ?    
+            this.state.projects.map((project, i) =>
+              <Project key={"project-"+i+"-"+project.id} projectId={project.id} update={this.update} pageUpdate={this.pageUpdate}/>
+            )
+          : 
+            <Typography variant="body1">We couldnt find any projects. Try making one.</Typography>
+          }
+        </Section>
+
       </Layout>
     );
   }
