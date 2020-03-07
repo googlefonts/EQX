@@ -21,6 +21,7 @@ class SignIn extends React.Component {
 
 	constructor(props) {
 		super(props);
+
 		this.state = {
 			data: {
 				username: "",
@@ -43,7 +44,9 @@ class SignIn extends React.Component {
 	}
 
 	handleClickShowPassword = () => {
-		setValues({ ...values, showPassword: !values.showPassword });
+		this.setState(prevState => ({
+			showPassword: !prevState.showPassword
+		}));
 	}
 
 	handleMouseDownPassword = event => {
@@ -87,7 +90,7 @@ class SignIn extends React.Component {
 									<InputLabel htmlFor="standard-adornment-password">Password</InputLabel>
 									<Input
 										id="standard-adornment-password"
-										type={this.showPassword ? 'text' : 'password'}
+										type={this.state.showPassword ? 'text' : 'password'}
 										value={this.password}
 										onChange={this.onChange.bind(this, "password")}
 										endAdornment={
@@ -106,7 +109,7 @@ class SignIn extends React.Component {
 								<FormControl>
 									<Button color="primary" size="large" variant="contained" onClick={this.onSubmit.bind(this)}>Login</Button>
 									<br/>
-									<Typography variant="caption" align="center">By clicking, you agree to our <Link href="#">Customer Agreement</Link>.</Typography>
+									<Typography variant="body2" align="center">By clicking, you agree to our <Link href="#">Customer Agreement</Link>.</Typography>
 								</FormControl>
 							</FormGroup>
 						</CardContent>

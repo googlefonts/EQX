@@ -27,7 +27,14 @@ class SignUp extends React.Component {
 		const { data } = this.state;
 		data[propertyName] = event.target.value;
 		this.setState({ data });
-  	}
+   }
+     
+   handleClickShowPassword = () => {
+      this.setState(prevState => ({
+         showPassword: !prevState.showPassword
+      }));
+   }
+  
   	handleSubmit = () => {
 		const { data: { email, username, password } } = this.state;
 		this.setState({ loading: true });
@@ -64,7 +71,7 @@ class SignUp extends React.Component {
                         <InputLabel htmlFor="standard-adornment-password">Password</InputLabel>
                         <Input
                            id="standard-adornment-password"
-                           type={this.showPassword ? 'text' : 'password'}
+                           type={this.state.showPassword ? 'text' : 'password'}
                            value={this.password}
                            onChange={this.handleChange.bind(this, "password")}
                            endAdornment={
@@ -83,7 +90,7 @@ class SignUp extends React.Component {
                      <FormControl>
                         <Button color="primary" size="large" variant="contained" onClick={this.handleSubmit.bind(this)}>Sign Up</Button>
                         <br/>
-                        <Typography variant="caption" align="center">By clicking, you agree to our <Link href="#">Customer Agreement</Link>.</Typography>
+                        <Typography variant="body2" align="center">By clicking, you agree to our <Link href="#">Customer Agreement</Link>.</Typography>
                      </FormControl>
                   </FormGroup>
                </CardContent>
