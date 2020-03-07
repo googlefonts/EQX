@@ -8,11 +8,10 @@ const apiUrl = process.env.API_URL || 'http://localhost:1337';
 const strapi = new Strapi(apiUrl);
 
 
-
 //////////////////////////////
 // Test Tests
 
-class TestTests extends React.Component {
+class TestQuestions extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -25,24 +24,24 @@ class TestTests extends React.Component {
   }
   handleClose = () => {
     this.setState({open: false});
-    this.setState({ textFieldValue: "" });
+    this.setState({textFieldValue: ""});
   }
   handleSubmit = () => {
-    let testName =  this.state.textFieldValue;
+    let questionName =  this.state.textFieldValue;
     axios
-      .post('http://localhost:1337/tests', {
-        name: testName,
+      .post('http://localhost:1337/questions', {
+        question: questionName,
       }, { headers: { Authorization: 'Bearer ' + Cookies.get("jwt") } 
       }).catch(error => { console.log(error);  // Handle Error
       }).then(response => { // Handle success
-        
         axios
           .put('http://localhost:1337/tests/' + this.props.test.id, {
-            tests: [...this.props.test.tests, response.data.id]
+            questions: [...this.props.test.questions, response.data.id]
           }, { headers: { Authorization: 'Bearer ' + Cookies.get("jwt") } 
           }).catch(error => { console.log(error); // Handle Error
           }).then(response => { // Handle success
             this.handleClose();
+            this.props.update();
           });
       })
   }
@@ -54,22 +53,17 @@ class TestTests extends React.Component {
   render() {
     return (
       <Box className="section-tests tabContainer" hidden={0 === this.props.tabValue ? false : true}>
-        <List>
-          {(this.props.test.tests && this.props.test.tests.length) ?
-            this.props.test.tests.map((test, i) =>
+        <List color="primary">
+          {(this.props.test.questions && this.props.test.questions.length) ?
+            this.props.test.questions.map((question, i) =>
                 
-              <ListItem button key={"test-"+i}>
+              <ListItem button key={"question-"+i}>
                 <Box p={1} pt={2} width="100%">
                   <Grid container spacing={2}>
                     <Grid item xs={12}>
                         <Typography variant="h5">
-                          {test.name}
-                          <Box component="span" color="grey.400"> v.{test.major_version}.{test.minor_version}</Box>
+                          {question.question}
                         </Typography>
-                      <Box style={{width: "calc(100% - 100px)", display: "inline-block"}}>
-                        <LinearProgress variant="determinate" value={test.completness}/>
-                      </Box>
-                      <Typography style={{width: "100px", display: "inline-block"}} align="right" variant="body1">{test.completness}% Done</Typography>
                     </Grid>
                   </Grid>
                 </Box>
@@ -80,7 +74,7 @@ class TestTests extends React.Component {
               <Grid container spacing={2}>
                 <Grid item xs={12}>
                   <Box color="text.disabled">
-                    <Typography variant="body1">This test doesn't have any tests yet.</Typography>
+                    <Typography variant="body1">This test doesn't have any questions yet.</Typography>
                   </Box>
                 </Grid>
               </Grid>
@@ -91,15 +85,15 @@ class TestTests extends React.Component {
           <Fab onClick={this.handleOpen} className="overflow-fab" variant="extended" size="medium" color="primary" aria-label="add">
             {/* <AddCircleIcon /> 
             <Box component="span">&nbsp;&nbsp;</Box> */}
-            <Box component="span">Create Test</Box>
+            <Box component="span">Add Question</Box>
           </Fab>
         </Box>
 
         <Dialog open={this.state.open} onClose={this.handleClose}>
-          <DialogTitle id="form-dialog-title">New Test</DialogTitle>
+          <DialogTitle id="form-dialog-title">New Question</DialogTitle>
           <DialogContent>
-            <DialogContentText>Tests should be built around verifing a specific goal.</DialogContentText>
-            <TextField value={this.state.textFieldValue} onChange={this.handleChange} autoFocus margin="dense" id="name" label="Test's Name" type="text" fullWidth />
+            <DialogContentText>Questions should be built around verifing a specific goal.</DialogContentText>
+            <TextField value={this.state.textFieldValue} onChange={this.handleChange} autoFocus margin="dense" id="name" label="Question's Name" type="text" fullWidth />
           </DialogContent>
           <DialogActions>
             <Button onClick={this.handleClose} color="primary">Cancel</Button>
@@ -243,17 +237,27 @@ class Test extends React.Component {
       elevation: 3,
       tabValue: 0,
       test: {},
+      questionLength: 0,
     };
-    this.getTest();
   }
 
-  getTest = () => {
+  componentDidMount = () => {
+    this.update();
+  }
+
+  update = () => {
     axios
       .get('http://localhost:1337/tests?id_in=' + this.props.testId, { 
         headers: { Authorization: 'Bearer ' + Cookies.get("jwt") }
       }).catch(error => { console.log(error); // Handle error
       }).then(response => { // Handle success
         this.setState({ test: response.data[0] });
+
+        let questionLength = 0; 
+        if (typeof response.data[0].questions !== 'undefined' && response.data[0].questions > 0){
+          questionLength = response.data[0].questions;
+        }
+        this.setState({ questionLength: questionLength });
       });
   }
 
@@ -272,51 +276,37 @@ class Test extends React.Component {
 
   render() {
     return (
-      <Box mb={6} position="relative">
+      <Box mb={6} className="test-container" position="relative">
         <Card elevation={this.state.elevation} onMouseOver={this.cardOver} onMouseOut={this.cardOut}>
 
           {/* Genral Info */}
           <CardContent >
             <Box p={1}>
+              <Typography variant="h6">
+                <Box component="span" color="grey.400">{this.props.project.name} v.{this.props.project.major_version}.{this.props.project.minor_version}</Box>
+              </Typography>
               <Typography variant="h4">
                 {this.state.test.name}
                 <Box component="span" color="grey.400"> v.{this.state.test.major_version}.{this.state.test.minor_version}</Box>
               </Typography>
-              <Typography display="block" variant="caption">
-                <span>
-                  {(this.state.test.tests && this.state.test.tests.length) ? (
-                    <span>0 of {this.state.test.tests.length} tests complete</span>
-                  ) : (
-                    <span>0 tests</span>
-                  )}
-                  <Divider display="inline-block" orientation="vertical" />
-                </span>
-                <Box component="span" color="purple" className="inline-button" >Archive</Box>
+              <Box className="progress-bar" pb={1}>
+                <Box style={{width: "calc(100% - 200px)", display: "inline-block"}}>
+                  <LinearProgress variant="determinate" value={this.state.test.completness}/>
+                </Box>
+                <Typography style={{width: "200px", display: "inline-block"}} align="right" variant="h6">{this.state.test.completness}% Done</Typography>
+              </Box>
+              <Typography display="block" variant="body2">
+                <Box component="span" color="purple" className="inline-button" mr={2} >
+                  <Button color="primary" size="large" variant="contained" >Start</Button>
+                </Box>
+                <Box component="span">{this.state.questionLength} Questions</Box>
                 <Divider display="inline-block" orientation="vertical" />
-                <Box component="span" color="purple" className="inline-button" >Share</Box>
+                <Box component="span" color="purple" className="inline-button" >Answers</Box>
+                <Divider display="inline-block" orientation="vertical" />
+                <Box component="span" color="purple" className="inline-button" >Comments</Box>
               </Typography>
             </Box>
           </CardContent>
-
-
-
-          {/* Actionable Info */}
-          <AppBar position="static" color="default">
-          <Tabs value={this.state.tabValue} onChange={this.handleChange} indicatorColor="primary" textColor="primary" variant="scrollable" scrollButtons="auto">
-            <Tab label="Tests" />
-            <Tab label="Members" />
-            <Tab label="Fonts" />
-          </Tabs>
-          </AppBar>
-          
-          {/* Tests */}
-          <TestTests test={this.state.test} tabValue={this.state.tabValue} getTest={this.getTest}/>
-
-          {/* Members */}
-          <TestMembers test={this.state.test} tabValue={this.state.tabValue} getTest={this.getTest}/>
-
-          {/* Fonts */}
-          <TestFonts test={this.state.test} tabValue={this.state.tabValue} getTest={this.getTest}/>
         </Card>
       </Box>
     );
