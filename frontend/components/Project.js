@@ -20,18 +20,30 @@ class ProjectTests extends React.Component {
       textFieldValue: ""
     };
   }
+
   handleOpen = () => {
     this.setState({open: true});
   }
+
   handleClose = () => {
     this.setState({open: false});
     this.setState({ textFieldValue: "" });
   }
+
+  handleChange = (e) => {
+    this.setState({ textFieldValue: e.target.value });
+  }
+
   handleSubmit = () => {
     let testName =  this.state.textFieldValue;
     axios
       .post('http://localhost:1337/tests', {
         name: testName,
+        owners: [ Cookies.get("id") ],
+        users: [ Cookies.get("id") ],
+        major_version: 0,
+        minor_version: 1,
+        archived: false,
       }, { headers: { Authorization: 'Bearer ' + Cookies.get("jwt") } 
       }).catch(error => { console.log(error);  // Handle Error
       }).then(response => { // Handle success
@@ -48,9 +60,6 @@ class ProjectTests extends React.Component {
       })
   }
 
-  handleChange = (e) => {
-    this.setState({ textFieldValue: e.target.value });
-  }
   
   render() {
     return (
@@ -67,10 +76,10 @@ class ProjectTests extends React.Component {
                         {test.name}
                         <Box component="span" color="grey.400"> v.{test.major_version}.{test.minor_version}</Box>
                       </Typography>
-                      <Box style={{width: "calc(100% - 100px)", display: "inline-block"}}>
+                      <Box style={{width: "calc(100% - 200px)", display: "inline-block"}}>
                         <LinearProgress variant="determinate" value={test.completness}/>
                       </Box>
-                      <Typography style={{width: "100px", display: "inline-block"}} align="right" variant="body1">{test.completness}% Done</Typography>
+                      <Typography style={{width: "200px", display: "inline-block"}} align="right" variant="body1">{test.completness}% Done</Typography>
                     </Grid>
                   </Grid>
                 </Box>
@@ -208,18 +217,18 @@ class ProjectFonts extends React.Component {
         </List>
         <Box className="overflow-fab-wrap">
           <Fab onClick={this.handleOpen} className="overflow-fab" variant="extended" size="medium" color="primary" aria-label="add">
-            <Box component="span">Add Font</Box>
+            <Box component="span">Add Font Files</Box>
           </Fab>
         </Box>
 
         <Dialog open={this.state.open} onClose={this.handleClose}>
-          <DialogTitle id="form-dialog-title">New Member</DialogTitle>
+          <DialogTitle id="form-dialog-title">Add Font Files</DialogTitle>
           <DialogContent>
             <DialogContentText>Add the fonts you are using for this project.</DialogContentText>
             <TextField value={this.state.textFieldValue} onChange={this.handleChange} autoFocus margin="dense" id="name" label="Font Name" type="email" fullWidth />
             <br/><br/>
             <Button variant="contained" component="label" >
-              Upload File
+              Upload Files
               <input type="file" style={{ display: "none" }} />
             </Button>
           </DialogContent>
@@ -244,6 +253,7 @@ class Project extends React.Component {
       elevation: 3,
       tabValue: 0,
       project: {},
+      archived: false
     };
   }
 
@@ -261,6 +271,18 @@ class Project extends React.Component {
       });
   }
 
+  archive = () => {
+    axios
+      .put('http://localhost:1337/projects/' + this.props.projectId, {
+        archived: !this.state.project.archived
+      }, { headers: { Authorization: 'Bearer ' + Cookies.get("jwt") } 
+      }).catch(error => { console.log(error); // Handle Error
+      }).then(response => { // Handle success
+        this.props.pageUpdate();
+      });
+
+  }
+
   cardOver = () => {
     this.setState({ elevation: 6 });
   }
@@ -273,7 +295,6 @@ class Project extends React.Component {
     this.setState({ tabValue: newValue });
   };
  
-
   render() {
     return (
       <Box mb={6} position="relative">
@@ -282,11 +303,13 @@ class Project extends React.Component {
           {/* Genral Info */}
           <CardContent >
             <Box p={1}>
-              <Typography variant="h4">
-                {this.state.project.name}
-                <Box component="span" color="grey.400"> v.{this.state.project.major_version}.{this.state.project.minor_version}</Box>
-              </Typography>
-              <Typography display="block" variant="caption">
+              <Box pb={1}>
+                <Typography variant="h4">
+                  {this.state.project.name}
+                  <Box component="span" color="grey.400"> v.{this.state.project.major_version}.{this.state.project.minor_version}</Box>
+                </Typography>
+              </Box>
+              <Typography display="block" variant="body2">
                 <span>
                   {(this.state.project.tests && this.state.project.tests.length) ? (
                     <span>0 of {this.state.project.tests.length} tests complete</span>
@@ -295,7 +318,7 @@ class Project extends React.Component {
                   )}
                   <Divider display="inline-block" orientation="vertical" />
                 </span>
-                <Box component="span" color="purple" className="inline-button" >Archive</Box>
+                <Box component="span" color="purple" onClick={this.archive} className="inline-button" >Archive</Box>
                 <Divider display="inline-block" orientation="vertical" />
                 <Box component="span" color="purple" className="inline-button" >Share</Box>
               </Typography>
@@ -309,7 +332,8 @@ class Project extends React.Component {
           <Tabs value={this.state.tabValue} onChange={this.handleChange} indicatorColor="primary" textColor="primary" variant="scrollable" scrollButtons="auto">
             <Tab label="Tests" />
             <Tab label="Members" />
-            <Tab label="Fonts" />
+            <Tab label="Font Files" />
+            <Tab label="Import/Export" />
           </Tabs>
           </AppBar>
           
