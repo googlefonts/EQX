@@ -131,6 +131,8 @@ jobs:
         kubesec decrypt -i base/secrets.yaml --debug
 
         kustomize edit set image $REGISTRY_HOSTNAME/$GKE_PROJECT/backend:${GITHUB_SHA}
+        # need to kill deployment before deploying because we're on a really small node
+        kubectl delete deployment backend
         kustomize build . | kubectl apply -f -
         kubectl rollout status deployment/backend
         kubectl get services -o wide
@@ -141,6 +143,8 @@ jobs:
         gcloud container clusters get-credentials $GKE_CLUSTER --zone $GKE_ZONE --project $GKE_PROJECT
         cd frontend/_infra/
         kustomize edit set image $REGISTRY_HOSTNAME/$GKE_PROJECT/frontend:${GITHUB_SHA}
+        # need to kill deployment before deploying because we're on a really small node
+        kubectl delete deployment frontend
         kustomize build . | kubectl apply -f -
         kubectl rollout status deployment/frontend
         kubectl get services -o wide

@@ -1,7 +1,0 @@
-commonLabels:
-  app: postgresql
-
-resources:
-- deployment.yaml
-- service.yaml
-- secrets.yaml
