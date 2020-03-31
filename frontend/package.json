@@ -47,7 +47,7 @@
     "jquery": "^3.4.1",
     "js-cookie": "^2.2.1",
     "jwt-decode": "^2.2.0",
-    "next": "^9.2.1",
+    "next": "^9.3.2",
     "next-apollo": "^3.1.10",
     "next-with-apollo": "^4.3.0",
     "node-fetch": "^2.6.0",
