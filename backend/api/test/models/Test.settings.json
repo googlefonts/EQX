@@ -1,4 +1,5 @@
 {
+  "kind": "collectionType",
   "connection": "default",
   "collectionName": "tests",
   "info": {
@@ -14,18 +15,6 @@
     "comment": ""
   },
   "attributes": {
-    "users": {
-      "collection": "user",
-      "via": "tests",
-      "dominant": true,
-      "plugin": "users-permissions"
-    },
-    "owners": {
-      "collection": "user",
-      "via": "tests",
-      "dominant": true,
-      "plugin": "users-permissions"
-    },
     "name": {
       "type": "string",
       "required": true
@@ -54,6 +43,16 @@
     "archived": {
       "type": "boolean",
       "default": false
+    },
+    "users": {
+      "via": "tests",
+      "plugin": "users-permissions",
+      "collection": "user"
+    },
+    "owners": {
+      "via": "owned_tests",
+      "plugin": "users-permissions",
+      "collection": "user"
     }
   }
 }

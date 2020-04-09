@@ -64,7 +64,7 @@ class Index extends React.Component {
               <Project key={"project-"+i+"-"+project.id} projectId={project.id} update={this.update} pageUpdate={this.pageUpdate}/>
             )
           : 
-            <Typography variant="body1">We couldnt find any projects. Try making one.</Typography>
+            <Typography align="center" variant="body1">We couldn’t find any projects. Try making one.</Typography>
           }
         </Section>
 

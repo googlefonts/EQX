@@ -229,8 +229,6 @@ input editOrganizationInput {
 }
 
 input editProjectInput {
-  users: [ID]
-  owners: [ID]
   name: String
   major_version: Int
   minor_version: Int
@@ -238,6 +236,8 @@ input editProjectInput {
   tags: [ID]
   archived: Boolean
   tests: [ID]
+  users: [ID]
+  owners: [ID]
 }
 
 input editQuestionInput {
@@ -266,8 +266,6 @@ input editTagInput {
 }
 
 input editTestInput {
-  users: [ID]
-  owners: [ID]
   name: String
   tags: JSON
   major_version: Int
@@ -275,6 +273,8 @@ input editTestInput {
   questions: [ID]
   completness: Float
   archived: Boolean
+  users: [ID]
+  owners: [ID]
 }
 
 input editUserInput {
@@ -290,6 +290,8 @@ input editUserInput {
   comment: ID
   projects: [ID]
   tests: [ID]
+  owned_tests: [ID]
+  owned_projects: [ID]
 }
 
 enum ENUM_QUESTION_IMAGE_TYPE {
@@ -417,16 +419,14 @@ type Project {
   major_version: Int
   minor_version: Int
   archived: Boolean
-  users(sort: String, limit: Int, start: Int, where: JSON): [UsersPermissionsUser]
-  owners(sort: String, limit: Int, start: Int, where: JSON): [UsersPermissionsUser]
   fonts(sort: String, limit: Int, start: Int, where: JSON): [Font]
   tags(sort: String, limit: Int, start: Int, where: JSON): [Tag]
   tests(sort: String, limit: Int, start: Int, where: JSON): [Test]
+  users(sort: String, limit: Int, start: Int, where: JSON): [UsersPermissionsUser]
+  owners(sort: String, limit: Int, start: Int, where: JSON): [UsersPermissionsUser]
 }
 
 input ProjectInput {
-  users: [ID]
-  owners: [ID]
   name: String!
   major_version: Int
   minor_version: Int
@@ -434,6 +434,8 @@ input ProjectInput {
   tags: [ID]
   archived: Boolean
   tests: [ID]
+  users: [ID]
+  owners: [ID]
 }
 
 type Query {
@@ -521,14 +523,12 @@ type Test {
   minor_version: Int!
   completness: Float
   archived: Boolean
+  questions(sort: String, limit: Int, start: Int, where: JSON): [Question]
   users(sort: String, limit: Int, start: Int, where: JSON): [UsersPermissionsUser]
   owners(sort: String, limit: Int, start: Int, where: JSON): [UsersPermissionsUser]
-  questions(sort: String, limit: Int, start: Int, where: JSON): [Question]
 }
 
 input TestInput {
-  users: [ID]
-  owners: [ID]
   name: String!
   tags: JSON
   major_version: Int!
@@ -536,6 +536,8 @@ input TestInput {
   questions: [ID]
   completness: Float
   archived: Boolean
+  users: [ID]
+  owners: [ID]
 }
 
 """A time string with format: HH:mm:ss.SSS"""
@@ -663,6 +665,8 @@ input UserInput {
   comment: ID
   projects: [ID]
   tests: [ID]
+  owned_tests: [ID]
+  owned_projects: [ID]
 }
 
 input UsersPermissionsLoginInput {
@@ -725,4 +729,6 @@ type UsersPermissionsUser {
   comment: Comment
   projects(sort: String, limit: Int, start: Int, where: JSON): [Project]
   tests(sort: String, limit: Int, start: Int, where: JSON): [Test]
+  owned_tests(sort: String, limit: Int, start: Int, where: JSON): [Test]
+  owned_projects(sort: String, limit: Int, start: Int, where: JSON): [Project]
 }

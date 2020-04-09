@@ -1,4 +1,5 @@
 {
+  "kind": "collectionType",
   "connection": "default",
   "collectionName": "comments",
   "info": {
@@ -15,9 +16,9 @@
   },
   "attributes": {
     "user": {
-      "model": "user",
       "via": "comment",
-      "plugin": "users-permissions"
+      "plugin": "users-permissions",
+      "model": "user"
     },
     "text": {
       "required": true,

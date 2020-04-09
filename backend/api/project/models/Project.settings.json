@@ -1,4 +1,5 @@
 {
+  "kind": "collectionType",
   "connection": "default",
   "collectionName": "projects",
   "info": {
@@ -14,18 +15,6 @@
     "comment": ""
   },
   "attributes": {
-    "users": {
-      "collection": "user",
-      "via": "projects",
-      "dominant": true,
-      "plugin": "users-permissions"
-    },
-    "owners": {
-      "collection": "user",
-      "via": "projects",
-      "dominant": true,
-      "plugin": "users-permissions"
-    },
     "name": {
       "required": true,
       "type": "string"
@@ -52,6 +41,16 @@
     },
     "tests": {
       "collection": "test"
+    },
+    "users": {
+      "via": "projects",
+      "plugin": "users-permissions",
+      "collection": "user"
+    },
+    "owners": {
+      "via": "owned_projects",
+      "plugin": "users-permissions",
+      "collection": "user"
     }
   }
 }

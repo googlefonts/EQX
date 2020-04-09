@@ -1,5 +1,6 @@
 import React from "react";
-import { Dialog, DialogTitle, DialogActions, DialogContentText, DialogContent, Button, TextField, Fab, Grid, LinearProgress, List, ListItem, ListItemAvatar, ListItemText, Avatar, AppBar, Tab, Tabs, Card, CardContent, Typography, Box, Divider} from '@material-ui/core';
+import { Chip, Dialog, DialogTitle, DialogActions, DialogContentText, DialogContent, Button, TextField, Fab, Grid, LinearProgress, List, ListItem, ListItemAvatar, ListItemText, Avatar, AppBar, Tab, Tabs, Card, CardContent, Typography, Box, Divider} from '@material-ui/core';
+import { Autocomplete } from '@material-ui/lab';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import Cookies from "js-cookie";
 import Strapi from 'strapi-sdk-javascript/build/main';
@@ -108,7 +109,7 @@ class ProjectTests extends React.Component {
         <Dialog open={this.state.open} onClose={this.handleClose}>
           <DialogTitle id="form-dialog-title">New Test</DialogTitle>
           <DialogContent>
-            <DialogContentText>Tests should be built around verifing a specific goal.</DialogContentText>
+            <DialogContentText>Tests should be built around verifying a specific goal.</DialogContentText>
             <TextField value={this.state.textFieldValue} onChange={this.handleChange} autoFocus margin="dense" id="name" label="Test's Name" type="text" fullWidth />
           </DialogContent>
           <DialogActions>
@@ -127,20 +128,106 @@ class ProjectTests extends React.Component {
 // Project Members
 
 class ProjectMembers extends React.Component {
+
   constructor(props) {
     super(props);
     this.state = {
       open: false,
-      textFieldValue: ""
+      textFieldValue: "",
+      possibleUsers: [],
+      currentUsers: [],
+      users: [],
+      owners: [],
     };
   }
+
+  componentDidMount = () => {
+    axios
+      .get('http://localhost:1337/users', { 
+        headers: { Authorization: "Bearer " + Cookies.get("jwt") }
+      }).catch(error => { console.log(error); // Handle error
+      }).then(response => { // Handle success
+        let data = response.data;
+        this.setState({ possibleUsers: data });
+        this.update();
+      })
+    this.update();
+  }
+
+  componentDidUpdate(nextProps) {
+    const { project } = this.props
+    if (nextProps.project !== project) {
+      this.update();
+    }
+   }
+  
+  update = () => { 
+    if (typeof this.props.project != "undefined" && Object.keys(this.props.project).length > 0){
+      let possibleUsers = this.state.possibleUsers.map( ({ username, email, id }) => ({ username, email, id }) );
+      let users = this.props.project.users.map( ({ username, email, id }) => ({ username, email, id }) );
+      console.log(this.props)
+      console.log(this.props.project.owners)
+      let owners = this.props.project.owners.map( ({ username, email, id }) => ({ username, email, id }) );
+      console.log(owners)
+      possibleUsers = possibleUsers.map(function(el) {
+        var person = Object.assign({}, el);
+        person.user = false;
+        if (users.some(i => i.id === person.id)){
+          person.user = true;
+        }
+        person.owner = false;
+        if (owners.some(i => i.id === person.id)){
+          // console.log("person")
+          // console.log(person)
+          // console.log(owners)
+          person.owner = true;
+        }
+
+        return person;
+      });
+      // console.log(possibleUsers)
+      this
+        .setState({ 
+          possibleUsers: possibleUsers,
+          users: users,
+          owners: owners 
+        });
+    }
+  }
+
+  handleChange = (event, values) => {
+    this.setState({ currentUsers: values });
+  }
+
   handleOpen = () => {
     this.setState({open: true});
   }
+
   handleClose = () => {
     this.setState({open: false});
     this.setState({ textFieldValue: "" });
   }
+
+  keyDown = (event) => {
+    if (event.keyCode == 8 && event.target.value == "") {
+      event.preventDefault();
+      event.stopPropagation();
+      return false;
+    }
+  }
+
+  handleSubmit = () => {
+    axios
+      .put('http://localhost:1337/projects/' + this.props.project.id, {
+        users: this.state.currentUsers.map( i => i = i.id),
+      }, { headers: { Authorization: 'Bearer ' + Cookies.get("jwt") } 
+      }).catch(error => { console.log(error); // Handle Error
+      }).then(response => { // Handle success
+        this.handleClose();
+        this.props.update();
+      });
+  }
+  
   render() {
     return (
       <Box className="section-members tabContainer" hidden={1 === this.props.tabValue ? false : true}>
@@ -171,11 +258,39 @@ class ProjectMembers extends React.Component {
           <DialogContent>
             <DialogContentText>Add any team member you want.</DialogContentText>
             {/* https://material-ui.com/components/autocomplete/#multiple-values */}
-            <TextField value={this.state.textFieldValue} onChange={this.handleChange} autoFocus margin="dense" id="name" label="Member's Email" type="email" fullWidth />
+            <Autocomplete 
+              multiple 
+              id="tags-standard" 
+              autoComplete={true}
+              options={this.state.possibleUsers} 
+              getOptionLabel={(option) => option.username} 
+              onChange={this.handleChange}
+              disableClearable={true}
+              defaultValue={this.state.possibleUsers.filter(i => i.user === true)}
+              renderTags={(value, getTagProps) =>
+                value.map((option, index) => ( 
+                  <Chip key={"project-user-" + option.id} label={option.username} {...getTagProps({ index })} disabled={option.owner === true} />
+                ))
+              }
+              filterSelectedOptions={true}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  variant="standard"
+                  label="members"
+                  placeholder=""
+                  autoFocus 
+                  margin="dense" 
+                  fullWidth
+                  onKeyDown={this.keyDown}
+                />
+              )}
+            />
+            {/* <TextField value={this.state.textFieldValue} onChange={this.handleChange} autoFocus margin="dense" id="name" label="Member's Email" type="email" fullWidth /> */}
           </DialogContent>
           <DialogActions>
             <Button onClick={this.handleClose} color="primary">Cancel</Button>
-            <Button onClick={this.handleSubmit} color="primary">Create</Button>
+            <Button onClick={this.handleSubmit} color="primary">Update</Button>
           </DialogActions>
         </Dialog>
       </Box>
@@ -237,6 +352,54 @@ class ProjectFonts extends React.Component {
             <Button onClick={this.handleSubmit} color="primary">Add</Button>
           </DialogActions>
         </Dialog>
+      </Box>
+    );
+  }
+} 
+
+
+
+//////////////////////////////
+// Project Import/Export
+
+class ProjectImportExport extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      open: false,
+    };
+  }
+  handleOpen = () => {
+    this.setState({open: true});
+  }
+  handleClose = () => {
+    this.setState({open: false});
+  }
+  render() {
+    return (
+      <Box className="section-import-export tabContainer" hidden={3 === this.props.tabValue ? false : true}>
+       <br/>
+       <br/>
+          <Typography align="center" gutterBottom={true} variant="h5">Need to get a project off of EQX? Lets make that happen.</Typography>
+          <Box my={4} className="text-align-center">
+            <Box m={2} display="inline">
+              <Button onClick={this.handleOpen} display="inline" color="primary" size="large" variant="contained">Import JSON</Button>
+            </Box>
+            <Box m={2} display="inline">
+              <Button onClick={this.handleOpen} display="inline" color="primary" size="large" variant="contained">Export JSON</Button>
+            </Box>
+          </Box>
+          <Box my={4} className="text-align-center">
+            <Box m={2} display="inline">
+              <Button onClick={this.handleOpen} display="inline" color="primary" size="large" variant="contained">Import CSV</Button>
+            </Box>
+            <Box m={2} display="inline">
+              <Button onClick={this.handleOpen} display="inline" color="primary" size="large" variant="contained">Export CSV</Button>
+            </Box>
+          </Box>
+          <Typography align="center" gutterBottom={true} variant="body2" display="block">You can find more on this here.</Typography>
+          <br/>
+          <br/>
       </Box>
     );
   }
@@ -309,17 +472,21 @@ class Project extends React.Component {
                   <Box component="span" color="grey.400"> v.{this.state.project.major_version}.{this.state.project.minor_version}</Box>
                 </Typography>
               </Box>
-              <Typography display="block" variant="body2">
+              <Typography display="inline" variant="body2">
                 <span>
                   {(this.state.project.tests && this.state.project.tests.length) ? (
                     <span>0 of {this.state.project.tests.length} tests complete</span>
                   ) : (
                     <span>0 tests</span>
                   )}
-                  <Divider display="inline-block" orientation="vertical" />
                 </span>
+              </Typography>
+              <Divider display="inline-block" orientation="vertical" />
+              <Typography display="inline" variant="body2">
                 <Box component="span" color="purple" onClick={this.archive} className="inline-button" >Archive</Box>
-                <Divider display="inline-block" orientation="vertical" />
+              </Typography>
+              <Divider display="inline-block" orientation="vertical" />
+              <Typography display="inline" variant="body2">
                 <Box component="span" color="purple" className="inline-button" >Share</Box>
               </Typography>
             </Box>
@@ -338,13 +505,16 @@ class Project extends React.Component {
           </AppBar>
           
           {/* Tests */}
-          <ProjectTests update={this.update} project={this.state.project} tabValue={this.state.tabValue} getProject={this.getProject}/>
+          <ProjectTests update={this.update} {...this.state} getProject={this.getProject}/>
 
           {/* Members */}
-          <ProjectMembers update={this.update} project={this.state.project} tabValue={this.state.tabValue} getProject={this.getProject}/>
+          <ProjectMembers update={this.update} {...this.state} getProject={this.getProject}/>
 
           {/* Fonts */}
-          <ProjectFonts update={this.update} project={this.state.project} tabValue={this.state.tabValue} getProject={this.getProject}/>
+          <ProjectFonts update={this.update} {...this.state} getProject={this.getProject}/>
+
+          {/* Import/Export */}
+          <ProjectImportExport update={this.update} {...this.state} getProject={this.getProject}/>
         </Card>
       </Box>
     );

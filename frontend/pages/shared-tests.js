@@ -143,7 +143,7 @@ class SearchTests extends React.Component {
             <SharedTest key={"archived-test-"+i+"-"+test.id} testId={test.id} pageUpdate={this.pageUpdate}/>
           )
         : 
-          <Typography variant="body1">We couldnt find any archived tests.</Typography>
+          <Typography align="center" variant="body1">We couldn’t find any archived tests.</Typography>
         }
 
       </>

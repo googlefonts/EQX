@@ -127,7 +127,7 @@ class SearchProjects extends React.Component {
             <Project key={"archived-project-"+i+"-"+project.id} projectId={project.id} pageUpdate={this.pageUpdate}/>
           )
         : 
-          <Typography variant="body1">We couldnt find any archived projects.</Typography>
+          <Typography align="center" variant="body1">We couldn’t find any archived projects.</Typography>
         }
       </>
     );
@@ -184,7 +184,7 @@ class ProjectPage extends React.Component {
               <Project key={"project-"+i+"-"+project.id} projectId={project.id} update={this.update} pageUpdate={this.pageUpdate}/>
             )
           : 
-            <Typography variant="body1">We couldnt find any projects. Try making one.</Typography>
+            <Typography align="center" variant="body1">We couldn’t find any projects. Try making one.</Typography>
           }
         </Section>
         <Section>

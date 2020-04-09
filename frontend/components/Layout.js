@@ -38,7 +38,6 @@ class Layout extends React.Component {
 		return { pageProps };
 	}
 	render() {
-		console.log(this.props);
 		
 		// let isAuthenticated = false;
 		// if	(Cookies.get("jwt")){

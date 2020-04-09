@@ -23,6 +23,13 @@ theme.overrides = {
 			width: 230
 		}
 	},
+	MuiDialog:{
+		...theme.MuiDialog,
+		paper: {
+			...theme.paper,
+			width: "100%"
+		},
+	},
 	MuiListItem: {
 		...theme.MuiListItem,
 		root: {

@@ -1,4 +1,5 @@
 {
+  "kind": "collectionType",
   "connection": "default",
   "collectionName": "users-permissions_user",
   "info": {
@@ -59,7 +60,8 @@
     "Avatar": {
       "model": "file",
       "via": "related",
-      "plugin": "upload"
+      "plugin": "upload",
+      "required": false
     },
     "comment": {
       "model": "comment",
@@ -67,11 +69,23 @@
     },
     "projects": {
       "collection": "project",
-      "via": "owners"
+      "via": "users",
+      "dominant": true
     },
     "tests": {
       "collection": "test",
-      "via": "owners"
+      "via": "users",
+      "dominant": true
+    },
+    "owned_tests": {
+      "collection": "test",
+      "via": "owners",
+      "dominant": true
+    },
+    "owned_projects": {
+      "collection": "project",
+      "via": "owners",
+      "dominant": true
     }
   }
 }
