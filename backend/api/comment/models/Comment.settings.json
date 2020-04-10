@@ -16,9 +16,9 @@
   },
   "attributes": {
     "user": {
+      "via": "comment",
       "plugin": "users-permissions",
-      "model": "user",
-      "via": "comment"
+      "model": "user"
     },
     "text": {
       "required": true,

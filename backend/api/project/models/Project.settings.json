@@ -43,14 +43,14 @@
       "collection": "test"
     },
     "users": {
+      "via": "projects",
       "plugin": "users-permissions",
-      "collection": "user",
-      "via": "projects"
+      "collection": "user"
     },
     "owners": {
+      "via": "owned_projects",
       "plugin": "users-permissions",
-      "collection": "user",
-      "via": "owned_projects"
+      "collection": "user"
     }
   }
 }

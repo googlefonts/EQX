@@ -295,7 +295,6 @@ input editUserInput {
   tests: [ID]
   owned_tests: [ID]
   owned_projects: [ID]
-  sometext: String
 }
 
 enum ENUM_QUESTION_IMAGE_TYPE {
@@ -671,7 +670,6 @@ input UserInput {
   tests: [ID]
   owned_tests: [ID]
   owned_projects: [ID]
-  sometext: String
 }
 
 input UsersPermissionsLoginInput {
@@ -732,7 +730,6 @@ type UsersPermissionsUser {
   role: UsersPermissionsRole
   Avatar: UploadFile
   comment: Comment
-  sometext: String
   projects(sort: String, limit: Int, start: Int, where: JSON): [Project]
   tests(sort: String, limit: Int, start: Int, where: JSON): [Test]
   owned_tests(sort: String, limit: Int, start: Int, where: JSON): [Test]

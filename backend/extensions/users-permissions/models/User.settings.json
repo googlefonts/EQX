@@ -64,12 +64,12 @@
       "required": false
     },
     "comment": {
-      "via": "user",
-      "model": "comment"
+      "model": "comment",
+      "via": "user"
     },
     "projects": {
-      "via": "users",
       "collection": "project",
+      "via": "users",
       "dominant": true
     },
     "tests": {
@@ -83,12 +83,9 @@
       "dominant": true
     },
     "owned_projects": {
-      "via": "owners",
       "collection": "project",
+      "via": "owners",
       "dominant": true
-    },
-    "sometext": {
-      "type": "string"
     }
   }
 }
