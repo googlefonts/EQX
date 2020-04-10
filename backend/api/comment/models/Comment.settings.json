@@ -16,9 +16,9 @@
   },
   "attributes": {
     "user": {
-      "via": "comment",
       "plugin": "users-permissions",
-      "model": "user"
+      "model": "user",
+      "via": "comment"
     },
     "text": {
       "required": true,
@@ -32,6 +32,9 @@
     },
     "radius": {
       "type": "integer"
+    },
+    "SomeText": {
+      "type": "string"
     }
   }
 }

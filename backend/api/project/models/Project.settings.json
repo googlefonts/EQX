@@ -21,11 +21,11 @@
     },
     "major_version": {
       "type": "integer",
-      "default": "0"
+      "default": 0
     },
     "minor_version": {
       "type": "integer",
-      "default": "1"
+      "default": 1
     },
     "fonts": {
       "collection": "font"
@@ -43,14 +43,14 @@
       "collection": "test"
     },
     "users": {
-      "via": "projects",
       "plugin": "users-permissions",
-      "collection": "user"
+      "collection": "user",
+      "via": "projects"
     },
     "owners": {
-      "via": "owned_projects",
       "plugin": "users-permissions",
-      "collection": "user"
+      "collection": "user",
+      "via": "owned_projects"
     }
   }
 }

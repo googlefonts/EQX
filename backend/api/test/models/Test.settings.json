@@ -25,12 +25,12 @@
     "major_version": {
       "type": "integer",
       "required": true,
-      "default": "0"
+      "default": 0
     },
     "minor_version": {
       "type": "integer",
       "min": 1,
-      "default": "1",
+      "default": 1,
       "required": true
     },
     "questions": {
@@ -38,7 +38,7 @@
     },
     "completness": {
       "type": "float",
-      "default": "0"
+      "default": 0
     },
     "archived": {
       "type": "boolean",
