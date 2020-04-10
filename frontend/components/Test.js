@@ -279,7 +279,7 @@ class Test extends React.Component {
       <Box mb={6} className="test-container" position="relative">
         <Card elevation={this.state.elevation} onMouseOver={this.cardOver} onMouseOut={this.cardOut}>
 
-          {/* Genral Info */}
+          {/* General Info */}
           <CardContent >
             <Box p={1}>
               <Typography variant="h6">
@@ -291,9 +291,9 @@ class Test extends React.Component {
               </Typography>
               <Box className="progress-bar" pb={1}>
                 <Box style={{width: "calc(100% - 200px)", display: "inline-block"}}>
-                  <LinearProgress variant="determinate" value={this.state.test.completness}/>
+                  <LinearProgress variant="determinate" value={this.state.test.completeness}/>
                 </Box>
-                <Typography style={{width: "200px", display: "inline-block"}} align="right" variant="h6">{this.state.test.completness}% Done</Typography>
+                <Typography style={{width: "200px", display: "inline-block"}} align="right" variant="h6">{this.state.test.completeness}% Done</Typography>
               </Box>
               <Typography display="block" variant="body2">
                 <Box component="span" color="purple" className="inline-button" mr={2} >

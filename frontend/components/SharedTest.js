@@ -268,7 +268,7 @@ class SharedTest extends React.Component {
 
   render() {
     return (
-      <Box mb={6} className="test-container" position="relative">
+      <Box mb={this.props.modal === true ? 0 : 6 } className="test-container" position="relative">
         <Card elevation={this.state.elevation} onMouseOver={this.cardOver} onMouseOut={this.cardOut}>
 
           {/* Genral Info */}

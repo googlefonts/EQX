@@ -274,7 +274,7 @@ input editTestInput {
   major_version: Int
   minor_version: Int
   questions: [ID]
-  completness: Float
+  completeness: Float
   archived: Boolean
   users: [ID]
   owners: [ID]
@@ -524,7 +524,7 @@ type Test {
   tags: JSON
   major_version: Int!
   minor_version: Int!
-  completness: Float
+  completeness: Float
   archived: Boolean
   questions(sort: String, limit: Int, start: Int, where: JSON): [Question]
   users(sort: String, limit: Int, start: Int, where: JSON): [UsersPermissionsUser]
@@ -537,7 +537,7 @@ input TestInput {
   major_version: Int!
   minor_version: Int!
   questions: [ID]
-  completness: Float
+  completeness: Float
   archived: Boolean
   users: [ID]
   owners: [ID]

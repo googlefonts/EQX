@@ -5,6 +5,7 @@ import AddCircleIcon from '@material-ui/icons/AddCircle';
 import Cookies from "js-cookie";
 import Strapi from 'strapi-sdk-javascript/build/main';
 import axios from 'axios';
+import SharedTest from "../components/SharedTest";
 const apiUrl = process.env.API_URL || 'http://localhost:1337';
 const strapi = new Strapi(apiUrl);
 
@@ -18,12 +19,25 @@ class ProjectTests extends React.Component {
     super(props);
     this.state = {
       open: false,
+      testModal: {},
+      testModalOpen: false,
       textFieldValue: ""
     };
   }
 
   handleOpen = () => {
     this.setState({open: true});
+  }
+
+  testModalHandleOpen = (test) => {
+    this.setState({
+      testModalOpen: true,
+      testModal: test,
+    });
+  }
+
+  testModalHandleClose = () => {
+    this.setState({testModalOpen: false});
   }
 
   handleClose = () => {
@@ -68,8 +82,7 @@ class ProjectTests extends React.Component {
         <List>
           {(this.props.project.tests && this.props.project.tests.length) ?
             this.props.project.tests.map((test, i) =>
-                
-              <ListItem button key={"test-"+i}>
+              <ListItem onClick={() => this.testModalHandleOpen(test)} button key={"test-"+i}>
                 <Box p={1} pt={2} width="100%">
                   <Grid container spacing={2}>
                     <Grid item xs={12}>
@@ -78,9 +91,9 @@ class ProjectTests extends React.Component {
                         <Box component="span" color="grey.400"> v.{test.major_version}.{test.minor_version}</Box>
                       </Typography>
                       <Box style={{width: "calc(100% - 200px)", display: "inline-block"}}>
-                        <LinearProgress variant="determinate" value={test.completness}/>
+                        <LinearProgress variant="determinate" value={test.completeness}/>
                       </Box>
-                      <Typography style={{width: "200px", display: "inline-block"}} align="right" variant="body1">{test.completness}% Done</Typography>
+                      <Typography style={{width: "200px", display: "inline-block"}} align="right" variant="body1">{test.completeness}% Done</Typography>
                     </Grid>
                   </Grid>
                 </Box>
@@ -98,6 +111,9 @@ class ProjectTests extends React.Component {
             </ListItem>
           }
         </List>
+        <Dialog fullWidth={true} maxWidth="md" open={this.state.testModalOpen} onClose={this.testModalHandleClose}>
+          <SharedTest modal={true} testId={this.state.testModal.id} project={this.props.project} update={this.update}/>
+        </Dialog>
         <Box className="overflow-fab-wrap">
           <Fab onClick={this.handleOpen} className="overflow-fab" variant="extended" size="medium" color="primary" aria-label="add">
             {/* <AddCircleIcon /> 
@@ -165,10 +181,7 @@ class ProjectMembers extends React.Component {
     if (typeof this.props.project != "undefined" && Object.keys(this.props.project).length > 0){
       let possibleUsers = this.state.possibleUsers.map( ({ username, email, id }) => ({ username, email, id }) );
       let users = this.props.project.users.map( ({ username, email, id }) => ({ username, email, id }) );
-      console.log(this.props)
-      console.log(this.props.project.owners)
       let owners = this.props.project.owners.map( ({ username, email, id }) => ({ username, email, id }) );
-      console.log(owners)
       possibleUsers = possibleUsers.map(function(el) {
         var person = Object.assign({}, el);
         person.user = false;
@@ -177,15 +190,11 @@ class ProjectMembers extends React.Component {
         }
         person.owner = false;
         if (owners.some(i => i.id === person.id)){
-          // console.log("person")
-          // console.log(person)
-          // console.log(owners)
           person.owner = true;
         }
 
         return person;
       });
-      // console.log(possibleUsers)
       this
         .setState({ 
           possibleUsers: possibleUsers,

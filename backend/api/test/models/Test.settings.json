@@ -36,23 +36,25 @@
     "questions": {
       "collection": "question"
     },
-    "completness": {
+    "completeness": {
       "type": "float",
-      "default": 0
+      "default": "0",
+      "min": 0,
+      "max": 100
     },
     "archived": {
       "type": "boolean",
       "default": false
     },
     "users": {
-      "via": "tests",
       "plugin": "users-permissions",
-      "collection": "user"
+      "collection": "user",
+      "via": "tests"
     },
     "owners": {
-      "via": "owned_tests",
       "plugin": "users-permissions",
-      "collection": "user"
+      "collection": "user",
+      "via": "owned_tests"
     }
   }
 }

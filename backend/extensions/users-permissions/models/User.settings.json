@@ -73,13 +73,13 @@
       "dominant": true
     },
     "tests": {
-      "collection": "test",
       "via": "users",
+      "collection": "test",
       "dominant": true
     },
     "owned_tests": {
-      "collection": "test",
       "via": "owners",
+      "collection": "test",
       "dominant": true
     },
     "owned_projects": {
