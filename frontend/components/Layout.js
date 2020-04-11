@@ -28,6 +28,7 @@ import theme from '../src/theme';
 class Layout extends React.Component {
 	constructor(props) {
 		super(props);
+		{console.log(this.props.router)}
 	}
 	static async getInitialProps({ req }) {
 		let pageProps = {};
@@ -50,8 +51,7 @@ class Layout extends React.Component {
 				<div className="layout-wrapper">
 					<Header 
 						auth={this.props.isAuthenticated} 
-						headerType={this.props.headerType} 
-						progressBar={this.props.progressBar}
+						{...this.props}
 					/>
 					{	this.props.isAuthenticated ? (	
 						<>

@@ -386,7 +386,7 @@ class ProjectImportExport extends React.Component {
   }
   render() {
     return (
-      <Box className="section-import-export tabContainer" hidden={3 === this.props.tabValue ? false : true}>
+      <Box className="section-import-export" hidden={3 === this.props.tabValue ? false : true}>
        <br/>
        <br/>
           <Typography align="center" gutterBottom={true} variant="h5">Need to get a project off of EQX? Lets make that happen.</Typography>

@@ -87,7 +87,7 @@ class TestQuestions extends React.Component {
           <Fab className="overflow-fab" variant="extended" size="medium" color="primary" aria-label="add">
             {/* <AddCircleIcon /> 
             <Box component="span">&nbsp;&nbsp;</Box> */}
-            <Link href="/create-question">
+            <Link href={"/create-question?test=" + this.props.test.id}>
               <Box component="span">Add Question</Box>
             </Link>
           </Fab>
@@ -97,7 +97,7 @@ class TestQuestions extends React.Component {
         <Dialog open={this.state.open} onClose={this.handleClose}>
           <DialogTitle id="form-dialog-title">New Question</DialogTitle>
           <DialogContent>
-            <DialogContentText>Questions should be built around verifing a specific goal.</DialogContentText>
+            <DialogContentText>Questions should be built around verifying a specific goal.</DialogContentText>
             <TextField value={this.state.textFieldValue} onChange={this.handleChange} autoFocus margin="dense" id="name" label="Question's Name" type="text" fullWidth />
           </DialogContent>
           <DialogActions>
@@ -196,35 +196,51 @@ class TestMembers extends React.Component {
 
 
 //////////////////////////////
-// Import/Export
+// Test Import/Export
 
-class ImportExport extends React.Component {
-   constructor(props) {
-     super(props);
-     this.state = {
-       open: false,
-       textFieldValue: ""
-     };
-   }
-   handleOpen = () => {
-     this.setState({open: true});
-   }
-   handleClose = () => {
-     this.setState({open: false});
-     this.setState({ textFieldValue: "" });
-   }
-   render() {
-     return (
-       <Box bgcolor="primary.main" className="primary-background section-fonts tabContainer" hidden={2 === this.props.tabValue ? false : true}>
-         <List>
-            
-         </List>
-         
-       </Box>
-     );
-   }
- } 
- 
+class TestImportExport extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      open: false,
+    };
+  }
+  handleOpen = () => {
+    this.setState({open: true});
+  }
+  handleClose = () => {
+    this.setState({open: false});
+  }
+  render() {
+    return (
+      <Box bgcolor="primary.main" className="primary-background section-import-export" hidden={2 === this.props.tabValue ? false : true}>
+       <br/>
+       <br/>
+          <Typography align="center" gutterBottom={true} variant="h5">Need to get a test off of EQX? Lets make that happen.</Typography>
+          <Box my={4} className="text-align-center">
+            <Box m={2} display="inline">
+              <Button onClick={this.handleOpen} display="inline" size="large" variant="contained">Import JSON</Button>
+            </Box>
+            <Box m={2} display="inline">
+              <Button onClick={this.handleOpen} display="inline" size="large" variant="contained">Export JSON</Button>
+            </Box>
+          </Box>
+          <Box my={4} className="text-align-center">
+            <Box m={2} display="inline">
+              <Button onClick={this.handleOpen} display="inline" size="large" variant="contained">Import CSV</Button>
+            </Box>
+            <Box m={2} display="inline">
+              <Button onClick={this.handleOpen} display="inline" size="large" variant="contained">Export CSV</Button>
+            </Box>
+          </Box>
+          <Typography align="center" gutterBottom={true} variant="body2" display="block">You can find more on this here.</Typography>
+          <br/>
+          <br/>
+      </Box>
+    );
+  }
+} 
+
   
 //////////////////////////////
 // Current tests
@@ -327,13 +343,13 @@ class SharedTest extends React.Component {
           </Box>
 
           {/* Members */}
-          <TestMembers test={this.state.test} tabValue={this.state.tabValue} update={this.update}/>
+          <TestMembers {...this.state} update={this.update}/>
 
           {/* Tests */}
-          <TestQuestions test={this.state.test} tabValue={this.state.tabValue} update={this.update}/>
+          <TestQuestions {...this.state} update={this.update}/>
 
           {/* Import/Export */}
-          <ImportExport test={this.state.test} tabValue={this.state.tabValue} update={this.update}/>
+          <TestImportExport {...this.state} update={this.update}/>
         </Card>
       </Box>
     );

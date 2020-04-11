@@ -20,7 +20,7 @@ const client = new ApolloClient({
 });
 
 class MyApp extends App {
-  static async getInitialProps({ Component, router, ctx }) {
+  static async getInitialProps({ Component, ctx }) {
     let pageProps = {};
     if (Component.getInitialProps) {
       pageProps = await Component.getInitialProps(ctx);
@@ -31,7 +31,6 @@ class MyApp extends App {
   render() {
     // const { Component, pageProps, apollo, isAuthenticated, ctx } = this.props;
     const { Component, pageProps, isAuthenticated, ctx } = this.props;
-    // console.log(this.props.router.route)
     return (
       <ApolloProvider client={client}>
         <ApolloHooksProvider client={client}>

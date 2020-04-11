@@ -19,8 +19,8 @@ class CreateQuestionPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      page: "test",
-      projects: [],
+      page: "question",
+      tests: [],
     };
   }
 
@@ -33,12 +33,19 @@ class CreateQuestionPage extends React.Component {
   }
 
   update = () => {
+    const params = new URL(document.location).searchParams;
+    axios
+      .get('http://localhost:1337/tests?id=' + params.get("test"), { 
+        headers: { Authorization: "Bearer " + Cookies.get("jwt") }
+      }).then(response => { // Handle success
+        this.setState({ tests: response.data });
+      }).catch(error => { console.log(error) });
   }
 
   render() {
     return (
       <Layout page={this.state.page} headerType="creating" {...this.props}>
-        <Box pt={5} bgcolor="#fff">
+        <Box pt={8} bgcolor="#fff">
           <CreateQuestionFields/>
           <EditorImagesImport/>
         </Box>

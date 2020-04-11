@@ -41,7 +41,6 @@ export default Page =>
             <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
             <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,400i,700,700i,900&display=swap" rel="stylesheet" />
           </Head> */}
-
           <Page {...this.props} />
        </>
       );
