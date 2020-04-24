@@ -52,7 +52,7 @@ class ProjectTests extends React.Component {
   handleSubmit = () => {
     let testName =  this.state.textFieldValue;
     axios
-      .post('http://localhost:1337/tests', {
+      .post(apiUrl + '/tests', {
         name: testName,
         owners: [ Cookies.get("id") ],
         users: [ Cookies.get("id") ],
@@ -64,7 +64,7 @@ class ProjectTests extends React.Component {
       }).then(response => { // Handle success
         
         axios
-          .put('http://localhost:1337/projects/' + this.props.project.id, {
+          .put(apiUrl+'/projects/' + this.props.project.id, {
             tests: [...this.props.project.tests, response.data.id]
           }, { headers: { Authorization: 'Bearer ' + Cookies.get("jwt") } 
           }).catch(error => { console.log(error); // Handle Error
@@ -159,7 +159,7 @@ class ProjectMembers extends React.Component {
 
   componentDidMount = () => {
     axios
-      .get('http://localhost:1337/users', { 
+      .get(apiUrl+'/users', { 
         headers: { Authorization: "Bearer " + Cookies.get("jwt") }
       }).catch(error => { console.log(error); // Handle error
       }).then(response => { // Handle success
@@ -227,7 +227,7 @@ class ProjectMembers extends React.Component {
 
   handleSubmit = () => {
     axios
-      .put('http://localhost:1337/projects/' + this.props.project.id, {
+      .put(apiUrl+'/projects/' + this.props.project.id, {
         users: this.state.currentUsers.map( i => i = i.id),
       }, { headers: { Authorization: 'Bearer ' + Cookies.get("jwt") } 
       }).catch(error => { console.log(error); // Handle Error
@@ -435,7 +435,7 @@ class Project extends React.Component {
 
   update = () => {
     axios
-      .get('http://localhost:1337/projects?id_in=' + this.props.projectId, { 
+      .get(apiUrl+'/projects?id_in=' + this.props.projectId, { 
         headers: { Authorization: 'Bearer ' + Cookies.get("jwt") }
       }).catch(error => { console.log(error); // Handle error
       }).then(response => { // Handle success
@@ -445,7 +445,7 @@ class Project extends React.Component {
 
   archive = () => {
     axios
-      .put('http://localhost:1337/projects/' + this.props.projectId, {
+      .put(apiUrl+'/projects/' + this.props.projectId, {
         archived: !this.state.project.archived
       }, { headers: { Authorization: 'Bearer ' + Cookies.get("jwt") } 
       }).catch(error => { console.log(error); // Handle Error

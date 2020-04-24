@@ -13,10 +13,10 @@ import { createHttpLink } from 'apollo-link-http';
 import { ApolloProvider } from "react-apollo";
 import { ApolloProvider as ApolloHooksProvider } from "@apollo/react-hooks";
 import ApolloClient from "apollo-boost";
-
+const apiUrl = process.env.API_URL || 'http://localhost:1337';
 
 const client = new ApolloClient({
-  uri: "http://localhost:1337/graphql"
+  uri: apiUrl+"/graphql"
 });
 
 class MyApp extends App {

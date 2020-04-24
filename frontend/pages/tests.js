@@ -9,6 +9,7 @@ import { TextField, Dialog, DialogActions, DialogContent, DialogContentText, Dia
 import Cookies from "js-cookie";
 import axios from 'axios';
 import "../styles/main.scss";
+const apiUrl = process.env.API_URL || 'http://localhost:1337';
 
 
 //////////////////////////////
@@ -35,7 +36,7 @@ class NewTest extends React.Component {
   onSubmit = () => {
     let testName =  this.state.textFieldValue;
     axios
-      .post('http://localhost:1337/tests', {
+      .post(apiUrl+'/tests', {
         name: testName,
         owners: [ Cookies.get("id") ],
         users: [ Cookies.get("id") ],
@@ -130,7 +131,7 @@ class TestPage extends React.Component {
 
   update = () => {
     axios
-      .get('http://localhost:1337/projects?owners.id='+Cookies.get("id")+'&archived_eq=false', { 
+      .get(apiUrl+'/projects?owners.id='+Cookies.get("id")+'&archived_eq=false', { 
         headers: { Authorization: "Bearer " + Cookies.get("jwt") }
       }).then(response => { // Handle success
         this.setState({ projects: response.data });

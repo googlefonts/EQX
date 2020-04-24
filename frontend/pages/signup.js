@@ -3,6 +3,7 @@
 import React from "react";
 import { strapiRegister } from "../lib/auth";
 import axios from 'axios';
+const apiUrl = process.env.API_URL || 'http://localhost:1337';
 
 // import Router from "next/router";
 
@@ -42,7 +43,7 @@ class SignUp extends React.Component {
 		// 	.then(() => this.setState({ loading: false }))
 		// 	.catch(error => this.setState({ error: error }));
 		axios
-			.post('http://localhost:1337/auth/local/register', {
+			.post(apiUrl+'/auth/local/register', {
 				email: email,
 				password: password,
 			})

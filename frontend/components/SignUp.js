@@ -1,5 +1,6 @@
 /* /pages/signup.js */ 
 
+const apiUrl = process.env.API_URL || 'http://localhost:1337';
 import React from "react";
 import { strapiLogin } from "../lib/auth";
 import axios from 'axios';
@@ -40,7 +41,7 @@ class SignUp extends React.Component {
 		this.setState({ loading: true });
 
 		axios
-			.post('http://localhost:1337/auth/local/register', {
+			.post(apiUrl+'/auth/local/register', {
 				username: username,
 				email: email,
 				password: password,
