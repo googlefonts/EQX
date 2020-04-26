@@ -1,13 +1,38 @@
 import MaterialIcon from '@material/react-material-icon';
 import {Button } from '@material/react-typography';
+import axios from 'axios';
+const apiUrl = process.env.API_URL || 'http://localhost:1337';
+import Cookies from "js-cookie";
 
 class SvgTab extends React.Component {
+  constructor() {
+    super()
+    this.state = {
+      imageUrl: "",
+    };
+  }
 
-	loadFile(event) {
-		console.log("run loadfile");
-	  var output = document.getElementById('output-image');
-	  output.src = URL.createObjectURL(event.target.files[0]);
-	};
+	loadFile(e) {
+    e.preventDefault();
+
+    const formData = new FormData();
+    formData.append("files", e.target.files[0]);
+
+    axios
+      .post(apiUrl+'/upload', formData, { 
+        headers: { 
+          'Authorization': 'Bearer ' + Cookies.get("jwt"),
+          'Content-Type': 'multipart/form-data'
+        }
+    })
+    .then(response => { 
+      var output = document.getElementById('output-image');
+      output.src = apiUrl+response.data[0].url
+    })
+    .catch(error => { 
+      console.log(error); 
+    });
+  };
 	
 	render() {
 		return(
