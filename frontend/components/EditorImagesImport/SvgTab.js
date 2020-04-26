@@ -10,6 +10,7 @@ class SvgTab extends React.Component {
     this.state = {
       imageUrl: "",
     };
+    this.loadFile = this.loadFile.bind(this)
   }
 
 	loadFile(e) {
@@ -26,8 +27,7 @@ class SvgTab extends React.Component {
         }
     })
     .then(response => { 
-      var output = document.getElementById('output-image');
-      output.src = apiUrl+response.data[0].url
+      this.props.onImageUpload(apiUrl+response.data[0].url)
     })
     .catch(error => { 
       console.log(error); 
@@ -35,15 +35,18 @@ class SvgTab extends React.Component {
   };
 	
 	render() {
+    const hasImage = Boolean(this.props.imageUrl);
 		return(
 		  <div className="images-tab">
 		    <input type="file" name="images-tab-upload" id="images-tab-upload" accept="image/*" onChange={this.loadFile}/>
 		    <label htmlFor="images-tab-upload" className="images-tab-upload-label">
-		    	<div className="circle">
-		    		<MaterialIcon className="paperclip-icon" icon='attach_file' />
-		    		<Button>Upload your SVG here</Button>
-		    	</div>
-		    	<img id="output-image"/>
+          {!hasImage && (
+            <div className="circle">
+		    		  <MaterialIcon className="paperclip-icon" icon='attach_file' />
+		    		  <Button>Upload your SVG here</Button>
+		    	  </div>
+          )}
+		    	<img id="output-image" src={this.props.imageUrl}/>
 		    </label>
 		  </div>
 		);

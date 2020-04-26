@@ -10,7 +10,10 @@ import EditorTab from '../components/EditorImagesImport/EditorTab';
 import HtmlCssTab from '../components/EditorImagesImport/HtmlCssTab';
 
 class EditorImagesImport extends React.Component {
-  state = {activeIndex: 0};
+  state = {
+    activeIndex: 0,
+    imageUrl: ""
+  };
 
   handleActiveIndexUpdate = (activeIndex) => this.setState({activeIndex});
 
@@ -35,7 +38,7 @@ class EditorImagesImport extends React.Component {
               </Tab>
             </TabBar>
             {this.state.activeIndex == 0 ? <EditorTab/> : null}
-            {this.state.activeIndex == 1 ? <SvgTab/> : null}
+            {this.state.activeIndex == 1 ? <SvgTab imageUrl={this.state.imageUrl} onImageUpload={(url) => this.setState({imageUrl: url})}/> : null}
             {this.state.activeIndex == 2 ? <HtmlCssTab/> : null}
           </Cell>
         </Row>
