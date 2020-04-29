@@ -9,9 +9,11 @@ By default the EQX CMS will upload images to the public/ folder where it is run,
 All that is required is to pass the following environment variables to the application.
 
 GCS_ENABLED='true'
-GCS_SERVICE_ACCOUNT_JSON_STRING='{\r\n  \"type\": \"service_account\",....'
+GCS_SERVICE_ACCOUNT_JSON_STRING='{"type":"service_account",....'
 GCS_BUCKET_NAME='bucket-name'
 GCS_BUCKET_LOCATION='us'
+
+Note: For GCS_SERVICE_ACCOUNT_JSON_STRING, you must JSON.stringify() the original JSON given to you by Google before storing as an env variable.
 
 Please see the [strapi-provider-upload-google-cloud-storage](https://github.com/Lith/strapi-provider-upload-google-cloud-storage/) github repo for more detailed information.
 
