@@ -22,11 +22,14 @@ class SvgTab extends React.Component {
     axios
       .post(apiUrl + '/upload', formData, {
         headers: {
-          'Authorization': 'Bearer ' + Cookies.get("jwt"),
-          'Content-Type': 'multipart/form-data'
+          'Authorization': 'Bearer ' + Cookies.get("jwt")
         }
       })
       .then(response => {
+        if (response.data[0].url.includes("storage.googleapis.com")) {
+          this.props.onImageUpload(response.data[0].url)
+          return
+        }
         this.props.onImageUpload(apiUrl + response.data[0].url)
       })
       .catch(error => {
