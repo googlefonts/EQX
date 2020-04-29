@@ -109,6 +109,6 @@ coverage
 ############################
 
 .next
-backend/build
+backend/build/*
 backend/.cache
 db-data/
