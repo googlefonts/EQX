@@ -1,7 +1,9 @@
 {
   "csp": {
     "enabled": true,
-    "policy": ["block-all-mixed-content"]
+    "policy": [
+      "block-all-mixed-content"
+    ]
   },
   "p3p": {
     "enabled": true,
