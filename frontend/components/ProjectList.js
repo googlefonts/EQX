@@ -5,6 +5,7 @@ import { useQuery } from '@apollo/react-hooks';
 import withApollo from '../lib/apollo';
 import { CardText, CardTitle, Col, Row } from "reactstrap";
 import Project from "../components/Project";
+const apiUrl = process.env.API_URL || 'http://localhost:1337';
 
 const query = gql`
   {
@@ -18,7 +19,7 @@ const query = gql`
 `;
 
 // axios
-//   .post('http://localhost:1337/graphql', { 
+//   .post(apiUrl+'graphql', { 
 //     headers: { Authorization: 'Bearer ' + Cookies.get("jwt") },
 //     data: {
 //       query: `

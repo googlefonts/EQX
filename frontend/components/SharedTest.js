@@ -31,13 +31,13 @@ class TestQuestions extends React.Component {
   handleSubmit = () => {
     let questionName =  this.state.textFieldValue;
     axios
-      .post('http://localhost:1337/questions', {
+      .post(apiUrl+'/questions', {
         question: questionName,
       }, { headers: { Authorization: 'Bearer ' + Cookies.get("jwt") } 
       }).catch(error => { console.log(error);  // Handle Error
       }).then(response => { // Handle success
         axios
-          .put('http://localhost:1337/tests/' + this.props.test.id, {
+          .put(apiUrl+'/tests/' + this.props.test.id, {
             questions: [...this.props.test.questions, response.data.id]
           }, { headers: { Authorization: 'Bearer ' + Cookies.get("jwt") } 
           }).catch(error => { console.log(error); // Handle Error
@@ -261,7 +261,7 @@ class SharedTest extends React.Component {
 
   update = () => {
     axios
-      .get('http://localhost:1337/tests?id_in=' + this.props.testId, { 
+      .get(apiUrl+'/tests?id_in=' + this.props.testId, { 
         headers: { Authorization: 'Bearer ' + Cookies.get("jwt") }
       }).catch(error => { console.log(error); // Handle error
       }).then(response => { // Handle success

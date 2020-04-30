@@ -10,6 +10,7 @@ import { Box, TextField, Dialog, DialogActions, DialogContent, DialogContentText
 import Cookies from "js-cookie";
 import axios from 'axios';
 import "../styles/main.scss";
+const apiUrl = process.env.API_URL || 'http://localhost:1337';
 
 
 //////////////////////////////
@@ -35,7 +36,7 @@ class CreateQuestionPage extends React.Component {
   update = () => {
     const params = new URL(document.location).searchParams;
     axios
-      .get('http://localhost:1337/tests?id=' + params.get("test"), { 
+      .get(apiUrl+'/tests?id=' + params.get("test"), { 
         headers: { Authorization: "Bearer " + Cookies.get("jwt") }
       }).then(response => { // Handle success
         this.setState({ tests: response.data });

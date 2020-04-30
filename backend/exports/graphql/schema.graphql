@@ -10,6 +10,102 @@ type Comment {
   SomeText: String
 }
 
+type CommentAggregator {
+  count: Int
+  totalCount: Int
+  sum: CommentAggregatorSum
+  avg: CommentAggregatorAvg
+  min: CommentAggregatorMin
+  max: CommentAggregatorMax
+}
+
+type CommentAggregatorAvg {
+  x: Float
+  y: Float
+  radius: Float
+}
+
+type CommentAggregatorMax {
+  x: Float
+  y: Float
+  radius: Float
+}
+
+type CommentAggregatorMin {
+  x: Float
+  y: Float
+  radius: Float
+}
+
+type CommentAggregatorSum {
+  x: Float
+  y: Float
+  radius: Float
+}
+
+type CommentConnection {
+  values: [Comment]
+  groupBy: CommentGroupBy
+  aggregate: CommentAggregator
+}
+
+type CommentConnectionCreated_at {
+  key: DateTime
+  connection: CommentConnection
+}
+
+type CommentConnectionId {
+  key: ID
+  connection: CommentConnection
+}
+
+type CommentConnectionRadius {
+  key: Int
+  connection: CommentConnection
+}
+
+type CommentConnectionSomeText {
+  key: String
+  connection: CommentConnection
+}
+
+type CommentConnectionText {
+  key: String
+  connection: CommentConnection
+}
+
+type CommentConnectionUpdated_at {
+  key: DateTime
+  connection: CommentConnection
+}
+
+type CommentConnectionUser {
+  key: ID
+  connection: CommentConnection
+}
+
+type CommentConnectionX {
+  key: Int
+  connection: CommentConnection
+}
+
+type CommentConnectionY {
+  key: Int
+  connection: CommentConnection
+}
+
+type CommentGroupBy {
+  id: [CommentConnectionId]
+  created_at: [CommentConnectionCreated_at]
+  updated_at: [CommentConnectionUpdated_at]
+  user: [CommentConnectionUser]
+  text: [CommentConnectionText]
+  x: [CommentConnectionX]
+  y: [CommentConnectionY]
+  radius: [CommentConnectionRadius]
+  SomeText: [CommentConnectionSomeText]
+}
+
 input CommentInput {
   user: ID
   text: String!
@@ -204,12 +300,17 @@ input editCommentInput {
 
 input editFileInput {
   name: String
+  alternativeText: String
+  caption: String
+  width: Int
+  height: Int
+  formats: JSON
   hash: String
-  sha256: String
   ext: String
   mime: String
   size: Float
   url: String
+  previewUrl: String
   provider: String
   provider_metadata: JSON
   related: [ID]
@@ -305,12 +406,17 @@ enum ENUM_QUESTION_IMAGE_TYPE {
 
 input FileInput {
   name: String!
+  alternativeText: String
+  caption: String
+  width: Int
+  height: Int
+  formats: JSON
   hash: String!
-  sha256: String
   ext: String
   mime: String!
   size: Float!
   url: String!
+  previewUrl: String
   provider: String!
   provider_metadata: JSON
   related: [ID]
@@ -329,6 +435,104 @@ type Font {
   major_version: Int
 }
 
+type FontAggregator {
+  count: Int
+  totalCount: Int
+  sum: FontAggregatorSum
+  avg: FontAggregatorAvg
+  min: FontAggregatorMin
+  max: FontAggregatorMax
+}
+
+type FontAggregatorAvg {
+  minor_version: Float
+  major_version: Float
+}
+
+type FontAggregatorMax {
+  minor_version: Float
+  major_version: Float
+}
+
+type FontAggregatorMin {
+  minor_version: Float
+  major_version: Float
+}
+
+type FontAggregatorSum {
+  minor_version: Float
+  major_version: Float
+}
+
+type FontConnection {
+  values: [Font]
+  groupBy: FontGroupBy
+  aggregate: FontAggregator
+}
+
+type FontConnectionCreated_at {
+  key: DateTime
+  connection: FontConnection
+}
+
+type FontConnectionFile {
+  key: ID
+  connection: FontConnection
+}
+
+type FontConnectionId {
+  key: ID
+  connection: FontConnection
+}
+
+type FontConnectionMajor_version {
+  key: Int
+  connection: FontConnection
+}
+
+type FontConnectionMinor_version {
+  key: Int
+  connection: FontConnection
+}
+
+type FontConnectionName {
+  key: String
+  connection: FontConnection
+}
+
+type FontConnectionStyle {
+  key: String
+  connection: FontConnection
+}
+
+type FontConnectionUpdated_at {
+  key: DateTime
+  connection: FontConnection
+}
+
+type FontConnectionVariable {
+  key: Boolean
+  connection: FontConnection
+}
+
+type FontConnectionWeight {
+  key: String
+  connection: FontConnection
+}
+
+type FontGroupBy {
+  id: [FontConnectionId]
+  created_at: [FontConnectionCreated_at]
+  updated_at: [FontConnectionUpdated_at]
+  file: [FontConnectionFile]
+  name: [FontConnectionName]
+  weight: [FontConnectionWeight]
+  style: [FontConnectionStyle]
+  variable: [FontConnectionVariable]
+  minor_version: [FontConnectionMinor_version]
+  major_version: [FontConnectionMajor_version]
+}
+
 input FontInput {
   file: ID
   name: String
@@ -337,6 +541,10 @@ input FontInput {
   variable: Boolean
   minor_version: Int
   major_version: Int
+}
+
+type ForgotPassword {
+  ok: Boolean
 }
 
 input InputID {
@@ -351,7 +559,7 @@ scalar JSON
 """The `Long` scalar type represents 52-bit integers"""
 scalar Long
 
-union Morph = UsersPermissionsMe | UsersPermissionsMeRole | UsersPermissionsLoginPayload | Comment | createCommentPayload | updateCommentPayload | deleteCommentPayload | Font | createFontPayload | updateFontPayload | deleteFontPayload | Organization | createOrganizationPayload | updateOrganizationPayload | deleteOrganizationPayload | Project | createProjectPayload | updateProjectPayload | deleteProjectPayload | Question | createQuestionPayload | updateQuestionPayload | deleteQuestionPayload | Tag | createTagPayload | updateTagPayload | deleteTagPayload | Test | createTestPayload | updateTestPayload | deleteTestPayload | UploadFile | createFilePayload | updateFilePayload | deleteFilePayload | UsersPermissionsPermission | UsersPermissionsRole | createRolePayload | updateRolePayload | deleteRolePayload | UsersPermissionsUser | createUserPayload | updateUserPayload | deleteUserPayload
+union Morph = UsersPermissionsMe | UsersPermissionsMeRole | UsersPermissionsLoginPayload | ForgotPassword | Comment | CommentConnection | CommentAggregator | CommentAggregatorSum | CommentAggregatorAvg | CommentAggregatorMin | CommentAggregatorMax | CommentGroupBy | CommentConnectionId | CommentConnectionCreated_at | CommentConnectionUpdated_at | CommentConnectionUser | CommentConnectionText | CommentConnectionX | CommentConnectionY | CommentConnectionRadius | CommentConnectionSomeText | createCommentPayload | updateCommentPayload | deleteCommentPayload | Font | FontConnection | FontAggregator | FontAggregatorSum | FontAggregatorAvg | FontAggregatorMin | FontAggregatorMax | FontGroupBy | FontConnectionId | FontConnectionCreated_at | FontConnectionUpdated_at | FontConnectionFile | FontConnectionName | FontConnectionWeight | FontConnectionStyle | FontConnectionVariable | FontConnectionMinor_version | FontConnectionMajor_version | createFontPayload | updateFontPayload | deleteFontPayload | Organization | OrganizationConnection | OrganizationAggregator | OrganizationGroupBy | OrganizationConnectionId | OrganizationConnectionCreated_at | OrganizationConnectionUpdated_at | OrganizationConnectionName | createOrganizationPayload | updateOrganizationPayload | deleteOrganizationPayload | Project | ProjectConnection | ProjectAggregator | ProjectAggregatorSum | ProjectAggregatorAvg | ProjectAggregatorMin | ProjectAggregatorMax | ProjectGroupBy | ProjectConnectionId | ProjectConnectionCreated_at | ProjectConnectionUpdated_at | ProjectConnectionName | ProjectConnectionMajor_version | ProjectConnectionMinor_version | ProjectConnectionArchived | createProjectPayload | updateProjectPayload | deleteProjectPayload | Question | QuestionConnection | QuestionAggregator | QuestionGroupBy | QuestionConnectionId | QuestionConnectionCreated_at | QuestionConnectionUpdated_at | QuestionConnectionEditor_image | QuestionConnectionCode_image | QuestionConnectionImage_type | QuestionConnectionDescription | QuestionConnectionQuestion | QuestionConnectionUploaded_image | QuestionConnectionPublished | createQuestionPayload | updateQuestionPayload | deleteQuestionPayload | Tag | TagConnection | TagAggregator | TagGroupBy | TagConnectionId | TagConnectionCreated_at | TagConnectionUpdated_at | TagConnectionName | TagConnectionColor | createTagPayload | updateTagPayload | deleteTagPayload | Test | TestConnection | TestAggregator | TestAggregatorSum | TestAggregatorAvg | TestAggregatorMin | TestAggregatorMax | TestGroupBy | TestConnectionId | TestConnectionCreated_at | TestConnectionUpdated_at | TestConnectionName | TestConnectionTags | TestConnectionMajor_version | TestConnectionMinor_version | TestConnectionCompleteness | TestConnectionArchived | createTestPayload | updateTestPayload | deleteTestPayload | UploadFile | UploadFileConnection | UploadFileAggregator | UploadFileAggregatorSum | UploadFileAggregatorAvg | UploadFileAggregatorMin | UploadFileAggregatorMax | UploadFileGroupBy | UploadFileConnectionId | UploadFileConnectionCreated_at | UploadFileConnectionUpdated_at | UploadFileConnectionName | UploadFileConnectionAlternativeText | UploadFileConnectionCaption | UploadFileConnectionWidth | UploadFileConnectionHeight | UploadFileConnectionFormats | UploadFileConnectionHash | UploadFileConnectionExt | UploadFileConnectionMime | UploadFileConnectionSize | UploadFileConnectionUrl | UploadFileConnectionPreviewUrl | UploadFileConnectionProvider | UploadFileConnectionProvider_metadata | createFilePayload | updateFilePayload | deleteFilePayload | UsersPermissionsPermission | UsersPermissionsRole | UsersPermissionsRoleConnection | UsersPermissionsRoleAggregator | UsersPermissionsRoleGroupBy | UsersPermissionsRoleConnectionId | UsersPermissionsRoleConnectionName | UsersPermissionsRoleConnectionDescription | UsersPermissionsRoleConnectionType | createRolePayload | updateRolePayload | deleteRolePayload | UsersPermissionsUser | UsersPermissionsUserConnection | UsersPermissionsUserAggregator | UsersPermissionsUserGroupBy | UsersPermissionsUserConnectionId | UsersPermissionsUserConnectionCreated_at | UsersPermissionsUserConnectionUpdated_at | UsersPermissionsUserConnectionUsername | UsersPermissionsUserConnectionEmail | UsersPermissionsUserConnectionProvider | UsersPermissionsUserConnectionConfirmed | UsersPermissionsUserConnectionBlocked | UsersPermissionsUserConnectionRole | UsersPermissionsUserConnectionAvatar | UsersPermissionsUserConnectionComment | createUserPayload | updateUserPayload | deleteUserPayload
 
 type Mutation {
   createComment(input: createCommentInput): createCommentPayload
@@ -397,6 +605,9 @@ type Mutation {
   multipleUpload(refId: ID, ref: String, field: String, source: String, files: [Upload]!): [UploadFile]!
   login(input: UsersPermissionsLoginInput!): UsersPermissionsLoginPayload!
   register(input: UserInput!): UsersPermissionsLoginPayload!
+  forgotPassword(email: String!): ForgotPassword
+  changePassword(password: String!, passwordConfirmation: String!, code: String!): UsersPermissionsLoginPayload
+  emailConfirmation(confirmation: String!): UsersPermissionsLoginPayload
 }
 
 type Organization {
@@ -406,6 +617,44 @@ type Organization {
   name: String
   users(sort: String, limit: Int, start: Int, where: JSON): [UsersPermissionsUser]
   projects(sort: String, limit: Int, start: Int, where: JSON): [Project]
+}
+
+type OrganizationAggregator {
+  count: Int
+  totalCount: Int
+}
+
+type OrganizationConnection {
+  values: [Organization]
+  groupBy: OrganizationGroupBy
+  aggregate: OrganizationAggregator
+}
+
+type OrganizationConnectionCreated_at {
+  key: DateTime
+  connection: OrganizationConnection
+}
+
+type OrganizationConnectionId {
+  key: ID
+  connection: OrganizationConnection
+}
+
+type OrganizationConnectionName {
+  key: String
+  connection: OrganizationConnection
+}
+
+type OrganizationConnectionUpdated_at {
+  key: DateTime
+  connection: OrganizationConnection
+}
+
+type OrganizationGroupBy {
+  id: [OrganizationConnectionId]
+  created_at: [OrganizationConnectionCreated_at]
+  updated_at: [OrganizationConnectionUpdated_at]
+  name: [OrganizationConnectionName]
 }
 
 input OrganizationInput {
@@ -429,6 +678,86 @@ type Project {
   owners(sort: String, limit: Int, start: Int, where: JSON): [UsersPermissionsUser]
 }
 
+type ProjectAggregator {
+  count: Int
+  totalCount: Int
+  sum: ProjectAggregatorSum
+  avg: ProjectAggregatorAvg
+  min: ProjectAggregatorMin
+  max: ProjectAggregatorMax
+}
+
+type ProjectAggregatorAvg {
+  major_version: Float
+  minor_version: Float
+}
+
+type ProjectAggregatorMax {
+  major_version: Float
+  minor_version: Float
+}
+
+type ProjectAggregatorMin {
+  major_version: Float
+  minor_version: Float
+}
+
+type ProjectAggregatorSum {
+  major_version: Float
+  minor_version: Float
+}
+
+type ProjectConnection {
+  values: [Project]
+  groupBy: ProjectGroupBy
+  aggregate: ProjectAggregator
+}
+
+type ProjectConnectionArchived {
+  key: Boolean
+  connection: ProjectConnection
+}
+
+type ProjectConnectionCreated_at {
+  key: DateTime
+  connection: ProjectConnection
+}
+
+type ProjectConnectionId {
+  key: ID
+  connection: ProjectConnection
+}
+
+type ProjectConnectionMajor_version {
+  key: Int
+  connection: ProjectConnection
+}
+
+type ProjectConnectionMinor_version {
+  key: Int
+  connection: ProjectConnection
+}
+
+type ProjectConnectionName {
+  key: String
+  connection: ProjectConnection
+}
+
+type ProjectConnectionUpdated_at {
+  key: DateTime
+  connection: ProjectConnection
+}
+
+type ProjectGroupBy {
+  id: [ProjectConnectionId]
+  created_at: [ProjectConnectionCreated_at]
+  updated_at: [ProjectConnectionUpdated_at]
+  name: [ProjectConnectionName]
+  major_version: [ProjectConnectionMajor_version]
+  minor_version: [ProjectConnectionMinor_version]
+  archived: [ProjectConnectionArchived]
+}
+
 input ProjectInput {
   name: String!
   major_version: Int
@@ -444,27 +773,37 @@ input ProjectInput {
 type Query {
   comment(id: ID!): Comment
   comments(sort: String, limit: Int, start: Int, where: JSON): [Comment]
+  commentsConnection(sort: String, limit: Int, start: Int, where: JSON): CommentConnection
   font(id: ID!): Font
   fonts(sort: String, limit: Int, start: Int, where: JSON): [Font]
+  fontsConnection(sort: String, limit: Int, start: Int, where: JSON): FontConnection
   organization(id: ID!): Organization
   organizations(sort: String, limit: Int, start: Int, where: JSON): [Organization]
+  organizationsConnection(sort: String, limit: Int, start: Int, where: JSON): OrganizationConnection
   project(id: ID!): Project
   projects(sort: String, limit: Int, start: Int, where: JSON): [Project]
+  projectsConnection(sort: String, limit: Int, start: Int, where: JSON): ProjectConnection
   question(id: ID!): Question
   questions(sort: String, limit: Int, start: Int, where: JSON): [Question]
+  questionsConnection(sort: String, limit: Int, start: Int, where: JSON): QuestionConnection
   tag(id: ID!): Tag
   tags(sort: String, limit: Int, start: Int, where: JSON): [Tag]
+  tagsConnection(sort: String, limit: Int, start: Int, where: JSON): TagConnection
   test(id: ID!): Test
   tests(sort: String, limit: Int, start: Int, where: JSON): [Test]
+  testsConnection(sort: String, limit: Int, start: Int, where: JSON): TestConnection
   files(sort: String, limit: Int, start: Int, where: JSON): [UploadFile]
+  filesConnection(sort: String, limit: Int, start: Int, where: JSON): UploadFileConnection
   role(id: ID!): UsersPermissionsRole
 
   """
   Retrieve all the existing roles. You can't apply filters on this query.
   """
   roles(sort: String, limit: Int, start: Int, where: JSON): [UsersPermissionsRole]
+  rolesConnection(sort: String, limit: Int, start: Int, where: JSON): UsersPermissionsRoleConnection
   user(id: ID!): UsersPermissionsUser
   users(sort: String, limit: Int, start: Int, where: JSON): [UsersPermissionsUser]
+  usersConnection(sort: String, limit: Int, start: Int, where: JSON): UsersPermissionsUserConnection
   me: UsersPermissionsMe
 }
 
@@ -480,6 +819,80 @@ type Question {
   uploaded_image: UploadFile
   published: Boolean
   reference_images(sort: String, limit: Int, start: Int, where: JSON): [UploadFile]
+}
+
+type QuestionAggregator {
+  count: Int
+  totalCount: Int
+}
+
+type QuestionConnection {
+  values: [Question]
+  groupBy: QuestionGroupBy
+  aggregate: QuestionAggregator
+}
+
+type QuestionConnectionCode_image {
+  key: JSON
+  connection: QuestionConnection
+}
+
+type QuestionConnectionCreated_at {
+  key: DateTime
+  connection: QuestionConnection
+}
+
+type QuestionConnectionDescription {
+  key: String
+  connection: QuestionConnection
+}
+
+type QuestionConnectionEditor_image {
+  key: JSON
+  connection: QuestionConnection
+}
+
+type QuestionConnectionId {
+  key: ID
+  connection: QuestionConnection
+}
+
+type QuestionConnectionImage_type {
+  key: String
+  connection: QuestionConnection
+}
+
+type QuestionConnectionPublished {
+  key: Boolean
+  connection: QuestionConnection
+}
+
+type QuestionConnectionQuestion {
+  key: String
+  connection: QuestionConnection
+}
+
+type QuestionConnectionUpdated_at {
+  key: DateTime
+  connection: QuestionConnection
+}
+
+type QuestionConnectionUploaded_image {
+  key: ID
+  connection: QuestionConnection
+}
+
+type QuestionGroupBy {
+  id: [QuestionConnectionId]
+  created_at: [QuestionConnectionCreated_at]
+  updated_at: [QuestionConnectionUpdated_at]
+  editor_image: [QuestionConnectionEditor_image]
+  code_image: [QuestionConnectionCode_image]
+  image_type: [QuestionConnectionImage_type]
+  description: [QuestionConnectionDescription]
+  question: [QuestionConnectionQuestion]
+  uploaded_image: [QuestionConnectionUploaded_image]
+  published: [QuestionConnectionPublished]
 }
 
 input QuestionInput {
@@ -510,6 +923,50 @@ type Tag {
   projects(sort: String, limit: Int, start: Int, where: JSON): [Project]
 }
 
+type TagAggregator {
+  count: Int
+  totalCount: Int
+}
+
+type TagConnection {
+  values: [Tag]
+  groupBy: TagGroupBy
+  aggregate: TagAggregator
+}
+
+type TagConnectionColor {
+  key: String
+  connection: TagConnection
+}
+
+type TagConnectionCreated_at {
+  key: DateTime
+  connection: TagConnection
+}
+
+type TagConnectionId {
+  key: ID
+  connection: TagConnection
+}
+
+type TagConnectionName {
+  key: String
+  connection: TagConnection
+}
+
+type TagConnectionUpdated_at {
+  key: DateTime
+  connection: TagConnection
+}
+
+type TagGroupBy {
+  id: [TagConnectionId]
+  created_at: [TagConnectionCreated_at]
+  updated_at: [TagConnectionUpdated_at]
+  name: [TagConnectionName]
+  color: [TagConnectionColor]
+}
+
 input TagInput {
   name: String
   color: String
@@ -529,6 +986,102 @@ type Test {
   questions(sort: String, limit: Int, start: Int, where: JSON): [Question]
   users(sort: String, limit: Int, start: Int, where: JSON): [UsersPermissionsUser]
   owners(sort: String, limit: Int, start: Int, where: JSON): [UsersPermissionsUser]
+}
+
+type TestAggregator {
+  count: Int
+  totalCount: Int
+  sum: TestAggregatorSum
+  avg: TestAggregatorAvg
+  min: TestAggregatorMin
+  max: TestAggregatorMax
+}
+
+type TestAggregatorAvg {
+  major_version: Float
+  minor_version: Float
+  completeness: Float
+}
+
+type TestAggregatorMax {
+  major_version: Float
+  minor_version: Float
+  completeness: Float
+}
+
+type TestAggregatorMin {
+  major_version: Float
+  minor_version: Float
+  completeness: Float
+}
+
+type TestAggregatorSum {
+  major_version: Float
+  minor_version: Float
+  completeness: Float
+}
+
+type TestConnection {
+  values: [Test]
+  groupBy: TestGroupBy
+  aggregate: TestAggregator
+}
+
+type TestConnectionArchived {
+  key: Boolean
+  connection: TestConnection
+}
+
+type TestConnectionCompleteness {
+  key: Float
+  connection: TestConnection
+}
+
+type TestConnectionCreated_at {
+  key: DateTime
+  connection: TestConnection
+}
+
+type TestConnectionId {
+  key: ID
+  connection: TestConnection
+}
+
+type TestConnectionMajor_version {
+  key: Int
+  connection: TestConnection
+}
+
+type TestConnectionMinor_version {
+  key: Int
+  connection: TestConnection
+}
+
+type TestConnectionName {
+  key: String
+  connection: TestConnection
+}
+
+type TestConnectionTags {
+  key: JSON
+  connection: TestConnection
+}
+
+type TestConnectionUpdated_at {
+  key: DateTime
+  connection: TestConnection
+}
+
+type TestGroupBy {
+  id: [TestConnectionId]
+  created_at: [TestConnectionCreated_at]
+  updated_at: [TestConnectionUpdated_at]
+  name: [TestConnectionName]
+  tags: [TestConnectionTags]
+  major_version: [TestConnectionMajor_version]
+  minor_version: [TestConnectionMinor_version]
+  completeness: [TestConnectionCompleteness]
+  archived: [TestConnectionArchived]
 }
 
 input TestInput {
@@ -644,15 +1197,164 @@ type UploadFile {
   created_at: DateTime!
   updated_at: DateTime!
   name: String!
+  alternativeText: String
+  caption: String
+  width: Int
+  height: Int
+  formats: JSON
   hash: String!
-  sha256: String
   ext: String
   mime: String!
   size: Float!
   url: String!
+  previewUrl: String
   provider: String!
   provider_metadata: JSON
   related(sort: String, limit: Int, start: Int, where: JSON): [Morph]
+}
+
+type UploadFileAggregator {
+  count: Int
+  totalCount: Int
+  sum: UploadFileAggregatorSum
+  avg: UploadFileAggregatorAvg
+  min: UploadFileAggregatorMin
+  max: UploadFileAggregatorMax
+}
+
+type UploadFileAggregatorAvg {
+  width: Float
+  height: Float
+  size: Float
+}
+
+type UploadFileAggregatorMax {
+  width: Float
+  height: Float
+  size: Float
+}
+
+type UploadFileAggregatorMin {
+  width: Float
+  height: Float
+  size: Float
+}
+
+type UploadFileAggregatorSum {
+  width: Float
+  height: Float
+  size: Float
+}
+
+type UploadFileConnection {
+  values: [UploadFile]
+  groupBy: UploadFileGroupBy
+  aggregate: UploadFileAggregator
+}
+
+type UploadFileConnectionAlternativeText {
+  key: String
+  connection: UploadFileConnection
+}
+
+type UploadFileConnectionCaption {
+  key: String
+  connection: UploadFileConnection
+}
+
+type UploadFileConnectionCreated_at {
+  key: DateTime
+  connection: UploadFileConnection
+}
+
+type UploadFileConnectionExt {
+  key: String
+  connection: UploadFileConnection
+}
+
+type UploadFileConnectionFormats {
+  key: JSON
+  connection: UploadFileConnection
+}
+
+type UploadFileConnectionHash {
+  key: String
+  connection: UploadFileConnection
+}
+
+type UploadFileConnectionHeight {
+  key: Int
+  connection: UploadFileConnection
+}
+
+type UploadFileConnectionId {
+  key: ID
+  connection: UploadFileConnection
+}
+
+type UploadFileConnectionMime {
+  key: String
+  connection: UploadFileConnection
+}
+
+type UploadFileConnectionName {
+  key: String
+  connection: UploadFileConnection
+}
+
+type UploadFileConnectionPreviewUrl {
+  key: String
+  connection: UploadFileConnection
+}
+
+type UploadFileConnectionProvider {
+  key: String
+  connection: UploadFileConnection
+}
+
+type UploadFileConnectionProvider_metadata {
+  key: JSON
+  connection: UploadFileConnection
+}
+
+type UploadFileConnectionSize {
+  key: Float
+  connection: UploadFileConnection
+}
+
+type UploadFileConnectionUpdated_at {
+  key: DateTime
+  connection: UploadFileConnection
+}
+
+type UploadFileConnectionUrl {
+  key: String
+  connection: UploadFileConnection
+}
+
+type UploadFileConnectionWidth {
+  key: Int
+  connection: UploadFileConnection
+}
+
+type UploadFileGroupBy {
+  id: [UploadFileConnectionId]
+  created_at: [UploadFileConnectionCreated_at]
+  updated_at: [UploadFileConnectionUpdated_at]
+  name: [UploadFileConnectionName]
+  alternativeText: [UploadFileConnectionAlternativeText]
+  caption: [UploadFileConnectionCaption]
+  width: [UploadFileConnectionWidth]
+  height: [UploadFileConnectionHeight]
+  formats: [UploadFileConnectionFormats]
+  hash: [UploadFileConnectionHash]
+  ext: [UploadFileConnectionExt]
+  mime: [UploadFileConnectionMime]
+  size: [UploadFileConnectionSize]
+  url: [UploadFileConnectionUrl]
+  previewUrl: [UploadFileConnectionPreviewUrl]
+  provider: [UploadFileConnectionProvider]
+  provider_metadata: [UploadFileConnectionProvider_metadata]
 }
 
 input UserInput {
@@ -718,6 +1420,44 @@ type UsersPermissionsRole {
   users(sort: String, limit: Int, start: Int, where: JSON): [UsersPermissionsUser]
 }
 
+type UsersPermissionsRoleAggregator {
+  count: Int
+  totalCount: Int
+}
+
+type UsersPermissionsRoleConnection {
+  values: [UsersPermissionsRole]
+  groupBy: UsersPermissionsRoleGroupBy
+  aggregate: UsersPermissionsRoleAggregator
+}
+
+type UsersPermissionsRoleConnectionDescription {
+  key: String
+  connection: UsersPermissionsRoleConnection
+}
+
+type UsersPermissionsRoleConnectionId {
+  key: ID
+  connection: UsersPermissionsRoleConnection
+}
+
+type UsersPermissionsRoleConnectionName {
+  key: String
+  connection: UsersPermissionsRoleConnection
+}
+
+type UsersPermissionsRoleConnectionType {
+  key: String
+  connection: UsersPermissionsRoleConnection
+}
+
+type UsersPermissionsRoleGroupBy {
+  id: [UsersPermissionsRoleConnectionId]
+  name: [UsersPermissionsRoleConnectionName]
+  description: [UsersPermissionsRoleConnectionDescription]
+  type: [UsersPermissionsRoleConnectionType]
+}
+
 type UsersPermissionsUser {
   id: ID!
   created_at: DateTime!
@@ -734,4 +1474,84 @@ type UsersPermissionsUser {
   tests(sort: String, limit: Int, start: Int, where: JSON): [Test]
   owned_tests(sort: String, limit: Int, start: Int, where: JSON): [Test]
   owned_projects(sort: String, limit: Int, start: Int, where: JSON): [Project]
+}
+
+type UsersPermissionsUserAggregator {
+  count: Int
+  totalCount: Int
+}
+
+type UsersPermissionsUserConnection {
+  values: [UsersPermissionsUser]
+  groupBy: UsersPermissionsUserGroupBy
+  aggregate: UsersPermissionsUserAggregator
+}
+
+type UsersPermissionsUserConnectionAvatar {
+  key: ID
+  connection: UsersPermissionsUserConnection
+}
+
+type UsersPermissionsUserConnectionBlocked {
+  key: Boolean
+  connection: UsersPermissionsUserConnection
+}
+
+type UsersPermissionsUserConnectionComment {
+  key: ID
+  connection: UsersPermissionsUserConnection
+}
+
+type UsersPermissionsUserConnectionConfirmed {
+  key: Boolean
+  connection: UsersPermissionsUserConnection
+}
+
+type UsersPermissionsUserConnectionCreated_at {
+  key: DateTime
+  connection: UsersPermissionsUserConnection
+}
+
+type UsersPermissionsUserConnectionEmail {
+  key: String
+  connection: UsersPermissionsUserConnection
+}
+
+type UsersPermissionsUserConnectionId {
+  key: ID
+  connection: UsersPermissionsUserConnection
+}
+
+type UsersPermissionsUserConnectionProvider {
+  key: String
+  connection: UsersPermissionsUserConnection
+}
+
+type UsersPermissionsUserConnectionRole {
+  key: ID
+  connection: UsersPermissionsUserConnection
+}
+
+type UsersPermissionsUserConnectionUpdated_at {
+  key: DateTime
+  connection: UsersPermissionsUserConnection
+}
+
+type UsersPermissionsUserConnectionUsername {
+  key: String
+  connection: UsersPermissionsUserConnection
+}
+
+type UsersPermissionsUserGroupBy {
+  id: [UsersPermissionsUserConnectionId]
+  created_at: [UsersPermissionsUserConnectionCreated_at]
+  updated_at: [UsersPermissionsUserConnectionUpdated_at]
+  username: [UsersPermissionsUserConnectionUsername]
+  email: [UsersPermissionsUserConnectionEmail]
+  provider: [UsersPermissionsUserConnectionProvider]
+  confirmed: [UsersPermissionsUserConnectionConfirmed]
+  blocked: [UsersPermissionsUserConnectionBlocked]
+  role: [UsersPermissionsUserConnectionRole]
+  Avatar: [UsersPermissionsUserConnectionAvatar]
+  comment: [UsersPermissionsUserConnectionComment]
 }

@@ -10,7 +10,7 @@ import { TextField, Box, Dialog, DialogActions, DialogContent, DialogContentText
 import Cookies from "js-cookie";
 import axios from 'axios';
 import "../styles/main.scss";
-
+const apiUrl = process.env.API_URL || 'http://localhost:1337';
 
 
 //////////////////////////////
@@ -37,7 +37,7 @@ class NewProject extends React.Component {
   onSubmit = () => {
     let projectName =  this.state.textFieldValue;
     axios
-      .post('http://localhost:1337/projects', {
+      .post(apiUrl+'/projects', {
         name: projectName,
         owners: [ Cookies.get("id") ],
         users: [ Cookies.get("id") ],
@@ -158,14 +158,14 @@ class ProjectPage extends React.Component {
 
   update = () => {
     axios
-      .get('http://localhost:1337/projects?owners.id='+Cookies.get("id")+'&archived_eq=false', { 
+      .get(apiUrl+'/projects/?owners.id='+Cookies.get("id")+'&archived_eq=false', { 
         headers: { Authorization: "Bearer " + Cookies.get("jwt") }
       }).catch(error => { console.log(error); // Handle error
       }).then(response => { // Handle success
         this.setState({ projects: response.data });
 
         axios
-          .get('http://localhost:1337/projects?owners.id='+Cookies.get("id")+'&archived_eq=true', { 
+          .get(apiUrl+'/projects/?owners.id='+Cookies.get("id")+'&archived_eq=true', { 
             headers: { Authorization: "Bearer " + Cookies.get("jwt") }
           }).catch(error => { console.log(error); // Handle error
           }).then(response => { // Handle success

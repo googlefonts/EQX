@@ -12,6 +12,7 @@ import {Cell, Row} from '@material/react-layout-grid';
 import { TextField, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, FormGroup, Input, InputLabel, Button, Typography} from '@material-ui/core';
 import Cookies from "js-cookie";
 import axios from 'axios';
+const apiUrl = process.env.API_URL || 'http://localhost:1337';
 
 import "../styles/main.scss";
 
@@ -30,7 +31,7 @@ class Index extends React.Component {
 
   update = () => {
     axios
-      .get('http://localhost:1337/projects?owners.id='+Cookies.get("id")+'&archived_eq=false', { 
+      .get(apiUrl+'/projects?owners.id='+Cookies.get("id")+'&archived_eq=false', { 
         headers: { Authorization: "Bearer " + Cookies.get("jwt") }
       }).then(response => { // Handle success
         this.setState({ projects: response.data });
