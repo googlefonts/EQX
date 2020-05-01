@@ -1,5 +1,11 @@
 # EQX
 
+#Demo
+
+Frontend: http://34.73.108.93/
+Backend: http://35.231.157.252/admin/
+
+
 # Development
 
 **Frontend**: [http://localhost:3000](http://localhost:3000)
