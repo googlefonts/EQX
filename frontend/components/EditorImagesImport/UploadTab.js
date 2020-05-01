@@ -46,14 +46,14 @@ class SvgTab extends React.Component {
           {!hasImage && (
             <div className="circle">
               <MaterialIcon className="paperclip-icon" icon='attach_file' />
-              <Button>Upload your SVG here</Button>
+              <Button>Upload your image here</Button>
             </div>
           )}
           <img id="output-image" src={this.props.imageUrl} />
         </label>
       </div>
     );
-  }
+	}
 }
 
 export default SvgTab;

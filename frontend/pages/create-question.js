@@ -11,6 +11,7 @@ import Cookies from "js-cookie";
 import axios from 'axios';
 import "../styles/main.scss";
 const apiUrl = process.env.API_URL || 'http://localhost:1337';
+const { Parser } = require('json2csv');
 
 
 //////////////////////////////
@@ -20,8 +21,9 @@ class CreateQuestionPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      page: "question",
-      tests: [],
+      page: "create-question",
+      test: {},
+      questionNumber: false
     };
   }
 
@@ -35,20 +37,33 @@ class CreateQuestionPage extends React.Component {
 
   update = () => {
     const params = new URL(document.location).searchParams;
+    this.setState({ questionNumber: params.get("question") });
     axios
       .get(apiUrl+'/tests?id=' + params.get("test"), { 
         headers: { Authorization: "Bearer " + Cookies.get("jwt") }
       }).then(response => { // Handle success
-        this.setState({ tests: response.data });
+        // console.log(response.data);
+        this.setState({ test: response.data[0] });
+ 
+        // const fields = ['questions'];
+        // const opts = { fields };
+        
+        // try {
+        //   const csv = parse(response.data, opts);
+        //   console.log(csv);
+        // } catch (err) {
+        //   console.error(err);
+        // }
+
       }).catch(error => { console.log(error) });
   }
 
   render() {
     return (
-      <Layout page={this.state.page} headerType="creating" {...this.props}>
+      <Layout page={this.state.page} headerType="creating" test={this.state.test} {...this.props}>
         <Box pt={8} bgcolor="#fff">
-          <CreateQuestionFields/>
-          <EditorImagesImport/>
+          <CreateQuestionFields {...this.state} {...this.props}/>
+          <EditorImagesImport {...this.state} {...this.props}/>
         </Box>
       </Layout>
     );

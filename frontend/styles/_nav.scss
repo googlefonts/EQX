@@ -9,4 +9,12 @@
 	margin-top: 64px;
 	height: 100vh;
 	border-left: 1px solid rgba(0, 0, 0, 0.12);
+	.MuiListItem-button{
+		padding-top: 20px;
+		padding-bottom: 20px;
+	}
+	.MuiSvgIcon-root{
+		width: 30px;
+		height: 30px;
+	}
 }

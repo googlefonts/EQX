@@ -68,8 +68,8 @@
       "via": "user"
     },
     "projects": {
-      "collection": "project",
       "via": "users",
+      "collection": "project",
       "dominant": true
     },
     "tests": {
@@ -83,8 +83,8 @@
       "dominant": true
     },
     "owned_projects": {
-      "collection": "project",
       "via": "owners",
+      "collection": "project",
       "dominant": true
     }
   }

@@ -20,16 +20,17 @@ import WorkIcon from '@material-ui/icons/Work';
 import GroupIcon from '@material-ui/icons/Group';
 
 const drawerWidth = 240;
-// console.log(this);
 
-class SideNav extends React.Component {
-  
+class SideNavRegular extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+    };
+  }
 
-  // this.setState({comment: 'Hello'});
   render() {
     return (
       <>
-        {/* <Box boxShadow={3}> */}
         <Drawer
           className="nav-drawer"
           variant="permanent"
@@ -75,7 +76,97 @@ class SideNav extends React.Component {
             </ListItem>
           ))} */}
       </Drawer>
-      {/* </Box> */}
+      </>
+    );
+  }
+}
+
+
+import AddIcon from '@material-ui/icons/Add';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
+import FormatListNumberedIcon from '@material-ui/icons/FormatListNumbered';
+import Router from 'next/router';
+class SideNavCreateQuestion extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+    };
+  }
+
+  addQuestion = () => {
+    axios
+      .post('http://localhost:1337/questions', {
+        test: this.props.test.id,
+      }, { headers: { Authorization: 'Bearer ' + Cookies.get("jwt") } 
+      }).catch(error => { console.log(error);  // Handle Error
+      }).then(response => { // Handle success
+        axios
+          .put('http://localhost:1337/tests/' + this.props.test.id, {
+            questions: [...this.props.test.questions, response.data.id]
+          }, { headers: { Authorization: 'Bearer ' + Cookies.get("jwt") } 
+          }).catch(error => { console.log(error); // Handle Error
+          }).then(response => { // Handle success
+            Router.push("/create-question?test=" + this.props.test.id + "&question=" + (this.props.test.questions.length + 2))
+          });
+      })
+  }
+
+  render() {
+    return (
+      <>
+        <Drawer
+          className="nav-drawer"
+          variant="permanent"
+          anchor="right"
+          PaperProps={{ elevation: 6 }}
+        >
+        <List padding={2} style={{paddingTop: "64px"}} >
+          <ListItem onClick={this.addQuestion} selected={this.props.page === "dashboard" ? true : false} button key="dashboard">
+            <ListItemIcon><AddIcon /></ListItemIcon>
+            <ListItemText primary='Add Question'/>
+          </ListItem>
+          <Link href="/tests"><a>
+            <ListItem selected={this.props.page === "tests" ? true : false} button key="tests">
+              <ListItemIcon><ArrowForwardIcon /></ListItemIcon>
+              <ListItemText primary='Next Question'/>
+            </ListItem>
+          </a></Link>
+          <Link href="/tests"><a>
+            <ListItem selected={this.props.page === "tests" ? true : false} button key="tests">
+              <ListItemIcon><ArrowBackIcon /></ListItemIcon>
+              <ListItemText primary='Prev Question'/>
+            </ListItem>
+          </a></Link>
+          <Link href="/tests"><a>
+            <ListItem selected={this.props.page === "tests" ? true : false} button key="tests">
+              <ListItemIcon><FormatListNumberedIcon /></ListItemIcon>
+              <ListItemText primary='Overview'/>
+            </ListItem>
+          </a></Link>
+        </List>
+      </Drawer>
+      </>
+    );
+  }
+}
+
+
+class SideNav extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+    };
+  }
+
+  render() {
+    return (
+      <>
+        {	this.props.page === "create-question" ? (	
+            <SideNavCreateQuestion {...this.props}/>
+					) : (
+            <SideNavRegular {...this.props}/>
+					)}
       </>
     );
   }

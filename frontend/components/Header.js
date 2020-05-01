@@ -1,9 +1,8 @@
 import Link from "next/link"
-import {Body1, Body2, Subtitle1} from "@material/react-typography";
 import {TopAppBarRow } from '@material/react-top-app-bar';
 import IconButton from '@material/react-icon-button';
 import MaterialIcon from '@material/react-material-icon';
-import {AppBar, Container, Grid, Button, Typography, TextField, DialogActions, DialogContent, Dialog, DialogTitle, DialogContentText } from '@material-ui/core';
+import {Box, AppBar, Container, Grid, Button, Typography, TextField, DialogActions, DialogContent, Dialog, DialogTitle, DialogContentText } from '@material-ui/core';
 import Switch from '@material/react-switch';
 import LinearProgress from '@material/react-linear-progress';
 import Avatar from './header/Avatar';
@@ -22,11 +21,11 @@ class CreatingHeader extends React.Component {
         <Grid container className="header-grid-2">
           <Grid item xs={12} >
             {/*<TopAppBarSection className="">*/}
-              <Body1 className="question-counter" tag="h2">0 Questions</Body1>
-              <div className="titles-wrapper">
-                <Subtitle1 className="font-title" tag="h2">Merriweather v.2.11</Subtitle1>
-                <Subtitle1 className="project-title" tag="h3"><span className="emphasis">Extended Latin Support</span> v.1.12</Subtitle1>
-              </div>
+              <Typography variant="h6" className="question-counter">Question {this.props.test.questions && this.props.test.questions.length}</Typography>
+              <Box className="titles-wrapper">
+                <Typography className="font-title" variant="body1"><span className="emphasis">{this.props.test.name}</span> v.{this.props.test.major_version}.{this.props.test.minor_version}</Typography>
+                <Typography className="project-title" variant="body1" style={{opacity: "0.25"}}><span className="emphasis">{this.props.test.project && this.props.test.project.name}</span> v.{this.props.test.project && this.props.test.project.major_version}.{this.props.test.project && this.props.test.project.minor_version}</Typography>
+              </Box>
             {/*</TopAppBarSection>*/}
           </Grid>
         </Grid>
@@ -49,17 +48,15 @@ class AnsweringHeader extends React.Component {
         <LinearProgress className="progress-bar" progress={this.props.progressBar} buffer={1} bufferingDots={false}/>
         <Grid container className="header-grid-2">
             <Grid item xs={6}>
-                <Body1 className="question-counter" tag="h2">
-                  {this.props.progressBar * 100}% Done
-                </Body1>
-                <div className="titles-wrapper">
-                  <Subtitle1 className="font-title" tag="h2">Merriweather v.2.11</Subtitle1>
-                  <Subtitle1 className="project-title" tag="h3"><span className="emphasis">Extended Latin Support</span> v.1.12</Subtitle1>
-                </div>
+              <Typography variant="h6" className="question-counter">{this.props.progressBar}% Done</Typography>
+              <Box className="titles-wrapper">
+                <Typography className="font-title" variant="body1"><span className="emphasis">{this.props.test.name}</span> v.{this.props.test.major_version}.{this.props.test.minor_version}</Typography>
+                <Typography className="project-title" variant="body1" style={{opacity: "0.25"}}><span className="emphasis">{this.props.test.project && this.props.test.project.name}</span> v.{this.props.test.project && this.props.test.project.major_version}.{this.props.test.project && this.props.test.project.minor_version}</Typography>
+              </Box>
             </Grid>
             <Grid item xs={6} className="text-align-right">
               <Switch className="show-comments-switch" nativeControlId='show-comments-switch' checked={this.state.showComments} onChange={(e) => this.setState({showComments: e.target.showComments})} />
-              <Body2 tag="label" htmlFor='show-comments-switch' className="show-comments-switch-label">Show comments</Body2>
+              <Typography  variant="body2" tag="label" htmlFor='show-comments-switch' className="show-comments-switch-label">Show comments</Typography>
             </Grid>
         </Grid>
       </TopAppBarRow>
@@ -133,7 +130,7 @@ class Header extends React.Component {
               </Grid>
             </Grid>
           </TopAppBarRow>
-          {this.props.headerType == "creating" ? <CreatingHeader/> : null}  
+          {this.props.headerType == "creating" ? <CreatingHeader {...this.props}/> : null}  
           {this.props.headerType == "answering" ? <AnsweringHeader progressBar={this.props.progressBar}/> : null}    
         </Container>
       </AppBar>

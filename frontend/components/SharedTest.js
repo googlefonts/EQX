@@ -8,7 +8,7 @@ import RadialGrade from "../components/RadialGrade";
 import Link from 'next/link';
 const apiUrl = process.env.API_URL || 'http://localhost:1337';
 const strapi = new Strapi(apiUrl);
-
+import Router from 'next/router';
 
 //////////////////////////////
 // Test Tests
@@ -29,10 +29,10 @@ class TestQuestions extends React.Component {
     this.setState({textFieldValue: ""});
   }
   handleSubmit = () => {
-    let questionName =  this.state.textFieldValue;
     axios
       .post(apiUrl+'/questions', {
-        question: questionName,
+        // question: questionName,
+        test: this.props.test.id,
       }, { headers: { Authorization: 'Bearer ' + Cookies.get("jwt") } 
       }).catch(error => { console.log(error);  // Handle Error
       }).then(response => { // Handle success
@@ -42,8 +42,7 @@ class TestQuestions extends React.Component {
           }, { headers: { Authorization: 'Bearer ' + Cookies.get("jwt") } 
           }).catch(error => { console.log(error); // Handle Error
           }).then(response => { // Handle success
-            this.handleClose();
-            this.props.update();
+            Router.push("/create-question?test=" + this.props.test.id + "&question=" + (this.props.test.questions.length + 2))
           });
       })
   }
@@ -58,18 +57,19 @@ class TestQuestions extends React.Component {
         <List color="primary">
           {(this.props.test.questions && this.props.test.questions.length) ?
             this.props.test.questions.map((question, i) =>
-                
-              <ListItem button key={"question-"+i}>
-                <Box p={1} pt={2} width="100%">
-                  <Grid container spacing={2}>
-                    <Grid item xs={12}>
-                        <Typography variant="h5">
-                          {question.question}
-                        </Typography>
+              <Link key={"key-test=" + this.props.test.id + "question-" + (i + 1)} href={"/create-question?test=" + this.props.test.id + "&question=" + (i + 1)}>     
+                <ListItem button key={"question-"+i}>
+                  <Box p={1} pt={2} width="100%">
+                    <Grid container spacing={2}>
+                      <Grid item xs={12}>
+                          <Typography variant="body1">
+                            {question.question}
+                          </Typography>
+                      </Grid>
                     </Grid>
-                  </Grid>
-                </Box>
-              </ListItem>
+                  </Box>
+                </ListItem>
+              </Link>
             )
           : 
             <ListItem key={"test-none"}>
@@ -84,12 +84,10 @@ class TestQuestions extends React.Component {
           }
         </List>
         <Box className="overflow-fab-wrap">
-          <Fab className="overflow-fab" variant="extended" size="medium" color="primary" aria-label="add">
+          <Fab onClick={this.handleSubmit} className="overflow-fab" variant="extended" size="medium" color="primary" aria-label="add">
             {/* <AddCircleIcon /> 
             <Box component="span">&nbsp;&nbsp;</Box> */}
-            <Link href={"/create-question?test=" + this.props.test.id}>
-              <Box component="span">Add Question</Box>
-            </Link>
+            <Box component="span">Add Question</Box>
           </Fab>
         </Box>
         

@@ -28,7 +28,8 @@
       "default": 1
     },
     "fonts": {
-      "collection": "font"
+      "collection": "font",
+      "via": "project"
     },
     "tags": {
       "collection": "tag",
@@ -40,17 +41,18 @@
       "default": false
     },
     "tests": {
+      "via": "project",
       "collection": "test"
     },
     "users": {
-      "via": "projects",
       "plugin": "users-permissions",
-      "collection": "user"
+      "collection": "user",
+      "via": "projects"
     },
     "owners": {
-      "via": "owned_projects",
       "plugin": "users-permissions",
-      "collection": "user"
+      "collection": "user",
+      "via": "owned_projects"
     }
   }
 }

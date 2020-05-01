@@ -324,6 +324,7 @@ input editFontInput {
   variable: Boolean
   minor_version: Int
   major_version: Int
+  project: ID
 }
 
 input editOrganizationInput {
@@ -348,11 +349,13 @@ input editQuestionInput {
   editor_image: JSON
   code_image: JSON
   image_type: ENUM_QUESTION_IMAGE_TYPE
-  description: String
+  context: String
   question: String
   reference_images: [ID]
   uploaded_image: ID
   published: Boolean
+  test: ID
+  source: String
 }
 
 input editRoleInput {
@@ -379,6 +382,7 @@ input editTestInput {
   archived: Boolean
   users: [ID]
   owners: [ID]
+  project: ID
 }
 
 input editUserInput {
@@ -433,6 +437,7 @@ type Font {
   variable: Boolean
   minor_version: Int
   major_version: Int
+  project: Project
 }
 
 type FontAggregator {
@@ -541,6 +546,7 @@ input FontInput {
   variable: Boolean
   minor_version: Int
   major_version: Int
+  project: ID
 }
 
 type ForgotPassword {
@@ -814,10 +820,12 @@ type Question {
   editor_image: JSON
   code_image: JSON
   image_type: ENUM_QUESTION_IMAGE_TYPE
-  description: String
+  context: String
   question: String
   uploaded_image: UploadFile
   published: Boolean
+  test: Test
+  source: String
   reference_images(sort: String, limit: Int, start: Int, where: JSON): [UploadFile]
 }
 
@@ -899,11 +907,13 @@ input QuestionInput {
   editor_image: JSON
   code_image: JSON
   image_type: ENUM_QUESTION_IMAGE_TYPE
-  description: String
+  context: String
   question: String
   reference_images: [ID]
   uploaded_image: ID
   published: Boolean
+  test: ID
+  source: String
 }
 
 input RoleInput {
@@ -983,6 +993,7 @@ type Test {
   minor_version: Int!
   completeness: Float
   archived: Boolean
+  project: Project
   questions(sort: String, limit: Int, start: Int, where: JSON): [Question]
   users(sort: String, limit: Int, start: Int, where: JSON): [UsersPermissionsUser]
   owners(sort: String, limit: Int, start: Int, where: JSON): [UsersPermissionsUser]
@@ -1094,6 +1105,7 @@ input TestInput {
   archived: Boolean
   users: [ID]
   owners: [ID]
+  project: ID
 }
 
 """A time string with format: HH:mm:ss.SSS"""

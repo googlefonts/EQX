@@ -92,7 +92,7 @@ class TestQuestions extends React.Component {
         <Dialog open={this.state.open} onClose={this.handleClose}>
           <DialogTitle id="form-dialog-title">New Question</DialogTitle>
           <DialogContent>
-            <DialogContentText>Questions should be built around verifing a specific goal.</DialogContentText>
+            <DialogContentText>Questions should be built around verifying a specific goal.</DialogContentText>
             <TextField value={this.state.textFieldValue} onChange={this.handleChange} autoFocus margin="dense" id="name" label="Question's Name" type="text" fullWidth />
           </DialogContent>
           <DialogActions>

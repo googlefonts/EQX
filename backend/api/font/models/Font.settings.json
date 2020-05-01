@@ -35,6 +35,10 @@
     },
     "major_version": {
       "type": "integer"
+    },
+    "project": {
+      "via": "fonts",
+      "model": "project"
     }
   }
 }

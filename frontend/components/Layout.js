@@ -9,33 +9,18 @@ import defaultPage from "../hocs/defaultPage";
 import Cookies from "js-cookie";
 import SignIn from "../components/SignIn";
 import { Menu, AppBar, Container, Grid, Button, Typography } from '@material-ui/core';
-
-// const Layout = props => (
-// 	<div className="layout-wrapper" data-has-progress-header={props.headerType}>
-// 	 <Header headerType={props.headerType} progressBar={props.progressBar}/>
-// 		<Nav />
-// 	  <main>
-// 			{props.children}
-// 		</main>
-// 		<Footer />
-// 	</div>
-// );
-
 import { ThemeProvider } from '@material-ui/styles';
 import theme from '../src/theme';
-
 
 class Layout extends React.Component {
 	constructor(props) {
 		super(props);
-		{console.log(this.props.router)}
 	}
 	static async getInitialProps({ req }) {
 		let pageProps = {};
 		if (Component.getInitialProps) {
 			pageProps = await Component.getInitialProps(ctx);
 		}
-		
 		return { pageProps };
 	}
 	render() {
@@ -53,11 +38,11 @@ class Layout extends React.Component {
 						auth={this.props.isAuthenticated} 
 						{...this.props}
 					/>
-					{	this.props.isAuthenticated ? (	
+					{ this.props.isAuthenticated ? (	
 						<>
 							{	// Logged In
 								<div>
-									<SideNav page={this.props.page}/>
+									<SideNav {...this.props}/>
 									<main>
 										{/* <Container maxWidth={false}> */}
 											{this.props.children}

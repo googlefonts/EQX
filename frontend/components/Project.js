@@ -54,8 +54,9 @@ class ProjectTests extends React.Component {
     axios
       .post(apiUrl + '/tests', {
         name: testName,
-        owners: [Cookies.get("id")],
-        users: [Cookies.get("id")],
+        project: this.props.project.id,
+        owners: [ Cookies.get("id") ],
+        users: [ Cookies.get("id") ],
         major_version: 0,
         minor_version: 1,
         completeness: 0,
@@ -515,7 +516,14 @@ class Project extends React.Component {
 
           {/* Actionable Info */}
           <AppBar position="static" color="default">
-            <Tabs value={this.state.tabValue} onChange={this.handleChange} indicatorColor="primary" textColor="primary" variant="scrollable" scrollButtons="auto">
+            <Tabs 
+              value={this.state.tabValue} 
+              onChange={this.handleChange} 
+              indicatorColor="primary" 
+              textColor="primary" 
+              variant="scrollable" 
+              scrollButtons="auto"
+            >
               <Tab label="Tests" />
               <Tab label="Members" />
               <Tab label="Font Files" />

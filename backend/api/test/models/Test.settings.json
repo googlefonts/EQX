@@ -29,18 +29,15 @@
     },
     "minor_version": {
       "type": "integer",
-      "min": 1,
       "default": 1,
       "required": true
     },
     "questions": {
+      "via": "test",
       "collection": "question"
     },
     "completeness": {
-      "type": "float",
-      "default": "0",
-      "min": 0,
-      "max": 100
+      "type": "float"
     },
     "archived": {
       "type": "boolean",
@@ -55,6 +52,10 @@
       "plugin": "users-permissions",
       "collection": "user",
       "via": "owned_tests"
+    },
+    "project": {
+      "model": "project",
+      "via": "tests"
     }
   }
 }

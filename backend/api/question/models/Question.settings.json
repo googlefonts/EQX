@@ -29,7 +29,7 @@
       ],
       "type": "enumeration"
     },
-    "description": {
+    "context": {
       "type": "text"
     },
     "question": {
@@ -38,16 +38,25 @@
     "reference_images": {
       "collection": "file",
       "via": "related",
-      "plugin": "upload"
+      "plugin": "upload",
+      "required": false
     },
     "uploaded_image": {
       "model": "file",
       "via": "related",
-      "plugin": "upload"
+      "plugin": "upload",
+      "required": false
     },
     "published": {
       "default": true,
       "type": "boolean"
+    },
+    "test": {
+      "model": "test",
+      "via": "questions"
+    },
+    "source": {
+      "type": "string"
     }
   }
 }
