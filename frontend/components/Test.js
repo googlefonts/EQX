@@ -291,18 +291,22 @@ class Test extends React.Component {
               </Typography>
               <Box className="progress-bar" pb={1}>
                 <Box style={{width: "calc(100% - 200px)", display: "inline-block"}}>
-                  <LinearProgress variant="determinate" value={this.state.test.completeness}/>
+                  <LinearProgress variant="determinate" value={this.state.test.completeness ? this.state.test.completeness : 0}/>
                 </Box>
                 <Typography style={{width: "200px", display: "inline-block"}} align="right" variant="h6">{this.state.test.completeness}% Done</Typography>
               </Box>
-              <Typography display="block" variant="body2">
-                <Box component="span" color="purple" className="inline-button" mr={2} >
-                  <Button color="primary" size="large" variant="contained" >Start</Button>
-                </Box>
+              <Box component="span" color="purple" className="inline-button" mr={2} >
+                <Button color="primary" size="large" variant="contained" >Start</Button>
+              </Box>
+              <Typography display="inline" variant="body2">
                 <Box component="span">{this.state.questionLength} Questions</Box>
-                <Divider display="inline-block" orientation="vertical" />
+              </Typography>
+              <Divider display="inline-block" orientation="vertical" />
+              <Typography display="inline" variant="body2">
                 <Box component="span" color="purple" className="inline-button" >Answers</Box>
-                <Divider display="inline-block" orientation="vertical" />
+              </Typography>
+              <Divider display="inline-block" orientation="vertical" />
+              <Typography display="inline" variant="body2">
                 <Box component="span" color="purple" className="inline-button" >Comments</Box>
               </Typography>
             </Box>

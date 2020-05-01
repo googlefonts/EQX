@@ -10,6 +10,7 @@ const UserCompletion = props => (
           className="user-completion-progress-bar"
           progress={0.82}
           buffer={1}
+          value={0}
           bufferingDots={false}
         />
       </Cell>

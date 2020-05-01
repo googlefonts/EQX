@@ -96,7 +96,7 @@ class ProjectTests extends React.Component {
                         <Box component="span" color="grey.400"> v.{test.major_version}.{test.minor_version}</Box>
                       </Typography>
                       <Box style={{ width: "calc(100% - 200px)", display: "inline-block" }}>
-                        <LinearProgress variant="determinate" value={test.completeness} />
+                        <LinearProgress variant="determinate" value={test.completeness ? test.completeness : 0} />
                       </Box>
                       <Typography style={{ width: "200px", display: "inline-block" }} align="right" variant="body1">{test.completeness}% Done</Typography>
                     </Grid>

@@ -45,7 +45,7 @@ class AnsweringHeader extends React.Component {
   render(){
     return(
       <TopAppBarRow className="header-row-2">
-        <LinearProgress className="progress-bar" progress={this.props.progressBar} buffer={1} bufferingDots={false}/>
+        <LinearProgress className="progress-bar" value={0} progress={this.props.progressBar} buffer={1} bufferingDots={false}/>
         <Grid container className="header-grid-2">
             <Grid item xs={6}>
               <Typography variant="h6" className="question-counter">{this.props.progressBar}% Done</Typography>
