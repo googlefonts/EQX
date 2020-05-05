@@ -127,7 +127,6 @@ jobs:
         gcloud container clusters get-credentials $GKE_CLUSTER --zone $GKE_ZONE --project $GKE_PROJECT
         cd backend/_infra/
 
-        kubesec decrypt -i postgresql/secrets.yaml --debug
         kubesec decrypt -i base/secrets.yaml --debug
 
         kustomize edit set image $REGISTRY_HOSTNAME/$GKE_PROJECT/backend:${GITHUB_SHA}
