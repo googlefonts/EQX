@@ -4,5 +4,8 @@ module.exports = withSass({
   // cssModules: true // Unsure whether css modules required
   sassLoaderOptions: {
     includePaths: ["node_modules"]
+  },
+  publicRuntimeConfig: {
+    API_URL: process.env.API_URL || 'http://localhost:1337'
   }
 })

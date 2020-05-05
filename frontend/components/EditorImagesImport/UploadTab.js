@@ -1,7 +1,9 @@
 import MaterialIcon from '@material/react-material-icon';
 import { Button } from '@material/react-typography';
 import axios from 'axios';
-const apiUrl = process.env.API_URL || 'http://localhost:1337';
+import getConfig from 'next/config'
+const { serverRuntimeConfig, publicRuntimeConfig } = getConfig()
+const apiUrl = publicRuntimeConfig.API_URL || 'http://localhost:1337';
 import Cookies from "js-cookie";
 
 class SvgTab extends React.Component {
@@ -53,7 +55,7 @@ class SvgTab extends React.Component {
         </label>
       </div>
     );
-	}
+  }
 }
 
 export default SvgTab;

@@ -1,99 +1,101 @@
-/* /pages/signup.js */ 
+/* /pages/signup.js */
 
 import React from "react";
 import { strapiRegister } from "../lib/auth";
 import axios from 'axios';
-const apiUrl = process.env.API_URL || 'http://localhost:1337';
+import getConfig from 'next/config'
+const { serverRuntimeConfig, publicRuntimeConfig } = getConfig()
+const apiUrl = publicRuntimeConfig.API_URL || 'http://localhost:1337';
 
 // import Router from "next/router";
 
 import Layout from '../components/Layout';
 // import MaterialIcon from '@material/react-material-icon';
-import {Cell, Grid, Row} from '@material/react-layout-grid';
+import { Cell, Grid, Row } from '@material/react-layout-grid';
 import { FormGroup, FormControl, FormLabel, Input, InputLabel, FormHelperText, Button } from '@material-ui/core';
 
 import "../styles/main.scss";
 
 class SignUp extends React.Component {
-  	constructor(props) {
-		super(props);
-		this.state = {
-			data: {
-				email: "",
-				username: "",
-				password: ""
-			},
-			loading: false,
-			error: ""
-		};
-  	}
+  constructor(props) {
+    super(props);
+    this.state = {
+      data: {
+        email: "",
+        username: "",
+        password: ""
+      },
+      loading: false,
+      error: ""
+    };
+  }
 
-  	onChange(propertyName, event) {
-		const { data } = this.state;
-		data[propertyName] = event.target.value;
-		this.setState({ data });
-  	}
-  	onSubmit() {
-		const {
-			data: { email, password }
-		} = this.state;
-		this.setState({ loading: true });
+  onChange(propertyName, event) {
+    const { data } = this.state;
+    data[propertyName] = event.target.value;
+    this.setState({ data });
+  }
+  onSubmit() {
+    const {
+      data: { email, password }
+    } = this.state;
+    this.setState({ loading: true });
 
-		// strapiRegister(email, password)
-		// 	.then(() => this.setState({ loading: false }))
-		// 	.catch(error => this.setState({ error: error }));
-		axios
-			.post(apiUrl+'/auth/local/register', {
-				email: email,
-				password: password,
-			})
-			.then(response => {
-				// Handle success.
-				console.log('Well done!');
-				console.log('User profile', response.data.user);
-				console.log('User token', response.data.jwt);
-			})
-			.catch(error => {
-				// Handle error.
-				console.log('An error occurred:', error);
-			});
-  	}
+    // strapiRegister(email, password)
+    // 	.then(() => this.setState({ loading: false }))
+    // 	.catch(error => this.setState({ error: error }));
+    axios
+      .post(apiUrl + '/auth/local/register', {
+        email: email,
+        password: password,
+      })
+      .then(response => {
+        // Handle success.
+        console.log('Well done!');
+        console.log('User profile', response.data.user);
+        console.log('User token', response.data.jwt);
+      })
+      .catch(error => {
+        // Handle error.
+        console.log('An error occurred:', error);
+      });
+  }
 
-  	render() {
-		const { error } = this.state;
-		return (
-			<Layout>
-				<Grid>
-					<Row>
-						<Cell desktopColumns={12}>
-							<div className="notification">{error}</div>
-							<FormGroup>
-								<FormControl>
-									<InputLabel>Username:</InputLabel>
-									<Input onChange={this.onChange.bind(this, "username")} type="text" name="username" />
-								</FormControl>
-								<FormControl>
-									<InputLabel>Email:</InputLabel>
-									<Input onChange={this.onChange.bind(this, "email")} type="email" name="email" />
-								</FormControl>
-								<FormControl style={{ marginBottom: 30 }}>
-									<InputLabel>Password:</InputLabel>
-									<Input onChange={this.onChange.bind(this, "password")} type="password" name="password" />
-								</FormControl>
-								<FormControl>
-									<span>
-										<a href="">
-											<small>Forgot Password?</small>
-										</a>
-									</span>
-									<Button color="primary" onClick={this.onSubmit.bind(this)}>Submit</Button>
-								</FormControl>
-							</FormGroup>
-						</Cell>
-					</Row>
-				</Grid>
-			</Layout>
-		);
-  	}
+  render() {
+    const { error } = this.state;
+    return (
+      <Layout>
+        <Grid>
+          <Row>
+            <Cell desktopColumns={12}>
+              <div className="notification">{error}</div>
+              <FormGroup>
+                <FormControl>
+                  <InputLabel>Username:</InputLabel>
+                  <Input onChange={this.onChange.bind(this, "username")} type="text" name="username" />
+                </FormControl>
+                <FormControl>
+                  <InputLabel>Email:</InputLabel>
+                  <Input onChange={this.onChange.bind(this, "email")} type="email" name="email" />
+                </FormControl>
+                <FormControl style={{ marginBottom: 30 }}>
+                  <InputLabel>Password:</InputLabel>
+                  <Input onChange={this.onChange.bind(this, "password")} type="password" name="password" />
+                </FormControl>
+                <FormControl>
+                  <span>
+                    <a href="">
+                      <small>Forgot Password?</small>
+                    </a>
+                  </span>
+                  <Button color="primary" onClick={this.onSubmit.bind(this)}>Submit</Button>
+                </FormControl>
+              </FormGroup>
+            </Cell>
+          </Row>
+        </Grid>
+      </Layout>
+    );
+  }
 }
 export default SignUp;

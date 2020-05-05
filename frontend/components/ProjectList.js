@@ -5,7 +5,9 @@ import { useQuery } from '@apollo/react-hooks';
 import withApollo from '../lib/apollo';
 import { CardText, CardTitle, Col, Row } from "reactstrap";
 import Project from "../components/Project";
-const apiUrl = process.env.API_URL || 'http://localhost:1337';
+import getConfig from 'next/config'
+const { serverRuntimeConfig, publicRuntimeConfig } = getConfig()
+const apiUrl = publicRuntimeConfig.API_URL.API_URL || 'http://localhost:1337';
 
 const query = gql`
   {
@@ -57,12 +59,12 @@ const ProjectList = (
   // const { loading, data } = useQuery(query);
 
   if (projects && projects.length) {
-    const searchQuery = projects.filter( query => query.name.toLowerCase().includes(search) );
+    const searchQuery = projects.filter(query => query.name.toLowerCase().includes(search));
     if (searchQuery.length != 0) {
       return (
         <>
           {searchQuery.map((project, i) => (
-            <Project key={"project-"+i} projectId={project.id}/>
+            <Project key={"project-" + i} projectId={project.id} />
           ))}
         </>
       );

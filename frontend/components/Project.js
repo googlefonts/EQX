@@ -6,7 +6,9 @@ import Cookies from "js-cookie";
 import Strapi from 'strapi-sdk-javascript/build/main';
 import axios from 'axios';
 import SharedTest from "../components/SharedTest";
-const apiUrl = process.env.API_URL || 'http://localhost:1337';
+import getConfig from 'next/config'
+const { serverRuntimeConfig, publicRuntimeConfig } = getConfig()
+const apiUrl = publicRuntimeConfig.API_URL || 'http://localhost:1337';
 const strapi = new Strapi(apiUrl);
 
 
@@ -55,8 +57,8 @@ class ProjectTests extends React.Component {
       .post(apiUrl + '/tests', {
         name: testName,
         project: this.props.project.id,
-        owners: [ Cookies.get("id") ],
-        users: [ Cookies.get("id") ],
+        owners: [Cookies.get("id")],
+        users: [Cookies.get("id")],
         major_version: 0,
         minor_version: 1,
         completeness: 0,
@@ -516,12 +518,12 @@ class Project extends React.Component {
 
           {/* Actionable Info */}
           <AppBar position="static" color="default">
-            <Tabs 
-              value={this.state.tabValue} 
-              onChange={this.handleChange} 
-              indicatorColor="primary" 
-              textColor="primary" 
-              variant="scrollable" 
+            <Tabs
+              value={this.state.tabValue}
+              onChange={this.handleChange}
+              indicatorColor="primary"
+              textColor="primary"
+              variant="scrollable"
               scrollButtons="auto"
             >
               <Tab label="Tests" />
