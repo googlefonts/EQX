@@ -13,10 +13,12 @@ import { createHttpLink } from 'apollo-link-http';
 import { ApolloProvider } from "react-apollo";
 import { ApolloProvider as ApolloHooksProvider } from "@apollo/react-hooks";
 import ApolloClient from "apollo-boost";
-const apiUrl = process.env.API_URL || 'http://localhost:1337';
+import getConfig from 'next/config'
+const { serverRuntimeConfig, publicRuntimeConfig } = getConfig()
+const apiUrl = publicRuntimeConfig.API_URL || 'http://localhost:1337';
 
 const client = new ApolloClient({
-  uri: apiUrl+"/graphql"
+  uri: apiUrl + "/graphql"
 });
 
 class MyApp extends App {
@@ -24,10 +26,10 @@ class MyApp extends App {
     let pageProps = {};
     if (Component.getInitialProps) {
       pageProps = await Component.getInitialProps(ctx);
-    } 
+    }
     return { pageProps };
   }
-  
+
   render() {
     // const { Component, pageProps, apollo, isAuthenticated, ctx } = this.props;
     const { Component, pageProps, isAuthenticated, ctx } = this.props;

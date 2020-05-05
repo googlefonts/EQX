@@ -1,10 +1,12 @@
 import React from "react";
-import { Dialog, DialogTitle, DialogActions, DialogContentText, DialogContent, Button, TextField, Fab, Grid, LinearProgress, List, ListItem, ListItemAvatar, ListItemText, Avatar, AppBar, Tab, Tabs, Card, CardContent, Typography, Box, Divider} from '@material-ui/core';
+import { Dialog, DialogTitle, DialogActions, DialogContentText, DialogContent, Button, TextField, Fab, Grid, LinearProgress, List, ListItem, ListItemAvatar, ListItemText, Avatar, AppBar, Tab, Tabs, Card, CardContent, Typography, Box, Divider } from '@material-ui/core';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import Cookies from "js-cookie";
 import Strapi from 'strapi-sdk-javascript/build/main';
 import axios from 'axios';
-const apiUrl = process.env.API_URL || 'http://localhost:1337';
+import getConfig from 'next/config'
+const { serverRuntimeConfig, publicRuntimeConfig } = getConfig()
+const apiUrl = publicRuntimeConfig.API_URL || 'http://localhost:1337';
 const strapi = new Strapi(apiUrl);
 
 
@@ -20,25 +22,29 @@ class TestQuestions extends React.Component {
     };
   }
   handleOpen = () => {
-    this.setState({open: true});
+    this.setState({ open: true });
   }
   handleClose = () => {
-    this.setState({open: false});
-    this.setState({textFieldValue: ""});
+    this.setState({ open: false });
+    this.setState({ textFieldValue: "" });
   }
   handleSubmit = () => {
-    let questionName =  this.state.textFieldValue;
+    let questionName = this.state.textFieldValue;
     axios
-      .post(apiUrl+'/questions', {
+      .post(apiUrl + '/questions', {
         question: questionName,
-      }, { headers: { Authorization: 'Bearer ' + Cookies.get("jwt") } 
-      }).catch(error => { console.log(error);  // Handle Error
+      }, {
+        headers: { Authorization: 'Bearer ' + Cookies.get("jwt") }
+      }).catch(error => {
+        console.log(error);  // Handle Error
       }).then(response => { // Handle success
         axios
-          .put(apiUrl+'/tests/' + this.props.test.id, {
+          .put(apiUrl + '/tests/' + this.props.test.id, {
             questions: [...this.props.test.questions, response.data.id]
-          }, { headers: { Authorization: 'Bearer ' + Cookies.get("jwt") } 
-          }).catch(error => { console.log(error); // Handle Error
+          }, {
+            headers: { Authorization: 'Bearer ' + Cookies.get("jwt") }
+          }).catch(error => {
+            console.log(error); // Handle Error
           }).then(response => { // Handle success
             this.handleClose();
             this.props.update();
@@ -49,27 +55,27 @@ class TestQuestions extends React.Component {
   handleChange = (e) => {
     this.setState({ textFieldValue: e.target.value });
   }
-  
+
   render() {
     return (
       <Box className="section-tests tabContainer" hidden={0 === this.props.tabValue ? false : true}>
         <List color="primary">
           {(this.props.test.questions && this.props.test.questions.length) ?
             this.props.test.questions.map((question, i) =>
-                
-              <ListItem button key={"question-"+i}>
+
+              <ListItem button key={"question-" + i}>
                 <Box p={1} pt={2} width="100%">
                   <Grid container spacing={2}>
                     <Grid item xs={12}>
-                        <Typography variant="h5">
-                          {question.question}
-                        </Typography>
+                      <Typography variant="h5">
+                        {question.question}
+                      </Typography>
                     </Grid>
                   </Grid>
                 </Box>
               </ListItem>
             )
-          : 
+            :
             <ListItem key={"test-none"}>
               <Grid container spacing={2}>
                 <Grid item xs={12}>
@@ -103,7 +109,7 @@ class TestQuestions extends React.Component {
       </Box>
     );
   }
-} 
+}
 
 
 
@@ -119,10 +125,10 @@ class TestMembers extends React.Component {
     };
   }
   handleOpen = () => {
-    this.setState({open: true});
+    this.setState({ open: true });
   }
   handleClose = () => {
-    this.setState({open: false});
+    this.setState({ open: false });
     this.setState({ textFieldValue: "" });
   }
   render() {
@@ -131,7 +137,7 @@ class TestMembers extends React.Component {
         <List>
           {(this.props.test.users && this.props.test.users.length) &&
             this.props.test.users.map((member, i) =>
-              <Box p={1} key={"member-"+i} width="100%">
+              <Box p={1} key={"member-" + i} width="100%">
                 <ListItem>
                   <ListItemAvatar>
                     <Avatar></Avatar>
@@ -165,7 +171,7 @@ class TestMembers extends React.Component {
       </Box>
     );
   }
-} 
+}
 
 
 
@@ -181,10 +187,10 @@ class TestFonts extends React.Component {
     };
   }
   handleOpen = () => {
-    this.setState({open: true});
+    this.setState({ open: true });
   }
   handleClose = () => {
-    this.setState({open: false});
+    this.setState({ open: false });
     this.setState({ textFieldValue: "" });
   }
   render() {
@@ -193,8 +199,8 @@ class TestFonts extends React.Component {
         <List>
           {(this.props.test.users && this.props.test.users.length) &&
             this.props.test.users.map((member, i) =>
-              <Box p={1} key={"font-"+i} width="100%">
-                
+              <Box p={1} key={"font-" + i} width="100%">
+
               </Box>
             )
           }
@@ -210,7 +216,7 @@ class TestFonts extends React.Component {
           <DialogContent>
             <DialogContentText>Add the fonts you are using for this test.</DialogContentText>
             <TextField value={this.state.textFieldValue} onChange={this.handleChange} autoFocus margin="dense" id="name" label="Font Name" type="email" fullWidth />
-            <br/><br/>
+            <br /><br />
             <Button variant="contained" component="label" >
               Upload File
               <input type="file" style={{ display: "none" }} />
@@ -224,7 +230,7 @@ class TestFonts extends React.Component {
       </Box>
     );
   }
-} 
+}
 
 
 //////////////////////////////
@@ -247,14 +253,15 @@ class Test extends React.Component {
 
   update = () => {
     axios
-      .get(apiUrl+'/tests?id_in=' + this.props.testId, { 
+      .get(apiUrl + '/tests?id_in=' + this.props.testId, {
         headers: { Authorization: 'Bearer ' + Cookies.get("jwt") }
-      }).catch(error => { console.log(error); // Handle error
+      }).catch(error => {
+        console.log(error); // Handle error
       }).then(response => { // Handle success
         this.setState({ test: response.data[0] });
 
-        let questionLength = 0; 
-        if (typeof response.data[0].questions !== 'undefined' && response.data[0].questions > 0){
+        let questionLength = 0;
+        if (typeof response.data[0].questions !== 'undefined' && response.data[0].questions > 0) {
           questionLength = response.data[0].questions;
         }
         this.setState({ questionLength: questionLength });
@@ -264,15 +271,15 @@ class Test extends React.Component {
   cardOver = () => {
     this.setState({ elevation: 6 });
   }
-   
+
   cardOut = () => {
     this.setState({ elevation: 3 });
   }
- 
+
   handleChange = (event, newValue) => {
     this.setState({ tabValue: newValue });
   };
- 
+
 
   render() {
     return (
@@ -290,10 +297,10 @@ class Test extends React.Component {
                 <Box component="span" color="grey.400"> v.{this.state.test.major_version}.{this.state.test.minor_version}</Box>
               </Typography>
               <Box className="progress-bar" pb={1}>
-                <Box style={{width: "calc(100% - 200px)", display: "inline-block"}}>
-                  <LinearProgress variant="determinate" value={this.state.test.completeness ? this.state.test.completeness : 0}/>
+                <Box style={{ width: "calc(100% - 200px)", display: "inline-block" }}>
+                  <LinearProgress variant="determinate" value={this.state.test.completeness ? this.state.test.completeness : 0} />
                 </Box>
-                <Typography style={{width: "200px", display: "inline-block"}} align="right" variant="h6">{this.state.test.completeness}% Done</Typography>
+                <Typography style={{ width: "200px", display: "inline-block" }} align="right" variant="h6">{this.state.test.completeness}% Done</Typography>
               </Box>
               <Box component="span" color="purple" className="inline-button" mr={2} >
                 <Button color="primary" size="large" variant="contained" >Start</Button>

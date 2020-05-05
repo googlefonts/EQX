@@ -15,3 +15,6 @@ spec:
         image: gcr.io/eqx-host/frontend
         ports:
         - containerPort: 3000
+        env:
+        - name: API_URL
+          value: http://35.231.157.252

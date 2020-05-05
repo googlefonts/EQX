@@ -6,7 +6,9 @@ import Strapi from "strapi-sdk-javascript/build/main";
 import axios from 'axios';
 import Router from "next/router";
 
-const apiUrl = process.env.API_URL || "http://localhost:1337";
+import getConfig from 'next/config'
+const { serverRuntimeConfig, publicRuntimeConfig } = getConfig()
+const apiUrl = publicRuntimeConfig.API_URL || "http://localhost:1337";
 const strapi = new Strapi(apiUrl);
 
 export const strapiRegister = (username, email, password) => {
@@ -27,7 +29,7 @@ export const strapiLogin = (email, password) => {
   }
   // Get a token
   axios
-    .post(apiUrl+"/auth/local", {
+    .post(apiUrl + "/auth/local", {
       identifier: email,
       password: password,
     }).then(response => {

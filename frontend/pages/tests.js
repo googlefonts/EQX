@@ -5,11 +5,13 @@ import defaultPage from "../hocs/defaultPage";
 import Layout from "../components/Layout";
 import Test from "../components/Test";
 import Section from "../components/Section";
-import { TextField, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, FormGroup, Input, InputLabel, Button, Typography} from '@material-ui/core';
+import { TextField, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, FormGroup, Input, InputLabel, Button, Typography } from '@material-ui/core';
 import Cookies from "js-cookie";
 import axios from 'axios';
 import "../styles/main.scss";
-const apiUrl = process.env.API_URL || 'http://localhost:1337';
+import getConfig from 'next/config'
+const { serverRuntimeConfig, publicRuntimeConfig } = getConfig()
+const apiUrl = publicRuntimeConfig.API_URL || 'http://localhost:1337';
 
 
 //////////////////////////////
@@ -20,30 +22,32 @@ class NewTest extends React.Component {
     super(props);
     this.state = {
       open: false,
-      textFieldValue : ""
+      textFieldValue: ""
     };
   }
-  
+
   handleOpen = () => {
-    this.setState({open: true});
+    this.setState({ open: true });
   }
-  
+
   handleClose = () => {
-    this.setState({open: false});
+    this.setState({ open: false });
     this.setState({ textFieldValue: "" });
   }
 
   onSubmit = () => {
-    let testName =  this.state.textFieldValue;
+    let testName = this.state.textFieldValue;
     axios
-      .post(apiUrl+'/tests', {
+      .post(apiUrl + '/tests', {
         name: testName,
-        owners: [ Cookies.get("id") ],
-        users: [ Cookies.get("id") ],
+        owners: [Cookies.get("id")],
+        users: [Cookies.get("id")],
         major_version: 0,
         minor_version: 1,
-      }, { headers: { Authorization: 'Bearer ' + Cookies.get("jwt") }
-      }).catch(error => { console.log(error); // Handle error 
+      }, {
+        headers: { Authorization: 'Bearer ' + Cookies.get("jwt") }
+      }).catch(error => {
+        console.log(error); // Handle error 
       }).then(response => { // Handle success
         this.handleClose();
       });
@@ -52,17 +56,17 @@ class NewTest extends React.Component {
   onChange = (e) => {
     this.setState({ textFieldValue: e.target.value });
   }
-  
+
   render() {
     return (
       <>
         <>
           <Typography color="primary" align="center" gutterBottom={true} variant="h2" >Need to make your own test?</Typography>
           <Typography align="center" gutterBottom={true} variant="body1">Certe, inquam, pertinax non numquam eius modi tempora incidunt, ut ita ruant itaque turbent, ut de voluptate ponit, quod summum malum et, quantum possit, a philosophis compluribus permulta dicantur, cur verear, ne ferae quidem faciunt, ut labore et dolorum fuga et dolore suo sanciret militaris.</Typography>
-          <br/>
+          <br />
           <Button onClick={this.handleOpen} color="primary" size="large" variant="contained">Create a New Test</Button>
           <Button onClick={console.log("not yet, sry.")} color="primary" size="large" variant="contained">Use a Template</Button>
-          <br/>
+          <br />
           <Typography align="center" gutterBottom={true} variant="body2" display="block">Don’t worry, we’ll help you through it.</Typography>
         </>
 
@@ -131,7 +135,7 @@ class TestPage extends React.Component {
 
   update = () => {
     axios
-      .get(apiUrl+'/projects?owners.id='+Cookies.get("id")+'&archived_eq=false', { 
+      .get(apiUrl + '/projects?owners.id=' + Cookies.get("id") + '&archived_eq=false', {
         headers: { Authorization: "Bearer " + Cookies.get("jwt") }
       }).then(response => { // Handle success
         this.setState({ projects: response.data });
@@ -143,9 +147,9 @@ class TestPage extends React.Component {
     return (
       <Layout page={this.state.page} {...this.props}>
         <Section>
-          {this.state.projects.map((project, i1) => 
+          {this.state.projects.map((project, i1) =>
             project.tests.map((test, i2) =>
-              <Test key={"test-"+i2} testId={test.id} project={project} update={this.update}/>
+              <Test key={"test-" + i2} testId={test.id} project={project} update={this.update} />
             )
           )}
         </Section>

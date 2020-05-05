@@ -1,12 +1,14 @@
 import React from "react";
-import { CircularProgress, Dialog, DialogTitle, DialogActions, DialogContentText, DialogContent, Button, TextField, Fab, Grid, LinearProgress, List, ListItem, ListItemAvatar, ListItemText, Avatar, AppBar, Tab, Tabs, Card, CardContent, Typography, Box, Divider} from '@material-ui/core';
+import { CircularProgress, Dialog, DialogTitle, DialogActions, DialogContentText, DialogContent, Button, TextField, Fab, Grid, LinearProgress, List, ListItem, ListItemAvatar, ListItemText, Avatar, AppBar, Tab, Tabs, Card, CardContent, Typography, Box, Divider } from '@material-ui/core';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import Cookies from "js-cookie";
 import Strapi from 'strapi-sdk-javascript/build/main';
 import axios from 'axios';
 import RadialGrade from "../components/RadialGrade";
 import Link from 'next/link';
-const apiUrl = process.env.API_URL || 'http://localhost:1337';
+import getConfig from 'next/config'
+const { serverRuntimeConfig, publicRuntimeConfig } = getConfig()
+const apiUrl = publicRuntimeConfig.API_URL || 'http://localhost:1337';
 const strapi = new Strapi(apiUrl);
 import Router from 'next/router';
 
@@ -22,25 +24,29 @@ class TestQuestions extends React.Component {
     };
   }
   handleOpen = () => {
-    this.setState({open: true});
+    this.setState({ open: true });
   }
   handleClose = () => {
-    this.setState({open: false});
-    this.setState({textFieldValue: ""});
+    this.setState({ open: false });
+    this.setState({ textFieldValue: "" });
   }
   handleSubmit = () => {
     axios
-      .post(apiUrl+'/questions', {
+      .post(apiUrl + '/questions', {
         // question: questionName,
         test: this.props.test.id,
-      }, { headers: { Authorization: 'Bearer ' + Cookies.get("jwt") } 
-      }).catch(error => { console.log(error);  // Handle Error
+      }, {
+        headers: { Authorization: 'Bearer ' + Cookies.get("jwt") }
+      }).catch(error => {
+        console.log(error);  // Handle Error
       }).then(response => { // Handle success
         axios
-          .put(apiUrl+'/tests/' + this.props.test.id, {
+          .put(apiUrl + '/tests/' + this.props.test.id, {
             questions: [...this.props.test.questions, response.data.id]
-          }, { headers: { Authorization: 'Bearer ' + Cookies.get("jwt") } 
-          }).catch(error => { console.log(error); // Handle Error
+          }, {
+            headers: { Authorization: 'Bearer ' + Cookies.get("jwt") }
+          }).catch(error => {
+            console.log(error); // Handle Error
           }).then(response => { // Handle success
             Router.push("/create-question?test=" + this.props.test.id + "&question=" + (this.props.test.questions.length + 1))
           });
@@ -50,28 +56,28 @@ class TestQuestions extends React.Component {
   handleChange = (e) => {
     this.setState({ textFieldValue: e.target.value });
   }
-  
+
   render() {
     return (
       <Box bgcolor="primary.main" className="primary-background section-tests tabContainer" hidden={1 === this.props.tabValue ? false : true}>
         <List color="primary">
           {(this.props.test.questions && this.props.test.questions.length) ?
             this.props.test.questions.map((question, i) =>
-              <Link key={"key-test=" + this.props.test.id + "question-" + (i + 1)} href={"/create-question?test=" + this.props.test.id + "&question=" + (i + 1)}>     
-                <ListItem button key={"question-"+i}>
+              <Link key={"key-test=" + this.props.test.id + "question-" + (i + 1)} href={"/create-question?test=" + this.props.test.id + "&question=" + (i + 1)}>
+                <ListItem button key={"question-" + i}>
                   <Box p={1} pt={2} width="100%">
                     <Grid container spacing={2}>
                       <Grid item xs={12}>
-                          <Typography variant="body1">
-                            {question.question}
-                          </Typography>
+                        <Typography variant="body1">
+                          {question.question}
+                        </Typography>
                       </Grid>
                     </Grid>
                   </Box>
                 </ListItem>
               </Link>
             )
-          : 
+            :
             <ListItem key={"test-none"}>
               <Grid container spacing={2}>
                 <Grid item xs={12}>
@@ -90,7 +96,7 @@ class TestQuestions extends React.Component {
             <Box component="span">Add Question</Box>
           </Fab>
         </Box>
-        
+
         {/* 
         <Dialog open={this.state.open} onClose={this.handleClose}>
           <DialogTitle id="form-dialog-title">New Question</DialogTitle>
@@ -106,7 +112,7 @@ class TestQuestions extends React.Component {
       </Box>
     );
   }
-} 
+}
 
 
 
@@ -122,10 +128,10 @@ class TestMembers extends React.Component {
     };
   }
   handleOpen = () => {
-    this.setState({open: true});
+    this.setState({ open: true });
   }
   handleClose = () => {
-    this.setState({open: false});
+    this.setState({ open: false });
     this.setState({ textFieldValue: "" });
   }
   render() {
@@ -137,10 +143,10 @@ class TestMembers extends React.Component {
             <Box p={1} pt={2} width="100%">
               <Grid container spacing={2}>
                 <Grid item xs={12}>
-                  <Box style={{width: "calc(100% - 200px)", display: "inline-block"}}>
-                    <LinearProgress className="linear-progress-thick" variant="determinate" value={0}/>
+                  <Box style={{ width: "calc(100% - 200px)", display: "inline-block" }}>
+                    <LinearProgress className="linear-progress-thick" variant="determinate" value={0} />
                   </Box>
-                  <Typography style={{width: "200px", display: "inline-block"}} align="right" variant="h5">{0}% Done</Typography>
+                  <Typography style={{ width: "200px", display: "inline-block" }} align="right" variant="h5">{0}% Done</Typography>
                 </Grid>
                 <Grid item xs={12}>
                   <Typography color="inherit" variant="body2">Completed by 0 of 1 users</Typography>
@@ -151,14 +157,14 @@ class TestMembers extends React.Component {
 
           {(this.props.test.users && this.props.test.users.length) &&
             this.props.test.users.map((member, i) =>
-              <ListItem key={"test-member-"+i}>
+              <ListItem key={"test-member-" + i}>
                 <Box p={1} pt={2} width="100%">
                   <Grid container spacing={2}>
                     <Grid item xs={12}>
-                      <Box style={{width: "calc(100% - 200px)", display: "inline-block"}}>
-                        <LinearProgress variant="determinate" value={0}/>
+                      <Box style={{ width: "calc(100% - 200px)", display: "inline-block" }}>
+                        <LinearProgress variant="determinate" value={0} />
                       </Box>
-                      <Typography style={{width: "200px", display: "inline-block"}} align="right" variant="h6">{0}% Done</Typography>
+                      <Typography style={{ width: "200px", display: "inline-block" }} align="right" variant="h6">{0}% Done</Typography>
                     </Grid>
                     <Grid item xs={12}>
                       <Box>
@@ -185,11 +191,11 @@ class TestMembers extends React.Component {
             )
           }
         </List>
-        
+
       </Box>
     );
   }
-} 
+}
 
 
 
@@ -204,42 +210,42 @@ class TestImportExport extends React.Component {
     };
   }
   handleOpen = () => {
-    this.setState({open: true});
+    this.setState({ open: true });
   }
   handleClose = () => {
-    this.setState({open: false});
+    this.setState({ open: false });
   }
   render() {
     return (
       <Box bgcolor="primary.main" className="primary-background section-import-export" hidden={2 === this.props.tabValue ? false : true}>
-       <br/>
-       <br/>
-          <Typography align="center" gutterBottom={true} variant="h5">Need to get a test off of EQX? Lets make that happen.</Typography>
-          <Box my={4} className="text-align-center">
-            <Box m={2} display="inline">
-              <Button onClick={this.handleOpen} display="inline" size="large" variant="contained">Import JSON</Button>
-            </Box>
-            <Box m={2} display="inline">
-              <Button onClick={this.handleOpen} display="inline" size="large" variant="contained">Export JSON</Button>
-            </Box>
+        <br />
+        <br />
+        <Typography align="center" gutterBottom={true} variant="h5">Need to get a test off of EQX? Lets make that happen.</Typography>
+        <Box my={4} className="text-align-center">
+          <Box m={2} display="inline">
+            <Button onClick={this.handleOpen} display="inline" size="large" variant="contained">Import JSON</Button>
           </Box>
-          <Box my={4} className="text-align-center">
-            <Box m={2} display="inline">
-              <Button onClick={this.handleOpen} display="inline" size="large" variant="contained">Import CSV</Button>
-            </Box>
-            <Box m={2} display="inline">
-              <Button onClick={this.handleOpen} display="inline" size="large" variant="contained">Export CSV</Button>
-            </Box>
+          <Box m={2} display="inline">
+            <Button onClick={this.handleOpen} display="inline" size="large" variant="contained">Export JSON</Button>
           </Box>
-          <Typography align="center" gutterBottom={true} variant="body2" display="block">You can find more on this here.</Typography>
-          <br/>
-          <br/>
+        </Box>
+        <Box my={4} className="text-align-center">
+          <Box m={2} display="inline">
+            <Button onClick={this.handleOpen} display="inline" size="large" variant="contained">Import CSV</Button>
+          </Box>
+          <Box m={2} display="inline">
+            <Button onClick={this.handleOpen} display="inline" size="large" variant="contained">Export CSV</Button>
+          </Box>
+        </Box>
+        <Typography align="center" gutterBottom={true} variant="body2" display="block">You can find more on this here.</Typography>
+        <br />
+        <br />
       </Box>
     );
   }
-} 
+}
 
-  
+
 //////////////////////////////
 // Current tests
 
@@ -259,9 +265,10 @@ class SharedTest extends React.Component {
 
   update = () => {
     axios
-      .get(apiUrl+'/tests?id_in=' + this.props.testId, { 
+      .get(apiUrl + '/tests?id_in=' + this.props.testId, {
         headers: { Authorization: 'Bearer ' + Cookies.get("jwt") }
-      }).catch(error => { console.log(error); // Handle error
+      }).catch(error => {
+        console.log(error); // Handle error
       }).then(response => { // Handle success
         this.setState({ test: response.data[0] });
       });
@@ -270,19 +277,19 @@ class SharedTest extends React.Component {
   cardOver = () => {
     this.setState({ elevation: 6 });
   }
-   
+
   cardOut = () => {
     this.setState({ elevation: 3 });
   }
- 
+
   handleChange = (event, newValue) => {
     this.setState({ tabValue: newValue });
   };
- 
+
 
   render() {
     return (
-      <Box mb={this.props.modal === true ? 0 : 6 } className="test-container" position="relative">
+      <Box mb={this.props.modal === true ? 0 : 6} className="test-container" position="relative">
         <Card elevation={this.state.elevation} onMouseOver={this.cardOver} onMouseOut={this.cardOut}>
 
           {/* Genral Info */}
@@ -321,7 +328,7 @@ class SharedTest extends React.Component {
                   </Box>
                 </Grid>
                 <Grid item xs={4}>
-                  <RadialGrade grade={80}  />
+                  <RadialGrade grade={80} />
                 </Grid>
               </Grid>
             </Box>
@@ -332,7 +339,7 @@ class SharedTest extends React.Component {
           {/* Actionable Info */}
           <Box bgcolor="primary.main">
             <AppBar position="static" color="primary">
-              <Tabs value={this.state.tabValue} onChange={this.handleChange} TabIndicatorProps={{style: {backgroundColor: "#fff"}}} variant="scrollable" scrollButtons="auto">
+              <Tabs value={this.state.tabValue} onChange={this.handleChange} TabIndicatorProps={{ style: { backgroundColor: "#fff" } }} variant="scrollable" scrollButtons="auto">
                 <Tab label="Members" />
                 <Tab label="Questions" />
                 <Tab label="Import/Export" />
@@ -341,13 +348,13 @@ class SharedTest extends React.Component {
           </Box>
 
           {/* Members */}
-          <TestMembers {...this.state} update={this.update}/>
+          <TestMembers {...this.state} update={this.update} />
 
           {/* Tests */}
-          <TestQuestions {...this.state} update={this.update}/>
+          <TestQuestions {...this.state} update={this.update} />
 
           {/* Import/Export */}
-          <TestImportExport {...this.state} update={this.update}/>
+          <TestImportExport {...this.state} update={this.update} />
         </Card>
       </Box>
     );
