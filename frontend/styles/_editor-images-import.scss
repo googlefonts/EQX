@@ -82,12 +82,12 @@ $eii-height: 392px; // Height of 7 dropdown menus
 		visibility: hidden;
 	}
 
-	.circle{
+	.icon-wrap{
 		position: absolute;
-		top: 45%;
+		top: 50%;
 		left: 50%;
 		transform: translate(-50%, -50%);
-		background-color: $mdc-theme-grey100;
+		background-color: rgba($mdc-theme-grey200, 0.75);
 		border-radius: 100%;
 		padding: 4rem;
 	}
@@ -108,10 +108,13 @@ $eii-height: 392px; // Height of 7 dropdown menus
 		left: 50%;
 		transform: translate(-50%, -50%);
 		width: 100%;
+		color: white;
+		font-size: 25px;
 	}
 
 	.paperclip-icon{
-		opacity: .12;
+		opacity: 0.25;
+		color: black;
 		font-size: 8rem;
 	}
 

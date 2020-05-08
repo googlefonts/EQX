@@ -3,19 +3,88 @@ import UploadTab from '../components/EditorImagesImport/UploadTab';
 import EditorTab from '../components/EditorImagesImport/EditorTab';
 import HtmlCssTab from '../components/EditorImagesImport/HtmlCssTab';
 import { Grid, AppBar, Tabs, Tab, Box, TextField, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, FormGroup, Input, InputLabel, Button, Typography} from '@material-ui/core';
+// import debounce from 'lodash/debounce';
+import axios from 'axios';
+import Cookies from "js-cookie";
 
 class EditorImagesImport extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       tabValue: 0,
-      imageUrl: ""
+      imageUrl: "",
+      imageType: "editor_image"
     };
   }
 
+  componentDidMount = () => {
+    // this.autosave = debounce(this.autosave, 500); // No need for debounce
+    this.update();
+  }
+
+  pageUpdate = () => {
+    this.update();
+  }
+
+	componentDidUpdate(nextProps) {
+		const { questionNumber, test } = this.props
+		if (nextProps.questionNumber !== questionNumber) {
+			this.update();
+		}
+		if (nextProps.test !== test) {
+			this.update();
+		}
+	}
+
+  update = () => {
+		if (
+			this.props.questionNumber && 
+			typeof this.props.test != "undefined" && 
+			Object.keys(this.props.test).length > 0
+		){
+      if (this.props.test.questions[Number(this.props.questionNumber - 1)].image_type === "editor_image"){
+        this.setState({ 
+          imageType: "editor_image",
+          tabValue: 0
+        });
+      } else if (this.props.test.questions[Number(this.props.questionNumber - 1)].image_type === "uploaded_image"){
+        this.setState({ 
+          imageType: "uploaded_image",
+          tabValue: 1
+        });
+      } else if (this.props.test.questions[Number(this.props.questionNumber - 1)].image_type === "code_image"){
+        this.setState({ 
+          imageType: "code_image",
+          tabValue: 2
+        });
+      }
+      console.log(this.state)
+    }
+  }
+  
   handleChange = (event, newValue) => {
     this.setState({ tabValue: newValue });
+    var imageType= "editor_image";
+    if (newValue == 0){
+      imageType= "editor_image";
+    } else if (newValue == 1){
+      imageType= "uploaded_image";
+    } else if (newValue == 2){
+      imageType= "code_image";
+    }
+    this.setState({ imageType: imageType });
+    this.autosave(imageType);
   };
+	
+	autosave = (imageType) => {
+		axios
+		  .put('http://localhost:1337/questions/' + this.props.test.questions[Number(this.props.questionNumber - 1)].id, {
+		    image_type: imageType
+		  }, { headers: { Authorization: 'Bearer ' + Cookies.get("jwt") } 
+		  }).catch(error => { console.log(error); // Handle Error
+		  }).then(response => { // Handle success
+		  });
+	}
 
   render() {
     return (
@@ -37,9 +106,9 @@ class EditorImagesImport extends React.Component {
             </Tabs>
           </AppBar>
 
-          {this.state.tabValue == 0 ? <EditorTab/> : null}
-          {this.state.tabValue == 1 ? <UploadTab/> : null}
-          {this.state.tabValue == 2 ? <HtmlCssTab/> : null}
+          {this.state.tabValue == 0 ? <EditorTab {...this.props}/> : null}
+          {this.state.tabValue == 1 ? <UploadTab {...this.props}/> : null}
+          {this.state.tabValue == 2 ? <HtmlCssTab {...this.props}/> : null}
         </Grid>
       </Grid>
     );

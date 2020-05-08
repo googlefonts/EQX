@@ -21,6 +21,9 @@ module.exports = async () => {
 	// 		newPermission.enabled = true;
 	// 		strapi.query('permission', 'users-permissions').update( { id: newPermission.id }, newPermission );
 	// 	}
+
+	// ALSO DO FOR UPLOAD
+	
 	// });
 	// return;
 };

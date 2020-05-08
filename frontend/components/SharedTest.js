@@ -334,8 +334,6 @@ class SharedTest extends React.Component {
             </Box>
           </CardContent>
 
-
-
           {/* Actionable Info */}
           <Box bgcolor="primary.main">
             <AppBar position="static" color="primary">

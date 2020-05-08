@@ -62,7 +62,7 @@ class CreateQuestionPage extends React.Component {
 
   render() {
     return (
-      <Layout page={this.state.page} headerType="creating" test={this.state.test} {...this.props}>
+      <Layout page={this.state.page} headerType="creating" test={this.state.test} pageUpdate={this.pageUpdate} {...this.props}>
         <Box pt={8} bgcolor="#fff">
           <CreateQuestionFields {...this.state} {...this.props} />
           <EditorImagesImport {...this.state} {...this.props} />

@@ -9,21 +9,21 @@ import Cookies from "js-cookie";
 
 class Table extends React.Component {
 	constructor (props) {
-			super(props)
-			this.state = { searchTerm: props.searchTerm }
+		super(props)
+		this.state = { searchTerm: props.searchTerm }
 	}
 
 	setSearchTerm = debounce(searchTerm => {
-			this.setState({ searchTerm })
+		this.setState({ searchTerm })
 	}, 1000)
 
 	render() {
-			return (
-					<div className="widget">
-							<p>{this.state.searchTerm}</p>
-							<input onChange={e => {this.setSearchTerm(e.target.value)}} />
-					</div>
-			)
+		return (
+			<div className="widget">
+				<p>{this.state.searchTerm}</p>
+				<input onChange={e => {this.setSearchTerm(e.target.value)}} />
+			</div>
+		)
 	}
 }
 
@@ -49,11 +49,10 @@ class CreateQuestionFields extends React.Component {
 	}
 
 	autosave = () => {
-		console.log(this.state.questionValue)
 		axios
 		  .put('http://localhost:1337/questions/' + this.props.test.questions[Number(this.props.questionNumber - 1)].id, {
 		    question: this.state.questionValue,
-		    context: this.state.contextValue
+			 context: this.state.contextValue
 		  }, { headers: { Authorization: 'Bearer ' + Cookies.get("jwt") } 
 		  }).catch(error => { console.log(error); // Handle Error
 		  }).then(response => { // Handle success
@@ -67,6 +66,7 @@ class CreateQuestionFields extends React.Component {
 			typeof this.props.test != "undefined" && 
 			Object.keys(this.props.test).length > 0
 		){
+			// console.log(this.props.test.questions[Number(this.props.questionNumber - 1)])
 			let questionValue = "";
 			if (this.props.test.questions[Number(this.props.questionNumber - 1)].question){
 				questionValue = this.props.test.questions[Number(this.props.questionNumber - 1)].question

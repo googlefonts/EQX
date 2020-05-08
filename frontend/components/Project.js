@@ -118,7 +118,10 @@ class ProjectTests extends React.Component {
             </ListItem>
           }
         </List>
-        <Dialog fullWidth={true} maxWidth="md" open={this.state.testModalOpen} onClose={this.testModalHandleClose}>
+        <Dialog 
+          PaperProps={{ style: { overflow: "visible", borderRadius: "4px" } }} 
+          fullWidth={true} maxWidth="md" open={this.state.testModalOpen} onClose={this.testModalHandleClose}
+        >
           <SharedTest modal={true} testId={this.state.testModal.id} project={this.props.project} update={this.update} />
         </Dialog>
         <Box className="overflow-fab-wrap">

@@ -18,6 +18,8 @@ import NoteIcon from '@material-ui/icons/Note';
 import FolderIcon from '@material-ui/icons/Folder';
 import WorkIcon from '@material-ui/icons/Work';
 import GroupIcon from '@material-ui/icons/Group';
+import axios from 'axios';
+import Cookies from "js-cookie";
 
 const drawerWidth = 240;
 
@@ -87,6 +89,7 @@ import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 import FormatListNumberedIcon from '@material-ui/icons/FormatListNumbered';
 import Router from 'next/router';
+
 class SideNavCreateQuestion extends React.Component {
   constructor(props) {
     super(props);
@@ -107,9 +110,17 @@ class SideNavCreateQuestion extends React.Component {
           }, { headers: { Authorization: 'Bearer ' + Cookies.get("jwt") } 
           }).catch(error => { console.log(error); // Handle Error
           }).then(response => { // Handle success
-            Router.push("/create-question?test=" + this.props.test.id + "&question=" + (this.props.test.questions.length + 2))
+            Router.push("/create-question?test=" + this.props.test.id + "&question=" + (this.props.test.questions.length + 1));
           });
       })
+  }
+  nextQuestion = () => {
+    Router.push("/create-question?test=" + this.props.test.id + "&question=" + (this.props.test.questions.length + 1));
+    this.props.pageUpdate();
+  }
+  prevQuestion = () => {
+    Router.push("/create-question?test=" + this.props.test.id + "&question=" + (this.props.test.questions.length - 1));
+    this.props.pageUpdate();
   }
 
   render() {
@@ -122,28 +133,22 @@ class SideNavCreateQuestion extends React.Component {
           PaperProps={{ elevation: 6 }}
         >
         <List padding={2} style={{paddingTop: "64px"}} >
-          <ListItem onClick={this.addQuestion} selected={this.props.page === "dashboard" ? true : false} button key="dashboard">
+          <ListItem key="list-item-add-question" onClick={this.addQuestion} selected={this.props.page === "dashboard" ? true : false} button key="dashboard">
             <ListItemIcon><AddIcon /></ListItemIcon>
             <ListItemText primary='Add Question'/>
           </ListItem>
-          <Link href="/tests"><a>
-            <ListItem selected={this.props.page === "tests" ? true : false} button key="tests">
-              <ListItemIcon><ArrowForwardIcon /></ListItemIcon>
-              <ListItemText primary='Next Question'/>
-            </ListItem>
-          </a></Link>
-          <Link href="/tests"><a>
-            <ListItem selected={this.props.page === "tests" ? true : false} button key="tests">
-              <ListItemIcon><ArrowBackIcon /></ListItemIcon>
-              <ListItemText primary='Prev Question'/>
-            </ListItem>
-          </a></Link>
-          <Link href="/tests"><a>
-            <ListItem selected={this.props.page === "tests" ? true : false} button key="tests">
-              <ListItemIcon><FormatListNumberedIcon /></ListItemIcon>
-              <ListItemText primary='Overview'/>
-            </ListItem>
-          </a></Link>
+          <ListItem key="list-item-next-question" onClick={this.nextQuestion} selected={this.props.page === "tests" ? true : false} button>
+            <ListItemIcon><ArrowForwardIcon /></ListItemIcon>
+            <ListItemText primary='Next Question'/>
+          </ListItem>
+          <ListItem key="list-item-prev-question" onClick={this.prevQuestion} selected={this.props.page === "tests" ? true : false} button>
+            <ListItemIcon><ArrowBackIcon /></ListItemIcon>
+            <ListItemText primary='Prev Question'/>
+          </ListItem>
+          <ListItem key="list-item-overview" selected={this.props.page === "tests" ? true : false} button>
+            <ListItemIcon><FormatListNumberedIcon /></ListItemIcon>
+            <ListItemText primary='Overview'/>
+          </ListItem>
         </List>
       </Drawer>
       </>
