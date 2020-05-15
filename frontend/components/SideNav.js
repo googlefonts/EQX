@@ -11,7 +11,7 @@ import Link from "next/link"
 // import List, {ListItem, ListItemGraphic, ListItemText} from '@material/react-list';
 
 import React from 'react';
-import {Box, Drawer, List, ListItem, ListItemIcon, ListItemText} from '@material-ui/core';
+import {Typography, Box, Drawer, List, ListItem, ListItemIcon, ListItemText} from '@material-ui/core';
 // import {DashboardIcon, NoteIcon, FolderIcon, WorkIcon, GroupIcon} from '@material-ui/icons';
 import DashboardIcon from '@material-ui/icons/Dashboard';
 import NoteIcon from '@material-ui/icons/Note';
@@ -20,8 +20,6 @@ import WorkIcon from '@material-ui/icons/Work';
 import GroupIcon from '@material-ui/icons/Group';
 import axios from 'axios';
 import Cookies from "js-cookie";
-
-const drawerWidth = 240;
 
 class SideNavRegular extends React.Component {
   constructor(props) {
@@ -122,35 +120,58 @@ class SideNavCreateQuestion extends React.Component {
     Router.push("/create-question?test=" + this.props.test.id + "&question=" + (this.props.test.questions.length - 1));
     this.props.pageUpdate();
   }
-
+  overviewToggle = () => {
+    this.props.sideNavUpdate();
+  }
   render() {
     return (
       <>
         <Drawer
-          className="nav-drawer"
+          className="create-question-drawer multi-drawer-1"
           variant="permanent"
           anchor="right"
           PaperProps={{ elevation: 6 }}
         >
-        <List padding={2} style={{paddingTop: "64px"}} >
-          <ListItem key="list-item-add-question" onClick={this.addQuestion} selected={this.props.page === "dashboard" ? true : false} button key="dashboard">
-            <ListItemIcon><AddIcon /></ListItemIcon>
-            <ListItemText primary='Add Question'/>
-          </ListItem>
-          <ListItem key="list-item-next-question" onClick={this.nextQuestion} selected={this.props.page === "tests" ? true : false} button>
-            <ListItemIcon><ArrowForwardIcon /></ListItemIcon>
-            <ListItemText primary='Next Question'/>
-          </ListItem>
-          <ListItem key="list-item-prev-question" onClick={this.prevQuestion} selected={this.props.page === "tests" ? true : false} button>
-            <ListItemIcon><ArrowBackIcon /></ListItemIcon>
-            <ListItemText primary='Prev Question'/>
-          </ListItem>
-          <ListItem key="list-item-overview" selected={this.props.page === "tests" ? true : false} button>
-            <ListItemIcon><FormatListNumberedIcon /></ListItemIcon>
-            <ListItemText primary='Overview'/>
-          </ListItem>
-        </List>
-      </Drawer>
+          <List padding={2} style={{paddingTop: "64px"}} >
+            <ListItem key="list-item-add-question" onClick={this.addQuestion} selected={this.props.page === "dashboard" ? true : false} button key="dashboard">
+              <ListItemIcon><AddIcon /></ListItemIcon>
+              <ListItemText primary='Add Question'/>
+            </ListItem>
+            <ListItem key="list-item-next-question" onClick={this.nextQuestion} selected={this.props.page === "tests" ? true : false} button>
+              <ListItemIcon><ArrowForwardIcon /></ListItemIcon>
+              <ListItemText primary='Next Question'/>
+            </ListItem>
+            <ListItem key="list-item-prev-question" onClick={this.prevQuestion} selected={this.props.page === "tests" ? true : false} button>
+              <ListItemIcon><ArrowBackIcon /></ListItemIcon>
+              <ListItemText primary='Prev Question'/>
+            </ListItem>
+            <ListItem className="multi-drawer-toggle" key="list-item-overview" onClick={this.overviewToggle} selected={this.props.page === "tests" ? true : false} button>
+              <ListItemIcon><FormatListNumberedIcon /></ListItemIcon>
+              <ListItemText primary='Overview'/>
+            </ListItem>
+          </List>
+        </Drawer>
+        <Drawer
+          className="create-question-overview-drawer multi-drawer-2"
+          variant="permanent"
+          anchor="right"
+          PaperProps={{ elevation: 6 }}
+          data-open={false}
+        >
+          <List padding={2} style={{paddingTop: "64px"}} >
+            {(this.props.test.questions && this.props.test.questions.length) &&
+              this.props.test.questions.map((question, i) => 
+                <ListItem button key={"question-" + i}>
+                  <Box p={1} pt={2} width="100%">
+                    <Typography variant="body1">
+                      {question.question}
+                    </Typography>
+                  </Box>
+                </ListItem>
+              )
+            }
+          </List>
+        </Drawer>
       </>
     );
   }

@@ -15,6 +15,9 @@ import theme from '../src/theme';
 class Layout extends React.Component {
 	constructor(props) {
 		super(props);
+		this.state = {
+			multiSideNav: false
+		};
 	}
 	static async getInitialProps({ req }) {
 		let pageProps = {};
@@ -22,6 +25,12 @@ class Layout extends React.Component {
 			pageProps = await Component.getInitialProps(ctx);
 		}
 		return { pageProps };
+	}
+	sideNavUpdate = () => {
+		console.log("hi")
+		this.setState(prevState => ({
+			multiSideNav: !prevState.multiSideNav
+		}));
 	}
 	render() {
 		
@@ -33,7 +42,7 @@ class Layout extends React.Component {
 		// console.log(this.props);
 		return (
 			<ThemeProvider theme={theme}>
-				<div className="layout-wrapper">
+				<div className="layout-wrapper" data-multi-side-nav={this.state.multiSideNav}>
 					<Header 
 						auth={this.props.isAuthenticated} 
 						{...this.props}
@@ -41,25 +50,25 @@ class Layout extends React.Component {
 					{ this.props.isAuthenticated ? (	
 						<>
 							{	// Logged In
-								<div>
-									<SideNav {...this.props}/>
+								<>
+									<SideNav sideNavUpdate={this.sideNavUpdate} {...this.props}/>
 									<main>
 										{/* <Container maxWidth={false}> */}
 											{this.props.children}
 											{/* {...this.props}  */}
 										{/* </Container> */}
 									</main>
-								</div>
+								</>
 							}
 						</>
 					) : (
 						<>
 							{	// Not logged In
-								<div>
+								<>
 									<main className="no-auth">
 										<SignIn/>
 									</main>
-								</div>
+								</>
 							}
 						</>
 					)}

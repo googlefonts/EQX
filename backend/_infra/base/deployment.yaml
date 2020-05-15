@@ -29,6 +29,8 @@ spec:
             secretKeyRef:
               name: backend
               key: app-host
+        - name: PERMISSIONS_SET
+          value: "false"
         - name: DATABASE_PORT
           value: "5432"
         - name: DATABASE_USERNAME
