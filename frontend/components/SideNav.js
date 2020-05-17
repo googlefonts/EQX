@@ -92,7 +92,34 @@ class SideNavCreateQuestion extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      questionNumber: false
     };
+  }
+
+  componentDidMount = () => {
+    this.update();
+  }
+
+	componentDidUpdate(nextProps) {
+    if (nextProps.questionNumber !== this.props.questionNumber || 
+      nextProps.test !== this.props.test) {
+			this.update();
+		}
+  }
+  
+  update = () => {
+    this.setState({ questionNumber: Number(Router.router.query.question) });
+  }
+  
+  sideQuestionNavUpdate = (questionNumber) => {
+    Router.push({
+      pathname: '/create-question',
+      query: { 
+        test: this.props.test.id, 
+        question: questionNumber
+      },
+    }, undefined, { shallow: true });
+    this.props.pageUpdate();
   }
 
   addQuestion = () => {
@@ -108,16 +135,28 @@ class SideNavCreateQuestion extends React.Component {
           }, { headers: { Authorization: 'Bearer ' + Cookies.get("jwt") } 
           }).catch(error => { console.log(error); // Handle Error
           }).then(response => { // Handle success
-            Router.push("/create-question?test=" + this.props.test.id + "&question=" + (this.props.test.questions.length + 1));
+            this.props.pageUpdate(true);
           });
       })
   }
   nextQuestion = () => {
-    Router.push("/create-question?test=" + this.props.test.id + "&question=" + (this.props.test.questions.length + 1));
+    Router.push({
+      pathname: '/create-question',
+      query: { 
+        test: this.props.test.id, 
+        question: this.state.questionNumber + 1
+      },
+    }, undefined, { shallow: true });
     this.props.pageUpdate();
   }
   prevQuestion = () => {
-    Router.push("/create-question?test=" + this.props.test.id + "&question=" + (this.props.test.questions.length - 1));
+    Router.push({
+      pathname: '/create-question',
+      query: { 
+        test: this.props.test.id, 
+        question: this.state.questionNumber - 1
+      },
+    }, undefined, { shallow: true });
     this.props.pageUpdate();
   }
   overviewToggle = () => {
@@ -137,14 +176,18 @@ class SideNavCreateQuestion extends React.Component {
               <ListItemIcon><AddIcon /></ListItemIcon>
               <ListItemText primary='Add Question'/>
             </ListItem>
-            <ListItem key="list-item-next-question" onClick={this.nextQuestion} selected={this.props.page === "tests" ? true : false} button>
-              <ListItemIcon><ArrowForwardIcon /></ListItemIcon>
-              <ListItemText primary='Next Question'/>
-            </ListItem>
-            <ListItem key="list-item-prev-question" onClick={this.prevQuestion} selected={this.props.page === "tests" ? true : false} button>
-              <ListItemIcon><ArrowBackIcon /></ListItemIcon>
-              <ListItemText primary='Prev Question'/>
-            </ListItem>
+            {(this.props.test.questions && (this.state.questionNumber < this.props.test.questions.length)) &&
+              <ListItem key="list-item-next-question" onClick={this.nextQuestion} selected={this.props.page === "tests" ? true : false} button>
+                <ListItemIcon><ArrowForwardIcon /></ListItemIcon>
+                <ListItemText primary='Next Question'/>
+              </ListItem>
+            }
+            {(this.props.test.questions && (this.state.questionNumber > 1)) &&
+              <ListItem key="list-item-prev-question" onClick={this.prevQuestion} selected={this.props.page === "tests" ? true : false} button>
+                <ListItemIcon><ArrowBackIcon /></ListItemIcon>
+                <ListItemText primary='Prev Question'/>
+              </ListItem>
+            }
             <ListItem className="multi-drawer-toggle" key="list-item-overview" onClick={this.overviewToggle} selected={this.props.page === "tests" ? true : false} button>
               <ListItemIcon><FormatListNumberedIcon /></ListItemIcon>
               <ListItemText primary='Overview'/>
@@ -161,7 +204,7 @@ class SideNavCreateQuestion extends React.Component {
           <List padding={2} style={{paddingTop: "64px"}} >
             {(this.props.test.questions && this.props.test.questions.length) &&
               this.props.test.questions.map((question, i) => 
-                <ListItem button key={"question-" + i}>
+                <ListItem button key={"question-" + i} onClick={() => this.sideQuestionNavUpdate(i+1)}>
                   <Box p={1} pt={2} width="100%">
                     <Typography variant="body1">
                       {question.question}

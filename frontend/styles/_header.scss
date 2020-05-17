@@ -1,3 +1,7 @@
+.MuiAppBar-positionFixed{
+	z-index: 9999!important;
+}
+
 .header{
 	@include mdc-top-app-bar-fill-color($mdc-theme-background);	
 	@include mdc-top-app-bar-ink-color($mdc-theme-grey600);

@@ -27,11 +27,9 @@ class EditorImagesImport extends React.Component {
   }
 
 	componentDidUpdate(nextProps) {
-		const { questionNumber, test } = this.props
-		if (nextProps.questionNumber !== questionNumber) {
-			this.update();
-		}
-		if (nextProps.test !== test) {
+		if (nextProps.imageUrl !== this.props.imageUrl || 
+      nextProps.test !== this.props.test || 
+      nextProps.imageType !== this.props.imageType ) {
 			this.update();
 		}
 	}
@@ -58,7 +56,6 @@ class EditorImagesImport extends React.Component {
           tabValue: 2
         });
       }
-      console.log(this.state)
     }
   }
   

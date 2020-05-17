@@ -27,7 +27,6 @@ class Layout extends React.Component {
 		return { pageProps };
 	}
 	sideNavUpdate = () => {
-		console.log("hi")
 		this.setState(prevState => ({
 			multiSideNav: !prevState.multiSideNav
 		}));

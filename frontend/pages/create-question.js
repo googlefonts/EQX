@@ -14,6 +14,7 @@ import getConfig from 'next/config'
 const { serverRuntimeConfig, publicRuntimeConfig } = getConfig()
 const apiUrl = publicRuntimeConfig.API_URL || 'http://localhost:1337';
 const { Parser } = require('json2csv');
+import Router from 'next/router';
 
 
 //////////////////////////////
@@ -25,46 +26,62 @@ class CreateQuestionPage extends React.Component {
     this.state = {
       page: "create-question",
       test: {},
+      tmpTest: {},
       questionNumber: false
     };
   }
-
+  
   componentDidMount = () => {
     this.update();
   }
 
-  pageUpdate = () => {
-    this.update();
+  componentDidUpdate = () => {
+    if (this.state.questionNumber !== Router.router.query.question){
+      this.update();
+    }
   }
 
-  update = () => {
-    const params = new URL(document.location).searchParams;
-    this.setState({ questionNumber: params.get("question") });
+  pageUpdate = (newQuestion) => {
+    this.update(newQuestion);
+  }
+
+  titleUpdate = () => {
     axios
-      .get(apiUrl + '/tests?id=' + params.get("test"), {
+      .get(apiUrl + '/tests?id=' + Router.router.query.test, {
         headers: { Authorization: "Bearer " + Cookies.get("jwt") }
       }).then(response => { // Handle success
-        // console.log(response.data);
-        this.setState({ test: response.data[0] });
+        this.setState({ tmpTest: response.data[0] });
+      }).catch(error => { console.log(error) });
+  }
 
-        // const fields = ['questions'];
-        // const opts = { fields };
-
-        // try {
-        //   const csv = parse(response.data, opts);
-        //   console.log(csv);
-        // } catch (err) {
-        //   console.error(err);
-        // }
-
+  update = (newQuestion) => {
+    this.setState({ questionNumber: Router.router.query.question });
+    axios
+      .get(apiUrl + '/tests?id=' + Router.router.query.test, {
+        headers: { Authorization: "Bearer " + Cookies.get("jwt") }
+      }).then(response => { // Handle success
+        this.setState({ 
+          test: response.data[0],
+          tmpTest: response.data[0] 
+        });
+        console.log(newQuestion);
+        if(newQuestion){ 
+          Router.push({
+            pathname: '/create-question',
+            query: { 
+              test: this.state.test.id, 
+              question: this.state.test.questions.length
+            },
+          })
+        }
       }).catch(error => { console.log(error) });
   }
 
   render() {
     return (
-      <Layout page={this.state.page} headerType="creating" test={this.state.test} pageUpdate={this.pageUpdate} {...this.props}>
+      <Layout page={this.state.page} headerType="creating" test={this.state.tmpTest} pageUpdate={this.pageUpdate} {...this.props}>
         <Box pt={8} bgcolor="#fff">
-          <CreateQuestionFields {...this.state} {...this.props} />
+          <CreateQuestionFields titleUpdate={this.titleUpdate} {...this.state} {...this.props} />
           <EditorImagesImport {...this.state} {...this.props} />
         </Box>
       </Layout>

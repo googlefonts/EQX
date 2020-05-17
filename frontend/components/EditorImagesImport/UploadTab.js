@@ -18,6 +18,12 @@ class UploadTab extends React.Component {
     this.update();
   }
 
+	componentDidUpdate(nextProps) {
+		if (nextProps.test.questions[Number(nextProps.questionNumber - 1)].uploaded_image !== this.props.test.questions[Number(this.props.questionNumber - 1)].uploaded_image) {
+			this.update();
+		}
+  }
+  
   pageUpdate = () => {
     this.update();
   }

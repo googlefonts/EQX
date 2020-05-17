@@ -39,25 +39,23 @@ class CreateQuestionFields extends React.Component {
 	}
 	
 	componentDidUpdate(nextProps) {
-		const { questionNumber, test } = this.props
-		if (nextProps.questionNumber !== questionNumber) {
-			this.update();
-		}
-		if (nextProps.test !== test) {
+		if (nextProps.questionNumber !== this.props.questionNumber ||
+			nextProps.test !== this.props.test) {
 			this.update();
 		}
 	}
 
 	autosave = () => {
 		axios
-		  .put('http://localhost:1337/questions/' + this.props.test.questions[Number(this.props.questionNumber - 1)].id, {
-		    question: this.state.questionValue,
-			 context: this.state.contextValue
-		  }, { headers: { Authorization: 'Bearer ' + Cookies.get("jwt") } 
-		  }).catch(error => { console.log(error); // Handle Error
-		  }).then(response => { // Handle success
-		    // Router.push("/create-question?test=" + this.props.test.id + "&question=" + (this.props.test.questions.length + 2))
-		  });
+		 	.put('http://localhost:1337/questions/' + this.props.test.questions[Number(this.props.questionNumber - 1)].id, {
+		    	question: this.state.questionValue,
+			 	context: this.state.contextValue
+		  	}, { headers: { Authorization: 'Bearer ' + Cookies.get("jwt") } 
+		  	}).catch(error => { console.log(error); // Handle Error
+		  	}).then(response => { // Handle success
+		    	// Router.push("/create-question?test=" + this.props.test.id + "&question=" + (this.props.test.questions.length + 2))
+			 	this.props.titleUpdate();
+			});
 	}
 
 	update = () => { 
@@ -83,7 +81,7 @@ class CreateQuestionFields extends React.Component {
 	}
 
 	onQuestionChange = (e) => {
-		this.setState({questionValue: e})
+		this.setState({questionValue: e});
 		this.autosave();
 	}
 
