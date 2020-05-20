@@ -11,7 +11,7 @@ import Link from "next/link"
 // import List, {ListItem, ListItemGraphic, ListItemText} from '@material/react-list';
 
 import React from 'react';
-import {Typography, Box, Drawer, List, ListItem, ListItemIcon, ListItemText} from '@material-ui/core';
+import {Grid, IconButton, Typography, Box, Drawer, List, ListItem, ListItemIcon, ListItemText} from '@material-ui/core';
 // import {DashboardIcon, NoteIcon, FolderIcon, WorkIcon, GroupIcon} from '@material-ui/icons';
 import DashboardIcon from '@material-ui/icons/Dashboard';
 import NoteIcon from '@material-ui/icons/Note';
@@ -20,6 +20,7 @@ import WorkIcon from '@material-ui/icons/Work';
 import GroupIcon from '@material-ui/icons/Group';
 import axios from 'axios';
 import Cookies from "js-cookie";
+import DeleteIcon from '@material-ui/icons/Delete';
 
 class SideNavRegular extends React.Component {
   constructor(props) {
@@ -122,6 +123,37 @@ class SideNavCreateQuestion extends React.Component {
     this.props.pageUpdate();
   }
 
+  sideQuestionDelete = (questionId, questionNumber) => {
+    axios
+      .delete('http://localhost:1337/questions/' + questionId
+      , { headers: { Authorization: 'Bearer ' + Cookies.get("jwt") } 
+      }).catch(error => { console.log(error);  // Handle Error
+      }).then(response => { // Handle success
+        let questions = this.props.test.questions.filter( function(value, index, arr){ return value.id !== questionId });
+        axios
+          .put('http://localhost:1337/tests/' + this.props.test.id, {
+            questions: [...questions ]
+          }, { headers: { Authorization: 'Bearer ' + Cookies.get("jwt") } 
+          }).catch(error => { console.log(error); // Handle Error
+          }).then(response => { // Handle success
+            if (questions.length <= 0){
+              this.addQuestion();
+            } else {
+              if (this.state.questionNumber > questions.length){
+                Router.push({
+                  pathname: '/create-question',
+                  query: { 
+                    test: this.props.test.id, 
+                    question: this.state.questionNumber - 1
+                  },
+                }, undefined, { shallow: true });
+              }
+              this.props.pageUpdate();
+            }
+          });
+      });
+  }
+
   addQuestion = () => {
     axios
       .post('http://localhost:1337/questions', {
@@ -137,8 +169,9 @@ class SideNavCreateQuestion extends React.Component {
           }).then(response => { // Handle success
             this.props.pageUpdate(true);
           });
-      })
+      });
   }
+
   nextQuestion = () => {
     Router.push({
       pathname: '/create-question',
@@ -149,6 +182,7 @@ class SideNavCreateQuestion extends React.Component {
     }, undefined, { shallow: true });
     this.props.pageUpdate();
   }
+
   prevQuestion = () => {
     Router.push({
       pathname: '/create-question',
@@ -159,9 +193,11 @@ class SideNavCreateQuestion extends React.Component {
     }, undefined, { shallow: true });
     this.props.pageUpdate();
   }
+
   overviewToggle = () => {
     this.props.sideNavUpdate();
   }
+
   render() {
     return (
       <>
@@ -204,11 +240,23 @@ class SideNavCreateQuestion extends React.Component {
           <List padding={2} style={{paddingTop: "64px"}} >
             {(this.props.test.questions && this.props.test.questions.length) &&
               this.props.test.questions.map((question, i) => 
-                <ListItem button key={"question-" + i} onClick={() => this.sideQuestionNavUpdate(i+1)}>
+                <ListItem button key={"question-" + i}>
                   <Box p={1} pt={2} width="100%">
-                    <Typography variant="body1">
-                      {question.question}
-                    </Typography>
+                    <Grid container spacing={2}>
+                      <Grid item xs={8} onClick={() => this.sideQuestionNavUpdate(i+1)}>
+                        <Typography variant="body1" style={{overflow: "hidden", whiteSpace: "nowrap", textOverflow: "ellipsis"}}>
+                          { (typeof question.question !== "undefined" && question.question && question.question.trim() !== "" ) ? 
+                            question.question : 
+                            <Box color="text.disabled" component="span" className="blank">Blank Question</Box>
+                          }
+                        </Typography>
+                      </Grid>
+                      <Grid item style={{position:"relative"}} xs={4} >
+                        <IconButton  onClick={() => this.sideQuestionDelete(question.id, i+1)} style={{position:"absolute", right: "0", top: "-8px"}} component="span">
+                          <DeleteIcon />
+                        </IconButton>
+                      </Grid>
+                    </Grid>
                   </Box>
                 </ListItem>
               )

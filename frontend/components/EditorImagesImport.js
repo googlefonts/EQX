@@ -55,6 +55,12 @@ class EditorImagesImport extends React.Component {
           imageType: "code_image",
           tabValue: 2
         });
+      } else {
+        this.setState({ 
+          imageType: "editor_image",
+          tabValue: 0
+        });
+        this.autosave("editor_image");
       }
     }
   }

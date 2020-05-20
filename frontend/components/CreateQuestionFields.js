@@ -105,6 +105,12 @@ class CreateQuestionFields extends React.Component {
 							type="text"  
 							variant="filled"
 							fullWidth 
+							inputProps={{
+								style: {
+									fontSize: 40,
+									lineHeight: 1.2
+								}
+							 }}
 						/>
 					</Box>
 				</Grid>

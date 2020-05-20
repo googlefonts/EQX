@@ -42,18 +42,21 @@ main:not(.no-auth) {
 	.multi-drawer-1{
 		.MuiPaper-root{
 			background: lightgrey;
-			width: 300px;
+			// min-width: 300px;
+			width: calc(40vw + 60px);
 			transition: all 0.5s;
 		}
 	}
 	.multi-drawer-2{
 		.MuiPaper-root{
-			width: 245px;
+			// min-width: 245px;
+			width: 40vw;
 			transition: all 0.5s;
 		}
 	}
 	main:not(.no-auth) {
-		padding-right: 300px;
+		padding-right: 40vw;
+		// padding-right: max(40vw, 245px);
 		transition: all 0.5s;
 	}
 	.MuiListItemIcon-root{
