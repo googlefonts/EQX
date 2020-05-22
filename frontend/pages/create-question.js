@@ -55,7 +55,13 @@ class CreateQuestionPage extends React.Component {
   }
 
   update = (newQuestion) => {
-    this.setState({ questionNumber: Router.router.query.question });
+
+    let questionNumber = Router.router.query.question;
+    if (Number(Router.router.query.question) < 1){
+      window.location = "/create-question?test=" + Router.router.query.test + "&question=1";
+      return false;
+    }
+    this.setState({ questionNumber: questionNumber });
     axios
       .get(apiUrl + '/tests?id=' + Router.router.query.test, {
         headers: { Authorization: "Bearer " + Cookies.get("jwt") }
@@ -64,12 +70,15 @@ class CreateQuestionPage extends React.Component {
           test: response.data[0],
           tmpTest: response.data[0] 
         });
-        console.log(newQuestion);
+        if (Number(Router.router.query.question) > this.state.test.questions.length){
+          window.location = "/create-question?test=" + Router.router.query.test + "&question=" + this.state.test.questions.length;
+          return false;
+        }
         if(newQuestion){ 
           Router.push({
             pathname: '/create-question',
             query: { 
-              test: this.state.test.id, 
+              test: Router.router.query.test, 
               question: this.state.test.questions.length
             },
           })

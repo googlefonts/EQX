@@ -240,10 +240,10 @@ class SideNavCreateQuestion extends React.Component {
           <List padding={2} style={{paddingTop: "64px"}} >
             {(this.props.test.questions && this.props.test.questions.length) &&
               this.props.test.questions.map((question, i) => 
-                <ListItem button key={"question-" + i}>
+                <ListItem button key={"question-" + i} data-active={ ((i+1) === this.state.questionNumber) ? true : false }>
                   <Box p={1} pt={2} width="100%">
                     <Grid container spacing={2}>
-                      <Grid item xs={8} onClick={() => this.sideQuestionNavUpdate(i+1)}>
+                      <Grid item xs={8} className="nav-item-event" onClick={() => this.sideQuestionNavUpdate(i+1)}>
                         <Typography variant="body1" style={{overflow: "hidden", whiteSpace: "nowrap", textOverflow: "ellipsis"}}>
                           { (typeof question.question !== "undefined" && question.question && question.question.trim() !== "" ) ? 
                             question.question : 
@@ -252,7 +252,7 @@ class SideNavCreateQuestion extends React.Component {
                         </Typography>
                       </Grid>
                       <Grid item style={{position:"relative"}} xs={4} >
-                        <IconButton  onClick={() => this.sideQuestionDelete(question.id, i+1)} style={{position:"absolute", right: "0", top: "-8px"}} component="span">
+                        <IconButton onClick={() => this.sideQuestionDelete(question.id, i+1)} style={{position:"absolute", right: "0", top: "-8px"}} component="span">
                           <DeleteIcon />
                         </IconButton>
                       </Grid>

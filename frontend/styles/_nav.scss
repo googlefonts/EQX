@@ -20,7 +20,6 @@
 // 		height: 30px;
 // 	}
 // }
-
 .multi-drawer-1{
 	.MuiPaper-root{
 		overflow: hidden;
@@ -76,6 +75,32 @@ main:not(.no-auth) {
 		}
 		.MuiListItemIcon-root{
 			color: white;
+		}
+	}
+}
+[data-multi-side-nav="false"]{
+	.MuiGrid-grid-xs-4{
+		display: none;
+	}
+}
+.MuiDrawer-root{
+	[data-active="true"]{
+		background: $mdc-theme-primary;
+		color: $mdc-theme-on-primary;
+		pointer-events: none;
+		&:hover {
+			background: $mdc-theme-primary;
+			color: $mdc-theme-on-primary;
+		  }
+		.blank {
+			color: rgba($mdc-theme-on-primary, 0.5);
+	  	}
+		.nav-item-event{
+			pointer-events: none;
+		}
+		.MuiIconButton-root{
+			pointer-events: initial;
+			color: rgba(white, 0.5)!important;
 		}
 	}
 }
