@@ -181,8 +181,7 @@ class SharedTestPage extends React.Component {
     axios
       .get(apiUrl + '/projects?owners.id=' + Cookies.get("id") + '&archived_eq=false', {
         headers: { Authorization: "Bearer " + Cookies.get("jwt") }
-      }).catch(error => {
-        console.log(error); // Handle error 
+      }).catch(error => { console.log(error); // Handle error 
       }).then(response => { // Handle success
         this.setState({ projects: response.data });
       });

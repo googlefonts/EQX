@@ -12,6 +12,8 @@ const apiUrl = publicRuntimeConfig.API_URL || 'http://localhost:1337';
 const strapi = new Strapi(apiUrl);
 import Router from 'next/router';
 import DeleteIcon from '@material-ui/icons/Delete';
+import EditableTitle from "../components/EditableTitle";
+
 
 //////////////////////////////
 // Test Tests
@@ -276,8 +278,7 @@ class SharedTest extends React.Component {
     axios
       .get(apiUrl + '/tests?id_in=' + this.props.testId, {
         headers: { Authorization: 'Bearer ' + Cookies.get("jwt") }
-      }).catch(error => {
-        console.log(error); // Handle error
+      }).catch(err => { console.log(err); // Handle error
       }).then(response => { // Handle success
         this.setState({ test: response.data[0] });
       });
@@ -311,8 +312,10 @@ class SharedTest extends React.Component {
                       <Box component="span" color="grey.400">{this.props.project.name} v.{this.props.project.major_version}.{this.props.project.minor_version}</Box>
                     </Typography>
                     <Typography variant="h4">
-                      {this.state.test.name}
-                      <Box component="span" color="grey.400"> v.{this.state.test.major_version}.{this.state.test.minor_version}</Box>
+                      <EditableTitle value={this.state.test.name} item={this.state.test} type="test" {...this.state}/>
+
+                      {/* {this.state.test.name}
+                      <Box component="span" color="grey.400"> v.{this.state.test.major_version}.{this.state.test.minor_version}</Box> */}
                     </Typography>
                   </Box>
                   <Box>

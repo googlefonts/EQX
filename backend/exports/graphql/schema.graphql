@@ -322,9 +322,10 @@ input editFontInput {
   weight: String
   style: String
   variable: Boolean
-  minor_version: Int
   major_version: Int
+  minor_version: Int
   project: ID
+  info: JSON
 }
 
 input editOrganizationInput {
@@ -435,9 +436,10 @@ type Font {
   weight: String
   style: String
   variable: Boolean
-  minor_version: Int
   major_version: Int
+  minor_version: Int
   project: Project
+  info: JSON
 }
 
 type FontAggregator {
@@ -450,23 +452,23 @@ type FontAggregator {
 }
 
 type FontAggregatorAvg {
-  minor_version: Float
   major_version: Float
+  minor_version: Float
 }
 
 type FontAggregatorMax {
-  minor_version: Float
   major_version: Float
+  minor_version: Float
 }
 
 type FontAggregatorMin {
-  minor_version: Float
   major_version: Float
+  minor_version: Float
 }
 
 type FontAggregatorSum {
-  minor_version: Float
   major_version: Float
+  minor_version: Float
 }
 
 type FontConnection {
@@ -487,6 +489,11 @@ type FontConnectionFile {
 
 type FontConnectionId {
   key: ID
+  connection: FontConnection
+}
+
+type FontConnectionInfo {
+  key: JSON
   connection: FontConnection
 }
 
@@ -539,9 +546,10 @@ type FontGroupBy {
   weight: [FontConnectionWeight]
   style: [FontConnectionStyle]
   variable: [FontConnectionVariable]
-  minor_version: [FontConnectionMinor_version]
   major_version: [FontConnectionMajor_version]
+  minor_version: [FontConnectionMinor_version]
   project: [FontConnectionProject]
+  info: [FontConnectionInfo]
 }
 
 input FontInput {
@@ -550,9 +558,10 @@ input FontInput {
   weight: String
   style: String
   variable: Boolean
-  minor_version: Int
   major_version: Int
+  minor_version: Int
   project: ID
+  info: JSON
 }
 
 type ForgotPassword {
@@ -571,7 +580,7 @@ scalar JSON
 """The `Long` scalar type represents 52-bit integers"""
 scalar Long
 
-union Morph = UsersPermissionsMe | UsersPermissionsMeRole | UsersPermissionsLoginPayload | ForgotPassword | Comment | CommentConnection | CommentAggregator | CommentAggregatorSum | CommentAggregatorAvg | CommentAggregatorMin | CommentAggregatorMax | CommentGroupBy | CommentConnectionId | CommentConnectionCreated_at | CommentConnectionUpdated_at | CommentConnectionUser | CommentConnectionText | CommentConnectionX | CommentConnectionY | CommentConnectionRadius | CommentConnectionSomeText | createCommentPayload | updateCommentPayload | deleteCommentPayload | Font | FontConnection | FontAggregator | FontAggregatorSum | FontAggregatorAvg | FontAggregatorMin | FontAggregatorMax | FontGroupBy | FontConnectionId | FontConnectionCreated_at | FontConnectionUpdated_at | FontConnectionFile | FontConnectionName | FontConnectionWeight | FontConnectionStyle | FontConnectionVariable | FontConnectionMinor_version | FontConnectionMajor_version | FontConnectionProject | createFontPayload | updateFontPayload | deleteFontPayload | Organization | OrganizationConnection | OrganizationAggregator | OrganizationGroupBy | OrganizationConnectionId | OrganizationConnectionCreated_at | OrganizationConnectionUpdated_at | OrganizationConnectionName | createOrganizationPayload | updateOrganizationPayload | deleteOrganizationPayload | Project | ProjectConnection | ProjectAggregator | ProjectAggregatorSum | ProjectAggregatorAvg | ProjectAggregatorMin | ProjectAggregatorMax | ProjectGroupBy | ProjectConnectionId | ProjectConnectionCreated_at | ProjectConnectionUpdated_at | ProjectConnectionName | ProjectConnectionMajor_version | ProjectConnectionMinor_version | ProjectConnectionArchived | createProjectPayload | updateProjectPayload | deleteProjectPayload | Question | QuestionConnection | QuestionAggregator | QuestionGroupBy | QuestionConnectionId | QuestionConnectionCreated_at | QuestionConnectionUpdated_at | QuestionConnectionEditor_image | QuestionConnectionCode_image | QuestionConnectionImage_type | QuestionConnectionContext | QuestionConnectionQuestion | QuestionConnectionUploaded_image | QuestionConnectionPublished | QuestionConnectionTest | QuestionConnectionSource | createQuestionPayload | updateQuestionPayload | deleteQuestionPayload | Tag | TagConnection | TagAggregator | TagGroupBy | TagConnectionId | TagConnectionCreated_at | TagConnectionUpdated_at | TagConnectionName | TagConnectionColor | createTagPayload | updateTagPayload | deleteTagPayload | Test | TestConnection | TestAggregator | TestAggregatorSum | TestAggregatorAvg | TestAggregatorMin | TestAggregatorMax | TestGroupBy | TestConnectionId | TestConnectionCreated_at | TestConnectionUpdated_at | TestConnectionName | TestConnectionTags | TestConnectionMajor_version | TestConnectionMinor_version | TestConnectionCompleteness | TestConnectionArchived | TestConnectionProject | createTestPayload | updateTestPayload | deleteTestPayload | UploadFile | UploadFileConnection | UploadFileAggregator | UploadFileAggregatorSum | UploadFileAggregatorAvg | UploadFileAggregatorMin | UploadFileAggregatorMax | UploadFileGroupBy | UploadFileConnectionId | UploadFileConnectionCreated_at | UploadFileConnectionUpdated_at | UploadFileConnectionName | UploadFileConnectionAlternativeText | UploadFileConnectionCaption | UploadFileConnectionWidth | UploadFileConnectionHeight | UploadFileConnectionFormats | UploadFileConnectionHash | UploadFileConnectionExt | UploadFileConnectionMime | UploadFileConnectionSize | UploadFileConnectionUrl | UploadFileConnectionPreviewUrl | UploadFileConnectionProvider | UploadFileConnectionProvider_metadata | createFilePayload | updateFilePayload | deleteFilePayload | UsersPermissionsPermission | UsersPermissionsRole | UsersPermissionsRoleConnection | UsersPermissionsRoleAggregator | UsersPermissionsRoleGroupBy | UsersPermissionsRoleConnectionId | UsersPermissionsRoleConnectionName | UsersPermissionsRoleConnectionDescription | UsersPermissionsRoleConnectionType | createRolePayload | updateRolePayload | deleteRolePayload | UsersPermissionsUser | UsersPermissionsUserConnection | UsersPermissionsUserAggregator | UsersPermissionsUserGroupBy | UsersPermissionsUserConnectionId | UsersPermissionsUserConnectionCreated_at | UsersPermissionsUserConnectionUpdated_at | UsersPermissionsUserConnectionUsername | UsersPermissionsUserConnectionEmail | UsersPermissionsUserConnectionProvider | UsersPermissionsUserConnectionConfirmed | UsersPermissionsUserConnectionBlocked | UsersPermissionsUserConnectionRole | UsersPermissionsUserConnectionAvatar | UsersPermissionsUserConnectionComment | createUserPayload | updateUserPayload | deleteUserPayload
+union Morph = UsersPermissionsMe | UsersPermissionsMeRole | UsersPermissionsLoginPayload | ForgotPassword | Comment | CommentConnection | CommentAggregator | CommentAggregatorSum | CommentAggregatorAvg | CommentAggregatorMin | CommentAggregatorMax | CommentGroupBy | CommentConnectionId | CommentConnectionCreated_at | CommentConnectionUpdated_at | CommentConnectionUser | CommentConnectionText | CommentConnectionX | CommentConnectionY | CommentConnectionRadius | CommentConnectionSomeText | createCommentPayload | updateCommentPayload | deleteCommentPayload | Font | FontConnection | FontAggregator | FontAggregatorSum | FontAggregatorAvg | FontAggregatorMin | FontAggregatorMax | FontGroupBy | FontConnectionId | FontConnectionCreated_at | FontConnectionUpdated_at | FontConnectionFile | FontConnectionName | FontConnectionWeight | FontConnectionStyle | FontConnectionVariable | FontConnectionMajor_version | FontConnectionMinor_version | FontConnectionProject | FontConnectionInfo | createFontPayload | updateFontPayload | deleteFontPayload | Organization | OrganizationConnection | OrganizationAggregator | OrganizationGroupBy | OrganizationConnectionId | OrganizationConnectionCreated_at | OrganizationConnectionUpdated_at | OrganizationConnectionName | createOrganizationPayload | updateOrganizationPayload | deleteOrganizationPayload | Project | ProjectConnection | ProjectAggregator | ProjectAggregatorSum | ProjectAggregatorAvg | ProjectAggregatorMin | ProjectAggregatorMax | ProjectGroupBy | ProjectConnectionId | ProjectConnectionCreated_at | ProjectConnectionUpdated_at | ProjectConnectionName | ProjectConnectionMajor_version | ProjectConnectionMinor_version | ProjectConnectionArchived | createProjectPayload | updateProjectPayload | deleteProjectPayload | Question | QuestionConnection | QuestionAggregator | QuestionGroupBy | QuestionConnectionId | QuestionConnectionCreated_at | QuestionConnectionUpdated_at | QuestionConnectionEditor_image | QuestionConnectionCode_image | QuestionConnectionImage_type | QuestionConnectionContext | QuestionConnectionQuestion | QuestionConnectionUploaded_image | QuestionConnectionPublished | QuestionConnectionTest | QuestionConnectionSource | createQuestionPayload | updateQuestionPayload | deleteQuestionPayload | Tag | TagConnection | TagAggregator | TagGroupBy | TagConnectionId | TagConnectionCreated_at | TagConnectionUpdated_at | TagConnectionName | TagConnectionColor | createTagPayload | updateTagPayload | deleteTagPayload | Test | TestConnection | TestAggregator | TestAggregatorSum | TestAggregatorAvg | TestAggregatorMin | TestAggregatorMax | TestGroupBy | TestConnectionId | TestConnectionCreated_at | TestConnectionUpdated_at | TestConnectionName | TestConnectionTags | TestConnectionMajor_version | TestConnectionMinor_version | TestConnectionCompleteness | TestConnectionArchived | TestConnectionProject | createTestPayload | updateTestPayload | deleteTestPayload | UploadFile | UploadFileConnection | UploadFileAggregator | UploadFileAggregatorSum | UploadFileAggregatorAvg | UploadFileAggregatorMin | UploadFileAggregatorMax | UploadFileGroupBy | UploadFileConnectionId | UploadFileConnectionCreated_at | UploadFileConnectionUpdated_at | UploadFileConnectionName | UploadFileConnectionAlternativeText | UploadFileConnectionCaption | UploadFileConnectionWidth | UploadFileConnectionHeight | UploadFileConnectionFormats | UploadFileConnectionHash | UploadFileConnectionExt | UploadFileConnectionMime | UploadFileConnectionSize | UploadFileConnectionUrl | UploadFileConnectionPreviewUrl | UploadFileConnectionProvider | UploadFileConnectionProvider_metadata | createFilePayload | updateFilePayload | deleteFilePayload | UsersPermissionsPermission | UsersPermissionsRole | UsersPermissionsRoleConnection | UsersPermissionsRoleAggregator | UsersPermissionsRoleGroupBy | UsersPermissionsRoleConnectionId | UsersPermissionsRoleConnectionName | UsersPermissionsRoleConnectionDescription | UsersPermissionsRoleConnectionType | createRolePayload | updateRolePayload | deleteRolePayload | UsersPermissionsUser | UsersPermissionsUserConnection | UsersPermissionsUserAggregator | UsersPermissionsUserGroupBy | UsersPermissionsUserConnectionId | UsersPermissionsUserConnectionCreated_at | UsersPermissionsUserConnectionUpdated_at | UsersPermissionsUserConnectionUsername | UsersPermissionsUserConnectionEmail | UsersPermissionsUserConnectionProvider | UsersPermissionsUserConnectionConfirmed | UsersPermissionsUserConnectionBlocked | UsersPermissionsUserConnectionRole | UsersPermissionsUserConnectionAvatar | UsersPermissionsUserConnectionComment | createUserPayload | updateUserPayload | deleteUserPayload
 
 type Mutation {
   createComment(input: createCommentInput): createCommentPayload

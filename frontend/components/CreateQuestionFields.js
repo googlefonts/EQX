@@ -47,15 +47,14 @@ class CreateQuestionFields extends React.Component {
 
 	autosave = () => {
 		axios
-		 	.put('http://localhost:1337/questions/' + this.props.test.questions[Number(this.props.questionNumber - 1)].id, {
-		    	question: this.state.questionValue,
-			 	context: this.state.contextValue
-		  	}, { headers: { Authorization: 'Bearer ' + Cookies.get("jwt") } 
-		  	}).catch(error => { console.log(error); // Handle Error
-		  	}).then(response => { // Handle success
-		    	// Router.push("/create-question?test=" + this.props.test.id + "&question=" + (this.props.test.questions.length + 2))
-			 	this.props.titleUpdate();
-			});
+		  .put('http://localhost:1337/questions/' + this.props.test.questions[Number(this.props.questionNumber - 1)].id, {
+		    question: this.state.questionValue,
+			 context: this.state.contextValue
+		  }, { headers: { Authorization: 'Bearer ' + Cookies.get("jwt") } 
+		  }).catch(error => { console.log(error); // Handle Error
+		  }).then(response => { // Handle success
+		    // Router.push("/create-question?test=" + this.props.test.id + "&question=" + (this.props.test.questions.length + 2))
+		  });
 	}
 
 	update = () => { 
@@ -81,7 +80,7 @@ class CreateQuestionFields extends React.Component {
 	}
 
 	onQuestionChange = (e) => {
-		this.setState({questionValue: e});
+		this.setState({questionValue: e})
 		this.autosave();
 	}
 
@@ -105,12 +104,6 @@ class CreateQuestionFields extends React.Component {
 							type="text"  
 							variant="filled"
 							fullWidth 
-							inputProps={{
-								style: {
-									fontSize: 40,
-									lineHeight: 1.2
-								}
-							 }}
 						/>
 					</Box>
 				</Grid>

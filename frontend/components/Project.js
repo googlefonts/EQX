@@ -10,6 +10,7 @@ import getConfig from 'next/config'
 const { serverRuntimeConfig, publicRuntimeConfig } = getConfig()
 const apiUrl = publicRuntimeConfig.API_URL || 'http://localhost:1337';
 const strapi = new Strapi(apiUrl);
+import EditableTitle from "../components/EditableTitle";
 
 
 
@@ -171,8 +172,7 @@ class ProjectMembers extends React.Component {
     axios
       .get(apiUrl + '/users', {
         headers: { Authorization: "Bearer " + Cookies.get("jwt") }
-      }).catch(error => {
-        console.log(error); // Handle error
+      }).catch(err => { console.log(err); // Handle error
       }).then(response => { // Handle success
         let data = response.data;
         this.setState({ possibleUsers: data });
@@ -242,8 +242,7 @@ class ProjectMembers extends React.Component {
         users: this.state.currentUsers.map(i => i = i.id),
       }, {
         headers: { Authorization: 'Bearer ' + Cookies.get("jwt") }
-      }).catch(error => {
-        console.log(error); // Handle Error
+      }).catch(error => { console.log(error); // Handle error 
       }).then(response => { // Handle success
         this.handleClose();
         this.props.update();
@@ -321,6 +320,49 @@ class ProjectMembers extends React.Component {
 }
 
 
+///////////////////////////
+// Edit Font data row
+
+class FontRow extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      
+    };
+  }
+
+  prepFiles = (e) => {
+    
+    // axios
+    //   .post('http://localhost:1337/fonts', {
+    //     file: fontFile,
+    //     name: fontFile.name,
+    //     weight: "",
+    //     style: "",
+    //     variable: false,
+    //     major_version: 0,
+    //     minor_version: 1,
+    //     project: this.props.project.id,
+    //     info: fontInfo
+    //   }, { headers: { Authorization: 'Bearer ' + Cookies.get("jwt") } 
+    //   }).catch(err => { console.log(err);  // Handle Error
+    //   }).then(response => { // Handle success
+    //     console.log(response);
+    //     this.props.update();
+    //   });
+  }
+
+  render() {
+    return (
+      <Grid container spacing={2}>
+        <Grid item xs={3}>
+          <TextField value={this.props.font.name} id="filled-basic" label="Filled" variant="filled" />
+        </Grid>
+      </Grid>
+    );
+  }
+}
+
 
 //////////////////////////////
 // Project Fonts
@@ -330,9 +372,11 @@ class ProjectFonts extends React.Component {
     super(props);
     this.state = {
       open: false,
-      textFieldValue: ""
+      textFieldValue: "",
+      files: []
     };
   }
+
   handleOpen = () => {
     this.setState({ open: true });
   }
@@ -340,40 +384,92 @@ class ProjectFonts extends React.Component {
     this.setState({ open: false });
     this.setState({ textFieldValue: "" });
   }
+
+  prepFiles = (e) => {
+    const files = Array.from(e.target.files);
+    
+    files.forEach((el, i) => {
+
+      const formData = new FormData();
+      formData.append("files", el);
+      axios
+        .post(apiUrl + '/upload', formData, {
+          headers: {
+            'Authorization': 'Bearer ' + Cookies.get("jwt")
+          }
+        }).catch(error => { console.log(error); // Handle error
+        }).then(response => {
+
+          var fontFile = response.data[0];
+          axios
+            .post('/api/font-info', {
+              url: response.data[0].url,
+              originUrl: el.name
+            }).catch(error => { console.log(error); // Handle error
+            }).then(response => {
+              var fontInfo = response.data;
+              axios
+                .post('http://localhost:1337/fonts', {
+                  file: fontFile,
+                  name: fontFile.name,
+                  weight: "",
+                  style: "",
+                  variable: false,
+                  major_version: 0,
+                  minor_version: 1,
+                  project: this.props.project.id,
+                  info: fontInfo
+                }, { headers: { Authorization: 'Bearer ' + Cookies.get("jwt") } 
+                }).catch(err => { console.log(err);  // Handle Error
+                }).then(response => { // Handle success
+                  console.log(response);
+                  this.props.update();
+                });
+            });
+        })
+    });
+  }
+
   render() {
     return (
       <Box className="section-fonts tabContainer" hidden={2 === this.props.tabValue ? false : true}>
-        <List>
-          {(this.props.project.users && this.props.project.users.length) &&
-            this.props.project.users.map((member, i) =>
-              <Box p={1} key={"font-" + i} width="100%">
+        <List style={{padding: 0}} >
 
-              </Box>
-            )
-          }
+        {(this.props.project.fonts && this.props.project.fonts.length) ?
+          this.props.project.fonts.map((font, i) =>
+            <ListItem style={{padding: 0}} key={"font-" + i}>
+              <FontRow project={this.props.project} font={font.name}/>
+              {/* <Box p={1} pt={2} width="100%">
+                <Grid container spacing={2}>
+                  <Grid item xs={12}>
+                    <Typography variant="h5">
+                    </Typography>
+                  </Grid>
+                </Grid>
+              </Box> */}
+            </ListItem>
+          )
+          :
+          <ListItem key={"font-none"}>
+            <Grid container spacing={2}>
+              <Grid item xs={12}>
+                <Box color="text.disabled">
+                  <Typography variant="body1">This project doesn't have any fonts yet.</Typography>
+                </Box>
+              </Grid>
+            </Grid>
+          </ListItem>
+        }
+
         </List>
         <Box className="overflow-fab-wrap">
-          <Fab onClick={this.handleOpen} className="overflow-fab" variant="extended" size="medium" color="primary" aria-label="add">
-            <Box component="span">Add Font Files</Box>
+          <Fab component="label" className="overflow-fab" variant="extended" size="medium" color="primary" aria-label="add">
+            <Box component="span">
+              Add Font Files
+              <input type="file" style={{ display: "none" }} multiple accept="font/*" onChange={this.prepFiles}/>
+            </Box>
           </Fab>
         </Box>
-
-        <Dialog open={this.state.open} onClose={this.handleClose}>
-          <DialogTitle id="form-dialog-title">Add Font Files</DialogTitle>
-          <DialogContent>
-            <DialogContentText>Add the fonts you are using for this project.</DialogContentText>
-            <TextField value={this.state.textFieldValue} onChange={this.handleChange} autoFocus margin="dense" id="name" label="Font Name" type="email" fullWidth />
-            <br /><br />
-            <Button variant="contained" component="label" >
-              Upload Files
-              <input type="file" style={{ display: "none" }} />
-            </Button>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={this.handleClose} color="primary">Cancel</Button>
-            <Button onClick={this.handleSubmit} color="primary">Add</Button>
-          </DialogActions>
-        </Dialog>
       </Box>
     );
   }
@@ -428,9 +524,11 @@ class ProjectImportExport extends React.Component {
 }
 
 
+
 //////////////////////////////
 // Current projects
 
+import Icon from '@material-ui/core/Icon';
 class Project extends React.Component {
   constructor(props) {
     super(props);
@@ -450,8 +548,7 @@ class Project extends React.Component {
     axios
       .get(apiUrl + '/projects?id_in=' + this.props.projectId, {
         headers: { Authorization: 'Bearer ' + Cookies.get("jwt") }
-      }).catch(error => {
-        console.log(error); // Handle error
+      }).catch(err => { console.log(err); // Handle error
       }).then(response => { // Handle success
         this.setState({ project: response.data[0] });
       });
@@ -463,8 +560,7 @@ class Project extends React.Component {
         archived: !this.state.project.archived
       }, {
         headers: { Authorization: 'Bearer ' + Cookies.get("jwt") }
-      }).catch(error => {
-        console.log(error); // Handle Error
+      }).catch(err => { console.log(err); // Handle error
       }).then(response => { // Handle success
         this.props.pageUpdate();
       });
@@ -493,8 +589,7 @@ class Project extends React.Component {
             <Box p={1}>
               <Box pb={1}>
                 <Typography variant="h4">
-                  {this.state.project.name}
-                  <Box component="span" color="grey.400"> v.{this.state.project.major_version}.{this.state.project.minor_version}</Box>
+                    <EditableTitle value={this.state.project.name} item={this.state.project} type="project" {...this.state}/>
                 </Typography>
               </Box>
               <Typography display="inline" variant="body2">
@@ -531,7 +626,7 @@ class Project extends React.Component {
             >
               <Tab label="Tests" />
               <Tab label="Members" />
-              <Tab label="Font Files" />
+              <Tab label="Fonts" />
               <Tab label="Import/Export" />
             </Tabs>
           </AppBar>

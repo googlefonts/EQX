@@ -28,8 +28,8 @@
       "default": 1
     },
     "fonts": {
-      "collection": "font",
-      "via": "project"
+      "via": "project",
+      "collection": "font"
     },
     "tags": {
       "collection": "tag",

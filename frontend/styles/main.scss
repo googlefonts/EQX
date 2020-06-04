@@ -235,3 +235,23 @@ main{
 		color: rgba(white, 1);
 	}
 }
+
+
+
+
+
+.edit-event.MuiIcon-root{
+	cursor: pointer;
+	line-height: inherit;
+	width: initial;
+	height: initial;
+	display: inline;
+	top: 0.15em;
+	position: relative;
+	opacity: 0.25;
+	transition: all $xfast;
+	&:hover{
+		transition: all $xfast;
+		opacity: 1;
+	}
+}

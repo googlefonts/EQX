@@ -47,8 +47,7 @@ class SignUp extends React.Component {
         username: username,
         email: email,
         password: password,
-      }).catch(error => {
-        console.log(error); // Handle Error
+      }).catch(err => { console.log(err); // Handle error
       }).then(response => { // Handle success.
         strapiLogin(email, password);
       });

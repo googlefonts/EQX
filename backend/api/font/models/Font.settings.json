@@ -15,7 +15,8 @@
     "file": {
       "model": "file",
       "via": "related",
-      "plugin": "upload"
+      "plugin": "upload",
+      "required": false
     },
     "name": {
       "type": "string"
@@ -29,16 +30,20 @@
     "variable": {
       "type": "boolean"
     },
+    "major_version": {
+      "type": "integer",
+      "default": 0
+    },
     "minor_version": {
       "type": "integer",
-      "default": "1"
-    },
-    "major_version": {
-      "type": "integer"
+      "default": 1
     },
     "project": {
-      "via": "fonts",
-      "model": "project"
+      "model": "project",
+      "via": "fonts"
+    },
+    "info": {
+      "type": "json"
     }
   }
 }

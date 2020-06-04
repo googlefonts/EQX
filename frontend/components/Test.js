@@ -255,8 +255,7 @@ class Test extends React.Component {
     axios
       .get(apiUrl + '/tests?id_in=' + this.props.testId, {
         headers: { Authorization: 'Bearer ' + Cookies.get("jwt") }
-      }).catch(error => {
-        console.log(error); // Handle error
+      }).catch(err => { console.log(err); // Handle error
       }).then(response => { // Handle success
         this.setState({ test: response.data[0] });
 
