@@ -21,6 +21,10 @@ import GroupIcon from '@material-ui/icons/Group';
 import axios from 'axios';
 import Cookies from "js-cookie";
 import DeleteIcon from '@material-ui/icons/Delete';
+import getConfig from 'next/config';
+const { serverRuntimeConfig, publicRuntimeConfig } = getConfig();
+const apiUrl = publicRuntimeConfig.API_URL || 'http://localhost:1337';
+
 
 class SideNavRegular extends React.Component {
   constructor(props) {
@@ -125,13 +129,13 @@ class SideNavCreateQuestion extends React.Component {
 
   sideQuestionDelete = (questionId, questionNumber) => {
     axios
-      .delete('http://localhost:1337/questions/' + questionId
+      .delete(apiUrl + '/questions/' + questionId
       , { headers: { Authorization: 'Bearer ' + Cookies.get("jwt") } 
       }).catch(error => { console.log(error);  // Handle Error
       }).then(response => { // Handle success
         let questions = this.props.test.questions.filter( function(value, index, arr){ return value.id !== questionId });
         axios
-          .put('http://localhost:1337/tests/' + this.props.test.id, {
+          .put(apiUrl + '/tests/' + this.props.test.id, {
             questions: [...questions ]
           }, { headers: { Authorization: 'Bearer ' + Cookies.get("jwt") } 
           }).catch(error => { console.log(error); // Handle Error
@@ -156,13 +160,13 @@ class SideNavCreateQuestion extends React.Component {
 
   addQuestion = () => {
     axios
-      .post('http://localhost:1337/questions', {
+      .post(apiUrl + '/questions', {
         test: this.props.test.id,
       }, { headers: { Authorization: 'Bearer ' + Cookies.get("jwt") } 
       }).catch(error => { console.log(error);  // Handle Error
       }).then(response => { // Handle success
         axios
-          .put('http://localhost:1337/tests/' + this.props.test.id, {
+          .put(apiUrl + '/tests/' + this.props.test.id, {
             questions: [...this.props.test.questions, response.data.id]
           }, { headers: { Authorization: 'Bearer ' + Cookies.get("jwt") } 
           }).catch(error => { console.log(error); // Handle Error

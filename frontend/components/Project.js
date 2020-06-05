@@ -1,16 +1,17 @@
 import React from "react";
-import { Chip, Dialog, DialogTitle, DialogActions, DialogContentText, DialogContent, Button, TextField, Fab, Grid, LinearProgress, List, ListItem, ListItemAvatar, ListItemText, Avatar, AppBar, Tab, Tabs, Card, CardContent, Typography, Box, Divider } from '@material-ui/core';
+import { IconButton, Chip, Dialog, DialogTitle, DialogActions, DialogContentText, DialogContent, Button, TextField, Fab, Grid, LinearProgress, List, ListItem, ListItemAvatar, ListItemText, Avatar, AppBar, Tab, Tabs, Card, CardContent, Typography, Box, Divider } from '@material-ui/core';
 import { Autocomplete } from '@material-ui/lab';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import Cookies from "js-cookie";
 import Strapi from 'strapi-sdk-javascript/build/main';
 import axios from 'axios';
 import SharedTest from "../components/SharedTest";
-import getConfig from 'next/config'
-const { serverRuntimeConfig, publicRuntimeConfig } = getConfig()
+import getConfig from 'next/config';
+const { serverRuntimeConfig, publicRuntimeConfig } = getConfig();
 const apiUrl = publicRuntimeConfig.API_URL || 'http://localhost:1337';
 const strapi = new Strapi(apiUrl);
 import EditableTitle from "../components/EditableTitle";
+import DeleteIcon from '@material-ui/icons/Delete';
 
 
 
@@ -278,7 +279,6 @@ class ProjectMembers extends React.Component {
           <DialogTitle id="form-dialog-title">New Member</DialogTitle>
           <DialogContent>
             <DialogContentText>Add any team member you want.</DialogContentText>
-            {/* https://material-ui.com/components/autocomplete/#multiple-values */}
             <Autocomplete
               multiple
               id="tags-standard"
@@ -322,41 +322,91 @@ class ProjectMembers extends React.Component {
 
 ///////////////////////////
 // Edit Font data row
-
+import debounce from 'lodash/debounce';
 class FontRow extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      
+      name: "",
+      weight: "",
+      style: "",
     };
   }
 
-  prepFiles = (e) => {
-    
-    // axios
-    //   .post('http://localhost:1337/fonts', {
-    //     file: fontFile,
-    //     name: fontFile.name,
-    //     weight: "",
-    //     style: "",
-    //     variable: false,
-    //     major_version: 0,
-    //     minor_version: 1,
-    //     project: this.props.project.id,
-    //     info: fontInfo
-    //   }, { headers: { Authorization: 'Bearer ' + Cookies.get("jwt") } 
-    //   }).catch(err => { console.log(err);  // Handle Error
-    //   }).then(response => { // Handle success
-    //     console.log(response);
-    //     this.props.update();
-    //   });
-  }
+	componentDidMount = () => {
+		this.autosave = debounce(this.autosave, 500);
+		this.update();
+	}
+	
+	componentDidUpdate(nextProps) {
+		if (nextProps.font !== this.props.font) {
+			this.update();
+		}
+	}
+
+	autosave = () => {
+		// axios
+		//   .put(apiUrl + '/questions/' + this.props.test.questions[Number(this.props.questionNumber - 1)].id, {
+		//     question: this.state.questionValue,
+		// 	 context: this.state.contextValue
+		//   }, { headers: { Authorization: 'Bearer ' + Cookies.get("jwt") } 
+		//   }).catch(error => { console.log(error); // Handle Error
+		//   }).then(response => { // Handle success
+		//     // Router.push("/create-question?test=" + this.props.test.id + "&question=" + (this.props.test.questions.length + 2))
+		//   });
+	}
+
+	update = () => { 
+		if (
+			this.props.font && 
+			typeof this.props.font != "undefined" && 
+			Object.keys(this.props.font).length > 0
+		){
+			this.setState({
+        name: this.props.font.info.name.records.preferredFamily.en,
+        weight: this.props.font.info.name.records.preferredSubfamily.en,
+        style: this.props.font.info.name.records.fontSubfamily.en,
+			})
+		}
+	}
+
+	delete = () => { 
+		axios
+      .delete(apiUrl + '/fonts/' + this.props.font.id
+        , { headers: { Authorization: 'Bearer ' + Cookies.get("jwt") } 
+        }).catch(error => { console.log(error);  // Handle Error
+        }).then(response => { // Handle success
+          this.props.update();
+        });
+	}
+
+	// onQuestionChange = (e) => {
+	// 	this.setState({questionValue: e})
+	// 	this.autosave();
+	// }
+
+	// onContextChange = (e) => {
+	// 	this.setState({contextValue: e})
+	// 	this.autosave();
+	// }
 
   render() {
     return (
-      <Grid container spacing={2}>
+      <Grid container spacing={0}>
+        <Grid item xs={1} style={{background: "rgba(0, 0, 0, 0.09)"}} >
+          <IconButton onClick={this.delete} style={{ height: "100%", width: "100%", borderRadius: 0}} component="span"><DeleteIcon /></IconButton>
+        </Grid>
+        <Grid item xs>
+          <TextField InputProps={{ style:{borderRadius: 0} }} value={this.state.name} label="Name" fullWidth variant="filled" />
+        </Grid>
         <Grid item xs={3}>
-          <TextField value={this.props.font.name} id="filled-basic" label="Filled" variant="filled" />
+          <TextField InputProps={{ style:{borderRadius: 0} }} value={this.state.weight} label="Weight" fullWidth variant="filled" />
+        </Grid>
+        <Grid item xs={2}>
+          <TextField InputProps={{ style:{borderRadius: 0} }} value={this.state.style} label="Style" fullWidth variant="filled" />
+        </Grid>
+        <Grid item xs={2}>
+          <TextField InputProps={{ style:{borderRadius: 0} }} value={new Date(this.props.font.created_at).toLocaleDateString("en-US")} disabled label="Date Added" fullWidth variant="filled" />
         </Grid>
       </Grid>
     );
@@ -409,7 +459,7 @@ class ProjectFonts extends React.Component {
             }).then(response => {
               var fontInfo = response.data;
               axios
-                .post('http://localhost:1337/fonts', {
+                .post(apiUrl + '/fonts', {
                   file: fontFile,
                   name: fontFile.name,
                   weight: "",
@@ -438,7 +488,7 @@ class ProjectFonts extends React.Component {
         {(this.props.project.fonts && this.props.project.fonts.length) ?
           this.props.project.fonts.map((font, i) =>
             <ListItem style={{padding: 0}} key={"font-" + i}>
-              <FontRow project={this.props.project} font={font.name}/>
+              <FontRow project={this.props.project} font={font} {...this.props} />
               {/* <Box p={1} pt={2} width="100%">
                 <Grid container spacing={2}>
                   <Grid item xs={12}>
