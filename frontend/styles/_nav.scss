@@ -79,7 +79,7 @@ main:not(.no-auth) {
 	}
 }
 [data-multi-side-nav="false"]{
-	.MuiGrid-grid-xs-4{
+	.create-question-overview-drawer .MuiGrid-grid-xs-4{
 		display: none;
 	}
 }

@@ -97,7 +97,6 @@ $eii-height: 392px; // Height of 7 dropdown menus
 		display: block;
 		width: 100%;
 		min-height: $eii-height;
-		background-color: $mdc-theme-grey100;
 		text-align: center;
 		cursor: pointer;
 	}
@@ -150,8 +149,8 @@ $eii-height: 392px; // Height of 7 dropdown menus
 	label{
 		position: relative;
 		display: block;
-		min-height: $eii-height;
-		background-color: $mdc-theme-grey100;
+		height: 100%;
+		background-color: rgba(black, 0.05);
 		text-align: center;
 		cursor: pointer;
 
@@ -173,10 +172,6 @@ $eii-height: 392px; // Height of 7 dropdown menus
 			font-size: 12rem;
 		}
 
-	}
-
-	.import-css label{
-		background-color: $mdc-theme-grey200;
 	}
 
 	.import-fonts{

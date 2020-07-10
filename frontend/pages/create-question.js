@@ -65,10 +65,10 @@ class CreateQuestionPage extends React.Component {
     axios
       .get(apiUrl + '/tests?id=' + Router.router.query.test, {
         headers: { Authorization: "Bearer " + Cookies.get("jwt") }
-      }).then(response => { // Handle success
+      }).then(test => { // Handle success
         this.setState({ 
-          test: response.data[0],
-          tmpTest: response.data[0] 
+          test: test.data[0],
+          tmpTest: test.data[0] 
         });
         if (Number(Router.router.query.question) > this.state.test.questions.length){
           window.location = "/create-question?test=" + Router.router.query.test + "&question=" + this.state.test.questions.length;
@@ -83,6 +83,17 @@ class CreateQuestionPage extends React.Component {
             },
           })
         }
+        axios
+          .get(apiUrl + '/projects?id=' + test.data[0].project.id, {
+            headers: { Authorization: "Bearer " + Cookies.get("jwt") }
+          }).then(project => { // Handle success
+            let newTest = test.data[0];
+            newTest.project = project.data[0];
+            this.setState({ 
+              test: newTest,
+              tmpTest: newTest 
+            });
+          }).catch(error => { console.log(error) });
       }).catch(error => { console.log(error) });
   }
 
