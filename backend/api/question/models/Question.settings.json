@@ -65,6 +65,9 @@
       ],
       "plugin": "upload",
       "required": false
+    },
+    "code_data": {
+      "type": "json"
     }
   }
 }
