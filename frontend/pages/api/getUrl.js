@@ -18,7 +18,7 @@ export default (req, res) => {
          })
       ]
    }).then((result) => {
-      console.log(result[0].text)
+      // console.log(result[0].text)
       // res.end(stringify(result[0].text))
       res.end(JSON.stringify(result[0].text))
    });

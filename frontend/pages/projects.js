@@ -23,7 +23,8 @@ class NewProject extends React.Component {
     super(props);
     this.state = {
       open: false,
-      textFieldValue: ""
+      textFieldValueName: "",
+      textFieldValueDesc: ""
     };
   }
 
@@ -32,15 +33,20 @@ class NewProject extends React.Component {
   }
 
   handleClose = () => {
-    this.setState({ open: false });
-    this.setState({ textFieldValue: "" });
+    this.setState({ 
+      open: false,
+      textFieldValueName: "",
+      textFieldValueDesc: "" 
+    });
   }
 
   onSubmit = () => {
-    let projectName = this.state.textFieldValue;
+    let projectName = this.state.textFieldValueName;
+    let projectDesc = this.state.textFieldValueDesc;
     axios
       .post(apiUrl + '/projects', {
         name: projectName,
+        description: projectDesc,
         owners: [Cookies.get("id")],
         users: [Cookies.get("id")],
         major_version: 0,
@@ -56,8 +62,11 @@ class NewProject extends React.Component {
       });
   }
 
-  onChange = (e) => {
-    this.setState({ textFieldValue: e.target.value });
+  onChangeName = (e) => {
+    this.setState({ textFieldValueName: e.target.value });
+  }
+  onChangeDesc = (e) => {
+    this.setState({ textFieldValueDesc: e.target.value });
   }
 
   render() {
@@ -76,7 +85,18 @@ class NewProject extends React.Component {
           <DialogTitle id="form-dialog-title">New Project</DialogTitle>
           <DialogContent>
             <DialogContentText>Projects help you organize your tests to track your progress.</DialogContentText>
-            <TextField value={this.state.textFieldValue} onChange={this.onChange} autoFocus margin="dense" id="name" label="Project Name" type="email" fullWidth />
+            <TextField value={this.state.textFieldValueName} 
+              onChange={ this.onChangeName } 
+              onFocus={() => this.setState({focus: true})}
+              onBlur={() => (this.state.textFieldValueName === "") ? this.setState({focus: false}) : this.setState({focus: true})  }
+              InputLabelProps={{ 
+                style: {
+                  fontSize: this.state.focus ? 'inherit' : '2.0243rem',
+                }, 
+              }} 
+              InputProps={{ style: { fontSize: "2.0243rem" } }} 
+              autoFocus margin="dense" id="name" label="Project Name" type="email" fullWidth />
+            <TextField value={this.state.textFieldValueDesc} onChange={this.onChangeDesc} margin="dense" id="description" label="Project Description (Optional)" type="email" fullWidth />
           </DialogContent>
           <DialogActions>
             <Button onClick={this.handleClose} color="primary">Cancel</Button>

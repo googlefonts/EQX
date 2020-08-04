@@ -28,8 +28,8 @@
       "default": 1
     },
     "fonts": {
-      "via": "project",
-      "collection": "font"
+      "collection": "font",
+      "via": "project"
     },
     "tags": {
       "collection": "tag",
@@ -53,6 +53,9 @@
       "plugin": "users-permissions",
       "collection": "user",
       "via": "owned_projects"
+    },
+    "description": {
+      "type": "richtext"
     }
   }
 }

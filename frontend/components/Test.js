@@ -295,6 +295,7 @@ class Test extends React.Component {
                 {this.state.test.name}
                 <Box component="span" color="grey.400"> v.{this.state.test.major_version}.{this.state.test.minor_version}</Box>
               </Typography>
+              <Typography variant="body2">{this.state.test.description}</Typography>
               <Box className="progress-bar" pb={1}>
                 <Box style={{ width: "calc(100% - 200px)", display: "inline-block" }}>
                   <LinearProgress variant="determinate" value={this.state.test.completeness ? this.state.test.completeness : 0} />

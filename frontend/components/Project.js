@@ -10,7 +10,7 @@ import getConfig from 'next/config';
 const { serverRuntimeConfig, publicRuntimeConfig } = getConfig();
 const apiUrl = publicRuntimeConfig.API_URL || 'http://localhost:1337';
 const strapi = new Strapi(apiUrl);
-import EditableTitle from "../components/EditableTitle";
+import EditableTitleAndDescription from "../components/EditableTitleAndDescription";
 import DeleteIcon from '@material-ui/icons/Delete';
 
 
@@ -637,11 +637,7 @@ class Project extends React.Component {
           {/* Genral Info */}
           <CardContent >
             <Box p={1}>
-              <Box pb={1}>
-                <Typography variant="h4">
-                    <EditableTitle value={this.state.project.name} item={this.state.project} type="project" {...this.state}/>
-                </Typography>
-              </Box>
+              <EditableTitleAndDescription nameValue={this.state.project.name} descValue={this.state.project.description} item={this.state.project} type="project" {...this.state}/>
               <Typography display="inline" variant="body2">
                 <span>
                   {(this.state.project.tests && this.state.project.tests.length) ? (

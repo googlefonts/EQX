@@ -39,8 +39,8 @@
       "default": 1
     },
     "project": {
-      "model": "project",
-      "via": "fonts"
+      "via": "fonts",
+      "model": "project"
     },
     "info": {
       "type": "json"

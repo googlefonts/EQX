@@ -67,7 +67,7 @@ class HtmlCssTab extends React.Component {
           { headers: { 'Authorization': 'Bearer ' + Cookies.get("jwt") } })
         .then(response => {
           var image = response.data[0];
-          console.log(image)
+          // console.log(image)
           that.setState({ imageData: image });
           
           axios // Save to question
@@ -146,7 +146,7 @@ class HtmlCssTab extends React.Component {
                   texts[i].id = "text-" + (i+1);
                 }
               }
-              newData = docElement.getElementsByTagName("svg")[0].outerHTML;
+              newData = "<style>body{margin:0;}</style>" + docElement.getElementsByTagName("svg")[0].outerHTML;
             }
             var file = new File([newData], (image.name + image.ext), {type: image.mime});
             var formData = new FormData();
@@ -268,7 +268,7 @@ class HtmlCssTab extends React.Component {
           <input type="file" name="import-html-upload" id="import-html-upload" onChange={this.uploadFile}/>
           <label htmlFor="import-html-upload" className="import-html-upload-label" style={{ height: "calc(100% - 57px)"}}>
             <AttachFileIcon style={{ color: "rgba(255,255,255,0.25)" }} className="paperclip-icon" />
-            <Button style={{ color:"rgba(255,255,255,1)", fontSize: '24px'}}><b>HTML/SVG</b></Button>
+            <Button style={{ pointerEvents:"none", color:"rgba(255,255,255,1)", fontSize: '24px'}}><b>HTML/SVG</b></Button>
           </label>
 
         </Grid>
@@ -344,7 +344,7 @@ class HtmlCssTab extends React.Component {
         }
         </Grid>
         <Grid item xs={12} className="visual-editor" style={{background: "rgba(0, 0, 0, 0.07)"}}>
-          <iframe width={this.state.codeData.width} height={this.state.codeData.height} border="0" scrolling="auto" src={"data:text/html,"+encodeURIComponent(this.state.img)}/>
+          <iframe width={this.state.codeData.width} height={this.state.codeData.height} frameBorder="0" border="0" scrolling="auto" src={"data:text/html,"+encodeURIComponent(this.state.img)}/>
           {/* <div id="code-visual-wrap" style={{ overflow: "hidden", background:"white", width:this.state.codeData.width, height:this.state.codeData.height }} >
             <div id="code-visual" dangerouslySetInnerHTML={{ __html: this.state.img }}></div>
           </div> */}

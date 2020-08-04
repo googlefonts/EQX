@@ -49,8 +49,8 @@
       "type": "boolean"
     },
     "test": {
-      "model": "test",
-      "via": "questions"
+      "via": "questions",
+      "model": "test"
     },
     "source": {
       "type": "string"

@@ -33,8 +33,8 @@
       "required": true
     },
     "questions": {
-      "via": "test",
-      "collection": "question"
+      "collection": "question",
+      "via": "test"
     },
     "completeness": {
       "type": "float"
@@ -56,6 +56,9 @@
     "project": {
       "model": "project",
       "via": "tests"
+    },
+    "description": {
+      "type": "richtext"
     }
   }
 }
