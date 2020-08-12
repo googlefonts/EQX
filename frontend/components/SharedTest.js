@@ -12,7 +12,7 @@ const apiUrl = publicRuntimeConfig.API_URL || 'http://localhost:1337';
 const strapi = new Strapi(apiUrl);
 import Router from 'next/router';
 import DeleteIcon from '@material-ui/icons/Delete';
-import EditableTitle from "../components/EditableTitle";
+import EditableTitleAndDescription from "../components/EditableTitleAndDescription";
 
 
 //////////////////////////////
@@ -62,7 +62,7 @@ class TestQuestions extends React.Component {
 
   render() {
     return (
-      <Box bgcolor="primary.main" className="primary-background section-tests tabContainer" hidden={1 === this.props.tabValue ? false : true}>
+      <Box bgcolor="primary.main" className="primary-background section-tests tabContainer" hidden={0 === this.props.tabValue ? false : true}>
         <List color="primary">
           {(this.props.test.questions && this.props.test.questions.length) ?
             this.props.test.questions.map((question, i) =>
@@ -147,7 +147,7 @@ class TestMembers extends React.Component {
   }
   render() {
     return (
-      <Box bgcolor="primary.main" className="primary-background section-members tabContainer" hidden={0 === this.props.tabValue ? false : true}>
+      <Box bgcolor="primary.main" className="primary-background section-members tabContainer" hidden={1 === this.props.tabValue ? false : true}>
         <List>
 
           <ListItem >
@@ -312,7 +312,8 @@ class SharedTest extends React.Component {
                       <Box component="span" color="grey.400">{this.props.project.name} v.{this.props.project.major_version}.{this.props.project.minor_version}</Box>
                     </Typography>
                     <Typography variant="h4">
-                      <EditableTitle value={this.state.test.name} item={this.state.test} type="test" {...this.state}/>
+                      {/* <EditableTitle value={this.state.test.name} item={this.state.test} type="test" {...this.state}/> */}
+                      <EditableTitleAndDescription nameValue={this.state.test.name} descValue={this.state.test.description} item={this.state.test} type="test" {...this.state}/>
 
                       {/* {this.state.test.name}
                       <Box component="span" color="grey.400"> v.{this.state.test.major_version}.{this.state.test.minor_version}</Box> */}
@@ -350,18 +351,18 @@ class SharedTest extends React.Component {
           <Box bgcolor="primary.main">
             <AppBar position="static" color="primary">
               <Tabs value={this.state.tabValue} onChange={this.handleChange} TabIndicatorProps={{ style: { backgroundColor: "#fff" } }} variant="scrollable" scrollButtons="auto">
-                <Tab label="Members" />
-                <Tab label="Questions" />
+                <Tab label={"Questions (" + (this.state.test.questions ? this.state.test.questions.length : "0") + ")"} />
+                <Tab label={"Members (" + (this.state.test.users ? this.state.test.users.length : "0") + ")"} />
                 <Tab label="Import/Export" />
               </Tabs>
             </AppBar>
           </Box>
 
-          {/* Members */}
-          <TestMembers {...this.state} update={this.update} />
-
           {/* Tests */}
           <TestQuestions {...this.state} update={this.update} />
+
+          {/* Members */}
+          <TestMembers {...this.state} update={this.update} />
 
           {/* Import/Export */}
           <TestImportExport {...this.state} update={this.update} />

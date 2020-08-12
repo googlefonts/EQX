@@ -8,6 +8,12 @@ Backend: http://35.231.157.252/admin/
 
 # Development
 
+## Post Setup Quickstart
+
+cd frontend && killall -9 node && npm run dev
+cd backend && npm run develop
+
+
 **Frontend**: [http://localhost:3000](http://localhost:3000)
 
 **Backend**: [http://localhost:1337](http://localhost:1337)

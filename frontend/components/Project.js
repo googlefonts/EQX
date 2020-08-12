@@ -98,6 +98,7 @@ class ProjectTests extends React.Component {
                       <Typography variant="h5">
                         {test.name}
                         <Box component="span" color="grey.400"> v.{test.major_version}.{test.minor_version}</Box>
+                        {/* <Box component="span" color="grey.400">({test.questions ? test.questions.length : "0"} Questions)</Box> */}
                       </Typography>
                       <Box style={{ width: "calc(100% - 200px)", display: "inline-block" }}>
                         <LinearProgress variant="determinate" value={test.completeness ? test.completeness : 0} />
@@ -670,9 +671,9 @@ class Project extends React.Component {
               variant="scrollable"
               scrollButtons="auto"
             >
-              <Tab label="Tests" />
-              <Tab label="Members" />
-              <Tab label="Fonts" />
+              <Tab label={"Tests (" + (this.state.project.tests ? this.state.project.tests.length : "0") + ")"} />
+              <Tab label={"Members (" + (this.state.project.users ? this.state.project.users.length : "0") + ")"} />
+              <Tab label={"Fonts (" + (this.state.project.fonts ? this.state.project.fonts.length : "0") + ")"} />
               <Tab label="Import/Export" />
             </Tabs>
           </AppBar>

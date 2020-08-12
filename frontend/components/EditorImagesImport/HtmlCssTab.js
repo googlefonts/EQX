@@ -24,7 +24,8 @@ class HtmlCssTab extends React.Component {
       codeData: {
         url: "",
         width: "100%",
-        height: "100%"
+        height: "100%",
+        scroll: "0",
       }
     };
   }
@@ -57,6 +58,7 @@ class HtmlCssTab extends React.Component {
     })
     .then(function (response) {
 
+      console.log('Recieved "'+url+'"')
       var newData = response.data;
       // console.log(encodeURIComponent(url))
       var file = new File([newData], ('scrape-' + new Date().getTime() + ".html"), {type: "text/html"});
@@ -200,6 +202,13 @@ class HtmlCssTab extends React.Component {
 		this.autosave();
 	}
 
+	onScrollChange = (e) => {
+    var codeData = this.state.codeData;
+		codeData.scroll = e;
+		this.setState({codeData: codeData})
+		this.autosave();
+	}
+
 	onURLChange = (e) => {
     var codeData = this.state.codeData;
 		codeData.url = e;
@@ -305,6 +314,22 @@ class HtmlCssTab extends React.Component {
               style:{borderRadius: 0}
             }}
           ></TextField>
+          <TextField 
+            label={'Window scroll position'}
+            key={'window-scroll-selector'}
+            value={this.state.codeData.scroll}
+            fullWidth 
+            variant="filled" 
+            onChange={e => {this.onScrollChange(e.currentTarget.value)}}
+            InputLabelProps={{ style:{display: "none"} }}
+            inputProps={{
+                style:{ paddingTop: "20px", position: "relative", paddingBottom: "20px", paddingLeft: "5px"}
+            }}
+            InputProps={{
+              startAdornment: <InputAdornment style={{width: "75px", marginTop: 0}} position="start">scroll</InputAdornment>,
+              style:{borderRadius: 0}
+            }}
+          ></TextField>
 
           {(typeof this.state.tagList != "undefined" && this.state.tagList.length) ?
             this.state.tagList.map((tag, index) => (
@@ -344,7 +369,12 @@ class HtmlCssTab extends React.Component {
         }
         </Grid>
         <Grid item xs={12} className="visual-editor" style={{background: "rgba(0, 0, 0, 0.07)"}}>
-          <iframe width={this.state.codeData.width} height={this.state.codeData.height} frameBorder="0" border="0" scrolling="auto" src={"data:text/html,"+encodeURIComponent(this.state.img)}/>
+        {/* <iframe id="wed-svg-visual" sandbox width={this.state.codeData.width} height={this.state.codeData.height} frameBorder="0" border="0" scrolling="no" src={"data:text/html,"+encodeURIComponent(this.state.img+"<script>document.documentElement.scrollTop = document.body.scrollTop = '"+this.state.codeData.scroll+"'</script>")}/> */}
+        <iframe id="wed-svg-visual" sandbox width={this.state.codeData.width} height={this.state.codeData.height} frameBorder="0" border="0" scrolling="no" srcdoc={this.state.img+"<script>document.documentElement.scrollTop = document.body.scrollTop = '"+this.state.codeData.scroll+"'</script>"}/>
+        {console.log(apiUrl + this.state.imageData.url)}
+        {/* <embed id="wed-svg-visual" width={this.state.codeData.width} height={this.state.codeData.height} type="text/html" src={apiUrl + this.state.imageData.url} /> */}
+
+        {/* <iframe id="wed-svg-visual" sandbox width={this.state.codeData.width} height={this.state.codeData.height} frameBorder="0" border="0" scrolling="no" src={apiUrl + this.state.imageData.url}/> */}
           {/* <div id="code-visual-wrap" style={{ overflow: "hidden", background:"white", width:this.state.codeData.width, height:this.state.codeData.height }} >
             <div id="code-visual" dangerouslySetInnerHTML={{ __html: this.state.img }}></div>
           </div> */}
