@@ -20,6 +20,7 @@ class HtmlCssTab extends React.Component {
       tagList: [],
       imageData: {},
       img: "",
+      loading: false,
       fonts: {},
       codeData: {
         url: "",
@@ -36,6 +37,12 @@ class HtmlCssTab extends React.Component {
       this.setState({ imageData: this.props.test.questions[Number(this.props.questionNumber - 1)].code_image });
     }
     this.update();
+    const timer = setInterval(() => {
+      if (typeof document.getElementById('wed-svg-visual').contentWindow.document.documentElement !== "undefined" && document.getElementById('wed-svg-visual').contentWindow.document.documentElement.scrollTop !== this.state.codeData.scroll){
+        document.getElementById('wed-svg-visual').contentWindow.document.documentElement.scrollTop = this.state.codeData.scroll;
+      }
+  }, 1000);
+    return () => clearInterval(timer);
   }
 
   componentDidUpdate(nextProps) {
@@ -51,30 +58,43 @@ class HtmlCssTab extends React.Component {
   scrapeUrl = () => {
     var that = this;
     var url = this.state.codeData.url;
+    that.setState({ 
+      img: "",
+      loading: true 
+    });
+    if ( !Boolean(['http://', 'https://', 'ftp://'].some(protocol => url.startsWith(protocol))) ) {
+      
+      var codeData = this.state.codeData;
+      codeData.url = "http://" + codeData.url;
+      this.setState({
+        codeData: codeData,
+      }); 
+      url = codeData.url;
+    }
+
     axios.get('/api/getUrl', 
-      { params: {
-        url: url
-      } 
-    })
+      { params: 
+        { url: url } 
+      }
+    )
     .then(function (response) {
 
       console.log('Recieved "'+url+'"')
-      var newData = response.data;
-      // console.log(encodeURIComponent(url))
-      var file = new File([newData], ('scrape-' + new Date().getTime() + ".html"), {type: "text/html"});
+      var file = new File([response.data], ('scrape-' + new Date().getTime() + ".html"), {type: "text/html"});
       var formData = new FormData();
       formData.append('files', file);
+
       axios // Upload new file
         .post(apiUrl + '/upload', formData, 
           { headers: { 'Authorization': 'Bearer ' + Cookies.get("jwt") } })
         .then(response => {
-          var image = response.data[0];
-          // console.log(image)
-          that.setState({ imageData: image });
+          that.setState({ 
+            imageData: response.data[0]
+          });
           
           axios // Save to question
             .put('http://localhost:1337/questions/' + that.props.test.questions[Number(that.props.questionNumber - 1)].id, 
-              { code_image: image }, 
+              { code_image: response.data[0] }, 
               { headers: { Authorization: 'Bearer ' + Cookies.get("jwt") } 
             }).then(response => {
               that.update();
@@ -84,10 +104,13 @@ class HtmlCssTab extends React.Component {
 
     });
   }
+  
+
 
   update = () => {
     this.setState({
-      codeData: this.props.test.questions[Number(this.props.questionNumber - 1)].code_data
+      codeData: this.props.test.questions[Number(this.props.questionNumber - 1)].code_data,
+      loading: true
     });
 		if (typeof this.state.imageData != "undefined") {
       axios
@@ -96,7 +119,7 @@ class HtmlCssTab extends React.Component {
           var imgData = response.data;
           var ext = this.state.imageData.url.substring(this.state.imageData.url.lastIndexOf(".") + 1);
           var domParser = new DOMParser();
-          var docElement = domParser.parseFromString(response.data, "text/html").documentElement;
+          var docElement = domParser.parseFromString(imgData, "text/html").documentElement;
           var newTagList = [];
           if (ext === "svg"){
             var texts = docElement.getElementsByTagName("text");
@@ -116,7 +139,8 @@ class HtmlCssTab extends React.Component {
           }
           this.setState({
             img: imgData,
-            tagList: newTagList
+            tagList: newTagList,
+            loading: false
           });
 
         }).catch(error => { console.log(error) });
@@ -126,7 +150,13 @@ class HtmlCssTab extends React.Component {
   uploadFile = (e) => {
     var formData = new FormData();
     formData.append("files", e.target.files[0]);
-
+    var codeData = this.state.codeData;
+		codeData.url = "";
+		this.setState({
+      img: "",
+      codeData: codeData,
+      loading: true
+    }); 
     axios // Upload file
       .post(apiUrl + '/upload', formData, 
         { headers: { 'Authorization': 'Bearer ' + Cookies.get("jwt") } })
@@ -164,15 +194,20 @@ class HtmlCssTab extends React.Component {
                 { headers: { 'Authorization': 'Bearer ' + Cookies.get("jwt") } })
               .then(response => {
                 image = response.data[0];
-                this.setState({ imageData: image });
-                
-                  axios // Save to question
-                    .put('http://localhost:1337/questions/' + this.props.test.questions[Number(this.props.questionNumber - 1)].id, 
-                      { code_image: image }, 
-                      { headers: { Authorization: 'Bearer ' + Cookies.get("jwt") } 
-                    }).then(response => {
-                      this.update();
-                    }).catch(error => { console.log(error) });
+                this.setState({ 
+                  imageData: image,
+                  loading: false
+                });
+                axios // Save to question
+                  .put('http://localhost:1337/questions/' + this.props.test.questions[Number(this.props.questionNumber - 1)].id, 
+                    { 
+                      code_image: image,
+                      code_data: this.state.codeData
+                    }, 
+                    { headers: { Authorization: 'Bearer ' + Cookies.get("jwt") } 
+                  }).then(response => {
+                    this.update();
+                  }).catch(error => { console.log(error) });
               }).catch(error => { console.log(error) });
           }).catch(error => { console.log(error) });
       }).catch(error => { console.log(error) });
@@ -205,7 +240,10 @@ class HtmlCssTab extends React.Component {
 	onScrollChange = (e) => {
     var codeData = this.state.codeData;
 		codeData.scroll = e;
-		this.setState({codeData: codeData})
+    this.setState({codeData: codeData})
+    if (typeof document.getElementById('wed-svg-visual').contentWindow.document.documentElement !== "undefined" && document.getElementById('wed-svg-visual').contentWindow.document.documentElement.scrollTop !== this.state.codeData.scroll){
+      document.getElementById('wed-svg-visual').contentWindow.document.documentElement.scrollTop = this.state.codeData.scroll;
+    }
 		this.autosave();
 	}
 
@@ -213,6 +251,11 @@ class HtmlCssTab extends React.Component {
     var codeData = this.state.codeData;
 		codeData.url = e;
 		this.setState({codeData: codeData})
+		this.autosave();
+	}
+
+	onStyleChange = (e) => {
+    console.log(e)
 		this.autosave();
 	}
 
@@ -319,6 +362,7 @@ class HtmlCssTab extends React.Component {
             key={'window-scroll-selector'}
             value={this.state.codeData.scroll}
             fullWidth 
+            type="number"
             variant="filled" 
             onChange={e => {this.onScrollChange(e.currentTarget.value)}}
             InputLabelProps={{ style:{display: "none"} }}
@@ -337,7 +381,9 @@ class HtmlCssTab extends React.Component {
                 label={tag + ' style' }
                 key={index + '-element-selector' }
                 select 
-                value={(typeof this.props.test.project.fonts != "undefined" && this.props.test.project.fonts.length) ? this.props.test.project.fonts[0] : 0} 
+                onChange={e => {this.onStyleChange(e.currentTarget.value)}}
+                // value={(typeof this.props.test.project.fonts != "undefined" && this.props.test.project.fonts.length) ? this.props.test.project.fonts[0] : 0} 
+                value={(typeof this.props.test.project.fonts != "undefined" && this.props.test.project.fonts.length) ? "default" : 0} 
                 fullWidth 
                 variant="filled" 
                 InputLabelProps={{ style:{display: "none"} }}
@@ -351,6 +397,9 @@ class HtmlCssTab extends React.Component {
                   style:{borderRadius: 0}
                 }}
               >
+                {(typeof this.props.test.project.fonts != "undefined" && this.props.test.project.fonts.length) &&
+                  <MenuItem key={index+"-default"} value={"default"}>Default</MenuItem>
+                }
                 {(typeof this.props.test.project.fonts != "undefined" && this.props.test.project.fonts.length) ?
                   this.props.test.project.fonts.map((el, i) => (
                     <MenuItem key={index+"-"+el.name} value={el}>
@@ -369,15 +418,10 @@ class HtmlCssTab extends React.Component {
         }
         </Grid>
         <Grid item xs={12} className="visual-editor" style={{background: "rgba(0, 0, 0, 0.07)"}}>
+        <LinearProgress variant="indeterminate" style={{ display: this.state.loading ? "" : "none" }}/>
+        <iframe id="wed-svg-visual" width={this.state.codeData.width} height={this.state.codeData.height} frameBorder="0" border="0" scrolling="no" srcDoc={this.state.img}/>
         {/* <iframe id="wed-svg-visual" sandbox width={this.state.codeData.width} height={this.state.codeData.height} frameBorder="0" border="0" scrolling="no" src={"data:text/html,"+encodeURIComponent(this.state.img+"<script>document.documentElement.scrollTop = document.body.scrollTop = '"+this.state.codeData.scroll+"'</script>")}/> */}
-        <iframe id="wed-svg-visual" sandbox width={this.state.codeData.width} height={this.state.codeData.height} frameBorder="0" border="0" scrolling="no" srcdoc={this.state.img+"<script>document.documentElement.scrollTop = document.body.scrollTop = '"+this.state.codeData.scroll+"'</script>"}/>
-        {console.log(apiUrl + this.state.imageData.url)}
-        {/* <embed id="wed-svg-visual" width={this.state.codeData.width} height={this.state.codeData.height} type="text/html" src={apiUrl + this.state.imageData.url} /> */}
-
-        {/* <iframe id="wed-svg-visual" sandbox width={this.state.codeData.width} height={this.state.codeData.height} frameBorder="0" border="0" scrolling="no" src={apiUrl + this.state.imageData.url}/> */}
-          {/* <div id="code-visual-wrap" style={{ overflow: "hidden", background:"white", width:this.state.codeData.width, height:this.state.codeData.height }} >
-            <div id="code-visual" dangerouslySetInnerHTML={{ __html: this.state.img }}></div>
-          </div> */}
+        {/* <iframe id="wed-svg-visual" width={this.state.codeData.width} height={this.state.codeData.height} frameBorder="0" border="0" scrolling="no" srcDoc={this.state.img+"<script>document.documentElement.scrollTop = '"+this.state.codeData.scroll+"'</script>"}/> */}
         </Grid>
       </Grid>
     );

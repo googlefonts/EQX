@@ -73,6 +73,7 @@
     "strapi-sdk-javascript": "^0.3.3",
     "styled-components": "^5.0.1",
     "website-scraper": "^4.2.2",
+    "website-scraper-phantom": "^1.0.0",
     "website-scraper-puppeteer": "^0.1.5"
   }
 }
