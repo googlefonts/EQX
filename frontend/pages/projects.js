@@ -188,17 +188,18 @@ class ProjectPage extends React.Component {
       }).then(response => { // Handle success
         if (typeof response.data !== "undefined"){
           this.setState({ projects: response.data });
-
-          axios
-            .get(apiUrl + '/projects/?owners.id=' + Cookies.get("id") + '&archived_eq=true', {
-              headers: { Authorization: "Bearer " + Cookies.get("jwt") }
-            }).catch(error => {
-              console.log(error); // Handle error
-            }).then(response => { // Handle success
-              this.setState({ archivedProjects: response.data });
-            });
         }
       })
+    axios
+      .get(apiUrl + '/projects/?owners.id=' + Cookies.get("id") + '&archived_eq=true', {
+        headers: { Authorization: "Bearer " + Cookies.get("jwt") }
+      }).catch(error => {
+        console.log(error); // Handle error
+      }).then(response => { // Handle success
+        if (typeof response.data !== "undefined"){
+          this.setState({ archivedProjects: response.data });
+        }
+      });
   }
 
   render() {

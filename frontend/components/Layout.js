@@ -11,6 +11,7 @@ import SignIn from "../components/SignIn";
 import { Menu, AppBar, Container, Grid, Button, Typography } from '@material-ui/core';
 import { ThemeProvider } from '@material-ui/styles';
 import theme from '../src/theme';
+import Router from 'next/router';
 
 class Layout extends React.Component {
 	constructor(props) {
@@ -25,6 +26,12 @@ class Layout extends React.Component {
 			pageProps = await Component.getInitialProps(ctx);
 		}
 		return { pageProps };
+	}
+	componentDidMount = () => {
+		if(Router.router.asPath !== "/" && typeof Cookies.get("id") === "undefined"){
+			// window.location.href="/";
+			Router.push("/");
+		}
 	}
 	sideNavUpdate = () => {
 		this.setState(prevState => ({
