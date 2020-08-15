@@ -27,6 +27,9 @@ class HtmlCssTab extends React.Component {
         width: "100%",
         height: "100%",
         scroll: "0",
+        styles: {},
+        stylesMap: {},
+        stylesHTML: "",
       }
     };
   }
@@ -38,7 +41,7 @@ class HtmlCssTab extends React.Component {
     }
     this.update();
     const timer = setInterval(() => {
-      if (typeof document.getElementById('wed-svg-visual').contentWindow.document.documentElement !== "undefined" && document.getElementById('wed-svg-visual').contentWindow.document.documentElement.scrollTop !== this.state.codeData.scroll){
+      if (document.getElementById('wed-svg-visual') && document.getElementById('wed-svg-visual').contentWindow.document.documentElement && typeof document.getElementById('wed-svg-visual').contentWindow.document.documentElement !== "undefined" && ( Number(document.getElementById('wed-svg-visual').contentWindow.document.documentElement.scrollTop) !== Number(this.state.codeData.scroll))){
         document.getElementById('wed-svg-visual').contentWindow.document.documentElement.scrollTop = this.state.codeData.scroll;
       }
   }, 1000);
@@ -56,6 +59,7 @@ class HtmlCssTab extends React.Component {
   }
 
   scrapeUrl = () => {
+    if (typeof this.state.codeData.url === "undefined" || this.state.codeData.url === "") { return; }
     var that = this;
     var url = this.state.codeData.url;
     that.setState({ 
@@ -66,9 +70,9 @@ class HtmlCssTab extends React.Component {
       
       var codeData = this.state.codeData;
       codeData.url = "http://" + codeData.url;
-      this.setState({
-        codeData: codeData,
-      }); 
+      codeData.styles = {};
+      this.setState({ codeData: codeData }); 
+      this.matchStyles();
       url = codeData.url;
     }
 
@@ -88,9 +92,7 @@ class HtmlCssTab extends React.Component {
         .post(apiUrl + '/upload', formData, 
           { headers: { 'Authorization': 'Bearer ' + Cookies.get("jwt") } })
         .then(response => {
-          that.setState({ 
-            imageData: response.data[0]
-          });
+          that.setState({imageData: response.data[0] });
           
           axios // Save to question
             .put('http://localhost:1337/questions/' + that.props.test.questions[Number(that.props.questionNumber - 1)].id, 
@@ -147,16 +149,35 @@ class HtmlCssTab extends React.Component {
     }
   }
 
+  matchStyles = () => {
+    var codeData = this.state.codeData;
+    codeData.styleMap = {};
+    codeData.styleHTML = "<style>";
+    this.state.tagList.forEach( (tag) => {
+      codeData.styleMap[tag] = this.props.test.project.fonts.find(obj => { return obj.name === codeData.styles[tag] });
+      if (typeof codeData.styleMap[tag] !== "undefined"){
+        codeData.styleHTML += "@font-face{ font-family: '"+codeData.styleMap[tag].name+"'; src: url('"+apiUrl+codeData.styleMap[tag].file.url+"') format('"+codeData.styleMap[tag].info.extension+"'); font-weight: 400; font-style: normal;}";
+        codeData.styleHTML += tag + "{ font-family: '"+codeData.styleMap[tag].name+"'!important; font-weight: 400; font-style: normal;}";
+      }
+    })
+    codeData.styleHTML += "</style>";
+    document.getElementById('wed-svg-visual').contentWindow.document.getElementById('ext-eqx-styles').innerHTML = codeData.styleHTML;
+    this.setState({ codeData: codeData }); 
+    console.log(this.state.codeData)
+  }
+
   uploadFile = (e) => {
     var formData = new FormData();
     formData.append("files", e.target.files[0]);
     var codeData = this.state.codeData;
 		codeData.url = "";
-		this.setState({
+    codeData.styles = {};
+    this.setState({
       img: "",
       codeData: codeData,
       loading: true
     }); 
+    this.matchStyles();
     axios // Upload file
       .post(apiUrl + '/upload', formData, 
         { headers: { 'Authorization': 'Bearer ' + Cookies.get("jwt") } })
@@ -241,6 +262,8 @@ class HtmlCssTab extends React.Component {
     var codeData = this.state.codeData;
 		codeData.scroll = e;
     this.setState({codeData: codeData})
+    console.log(document.getElementById('wed-svg-visual').contentWindow.document.documentElement.scrollTop);
+    console.log(this.state.codeData.scroll);
     if (typeof document.getElementById('wed-svg-visual').contentWindow.document.documentElement !== "undefined" && document.getElementById('wed-svg-visual').contentWindow.document.documentElement.scrollTop !== this.state.codeData.scroll){
       document.getElementById('wed-svg-visual').contentWindow.document.documentElement.scrollTop = this.state.codeData.scroll;
     }
@@ -254,8 +277,14 @@ class HtmlCssTab extends React.Component {
 		this.autosave();
 	}
 
-	onStyleChange = (e) => {
-    console.log(e)
+	onStyleChange = (value, tag, e) => {
+    var codeData = this.state.codeData;
+    if (typeof codeData.styles === "undefined"){
+      codeData.styles = {};
+    }
+    codeData.styles[tag] = value;
+    this.setState({codeData: codeData})
+    this.matchStyles();
 		this.autosave();
 	}
 
@@ -269,7 +298,7 @@ class HtmlCssTab extends React.Component {
               <TextField 
                 label={'URL'}
                 // key={'window-height-selector'}
-                value={this.state.codeData.url}
+                value={(typeof this.state.codeData !== "undefined" && typeof this.state.codeData.url !== "undefined" ) ? this.state.codeData.url : ""}
                 fullWidth 
                 variant="filled" 
                 placeholder='URL to scrape'
@@ -381,9 +410,10 @@ class HtmlCssTab extends React.Component {
                 label={tag + ' style' }
                 key={index + '-element-selector' }
                 select 
-                onChange={e => {this.onStyleChange(e.currentTarget.value)}}
+                onChange={e => {this.onStyleChange(e.target.value, tag, e)}}
                 // value={(typeof this.props.test.project.fonts != "undefined" && this.props.test.project.fonts.length) ? this.props.test.project.fonts[0] : 0} 
-                value={(typeof this.props.test.project.fonts != "undefined" && this.props.test.project.fonts.length) ? "default" : 0} 
+                // value={(typeof this.state.codeData.styles !== "undefined" && typeof this.state.codeData.styles[tag] !== "undefined" && typeof this.state.codeData.styleMap !== "undefined" && typeof this.state.codeData.styleMap[tag] !== "undefined"  && this.state.codeData.styles[tag] !== false) ? this.state.codeData.styleMap[tag] : {name: false}} 
+                value={(typeof this.state.codeData.styles !== "undefined" && typeof this.state.codeData.styles[tag] !== "undefined" && this.state.codeData.styles[tag] !== false) ? this.state.codeData.styles[tag] : false} 
                 fullWidth 
                 variant="filled" 
                 InputLabelProps={{ style:{display: "none"} }}
@@ -397,17 +427,12 @@ class HtmlCssTab extends React.Component {
                   style:{borderRadius: 0}
                 }}
               >
+                <MenuItem key={index+"-Inherited"} value={false}>Inherited</MenuItem>
+                {/* {(typeof this.props.test.project.fonts != "undefined" && this.props.test.project.fonts.length) ? */}
                 {(typeof this.props.test.project.fonts != "undefined" && this.props.test.project.fonts.length) &&
-                  <MenuItem key={index+"-default"} value={"default"}>Default</MenuItem>
-                }
-                {(typeof this.props.test.project.fonts != "undefined" && this.props.test.project.fonts.length) ?
                   this.props.test.project.fonts.map((el, i) => (
-                    <MenuItem key={index+"-"+el.name} value={el}>
-                      {el.name}
-                    </MenuItem>
+                    <MenuItem key={index+"-"+el.name} value={el.name}>{el.name}</MenuItem>
                   ))
-                :
-                  <MenuItem value={0}>No Fonts Added to Project</MenuItem>
                 }
               </TextField>
             ))
@@ -419,7 +444,7 @@ class HtmlCssTab extends React.Component {
         </Grid>
         <Grid item xs={12} className="visual-editor" style={{background: "rgba(0, 0, 0, 0.07)"}}>
         <LinearProgress variant="indeterminate" style={{ display: this.state.loading ? "" : "none" }}/>
-        <iframe id="wed-svg-visual" width={this.state.codeData.width} height={this.state.codeData.height} frameBorder="0" border="0" scrolling="no" srcDoc={this.state.img}/>
+        <iframe id="wed-svg-visual" width={this.state.codeData.width} height={this.state.codeData.height} frameBorder="0" border="0" scrolling="no" srcDoc={this.state.img + "<div id='ext-eqx-styles' style='display:none'></div>"}/>
         {/* <iframe id="wed-svg-visual" sandbox width={this.state.codeData.width} height={this.state.codeData.height} frameBorder="0" border="0" scrolling="no" src={"data:text/html,"+encodeURIComponent(this.state.img+"<script>document.documentElement.scrollTop = document.body.scrollTop = '"+this.state.codeData.scroll+"'</script>")}/> */}
         {/* <iframe id="wed-svg-visual" width={this.state.codeData.width} height={this.state.codeData.height} frameBorder="0" border="0" scrolling="no" srcDoc={this.state.img+"<script>document.documentElement.scrollTop = '"+this.state.codeData.scroll+"'</script>"}/> */}
         </Grid>
