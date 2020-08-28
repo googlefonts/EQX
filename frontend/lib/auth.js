@@ -78,7 +78,7 @@ export const setToken = token => {
   Cookies.set("id", token.user.id);
   Cookies.set("jwt", token.jwt);
   if (Cookies.get("username")) {
-    Router.push("/");
+    window.location.href = window.location.href;
   }
 };
 
@@ -90,7 +90,7 @@ export const unsetToken = () => {
   Cookies.remove("username")
   // to support logging out from all windows
   window.localStorage.setItem("logout", Date.now());
-  Router.push("/");
+  window.location.href = "/";
 };
 
 export const getUserFromServerCookie = req => {

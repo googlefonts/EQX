@@ -59,7 +59,7 @@ class HtmlCssTab extends React.Component {
   }
 
   scrapeUrl = () => {
-    if (typeof this.state.codeData.url === "undefined" || this.state.codeData.url === "") { return; }
+    if (typeof this.state.codeData === "undefined" || typeof this.state.codeData.url === "undefined" || this.state.codeData.url === "") { return; }
     var that = this;
     var url = this.state.codeData.url;
     that.setState({ 
@@ -294,11 +294,13 @@ class HtmlCssTab extends React.Component {
       
         <Grid item xs={4} style={{background: "rgba(0,0,0,0.9)"}}>
           <Grid container spacing={0}>
-           <Grid item xs={8} >
+            <Grid item xs={8} >
+            {/* {console.log( typeof this.state.codeData.url  )} */}
+            {/* {console.log( typeof this.state.codeData  )} */}
               <TextField 
                 label={'URL'}
                 // key={'window-height-selector'}
-                value={(typeof this.state.codeData !== "undefined" && typeof this.state.codeData.url !== "undefined" ) ? this.state.codeData.url : ""}
+                value={(typeof this.state.codeData.url && this.state.codeData.url ) ? this.state.codeData.url : ""}
                 fullWidth 
                 variant="filled" 
                 placeholder='URL to scrape'

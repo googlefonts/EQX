@@ -28,6 +28,7 @@ class Layout extends React.Component {
 		return { pageProps };
 	}
 	componentDidMount = () => {
+
 		if(Router.router.asPath !== "/" && typeof Cookies.get("id") === "undefined"){
 			// window.location.href="/";
 			Router.push("/");
