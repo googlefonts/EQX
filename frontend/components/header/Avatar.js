@@ -27,6 +27,7 @@ export default function Avatar() {
         keepMounted
         open={Boolean(anchorEl)}
         onClose={handleClose}
+        style={{zIndex:9999}}
       >
         <MenuItem onClick={handleClose}>Profile</MenuItem>
         <MenuItem onClick={handleClose}>Settings</MenuItem>

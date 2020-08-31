@@ -136,7 +136,7 @@ class Header extends React.Component {
                       <SignUp/>
                       {/* <DialogTitle id="form-dialog-title">New Test</DialogTitle> */}
                       {/* <DialogContent>
-                        <DialogContentText>Tests should be built around verifing a specific goal.</DialogContentText>
+                        <DialogContentText>Tests should be built around verifying a specific goal.</DialogContentText>
                         <TextField value={this.state.textFieldSignupValue} onChange={this.handleSignupChange} autoFocus margin="dense" id="name" label="Test's Name" type="text" fullWidth />
                       </DialogContent>
                       <DialogActions>

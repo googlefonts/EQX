@@ -1,6 +1,6 @@
 import React from "react";
 import { IconButton, Chip, Dialog, DialogTitle, DialogActions, DialogContentText, DialogContent, Button, TextField, Fab, Grid, LinearProgress, List, ListItem, ListItemAvatar, ListItemText, Avatar, AppBar, Tab, Tabs, Card, CardContent, Typography, Box, Divider } from '@material-ui/core';
-import { Autocomplete } from '@material-ui/lab';
+import Autocomplete from '@material-ui/lab/Autocomplete';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import Cookies from "js-cookie";
 import Strapi from 'strapi-sdk-javascript/build/main';
