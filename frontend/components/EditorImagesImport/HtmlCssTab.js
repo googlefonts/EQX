@@ -52,6 +52,13 @@ class HtmlCssTab extends React.Component {
     if (this.props !== nextProps) {
       this.update();
     }
+    // this.matchStyles();
+    // console.log(this.state.img)
+    // console.log(nextState.img)
+    // if (this.state.img !== nextState.img) {
+    //   this.matchStyles();
+    //   console.log("hi")
+    // }
   }
 
   pageUpdate = () => {
@@ -159,7 +166,7 @@ class HtmlCssTab extends React.Component {
       codeData.styleMap[tag] = this.props.test.project.fonts.find(obj => { return obj.name === codeData.styles[tag] });
       if (typeof codeData.styleMap[tag] !== "undefined"){
         if (!codeData.styleHTML.includes("@font-face{ font-family: '"+codeData.styleMap[tag].name)){
-          codeData.styleHTML += "@font-face{font-family: "+codeData.styleMap[tag].name+"';src:url('"+apiUrl+codeData.styleMap[tag].file.url+"') format('"+codeData.styleMap[tag].info.extension+"');font-weight:400;font-style:normal;}";
+          codeData.styleHTML += "@font-face{font-family: '"+codeData.styleMap[tag].name+"';src:url('"+apiUrl+codeData.styleMap[tag].file.url+"') format('"+codeData.styleMap[tag].info.extension+"');font-weight:400;font-style:normal;}";
         }
         codeData.styleHTML += tag + "{font-family:'"+codeData.styleMap[tag].name+"'!important;font-weight:400;font-style:normal;}";
       }
