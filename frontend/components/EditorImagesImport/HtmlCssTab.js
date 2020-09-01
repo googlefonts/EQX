@@ -48,7 +48,7 @@ class HtmlCssTab extends React.Component {
     return () => clearInterval(timer);
   }
 
-  componentDidUpdate(nextProps) {
+  componentDidUpdate(nextProps, nextState) {
     if (this.props !== nextProps) {
       this.update();
     }
@@ -126,7 +126,7 @@ class HtmlCssTab extends React.Component {
           if (ext === "svg"){
             var texts = docElement.getElementsByTagName("text");
             for (var i = 0; i < texts.length; i++) {
-              newTagList.push(texts[i].id);
+              newTagList.push("#"+texts[i].id);
             }
           } else if (ext === "html"){
             var tagList = ['h1','h2','h3','h4','h5','h6','p','li'];
@@ -144,6 +144,8 @@ class HtmlCssTab extends React.Component {
             tagList: newTagList,
             loading: false
           });
+          // this.matchStyles();
+          // setTimeout(() => {  this.matchStyles(); }, 2000);
 
         }).catch(error => { console.log(error) });
     }
@@ -156,14 +158,21 @@ class HtmlCssTab extends React.Component {
     this.state.tagList.forEach( (tag) => {
       codeData.styleMap[tag] = this.props.test.project.fonts.find(obj => { return obj.name === codeData.styles[tag] });
       if (typeof codeData.styleMap[tag] !== "undefined"){
-        codeData.styleHTML += "@font-face{ font-family: '"+codeData.styleMap[tag].name+"'; src: url('"+apiUrl+codeData.styleMap[tag].file.url+"') format('"+codeData.styleMap[tag].info.extension+"'); font-weight: 400; font-style: normal;}";
-        codeData.styleHTML += tag + "{ font-family: '"+codeData.styleMap[tag].name+"'!important; font-weight: 400; font-style: normal;}";
+        if (!codeData.styleHTML.includes("@font-face{ font-family: '"+codeData.styleMap[tag].name)){
+          codeData.styleHTML += "@font-face{font-family: "+codeData.styleMap[tag].name+"';src:url('"+apiUrl+codeData.styleMap[tag].file.url+"') format('"+codeData.styleMap[tag].info.extension+"');font-weight:400;font-style:normal;}";
+        }
+        codeData.styleHTML += tag + "{font-family:'"+codeData.styleMap[tag].name+"'!important;font-weight:400;font-style:normal;}";
       }
+      console.log(codeData.styleMap[tag])
     })
+    console.log(this.state.codeData.styleMap)
     codeData.styleHTML += "</style>";
-    document.getElementById('wed-svg-visual').contentWindow.document.getElementById('ext-eqx-styles').innerHTML = codeData.styleHTML;
+    console.log(codeData.styleHTML)
+    console.log(document.getElementById('wed-svg-visual').contentWindow.document.getElementById('ext-eqx-styles'))
+    if(document.getElementById('wed-svg-visual').contentWindow.document.getElementById('ext-eqx-styles')){
+      document.getElementById('wed-svg-visual').contentWindow.document.getElementById('ext-eqx-styles').innerHTML = codeData.styleHTML;
+    }
     this.setState({ codeData: codeData }); 
-    console.log(this.state.codeData)
   }
 
   uploadFile = (e) => {
