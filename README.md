@@ -24,10 +24,10 @@ You can develop using docker-compose or through node.js on your local machine.
 
 To develop using docker-compose
 
+```bash
+docker-compose up # downloaded a new version? run `docker-compose build --no-cache`
 ```
-docker-compose up
-```
-
+<!-- 
 ## 2. Local Development
 
 To develop using node.js without docker.
@@ -50,8 +50,8 @@ We are using SQLite since its easier and can be easily swapped out for Postgres 
 ```bash
 cd backend
 npm install
-npm start #or npm run develop
-```
+npm start # or npm run develop
+``` -->
 
 <!--
 ## Starting Backend Server (Strapi) for Production

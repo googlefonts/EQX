@@ -6,13 +6,10 @@ WORKDIR /usr/src/app
 
 COPY package*.json ./
 RUN npm install -f
-RUN npm rebuild node-sass
-RUN npm rebuild @material-ui/lab
+RUN npm rebuild node-sass -f
 
 COPY . .
 
 RUN npm run-script build
-
-EXPOSE 3000
 
 CMD [ "npm", "run", "dev" ]

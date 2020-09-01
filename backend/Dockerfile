@@ -1,6 +1,6 @@
 # gcr.io/eqx-host/backend:<hash>
 
-FROM strapi/base
+FROM strapi/base:12
 
 WORKDIR /usr/src/app
 
@@ -10,7 +10,5 @@ RUN npm install
 COPY . .
 
 RUN npm run-script build
-
-EXPOSE 1337
 
 CMD [ "npm", "run", "dev" ]
