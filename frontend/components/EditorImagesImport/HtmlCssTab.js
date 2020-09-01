@@ -316,7 +316,7 @@ class HtmlCssTab extends React.Component {
               <TextField 
                 label={'URL'}
                 // key={'window-height-selector'}
-                value={(typeof this.state.codeData.url && this.state.codeData.url ) ? this.state.codeData.url : ""}
+                value={(typeof this.state.codeData && typeof this.state.codeData.url && this.state.codeData.url ) ? this.state.codeData.url : ""}
                 fullWidth 
                 variant="filled" 
                 placeholder='URL to scrape'
