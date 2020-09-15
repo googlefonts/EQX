@@ -112,7 +112,13 @@ export const getUserFromServerCookie = req => {
     return undefined;
   }
   const jwt = jwtCookie.split("=")[1];
-  return jwtDecode(jwt), username;
+
+  const now = Date.now().valueOf() / 1000
+  const decodedJwr = jwtDecode(jwt);
+  if ((typeof decodedJwr.exp !== 'undefined' && decodedJwr.exp < now) || (typeof decodedJwr.nbf !== 'undefined' && decodedJwr.nbf > now)) {
+    return undefined;
+  }
+  return decodedJwr, username;
 };
 
 export const getUserFromLocalCookie = () => {

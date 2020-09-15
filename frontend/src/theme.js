@@ -7,11 +7,19 @@ let theme = createMuiTheme({
 		background: {
 			paper2: "rgb(245, 245, 245)",
 			footer: "rgb(224, 224, 224)"
-		}
+		},
+	},
+	typography: {
+		body1: {
+			"&.MuiTypography-body1":{
+				maxWidth: '700px',
+				marginRight: 'auto',
+				marginLeft: 'auto',
+			}
+		},
 	},
 });
 
-theme = responsiveFontSizes(theme);
 theme.overrides = {
 	...theme.overrides,
 	MuiDrawer:{
@@ -21,7 +29,7 @@ theme.overrides = {
 			borderLeft: "none",
 			paddingTop: '64px',
 			width: 230
-		}
+		},
 	},
 	MuiDialog:{
 		...theme.MuiDialog,
@@ -40,9 +48,10 @@ theme.overrides = {
 				"& .MuiSvgIcon-root": {
 					color: "white",
 				 },
-			}
-		}
+			},
+		},
 	},
 }
+theme = responsiveFontSizes(theme);
 
 export default theme;

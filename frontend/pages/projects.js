@@ -6,6 +6,7 @@ import defaultPage from "../hocs/defaultPage";
 import Layout from "../components/Layout";
 import Project from "../components/Project";
 import Section from "../components/Section";
+import NewProject from "../components/NewProject";
 import { TextField, Box, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, FormGroup, Input, InputLabel, Button, Typography } from '@material-ui/core';
 import Cookies from "js-cookie";
 import axios from 'axios';
@@ -13,100 +14,6 @@ import "../styles/main.scss";
 import getConfig from 'next/config'
 const { serverRuntimeConfig, publicRuntimeConfig } = getConfig()
 const apiUrl = publicRuntimeConfig.API_URL || 'http://localhost:1337';
-
-
-//////////////////////////////
-// Create project
-
-class NewProject extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      open: false,
-      textFieldValueName: "",
-      textFieldValueDesc: ""
-    };
-  }
-
-  handleOpen = () => {
-    this.setState({ open: true });
-  }
-
-  handleClose = () => {
-    this.setState({ 
-      open: false,
-      textFieldValueName: "",
-      textFieldValueDesc: "" 
-    });
-  }
-
-  onSubmit = () => {
-    let projectName = this.state.textFieldValueName;
-    let projectDesc = this.state.textFieldValueDesc;
-    axios
-      .post(apiUrl + '/projects', {
-        name: projectName,
-        description: projectDesc,
-        owners: [Cookies.get("id")],
-        users: [Cookies.get("id")],
-        major_version: 0,
-        minor_version: 1,
-        archived: false,
-      }, {
-        headers: { Authorization: 'Bearer ' + Cookies.get("jwt") }
-      }).catch(error => {
-        console.log(error); // Handle error 
-      }).then(response => { // Handle success
-        this.handleClose();
-        this.props.update();
-      });
-  }
-
-  onChangeName = (e) => {
-    this.setState({ textFieldValueName: e.target.value });
-  }
-  onChangeDesc = (e) => {
-    this.setState({ textFieldValueDesc: e.target.value });
-  }
-
-  render() {
-    return (
-      <>
-        <>
-          <Typography color="primary" align="center" gutterBottom={true} variant="h2" >Time to start a project?</Typography>
-          <Typography align="center" gutterBottom={true} variant="body1">Certe, inquam, pertinax non numquam eius modi tempora incidunt, ut ita ruant itaque turbent, ut de voluptate ponit, quod summum malum et, quantum possit, a philosophis compluribus permulta dicantur, cur verear, ne ferae quidem faciunt, ut labore et dolorum fuga et dolore suo sanciret militaris.</Typography>
-          <br />
-          <Button onClick={this.handleOpen} className="align-center" color="primary" size="large" variant="contained">Create a New Project</Button>
-          <br />
-          <Typography align="center" gutterBottom={true} variant="body2" display="block">Don’t worry, we’ll help you through it.</Typography>
-        </>
-
-        <Dialog open={this.state.open} onClose={this.handleClose}>
-          <DialogTitle id="form-dialog-title">New Project</DialogTitle>
-          <DialogContent>
-            <DialogContentText>Projects help you organize your tests to track your progress.</DialogContentText>
-            <TextField value={this.state.textFieldValueName} 
-              onChange={ this.onChangeName } 
-              onFocus={() => this.setState({focus: true})}
-              onBlur={() => (this.state.textFieldValueName === "") ? this.setState({focus: false}) : this.setState({focus: true})  }
-              InputLabelProps={{ 
-                style: {
-                  fontSize: this.state.focus ? 'inherit' : '2.0243rem',
-                }, 
-              }} 
-              InputProps={{ style: { fontSize: "2.0243rem" } }} 
-              autoFocus margin="dense" id="name" label="Project Name" type="email" fullWidth />
-            <TextField value={this.state.textFieldValueDesc} onChange={this.onChangeDesc} margin="dense" id="description" label="Project Description (Optional)" type="email" fullWidth />
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={this.handleClose} color="primary">Cancel</Button>
-            <Button onClick={this.onSubmit} color="primary">Create</Button>
-          </DialogActions>
-        </Dialog>
-      </>
-    );
-  }
-}
 
 
 //////////////////////////////
@@ -186,7 +93,7 @@ class ProjectPage extends React.Component {
         headers: { Authorization: "Bearer " + Cookies.get("jwt") }
       }).catch(err => { console.log(err); // Handle error
       }).then(response => { // Handle success
-        if (typeof response.data !== "undefined"){
+        if (typeof response !== "undefined" && typeof response.data !== "undefined"){
           this.setState({ projects: response.data });
         }
       })
@@ -195,7 +102,7 @@ class ProjectPage extends React.Component {
         headers: { Authorization: "Bearer " + Cookies.get("jwt") }
       }).catch(error => { console.log(error); // Handle error
       }).then(response => { // Handle success
-        if (typeof response.data !== "undefined"){
+        if (typeof response !== "undefined" && typeof response.data !== "undefined"){
           this.setState({ archivedProjects: response.data });
         }
       });
@@ -204,21 +111,25 @@ class ProjectPage extends React.Component {
   render() {
     return (
       <Layout page={this.state.page} {...this.props}>
-        <Section>
-          {(this.state.projects && this.state.projects.length) ?
-            this.state.projects.map((project, i) =>
+        {(this.state.projects && this.state.projects.length) ?
+          <Section>
+            {this.state.projects.map((project, i) =>
               <Project key={"project-" + i + "-" + project.id} projectId={project.id} update={this.update} pageUpdate={this.pageUpdate} />
-            )
-            :
-            <Typography align="center" variant="body1">We couldn’t find any projects. Try making one.</Typography>
-          }
-        </Section>
+            )}
+          </Section>
+        :
+          null
+        }
         <Section>
           <NewProject update={this.update} />
         </Section>
-        <Section bgcolor="background.paper2">
-          <SearchProjects projects={this.state.archivedProjects} pageUpdate={this.pageUpdate} />
-        </Section>
+        {(this.state.projects && this.state.projects.length) ?
+          <Section bgcolor="background.paper2">
+            <SearchProjects projects={this.state.archivedProjects} pageUpdate={this.pageUpdate} />
+          </Section>
+        :
+          null
+        }
       </Layout>
     );
   }

@@ -1,6 +1,7 @@
 /* /pages/tests.js */
 
 import React from "react";
+import Link from "next/link";
 import defaultPage from "../hocs/defaultPage";
 import Layout from "../components/Layout";
 import SharedTest from "../components/SharedTest";
@@ -10,6 +11,7 @@ import Cookies from "js-cookie";
 import axios from 'axios';
 import "../styles/main.scss";
 import getConfig from 'next/config'
+import NewProject from "../components/NewProject";
 const { serverRuntimeConfig, publicRuntimeConfig } = getConfig()
 const apiUrl = publicRuntimeConfig.API_URL || 'http://localhost:1337';
 
@@ -183,23 +185,45 @@ class SharedTestPage extends React.Component {
         headers: { Authorization: "Bearer " + Cookies.get("jwt") }
       }).catch(error => { console.log(error); // Handle error 
       }).then(response => { // Handle success
-        this.setState({ projects: response.data });
+        if (typeof response !== "undefined" && typeof response.data !== "undefined"){
+          this.setState({ projects: response.data });
+        }
       });
   }
 
   render() {
+    var hasTests = false;
+    this.state.projects.map((project, i1) => {
+      project.tests.map((test, i2) => {
+        console.log(test)
+        hasTests = true;
+      })
+    });
     return (
       <Layout page={this.state.page} {...this.props}>
-        <Section>
-          {this.state.projects.map((project, i1) =>
-            project.tests.map((test, i2) =>
-              <SharedTest key={"test-" + i2} testId={test.id} project={project} update={this.update} />
-            )
-          )}
-        </Section>
-        <Section bgcolor="background.paper2">
-          <SearchTests projects={this.state.projects} pageUpdate={this.pageUpdate} />
-        </Section>
+        {(this.state.projects && this.state.projects.length) ?
+          <>
+            <Section>
+              {this.state.projects.map((project, i1) =>
+                project.tests.map((test, i2) =>
+                  <SharedTest key={"test-" + i2} testId={test.id} project={project} update={this.update} />,
+                )
+              )}
+              { !hasTests ?
+                <Typography align="center" gutterBottom={true} variant="body1">Looks like you have projects but no tests. <Link href="/projects"><a>Try making one </a></Link>or ask your project owner&nbsp;to.</Typography>
+              :
+                <></>
+              }
+            </Section>
+            <Section bgcolor="background.paper2">
+              <SearchTests projects={this.state.projects} pageUpdate={this.pageUpdate} />
+            </Section>
+          </>
+        :
+          <Section>
+            <NewProject update={this.update} />
+          </Section>
+        }
       </Layout>
     );
   }

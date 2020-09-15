@@ -7,7 +7,6 @@ import Link from "next/link";
 import { unsetToken, checkAuth } from "../lib/auth";
 import defaultPage from "../hocs/defaultPage";
 import Cookies from "js-cookie";
-import SignIn from "../components/SignIn";
 import { Menu, AppBar, Container, Grid, Button, Typography } from '@material-ui/core';
 import { ThemeProvider } from '@material-ui/styles';
 import theme from '../src/theme';
@@ -26,13 +25,6 @@ class Layout extends React.Component {
 			pageProps = await Component.getInitialProps(ctx);
 		}
 		return { pageProps };
-	}
-	componentDidMount = () => {
-
-		if(Router.router.asPath !== "/" && typeof Cookies.get("id") === "undefined"){
-			// window.location.href="/";
-			Router.push("/");
-		}
 	}
 	sideNavUpdate = () => {
 		this.setState(prevState => ({
@@ -54,31 +46,20 @@ class Layout extends React.Component {
 						auth={this.props.isAuthenticated} 
 						{...this.props}
 					/>
-					{ this.props.isAuthenticated ? (	
+					{ this.props.isAuthenticated ? // Logged In
 						<>
-							{	// Logged In
-								<>
-									<SideNav sideNavUpdate={this.sideNavUpdate} {...this.props}/>
-									<main>
-										{/* <Container maxWidth={false}> */}
-											{this.props.children}
-											{/* {...this.props}  */}
-										{/* </Container> */}
-									</main>
-								</>
-							}
+							<SideNav sideNavUpdate={this.sideNavUpdate} {...this.props}/>
+							<main>
+								{this.props.children}
+							</main>
 						</>
-					) : (
+					: // Not logged In
 						<>
-							{	// Not logged In
-								<>
-									<main className="no-auth">
-										<SignIn/>
-									</main>
-								</>
-							}
+							<main className="no-auth">
+								{this.props.children}
+							</main>
 						</>
-					)}
+					}
 					<Footer />
 				</div>
 			</ThemeProvider>

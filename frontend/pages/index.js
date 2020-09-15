@@ -13,6 +13,7 @@ import { TextField, Dialog, DialogActions, DialogContent, DialogContentText, Dia
 import Cookies from "js-cookie";
 import axios from 'axios';
 import getConfig from 'next/config'
+import NewProject from "../components/NewProject";
 const { serverRuntimeConfig, publicRuntimeConfig } = getConfig()
 const apiUrl = publicRuntimeConfig.API_URL || 'http://localhost:1337';
 
@@ -42,34 +43,51 @@ class Index extends React.Component {
   }
 
   render() {
+    var hasTests = false;
+    this.state.projects.map((project, i1) => {
+      project.tests.map((test, i2) => {
+        console.log(test)
+        hasTests = true;
+      })
+    });
     return (
       <Layout page={this.state.page} {...this.props}>
 
-        <Section bgcolor="none">
-          {this.state.projects.map((project, i1) =>
-            project.tests.map((test, i2) =>
-              <Test key={"test-" + i2} testId={test.id} project={project} update={this.update} />
-            )
-          )}
-        </Section>
-
-        <Section bgcolor="background.paper2">
-          {this.state.projects.map((project, i1) =>
-            project.tests.map((test, i2) =>
-              <SharedTest key={"test-" + i2} testId={test.id} project={project} update={this.update} />
-            )
-          )}
-        </Section>
-
-        <Section>
-          {(this.state.projects && this.state.projects.length) ?
-            this.state.projects.map((project, i) =>
-              <Project key={"project-" + i + "-" + project.id} projectId={project.id} update={this.update} pageUpdate={this.pageUpdate} />
-            )
+        {(this.state.projects && this.state.projects.length) ?
+          <>
+            { hasTests ? 
+              <>
+                <Section bgcolor="none">
+                  {this.state.projects.map((project, i1) =>
+                    project.tests.map((test, i2) =>
+                      <Test key={"test-" + i2} testId={test.id} project={project} update={this.update} />
+                    )
+                  )}
+                </Section>
+                
+                <Section bgcolor="background.paper2">
+                  {this.state.projects.map((project, i1) =>
+                    project.tests.map((test, i2) =>
+                      <SharedTest key={"test-" + i2} testId={test.id} project={project} update={this.update} />
+                    )
+                  )}
+                </Section>
+              </>
             :
-            <Typography align="center" variant="body1">We couldn’t find any projects. Try making one.</Typography>
-          }
-        </Section>
+              <></>
+            }
+
+            <Section>
+              {this.state.projects.map((project, i) =>
+                <Project key={"project-" + i + "-" + project.id} projectId={project.id} update={this.update} pageUpdate={this.pageUpdate} />
+              )}
+            </Section>
+          </>
+        :
+          <Section>
+            <NewProject update={this.update} />
+          </Section>
+        }
 
       </Layout>
     );

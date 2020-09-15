@@ -66,7 +66,7 @@ class TestQuestions extends React.Component {
         <List color="primary">
           {(this.props.test.questions && this.props.test.questions.length) ?
             this.props.test.questions.map((question, i) =>
-              <Link key={"key-test=" + this.props.test.id + "question-" + (i + 1)} href={"/create-question?test=" + this.props.test.id + "&question=" + (i + 1)}>
+              <Link key={"key-test=" + this.props.test.id + "question-" + (i + 1)} href={"/create-question?test=" + this.props.test.id + "&question=" + (i + 1)}><a>
                 <ListItem button key={"question-" + i}>
                   <Box p={1} pt={2} width="100%">
                     <Grid container spacing={2}>
@@ -86,7 +86,7 @@ class TestQuestions extends React.Component {
                     </Grid>
                   </Box>
                 </ListItem>
-              </Link>
+              </a></Link>
             )
             :
             <ListItem key={"test-none"}>
