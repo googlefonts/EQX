@@ -105,7 +105,7 @@ class EditorImagesImport extends React.Component {
             >
               <Tab label="Editor" />
               {/* <Tab label="Image Upload" /> */}
-              <Tab label="Web/SVG" />
+              <Tab label="Web/Img" />
             </Tabs>
           </AppBar>
 
