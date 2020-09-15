@@ -7,25 +7,48 @@ import debounce from 'lodash/debounce';
 import axios from 'axios';
 import Cookies from "js-cookie";
 
-class Table extends React.Component {
-	constructor (props) {
-		super(props)
-		this.state = { searchTerm: props.searchTerm }
-	}
+// class Table extends React.Component {
+// 	constructor (props) {
+// 		super(props)
+// 		this.state = { searchTerm: props.searchTerm }
+// 	}
 
-	setSearchTerm = debounce(searchTerm => {
-		this.setState({ searchTerm })
-	}, 1000)
+// 	setSearchTerm = debounce(searchTerm => {
+// 		this.setState({ searchTerm })
+// 	}, 1000)
 
-	render() {
-		return (
-			<div className="widget">
-				<p>{this.state.searchTerm}</p>
-				<input onChange={e => {this.setSearchTerm(e.target.value)}} />
-			</div>
-		)
-	}
-}
+// 	render() {
+// 		return (
+// 			<div className="widget">
+// 				<p>{this.state.searchTerm}</p>
+// 				<input onChange={e => {this.setSearchTerm(e.target.value)}} />
+// 			</div>
+// 		)
+// 	}
+// }
+
+import {DropzoneArea} from 'material-ui-dropzone'
+ 
+// class DropzoneAreaExample extends React.Component{
+//   constructor(props){
+//     super(props);
+//     this.state = {
+//       files: []
+//     };
+//   }
+//   handleChange(files){
+//     this.setState({
+//       files: files
+//     });
+//   }
+//   render(){
+//     return (
+//       <DropzoneArea onChange={this.handleChange.bind(this)} />
+//     )
+//   }
+// }
+ 
+// export default DropzoneAreaExample;
 
 class CreateQuestionFields extends React.Component {
 	state = {
@@ -47,7 +70,7 @@ class CreateQuestionFields extends React.Component {
 
 	autosave = () => {
 		axios
-		  .put('http://localhost:1337/questions/' + this.props.test.questions[Number(this.props.questionNumber - 1)].id, {
+		  .put(apiUrl + '/questions/' + this.props.test.questions[Number(this.props.questionNumber - 1)].id, {
 		    question: this.state.questionValue,
 			 context: this.state.contextValue
 		  }, { headers: { Authorization: 'Bearer ' + Cookies.get("jwt") } 
@@ -91,41 +114,51 @@ class CreateQuestionFields extends React.Component {
 
 	render() {
 		return (
-			<Grid container spacing={0} className="create-question-fields">
-				<Grid item xs={2}></Grid>
-				<Grid item xs={8}>
-					<Box mb={2}>
-						<TextField 
-							value={this.state.questionValue}  
-							onChange={e => {this.onQuestionChange(e.currentTarget.value)}}
-							autoFocus  
-							multiline
-							label="Question"  
-							type="text"  
-							variant="filled"
-							fullWidth 
-						/>
-					</Box>
+			<>
+				<Grid container spacing={0} className="create-question-fields">
+					<Grid item xs={2}></Grid>
+					<Grid item xs={8}>
+						<Box mb={2}>
+							<TextField 
+								value={this.state.questionValue}  
+								onChange={e => {this.onQuestionChange(e.currentTarget.value)}}
+								autoFocus  
+								multiline
+								label="Question"  
+								type="text"  
+								variant="filled"
+								fullWidth 
+							/>
+						</Box>
+					</Grid>
+					<Grid item xs={2}></Grid>
 				</Grid>
-				<Grid item xs={2}></Grid>
-				
-				<Grid item xs={2}></Grid>
-				<Grid item xs={8}>
-					<Box mb={2}>
-						<TextField 
-							value={this.state.contextValue}  
-							onChange={e => {this.onContextChange(e.currentTarget.value)}}
-							autoFocus  
-							multiline
-							label="Question's context"  
-							type="text"  
-							variant="filled"
-							fullWidth 
-						/>
-					</Box>
+
+				<Grid container spacing={0} className="create-question-fields">
+					<Grid item xs={2}></Grid>
+					<Grid item xs={8}>
+						<Box mb={2}>
+							<TextField 
+								value={this.state.contextValue}  
+								onChange={e => {this.onContextChange(e.currentTarget.value)}}
+								autoFocus  
+								multiline
+								label="Question's context"  
+								type="text"  
+								variant="filled"
+								fullWidth 
+							/>
+						</Box>
+					</Grid>
+					<Grid item xs={2}></Grid>
 				</Grid>
-				<Grid item xs={2}></Grid>
-			</Grid>
+
+				{/* <Grid container spacing={0} className="create-question-fields">
+					<Grid item xs={12}>
+						<DropzoneArea onChange={this.handleChange.bind(this)} />
+					</Grid>
+				</Grid> */}
+			</>
 		);
 	}
 }

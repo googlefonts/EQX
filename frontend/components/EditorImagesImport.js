@@ -1,11 +1,14 @@
 import React from 'react';
 // import UploadTab from '../components/EditorImagesImport/UploadTab';
 import EditorTab from '../components/EditorImagesImport/EditorTab';
-import HtmlCssTab from '../components/EditorImagesImport/HtmlCssTab';
+import UploadTab from '../components/EditorImagesImport/UploadTab';
 import { Grid, AppBar, Tabs, Tab, Box, TextField, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, FormGroup, Input, InputLabel, Button, Typography} from '@material-ui/core';
 // import debounce from 'lodash/debounce';
 import axios from 'axios';
 import Cookies from "js-cookie";
+import getConfig from 'next/config';
+const { serverRuntimeConfig, publicRuntimeConfig } = getConfig();
+const apiUrl = publicRuntimeConfig.API_URL || 'http://localhost:1337';
 
 class EditorImagesImport extends React.Component {
   constructor(props) {
@@ -81,7 +84,7 @@ class EditorImagesImport extends React.Component {
 	
 	autosave = (imageType) => {
 		axios
-		  .put('http://localhost:1337/questions/' + this.props.test.questions[Number(this.props.questionNumber - 1)].id, {
+		  .put(apiUrl + '/questions/' + this.props.test.questions[Number(this.props.questionNumber - 1)].id, {
 		    image_type: imageType
 		  }, { headers: { Authorization: 'Bearer ' + Cookies.get("jwt") } 
 		  }).catch(error => { console.log(error); // Handle Error
@@ -105,13 +108,13 @@ class EditorImagesImport extends React.Component {
             >
               <Tab label="Editor" />
               {/* <Tab label="Image Upload" /> */}
-              <Tab label="Web/Img" />
+              <Tab label="Upload" />
             </Tabs>
           </AppBar>
 
           {this.state.tabValue == 0 ? <EditorTab {...this.props}/> : null}
           {/* {this.state.tabValue == 1 ? <UploadTab {...this.props}/> : null} */}
-          {this.state.tabValue == 1 ? <HtmlCssTab {...this.props}/> : null}
+          {this.state.tabValue == 1 ? <UploadTab {...this.props}/> : null}
         </Grid>
       </Grid>
     );
