@@ -1,5 +1,5 @@
 import React from 'react';
-import UploadTab from '../components/EditorImagesImport/UploadTab';
+// import UploadTab from '../components/EditorImagesImport/UploadTab';
 import EditorTab from '../components/EditorImagesImport/EditorTab';
 import HtmlCssTab from '../components/EditorImagesImport/HtmlCssTab';
 import { Grid, AppBar, Tabs, Tab, Box, TextField, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, FormGroup, Input, InputLabel, Button, Typography} from '@material-ui/core';
@@ -104,14 +104,14 @@ class EditorImagesImport extends React.Component {
               scrollButtons="auto"
             >
               <Tab label="Editor" />
-              <Tab label="Image Upload" />
+              {/* <Tab label="Image Upload" /> */}
               <Tab label="Web/SVG" />
             </Tabs>
           </AppBar>
 
           {this.state.tabValue == 0 ? <EditorTab {...this.props}/> : null}
-          {this.state.tabValue == 1 ? <UploadTab {...this.props}/> : null}
-          {this.state.tabValue == 2 ? <HtmlCssTab {...this.props}/> : null}
+          {/* {this.state.tabValue == 1 ? <UploadTab {...this.props}/> : null} */}
+          {this.state.tabValue == 1 ? <HtmlCssTab {...this.props}/> : null}
         </Grid>
       </Grid>
     );

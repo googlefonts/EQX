@@ -52,13 +52,6 @@ class HtmlCssTab extends React.Component {
     if (this.props !== nextProps) {
       this.update();
     }
-    // this.matchStyles();
-    // console.log(this.state.img)
-    // console.log(nextState.img)
-    // if (this.state.img !== nextState.img) {
-    //   this.matchStyles();
-    //   console.log("hi")
-    // }
   }
 
   pageUpdate = () => {
@@ -90,7 +83,6 @@ class HtmlCssTab extends React.Component {
     )
     .then(function (response) {
 
-      console.log('Recieved "'+url+'"')
       var file = new File([response.data], ('scrape-' + new Date().getTime() + ".html"), {type: "text/html"});
       var formData = new FormData();
       formData.append('files', file);
@@ -117,44 +109,54 @@ class HtmlCssTab extends React.Component {
 
 
   update = () => {
-    this.setState({
-      codeData: this.props.test.questions[Number(this.props.questionNumber - 1)].code_data,
-      loading: true
-    });
-		if (typeof this.state.imageData != "undefined") {
-      axios
-        .get(apiUrl + this.state.imageData.url) 
-        .then(response => {
-          var imgData = response.data;
-          var ext = this.state.imageData.url.substring(this.state.imageData.url.lastIndexOf(".") + 1);
-          var domParser = new DOMParser();
-          var docElement = domParser.parseFromString(imgData, "text/html").documentElement;
-          var newTagList = [];
-          if (ext === "svg"){
-            var texts = docElement.getElementsByTagName("text");
-            for (var i = 0; i < texts.length; i++) {
-              newTagList.push("#"+texts[i].id);
-            }
-          } else if (ext === "html"){
-            var tagList = ['h1','h2','h3','h4','h5','h6','p','li'];
-            tagList.forEach(function(tag, index){
-              var texts = docElement.getElementsByTagName(tag);
-              if (texts.length){
-                newTagList.push(tag);
+    if (typeof this.props.test.questions[Number(this.props.questionNumber - 1)].code_data !== "undefined" && this.props.test.questions[Number(this.props.questionNumber - 1)].code_data){
+      this.setState({
+        codeData: this.props.test.questions[Number(this.props.questionNumber - 1)].code_data,
+        loading: true
+      });
+    }
+		if (typeof this.state.imageData !== "undefined" && typeof this.state.imageData.url !== "undefined") {
+      var ext = this.state.imageData.url.substring(this.state.imageData.url.lastIndexOf(".") + 1);
+      if (ext === "jpg" || ext === "jpeg" || ext === "png" || ext === "gif" || ext === "eps" || ext === "webp") {
+        var imgData = "<img src='" + apiUrl + this.state.imageData.url + "'/>";
+        this.setState({
+          img: imgData,
+          loading: false
+        });
+      } else {
+        axios
+          .get(apiUrl + this.state.imageData.url) 
+          .then(response => {
+            var imgData = response.data;
+            var domParser = new DOMParser();
+            var docElement = domParser.parseFromString(imgData, "text/html").documentElement;
+            var newTagList = [];
+            if (ext === "svg"){
+              var texts = docElement.getElementsByTagName("text");
+              for (var i = 0; i < texts.length; i++) {
+                newTagList.push("#"+texts[i].id);
               }
+            } else if (ext === "html"){
+              var tagList = ['h1','h2','h3','h4','h5','h6','p','li'];
+              tagList.forEach(function(tag, index){
+                var texts = docElement.getElementsByTagName(tag);
+                if (texts.length){
+                  newTagList.push(tag);
+                }
+              });
+            } else {
+              imgData = "<p style='padding: 2rem 0' class='MuiTypography-root MuiTypography-body1 MuiTypography-alignCenter'>This filetype isn't supported.</p>"
+            }
+            this.setState({
+              img: imgData,
+              tagList: newTagList,
+              loading: false
             });
-          } else {
-            imgData = "<p style='padding: 2rem 0' class='MuiTypography-root MuiTypography-body1 MuiTypography-alignCenter'>This filetype isn't supported.</p>"
-          }
-          this.setState({
-            img: imgData,
-            tagList: newTagList,
-            loading: false
-          });
-          // this.matchStyles();
-          // setTimeout(() => {  this.matchStyles(); }, 2000);
+            // this.matchStyles();
+            // setTimeout(() => {  this.matchStyles(); }, 2000);
 
-        }).catch(error => { console.log(error) });
+          }).catch(error => { console.log(error) });
+      }
     }
   }
 
@@ -170,12 +172,8 @@ class HtmlCssTab extends React.Component {
         }
         codeData.styleHTML += tag + "{font-family:'"+codeData.styleMap[tag].name+"'!important;font-weight:400;font-style:normal;}";
       }
-      console.log(codeData.styleMap[tag])
     })
-    console.log(this.state.codeData.styleMap)
     codeData.styleHTML += "</style>";
-    console.log(codeData.styleHTML)
-    console.log(document.getElementById('wed-svg-visual').contentWindow.document.getElementById('ext-eqx-styles'))
     if(document.getElementById('wed-svg-visual').contentWindow.document.getElementById('ext-eqx-styles')){
       document.getElementById('wed-svg-visual').contentWindow.document.getElementById('ext-eqx-styles').innerHTML = codeData.styleHTML;
     }
@@ -199,54 +197,69 @@ class HtmlCssTab extends React.Component {
         { headers: { 'Authorization': 'Bearer ' + Cookies.get("jwt") } })
       .then(response => {
         var image = response.data[0];
-        
-        axios // Download and edit file
-          .get(apiUrl + image.url) 
-          .then(response => {
-            var data = response.data.replace(/<script[^>]*>(?:(?!<\/script>)[^])*<\/script>/g, "");
-            var ext = image.url.substring(image.url.lastIndexOf(".") + 1);
-            var newData = data;
-            var domParser = new DOMParser();
-            var docElement = domParser.parseFromString(data, "text/html").documentElement;
-            if (ext === "svg"){
-              var texts = docElement.getElementsByTagName("text");
-              for (var i = 0; i < texts.length; i++) {
-                if (texts[i].id === ""){
-                  texts[i].id = "text-" + (i+1);
+        var ext = image.url.substring(image.url.lastIndexOf(".") + 1);
+        if (ext === "svg" || ext === "html"){
+          axios // Download and edit file
+            .get(apiUrl + image.url) 
+            .then(response => {
+              var data = response.data.replace(/<script[^>]*>(?:(?!<\/script>)[^])*<\/script>/g, "");
+              var newData = data;
+              var domParser = new DOMParser();
+              var docElement = domParser.parseFromString(data, "text/html").documentElement;
+              if (ext === "svg"){
+                var texts = docElement.getElementsByTagName("text");
+                for (var i = 0; i < texts.length; i++) {
+                  if (texts[i].id === ""){
+                    texts[i].id = "text-" + (i+1);
+                  }
                 }
+                newData = "<style>body{margin:0;}</style>" + docElement.getElementsByTagName("svg")[0].outerHTML;
               }
-              newData = "<style>body{margin:0;}</style>" + docElement.getElementsByTagName("svg")[0].outerHTML;
-            }
-            var file = new File([newData], (image.name + image.ext), {type: image.mime});
-            var formData = new FormData();
-            formData.append('files', file);
+              var file = new File([newData], (image.name + image.ext), {type: image.mime});
+              var formData = new FormData();
+              formData.append('files', file);
 
-            axios // Delete old file
-              .delete(apiUrl + '/upload/files/' + image.id, 
-                { headers: { Authorization: 'Bearer ' + Cookies.get("jwt") } 
-              }).catch(error => { console.log(error) });
+              axios // Delete old file
+                .delete(apiUrl + '/upload/files/' + image.id, 
+                  { headers: { Authorization: 'Bearer ' + Cookies.get("jwt") } 
+                }).catch(error => { console.log(error) });
 
-            axios // Upload new file
-              .post(apiUrl + '/upload', formData, 
-                { headers: { 'Authorization': 'Bearer ' + Cookies.get("jwt") } })
-              .then(response => {
-                image = response.data[0];
-                this.setState({ 
-                  imageData: image,
-                  loading: false
-                });
-                axios // Save to question
-                  .put('http://localhost:1337/questions/' + this.props.test.questions[Number(this.props.questionNumber - 1)].id, 
-                    { 
-                      code_image: image,
-                      code_data: this.state.codeData
-                    }, 
-                    { headers: { Authorization: 'Bearer ' + Cookies.get("jwt") } 
-                  }).then(response => {
-                    this.update();
-                  }).catch(error => { console.log(error) });
-              }).catch(error => { console.log(error) });
-          }).catch(error => { console.log(error) });
+              axios // Upload new file
+                .post(apiUrl + '/upload', formData, 
+                  { headers: { 'Authorization': 'Bearer ' + Cookies.get("jwt") } })
+                .then(response => {
+                  image = response.data[0];
+                  this.setState({ 
+                    imageData: image,
+                    loading: false
+                  });
+                  axios // Save to question
+                    .put('http://localhost:1337/questions/' + this.props.test.questions[Number(this.props.questionNumber - 1)].id, { 
+                        code_image: image,
+                        code_data: this.state.codeData
+                      }, 
+                      { headers: { Authorization: 'Bearer ' + Cookies.get("jwt") } 
+                    }).then(response => {
+                      this.update();
+                    }).catch(error => { console.log(error) });
+                }).catch(error => { console.log(error) });
+            }).catch(error => { console.log(error) });
+        } else {
+
+          this.setState({ 
+            imageData: image,
+            loading: false
+          });
+          axios // Save to question
+            .put('http://localhost:1337/questions/' + this.props.test.questions[Number(this.props.questionNumber - 1)].id, { 
+                code_image: image,
+                code_data: this.state.codeData
+              }, 
+              { headers: { Authorization: 'Bearer ' + Cookies.get("jwt") } 
+            }).then(response => {
+              this.update();
+            }).catch(error => { console.log(error) });
+        }
       }).catch(error => { console.log(error) });
   };
 
@@ -278,8 +291,6 @@ class HtmlCssTab extends React.Component {
     var codeData = this.state.codeData;
 		codeData.scroll = e;
     this.setState({codeData: codeData})
-    console.log(document.getElementById('wed-svg-visual').contentWindow.document.documentElement.scrollTop);
-    console.log(this.state.codeData.scroll);
     if (typeof document.getElementById('wed-svg-visual').contentWindow.document.documentElement !== "undefined" && document.getElementById('wed-svg-visual').contentWindow.document.documentElement.scrollTop !== this.state.codeData.scroll){
       document.getElementById('wed-svg-visual').contentWindow.document.documentElement.scrollTop = this.state.codeData.scroll;
     }
@@ -311,12 +322,10 @@ class HtmlCssTab extends React.Component {
         <Grid item xs={4} style={{background: "rgba(0,0,0,0.9)"}}>
           <Grid container spacing={0}>
             <Grid item xs={8} >
-            {/* {console.log( typeof this.state.codeData.url  )} */}
-            {/* {console.log( typeof this.state.codeData  )} */}
               <TextField 
                 label={'URL'}
                 // key={'window-height-selector'}
-                value={(typeof this.state.codeData !== "undefined" && typeof this.state.codeData.url !== "undefined" && this.state.codeData.url ) ? this.state.codeData.url : ""}
+                value={(typeof this.state.codeData.url !== "undefined" && this.state.codeData.url ) ? this.state.codeData.url : ""}
                 fullWidth 
                 variant="filled" 
                 placeholder='URL to scrape'
@@ -367,7 +376,7 @@ class HtmlCssTab extends React.Component {
           <input type="file" name="import-html-upload" id="import-html-upload" onChange={this.uploadFile}/>
           <label htmlFor="import-html-upload" className="import-html-upload-label" style={{ height: "calc(100% - 57px)"}}>
             <AttachFileIcon style={{ color: "rgba(255,255,255,0.25)" }} className="paperclip-icon" />
-            <Button style={{ pointerEvents:"none", color:"rgba(255,255,255,1)", fontSize: '24px'}}><b>HTML/SVG</b></Button>
+            <Button style={{ pointerEvents:"none", color:"rgba(255,255,255,1)", fontSize: '24px'}}><b>HTML/IMG</b></Button>
           </label>
 
         </Grid>
@@ -375,7 +384,7 @@ class HtmlCssTab extends React.Component {
           <TextField 
             label={'Window height'}
             key={'window-height-selector'}
-            value={this.state.codeData.height}
+            value={(typeof this.state.codeData.height !== "undefined" && this.state.codeData.height ) ? this.state.codeData.height : ""}
             fullWidth 
             variant="filled" 
             onChange={e => {this.onHeightChange(e.currentTarget.value)}}
@@ -391,7 +400,7 @@ class HtmlCssTab extends React.Component {
           <TextField 
             label={'Window width'}
             key={'window-width-selector'}
-            value={this.state.codeData.width}
+            value={(typeof this.state.codeData.width !== "undefined" && this.state.codeData.width ) ? this.state.codeData.width : ""}
             fullWidth 
             variant="filled" 
             onChange={e => {this.onWidthChange(e.currentTarget.value)}}
@@ -407,7 +416,7 @@ class HtmlCssTab extends React.Component {
           <TextField 
             label={'Window scroll position'}
             key={'window-scroll-selector'}
-            value={this.state.codeData.scroll}
+            value={(typeof this.state.codeData.scroll !== "undefined" && this.state.codeData.scroll ) ? this.state.codeData.scroll : ""}
             fullWidth 
             type="number"
             variant="filled" 
