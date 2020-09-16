@@ -7,48 +7,48 @@ const {Base64} = require('js-base64');
 var async = require("async");
 import axios from 'axios';
 
-class utf8Fix {
-   apply(registerAction) {
-       let absoluteDirectoryPath, loadedResources = [];
-       registerAction('beforeRequest', async ({resource, requestOptions}) => {
-           const urlLower = resource.getUrl().toLowerCase();
-           if (urlLower.endsWith('.html') || urlLower.endsWith('.js') || urlLower.endsWith('.css') || urlLower.endsWith('/')) {
-               requestOptions.encoding = 'utf-8'
-           } else {
-               requestOptions.encoding = 'binary'
-           }
-           return {requestOptions};
-       });
-       registerAction('beforeStart', ({options}) => {
-           if (!options.directory || typeof options.directory !== 'string') {
-               throw new Error(`Incorrect directory ${options.directory}`);
-           }
+// class utf8Fix {
+//    apply(registerAction) {
+//        let absoluteDirectoryPath, loadedResources = [];
+//        registerAction('beforeRequest', async ({resource, requestOptions}) => {
+//            const urlLower = resource.getUrl().toLowerCase();
+//            if (urlLower.endsWith('.html') || urlLower.endsWith('.js') || urlLower.endsWith('.css') || urlLower.endsWith('/')) {
+//                requestOptions.encoding = 'utf-8'
+//            } else {
+//                requestOptions.encoding = 'binary'
+//            }
+//            return {requestOptions};
+//        });
+//        registerAction('beforeStart', ({options}) => {
+//            if (!options.directory || typeof options.directory !== 'string') {
+//                throw new Error(`Incorrect directory ${options.directory}`);
+//            }
 
-           absoluteDirectoryPath = path.resolve(process.cwd(), options.directory);
+//            absoluteDirectoryPath = path.resolve(process.cwd(), options.directory);
 
-           if (fs.existsSync(absoluteDirectoryPath)) {
-               throw new Error(`Directory ${absoluteDirectoryPath} exists`);
-           }
-       });
+//            if (fs.existsSync(absoluteDirectoryPath)) {
+//                throw new Error(`Directory ${absoluteDirectoryPath} exists`);
+//            }
+//        });
 
-       registerAction('saveResource', async ({resource}) => {
-           const filename = path.join(absoluteDirectoryPath, resource.getFilename());
-           const text = resource.getText();
-           const filenameLower = filename.toLowerCase();
-           if (filenameLower.endsWith('.html') || filenameLower.endsWith('.css') || filenameLower.endsWith('.js')) {
-               await fs.outputFile(filename, text, {encoding: 'utf-8'});
-           } else {
-               await fs.outputFile(filename, text, {encoding: 'binary'});
-           }
-           loadedResources.push(resource);
-       });
-       registerAction('error', async () => {
-           if (loadedResources.length > 0) {
-               await fs.remove(absoluteDirectoryPath);
-           }
-       });
-   }
-}
+//        registerAction('saveResource', async ({resource}) => {
+//            const filename = path.join(absoluteDirectoryPath, resource.getFilename());
+//            const text = resource.getText();
+//            const filenameLower = filename.toLowerCase();
+//            if (filenameLower.endsWith('.html') || filenameLower.endsWith('.css') || filenameLower.endsWith('.js')) {
+//                await fs.outputFile(filename, text, {encoding: 'utf-8'});
+//            } else {
+//                await fs.outputFile(filename, text, {encoding: 'binary'});
+//            }
+//            loadedResources.push(resource);
+//        });
+//        registerAction('error', async () => {
+//            if (loadedResources.length > 0) {
+//                await fs.remove(absoluteDirectoryPath);
+//            }
+//        });
+//    }
+// }
 
 export default (req, res) => {
    res.statusCode = 200
@@ -66,14 +66,18 @@ export default (req, res) => {
          // new PhantomPlugin(),
          // new utf8Fix(),
          new PuppeteerPlugin({
+            launchOptions: {
+               args: ['--no-sandbox']
+            },
             scrollToBottom: { timeout: 1000, viewportN: 10 }, /* optional */
             blockNavigation: true, /* optional */
          })
       ]
-   }).then((result) => {
+   })
+   .catch(error => { console.log(error); })
+   .then((result) => {
 
       var host = new URL(req.query.url).hostname + "/";
-      console.log(host)
       var html = result[0].text;
       // html.match(new RegExp(/url\((.*?)\)/gi))
       // console.log(Array.from(html.matchAll(new RegExp(/url\((.*?)\)/gi))))
@@ -137,8 +141,6 @@ export default (req, res) => {
                         $('img[src="'+item.filename+'"], img[src="'+item.url+'"]').attr("src", "data:image/svg+xml;base64," + data);
                      }
                      callback();
-                  }).catch(error => {
-                     callback();
                   });
    
                } else if (file.startsWith("css")) {
@@ -155,7 +157,7 @@ export default (req, res) => {
                            if (!url.startsWith("http")){
                               url = (item.url + url).replace("//", "/");
                            }
-                           console.log(url)
+                           // console.log(url)
                            var file = url.substring(url.lastIndexOf('.')+1, url.length) || url;
                            if (url.lastIndexOf('.') && (file.startsWith("svg") || file.startsWith("woff") || file.startsWith("woff2"))){
                               axios
@@ -188,8 +190,6 @@ export default (req, res) => {
                            $('html').append("<style>"+cssFile+"</style>")
                            callback();
                         });
-                     }).catch(error => {
-                        callback();
                      });
       
                } else if (file.startsWith("js")) {
@@ -201,15 +201,12 @@ export default (req, res) => {
                         $('script[src="'+item.filename+'"], script[src="'+item.url+'"]').remove();
                         $('html').append("<script>"+data+"</script>")
                         callback();
-                     }).catch(error => {
-                        callback();
                      });
       
                } else {
                callback();
             }
          }, function(err) {
-   
             $('a').attr('href', 'javascript:void(0)');
             // $('script').remove();
             if( err ) {

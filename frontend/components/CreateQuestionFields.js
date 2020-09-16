@@ -30,7 +30,7 @@ const apiUrl = publicRuntimeConfig.API_URL || 'http://localhost:1337';
 // 	}
 // }
 
-import {DropzoneArea} from 'material-ui-dropzone'
+// import {DropzoneArea} from 'material-ui-dropzone'
  
 // class DropzoneAreaExample extends React.Component{
 //   constructor(props){
@@ -122,22 +122,28 @@ class CreateQuestionFields extends React.Component {
 					<Grid item xs={2}></Grid>
 					<Grid item xs={8}>
 						<Box mb={2}>
-							<TextField 
-								value={this.state.questionValue}  
-								onChange={e => {this.onQuestionChange(e.currentTarget.value)}}
-								autoFocus  
-								multiline
-								label="Question"  
-								type="text"  
-								variant="filled"
-								fullWidth 
-							/>
+						<TextField 
+							value={this.state.questionValue}  
+							onChange={e => {this.onQuestionChange(e.currentTarget.value)}}
+							onFocus={() => this.setState({focus: true})}
+							onBlur={() => (this.state.questionValue === "") ? this.setState({focus: false}) : this.setState({focus: true})  }
+							InputLabelProps={{ 
+								style: {
+									fontSize: this.state.focus ? 'inherit' : '2.0243rem',
+								}, 
+							}} 
+							InputProps={{ style: { fontSize: "2.0243rem" } }} 
+							autoFocus  
+							multiline
+							label="Question"  
+							type="text"  
+							variant="filled"
+							fullWidth 
+						/>
+							
 						</Box>
 					</Grid>
 					<Grid item xs={2}></Grid>
-				</Grid>
-
-				<Grid container spacing={0} className="create-question-fields">
 					<Grid item xs={2}></Grid>
 					<Grid item xs={8}>
 						<Box mb={2}>

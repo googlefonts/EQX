@@ -83,13 +83,15 @@ class EditorImagesImport extends React.Component {
   };
 	
 	autosave = (imageType) => {
-		axios
-		  .put(apiUrl + '/questions/' + this.props.test.questions[Number(this.props.questionNumber - 1)].id, {
-		    image_type: imageType
-		  }, { headers: { Authorization: 'Bearer ' + Cookies.get("jwt") } 
-		  }).catch(error => { console.log(error); // Handle Error
-		  }).then(response => { // Handle success
-		  });
+    if (typeof this.props.test.questions !== "undefined" && this.props.test.questions.length){
+      axios
+        .put(apiUrl + '/questions/' + this.props.test.questions[Number(this.props.questionNumber - 1)].id, {
+          image_type: imageType
+        }, { headers: { Authorization: 'Bearer ' + Cookies.get("jwt") } 
+        }).catch(error => { console.log(error); // Handle Error
+        }).then(response => { // Handle success
+        });
+    }
 	}
 
   render() {

@@ -51,6 +51,7 @@ class UploadTab extends React.Component {
   componentDidUpdate(nextProps, nextState) {
     if (this.props !== nextProps) {
       this.update();
+      console.log(this.props.test.questions[Number(this.props.questionNumber - 1)])
     }
   }
 
@@ -82,24 +83,27 @@ class UploadTab extends React.Component {
       }
     )
     .then(function (response) {
-
       var file = new File([response.data], ('scrape-' + new Date().getTime() + ".html"), {type: "text/html"});
       var formData = new FormData();
       formData.append('files', file);
-
       axios // Upload new file
         .post(apiUrl + '/upload', formData, 
           { headers: { 'Authorization': 'Bearer ' + Cookies.get("jwt") } })
         .then(response => {
-          that.setState({imageData: response.data[0] });
-          
+          var image = response.data[0];
+          that.setState({imageData: image });
+          console.log(response.data[0])
+
           axios // Save to question
-            .put(apiUrl + 'questions/' + that.props.test.questions[Number(that.props.questionNumber - 1)].id, 
-              { code_image: response.data[0] }, 
+            .put(apiUrl + '/questions/' + that.props.test.questions[Number(that.props.questionNumber - 1)].id, { 
+                code_image: image,
+                code_data: that.state.codeData
+              }, 
               { headers: { Authorization: 'Bearer ' + Cookies.get("jwt") } 
+            }).catch(error => { console.log(error) 
             }).then(response => {
               that.update();
-            }).catch(error => { console.log(error) });
+            });
 
       }).catch(error => { console.log(error) });
 
@@ -318,162 +322,165 @@ class UploadTab extends React.Component {
   render() {
     return (
       <Grid container spacing={0} className="import-tab">
-      
-        <Grid item xs={4} style={{background: "rgba(0,0,0,0.9)"}}>
-          <Grid container spacing={0}>
-            <Grid item xs={8} >
+        <Grid item xs={4}>
+          <Grid container spacing={0} className="import-tab">
+            <Grid item xs={12} style={{background: "rgba(0,0,0,0.9)"}}>
+              <Grid container spacing={0}>
+                <Grid item xs={8}>
+                  <TextField 
+                    label={'URL'}
+                    // key={'window-height-selector'}
+                    value={(typeof this.state.codeData.url !== "undefined" && this.state.codeData.url ) ? this.state.codeData.url : ""}
+                    fullWidth 
+                    variant="filled" 
+                    placeholder='URL to scrape'
+                    onChange={e => {this.onURLChange(e.currentTarget.value)}}
+                    InputLabelProps={{ style:{display: "none"} }}
+                    style={{
+                      color: "white",
+                      background: "rgba(255,255,255,0.15)",
+                    }}
+                    inputProps={{
+                        style:{ 
+                          paddingTop: "20px", 
+                          position: "relative", 
+                          paddingBottom: "20px", 
+                          paddingLeft: "5px",
+                          color: "white"
+                        }
+                    }}
+                    InputProps={{
+                      startAdornment: <InputAdornment style={{ width: "0px", display:"none", marginTop: 0}} position="start">Url to scrape</InputAdornment>,
+                      style:{
+                        borderRadius: 0,
+                      }
+                    }}
+                  ></TextField> 
+                </Grid>
+                <Grid item xs={4} >
+
+                  <IconButton 
+                    aria-label="upload picture" 
+                    component="span"
+                    onClick={() => this.scrapeUrl()}
+                    style={{
+                      borderBottom: "2px solid rgba(255,255,255,0.25)", 
+                      borderRadius: "0", 
+                      width: "100%", 
+                      height: "100%", 
+                      textAlign: "center",
+                      color: "white",
+                      background: "rgba(255,255,255,0.25)",
+                    }}
+
+                    >
+                    <GetAppIcon />
+                  </IconButton>
+                </Grid>
+              </Grid>
+              <input type="file" name="import-html-upload" id="import-html-upload" onChange={this.uploadFile}/>
+              <label htmlFor="import-html-upload" className="import-html-upload-label" style={{ height: "150px"}}>
+                <AttachFileIcon style={{ color: "rgba(255,255,255,0.25)" }} className="paperclip-icon" />
+                <Button style={{ pointerEvents:"none", color:"rgba(255,255,255,1)", fontSize: '24px'}}><b>Upload</b></Button>
+              </label>
+
+            </Grid>
+            <Grid item xs={12} style={{ minHeight: "293px", background: "white"}}>
               <TextField 
-                label={'URL'}
-                // key={'window-height-selector'}
-                value={(typeof this.state.codeData.url !== "undefined" && this.state.codeData.url ) ? this.state.codeData.url : ""}
+                label={'Window height'}
+                key={'window-height-selector'}
+                value={(typeof this.state.codeData.height !== "undefined" && this.state.codeData.height ) ? this.state.codeData.height : ""}
                 fullWidth 
                 variant="filled" 
-                placeholder='URL to scrape'
-                onChange={e => {this.onURLChange(e.currentTarget.value)}}
+                onChange={e => {this.onHeightChange(e.currentTarget.value)}}
                 InputLabelProps={{ style:{display: "none"} }}
-                style={{
-                  color: "white",
-                  background: "rgba(255,255,255,0.15)",
-                }}
                 inputProps={{
-                    style:{ 
-                      paddingTop: "20px", 
-                      position: "relative", 
-                      paddingBottom: "20px", 
-                      paddingLeft: "5px",
-                      color: "white"
-                    }
-                }}
-                InputProps={{
-                  startAdornment: <InputAdornment style={{ width: "0px", display:"none", marginTop: 0}} position="start">Url to scrape</InputAdornment>,
-                  style:{
-                    borderRadius: 0,
-                  }
-                }}
-              ></TextField> 
-            </Grid>
-            <Grid item xs={4} >
-
-              <IconButton 
-                aria-label="upload picture" 
-                component="span"
-                onClick={() => this.scrapeUrl()}
-                style={{
-                  borderBottom: "2px solid rgba(255,255,255,0.25)", 
-                  borderRadius: "0", 
-                  width: "100%", 
-                  height: "100%", 
-                  textAlign: "center",
-                  color: "white",
-                  background: "rgba(255,255,255,0.25)",
-                }}
-
-                >
-                <GetAppIcon />
-              </IconButton>
-            </Grid>
-          </Grid>
-          <input type="file" name="import-html-upload" id="import-html-upload" onChange={this.uploadFile}/>
-          <label htmlFor="import-html-upload" className="import-html-upload-label" style={{ height: "calc(100% - 57px)"}}>
-            <AttachFileIcon style={{ color: "rgba(255,255,255,0.25)" }} className="paperclip-icon" />
-            <Button style={{ pointerEvents:"none", color:"rgba(255,255,255,1)", fontSize: '24px'}}><b>Upload</b></Button>
-          </label>
-
-        </Grid>
-        <Grid item xs={8} style={{ minHeight: "293px", background: "rgba(0, 0, 0, 0.07)"}}>
-          <TextField 
-            label={'Window height'}
-            key={'window-height-selector'}
-            value={(typeof this.state.codeData.height !== "undefined" && this.state.codeData.height ) ? this.state.codeData.height : ""}
-            fullWidth 
-            variant="filled" 
-            onChange={e => {this.onHeightChange(e.currentTarget.value)}}
-            InputLabelProps={{ style:{display: "none"} }}
-            inputProps={{
-                style:{ paddingTop: "20px", position: "relative", paddingBottom: "20px", paddingLeft: "5px"}
-            }}
-            InputProps={{
-              startAdornment: <InputAdornment style={{width: "75px", marginTop: 0}} position="start">height</InputAdornment>,
-              style:{borderRadius: 0}
-            }}
-          ></TextField>          
-          <TextField 
-            label={'Window width'}
-            key={'window-width-selector'}
-            value={(typeof this.state.codeData.width !== "undefined" && this.state.codeData.width ) ? this.state.codeData.width : ""}
-            fullWidth 
-            variant="filled" 
-            onChange={e => {this.onWidthChange(e.currentTarget.value)}}
-            InputLabelProps={{ style:{display: "none"} }}
-            inputProps={{
-                style:{ paddingTop: "20px", position: "relative", paddingBottom: "20px", paddingLeft: "5px"}
-            }}
-            InputProps={{
-              startAdornment: <InputAdornment style={{width: "75px", marginTop: 0}} position="start">width</InputAdornment>,
-              style:{borderRadius: 0}
-            }}
-          ></TextField>
-          <TextField 
-            label={'Window scroll position'}
-            key={'window-scroll-selector'}
-            value={(typeof this.state.codeData.scroll !== "undefined" && this.state.codeData.scroll ) ? this.state.codeData.scroll : ""}
-            fullWidth 
-            type="number"
-            variant="filled" 
-            onChange={e => {this.onScrollChange(e.currentTarget.value)}}
-            InputLabelProps={{ style:{display: "none"} }}
-            inputProps={{
-                style:{ paddingTop: "20px", position: "relative", paddingBottom: "20px", paddingLeft: "5px"}
-            }}
-            InputProps={{
-              startAdornment: <InputAdornment style={{width: "75px", marginTop: 0}} position="start">scroll</InputAdornment>,
-              style:{borderRadius: 0}
-            }}
-          ></TextField>
-
-          {(typeof this.state.tagList != "undefined" && this.state.tagList.length) ?
-            this.state.tagList.map((tag, index) => (
-              <TextField 
-                label={tag + ' style' }
-                key={index + '-element-selector' }
-                select 
-                onChange={e => {this.onStyleChange(e.target.value, tag, e)}}
-                // value={(typeof this.props.test.project.fonts != "undefined" && this.props.test.project.fonts.length) ? this.props.test.project.fonts[0] : 0} 
-                // value={(typeof this.state.codeData.styles !== "undefined" && typeof this.state.codeData.styles[tag] !== "undefined" && typeof this.state.codeData.styleMap !== "undefined" && typeof this.state.codeData.styleMap[tag] !== "undefined"  && this.state.codeData.styles[tag] !== false) ? this.state.codeData.styleMap[tag] : {name: false}} 
-                value={(typeof this.state.codeData.styles !== "undefined" && typeof this.state.codeData.styles[tag] !== "undefined" && this.state.codeData.styles[tag] !== false) ? this.state.codeData.styles[tag] : false} 
-                fullWidth 
-                variant="filled" 
-                InputLabelProps={{ style:{display: "none"} }}
-                SelectProps={{
-                  SelectDisplayProps: {
                     style:{ paddingTop: "20px", position: "relative", paddingBottom: "20px", paddingLeft: "5px"}
-                  }
                 }}
                 InputProps={{
-                  startAdornment: <InputAdornment style={{width: "75px", marginTop: 0}} position="start">{tag}</InputAdornment>,
+                  startAdornment: <InputAdornment style={{width: "75px", marginTop: 0}} position="start">height</InputAdornment>,
                   style:{borderRadius: 0}
                 }}
-              >
-                <MenuItem key={index+"-Inherited"} value={false}>Inherited</MenuItem>
-                {/* {(typeof this.props.test.project.fonts != "undefined" && this.props.test.project.fonts.length) ? */}
-                {(typeof this.props.test.project.fonts != "undefined" && this.props.test.project.fonts.length) &&
-                  this.props.test.project.fonts.map((el, i) => (
-                    <MenuItem key={index+"-"+el.name} value={el.name}>{el.name}</MenuItem>
-                  ))
-                }
-              </TextField>
-            ))
-          :
-          <Box mt={3} color="text.disabled">
-            <Typography align="center" variant="body1">Sorry, but we can't detect any live type.</Typography>
-          </Box>
-        }
+              ></TextField>          
+              <TextField 
+                label={'Window width'}
+                key={'window-width-selector'}
+                value={(typeof this.state.codeData.width !== "undefined" && this.state.codeData.width ) ? this.state.codeData.width : ""}
+                fullWidth 
+                variant="filled" 
+                onChange={e => {this.onWidthChange(e.currentTarget.value)}}
+                InputLabelProps={{ style:{display: "none"} }}
+                inputProps={{
+                    style:{ paddingTop: "20px", position: "relative", paddingBottom: "20px", paddingLeft: "5px"}
+                }}
+                InputProps={{
+                  startAdornment: <InputAdornment style={{width: "75px", marginTop: 0}} position="start">width</InputAdornment>,
+                  style:{borderRadius: 0}
+                }}
+              ></TextField>
+              <TextField 
+                label={'Window scroll position'}
+                key={'window-scroll-selector'}
+                value={(typeof this.state.codeData.scroll !== "undefined" && this.state.codeData.scroll ) ? this.state.codeData.scroll : ""}
+                fullWidth 
+                type="number"
+                variant="filled" 
+                onChange={e => {this.onScrollChange(e.currentTarget.value)}}
+                InputLabelProps={{ style:{display: "none"} }}
+                inputProps={{
+                    style:{ paddingTop: "20px", position: "relative", paddingBottom: "20px", paddingLeft: "5px"}
+                }}
+                InputProps={{
+                  startAdornment: <InputAdornment style={{width: "75px", marginTop: 0}} position="start">scroll</InputAdornment>,
+                  style:{borderRadius: 0}
+                }}
+              ></TextField>
+
+              {(typeof this.state.tagList != "undefined" && this.state.tagList.length) ?
+                this.state.tagList.map((tag, index) => (
+                  <TextField 
+                    label={tag + ' style' }
+                    key={index + '-element-selector' }
+                    select 
+                    onChange={e => {this.onStyleChange(e.target.value, tag, e)}}
+                    // value={(typeof this.props.test.project.fonts != "undefined" && this.props.test.project.fonts.length) ? this.props.test.project.fonts[0] : 0} 
+                    // value={(typeof this.state.codeData.styles !== "undefined" && typeof this.state.codeData.styles[tag] !== "undefined" && typeof this.state.codeData.styleMap !== "undefined" && typeof this.state.codeData.styleMap[tag] !== "undefined"  && this.state.codeData.styles[tag] !== false) ? this.state.codeData.styleMap[tag] : {name: false}} 
+                    value={(typeof this.state.codeData.styles !== "undefined" && typeof this.state.codeData.styles[tag] !== "undefined" && this.state.codeData.styles[tag] !== false) ? this.state.codeData.styles[tag] : false} 
+                    fullWidth 
+                    variant="filled" 
+                    InputLabelProps={{ style:{display: "none"} }}
+                    SelectProps={{
+                      SelectDisplayProps: {
+                        style:{ paddingTop: "20px", position: "relative", paddingBottom: "20px", paddingLeft: "5px"}
+                      }
+                    }}
+                    InputProps={{
+                      startAdornment: <InputAdornment style={{width: "75px", marginTop: 0}} position="start">{tag}</InputAdornment>,
+                      style:{borderRadius: 0}
+                    }}
+                  >
+                    <MenuItem key={index+"-Inherited"} value={false}>Inherited</MenuItem>
+                    {/* {(typeof this.props.test.project.fonts != "undefined" && this.props.test.project.fonts.length) ? */}
+                    {(typeof this.props.test.project.fonts != "undefined" && this.props.test.project.fonts.length) &&
+                      this.props.test.project.fonts.map((el, i) => (
+                        <MenuItem key={index+"-"+el.name} value={el.name}>{el.name}</MenuItem>
+                      ))
+                    }
+                  </TextField>
+                ))
+              :
+              <Box mt={3} color="text.disabled">
+                <Typography align="center" variant="body1">Sorry, but we can't detect any live type.</Typography>
+              </Box>
+            }
+            </Grid>
+          </Grid>
         </Grid>
-        <Grid item xs={12} className="visual-editor" style={{background: "rgba(0, 0, 0, 0.07)"}}>
-        <LinearProgress variant="indeterminate" style={{ display: this.state.loading ? "" : "none" }}/>
-        <iframe id="wed-svg-visual" width={this.state.codeData.width} height={this.state.codeData.height} frameBorder="0" border="0" scrolling="no" srcDoc={this.state.img + "<div id='ext-eqx-styles' style='display:none'></div>"}/>
-        {/* <iframe id="wed-svg-visual" sandbox width={this.state.codeData.width} height={this.state.codeData.height} frameBorder="0" border="0" scrolling="no" src={"data:text/html,"+encodeURIComponent(this.state.img+"<script>document.documentElement.scrollTop = document.body.scrollTop = '"+this.state.codeData.scroll+"'</script>")}/> */}
-        {/* <iframe id="wed-svg-visual" width={this.state.codeData.width} height={this.state.codeData.height} frameBorder="0" border="0" scrolling="no" srcDoc={this.state.img+"<script>document.documentElement.scrollTop = '"+this.state.codeData.scroll+"'</script>"}/> */}
+        <Grid item xs={8} className="visual-editor" style={{background: "rgba(0, 0, 0, 0.07)"}}>
+          <LinearProgress variant="indeterminate" style={{ display: this.state.loading ? "" : "none" }}/>
+          <iframe id="wed-svg-visual" width={this.state.codeData.width} height={this.state.codeData.height} frameBorder="0" border="0" scrolling="no" srcDoc={this.state.img + "<div id='ext-eqx-styles' style='display:none'></div>"}/>
+          {/* <iframe id="wed-svg-visual" sandbox width={this.state.codeData.width} height={this.state.codeData.height} frameBorder="0" border="0" scrolling="no" src={"data:text/html,"+encodeURIComponent(this.state.img+"<script>document.documentElement.scrollTop = document.body.scrollTop = '"+this.state.codeData.scroll+"'</script>")}/> */}
+          {/* <iframe id="wed-svg-visual" width={this.state.codeData.width} height={this.state.codeData.height} frameBorder="0" border="0" scrolling="no" srcDoc={this.state.img+"<script>document.documentElement.scrollTop = '"+this.state.codeData.scroll+"'</script>"}/> */}
         </Grid>
       </Grid>
     );
