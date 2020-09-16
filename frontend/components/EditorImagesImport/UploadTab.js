@@ -51,7 +51,6 @@ class UploadTab extends React.Component {
   componentDidUpdate(nextProps, nextState) {
     if (this.props !== nextProps) {
       this.update();
-      console.log(this.props.test.questions[Number(this.props.questionNumber - 1)])
     }
   }
 
@@ -92,7 +91,6 @@ class UploadTab extends React.Component {
         .then(response => {
           var image = response.data[0];
           that.setState({imageData: image });
-          console.log(response.data[0])
 
           axios // Save to question
             .put(apiUrl + '/questions/' + that.props.test.questions[Number(that.props.questionNumber - 1)].id, { 
@@ -113,9 +111,11 @@ class UploadTab extends React.Component {
 
 
   update = () => {
+    console.log("object")
     if (typeof this.props.test.questions[Number(this.props.questionNumber - 1)].code_data !== "undefined" && this.props.test.questions[Number(this.props.questionNumber - 1)].code_data){
       this.setState({
         codeData: this.props.test.questions[Number(this.props.questionNumber - 1)].code_data,
+        imageData: this.props.test.questions[Number(this.props.questionNumber - 1)].code_image,
         loading: true
       });
     }
@@ -128,6 +128,7 @@ class UploadTab extends React.Component {
           loading: false
         });
       } else {
+        console.log(apiUrl + this.state.imageData.url)
         axios
           .get(apiUrl + this.state.imageData.url) 
           .then(response => {
