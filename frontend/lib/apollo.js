@@ -48,6 +48,9 @@
 
 import withApollo from 'next-with-apollo';
 import ApolloClient, { InMemoryCache } from 'apollo-boost';
+import getConfig from 'next/config';
+const { serverRuntimeConfig, publicRuntimeConfig } = getConfig()
+const apiUrl = publicRuntimeConfig.API_URL || 'http://localhost:1337';
 
 export default withApollo(
   ({ ctx, headers, initialState }) =>

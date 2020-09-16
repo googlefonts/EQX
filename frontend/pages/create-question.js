@@ -10,7 +10,7 @@ import { Box, TextField, Dialog, DialogActions, DialogContent, DialogContentText
 import Cookies from "js-cookie";
 import axios from 'axios';
 import "../styles/main.scss";
-import getConfig from 'next/config'
+import getConfig from 'next/config';
 const { serverRuntimeConfig, publicRuntimeConfig } = getConfig()
 const apiUrl = publicRuntimeConfig.API_URL || 'http://localhost:1337';
 const { Parser } = require('json2csv');

@@ -6,6 +6,9 @@ import { CircularProgress, Dialog, DialogTitle, DialogActions, DialogContentText
 import debounce from 'lodash/debounce';
 import axios from 'axios';
 import Cookies from "js-cookie";
+import getConfig from 'next/config';
+const { serverRuntimeConfig, publicRuntimeConfig } = getConfig()
+const apiUrl = publicRuntimeConfig.API_URL || 'http://localhost:1337';
 
 // class Table extends React.Component {
 // 	constructor (props) {
