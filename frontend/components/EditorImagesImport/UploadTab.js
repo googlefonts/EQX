@@ -35,27 +35,56 @@ class UploadTab extends React.Component {
   }
 
   componentDidMount = () => {
-    this.autosave = debounce(this.autosave, 500);
-    if (typeof this.props.test.questions[Number(this.props.questionNumber - 1)].code_image != "undefined") {
-      this.setState({ imageData: this.props.test.questions[Number(this.props.questionNumber - 1)].code_image });
+    console.log("componentDidMount")
+    var question = this.props.test.questions[Number(this.props.questionNumber - 1)];
+    var codeData, imageData;
+    if (question.code_data && question.code_image){
+      codeData = question.code_data;
+      imageData = question.code_image;
+      this.setState({
+        loading: true,
+        codeData: codeData,
+        imageData: imageData
+      }, () => this.update() );
+    } else {
+      codeData = this.state.codeData;
+      imageData = this.state.imageData;
+      this.setState({
+        codeData: codeData,
+        imageData: imageData
+      });
     }
-    this.update();
+
+
+    this.autosave = debounce(this.autosave, 500);
     const timer = setInterval(() => {
-      if (document.getElementById('wed-svg-visual') && document.getElementById('wed-svg-visual').contentWindow.document.documentElement && typeof document.getElementById('wed-svg-visual').contentWindow.document.documentElement !== "undefined" && ( Number(document.getElementById('wed-svg-visual').contentWindow.document.documentElement.scrollTop) !== Number(this.state.codeData.scroll))){
+      if (this.state.codeData && typeof this.state.codeData.scroll !== "undefined" && document.getElementById('wed-svg-visual') && document.getElementById('wed-svg-visual').contentWindow.document.documentElement && typeof document.getElementById('wed-svg-visual').contentWindow.document.documentElement !== "undefined" && ( Number(document.getElementById('wed-svg-visual').contentWindow.document.documentElement.scrollTop) !== Number(this.state.codeData.scroll))){
         document.getElementById('wed-svg-visual').contentWindow.document.documentElement.scrollTop = this.state.codeData.scroll;
       }
-  }, 1000);
+    }, 1000);
     return () => clearInterval(timer);
   }
 
-  componentDidUpdate(nextProps, nextState) {
-    if (this.props !== nextProps) {
-      this.update();
-    }
-  }
-
-  pageUpdate = () => {
-    this.update();
+  componentDidUpdate(prevProps, prevState) {
+    if (typeof prevProps !== "undefined" && this.props !== prevProps) {
+      var prevQuestion = prevProps.test.questions[Number(prevProps.questionNumber - 1)];
+      var question = this.props.test.questions[Number(this.props.questionNumber - 1)];
+      
+      if (question.code_data && prevQuestion.code_data && prevQuestion.code_data.url !== question.code_data.url){
+        console.log(question.code_data.url)
+        this.setState({ 
+          loading: true,
+          codeData: question.code_data,
+          imageData: question.code_image},
+          () => this.update()
+        );
+      } else {
+        this.setState({ 
+          codeData: question.code_data,
+          imageData: question.code_image
+        });
+      }
+    } 
   }
 
   scrapeUrl = () => {
@@ -108,19 +137,11 @@ class UploadTab extends React.Component {
     });
   }
   
-
-
   update = () => {
-    console.log("object")
-    if (typeof this.props.test.questions[Number(this.props.questionNumber - 1)].code_data !== "undefined" && this.props.test.questions[Number(this.props.questionNumber - 1)].code_data){
-      this.setState({
-        codeData: this.props.test.questions[Number(this.props.questionNumber - 1)].code_data,
-        imageData: this.props.test.questions[Number(this.props.questionNumber - 1)].code_image,
-        loading: true
-      });
-    }
+    console.log('update')
 		if (typeof this.state.imageData !== "undefined" && this.state.imageData && typeof this.state.imageData.url !== "undefined") {
       var ext = this.state.imageData.url.substring(this.state.imageData.url.lastIndexOf(".") + 1);
+      console.log(this.state.imageData.url);
       if (ext === "jpg" || ext === "jpeg" || ext === "png" || ext === "gif" || ext === "eps" || ext === "webp") {
         var imgData = "<img src='" + apiUrl + this.state.imageData.url + "'/>";
         this.setState({
@@ -128,7 +149,6 @@ class UploadTab extends React.Component {
           loading: false
         });
       } else {
-        console.log(apiUrl + this.state.imageData.url)
         axios
           .get(apiUrl + this.state.imageData.url) 
           .then(response => {
@@ -149,9 +169,11 @@ class UploadTab extends React.Component {
                   newTagList.push(tag);
                 }
               });
+            // console.log(domParser.parseFromString(imgData, "text/html").eqxDefaults);
             } else {
               imgData = "<p style='padding: 2rem 0' class='MuiTypography-root MuiTypography-body1 MuiTypography-alignCenter'>This filetype isn't supported.</p>"
             }
+            // console.log(this.state.imageData.url);
             this.setState({
               img: imgData,
               tagList: newTagList,
@@ -191,6 +213,7 @@ class UploadTab extends React.Component {
     var codeData = this.state.codeData;
 		codeData.url = "";
     codeData.styles = {};
+    var question = this.props.test.questions[Number(this.props.questionNumber - 1)];
     this.setState({
       img: "",
       codeData: codeData,
@@ -239,7 +262,7 @@ class UploadTab extends React.Component {
                     loading: false
                   });
                   axios // Save to question
-                    .put(apiUrl + '/questions/' + this.props.test.questions[Number(this.props.questionNumber - 1)].id, { 
+                    .put(apiUrl + '/questions/' + question.id, { 
                         code_image: image,
                         code_data: this.state.codeData
                       }, 
@@ -256,7 +279,7 @@ class UploadTab extends React.Component {
             loading: false
           });
           axios // Save to question
-            .put(apiUrl + '/questions/' + this.props.test.questions[Number(this.props.questionNumber - 1)].id, { 
+            .put(apiUrl + '/questions/' + question.id, { 
                 code_image: image,
                 code_data: this.state.codeData
               }, 
@@ -270,13 +293,13 @@ class UploadTab extends React.Component {
 
 	autosave = () => {
 		axios
-		  .put(apiUrl + '/questions/' + this.props.test.questions[Number(this.props.questionNumber - 1)].id, {
+		  .put(apiUrl + '/questions/' + question.id, {
 		    code_data: this.state.codeData,
 		  }, { headers: { Authorization: 'Bearer ' + Cookies.get("jwt") } 
       }).then(response => { // Handle success
         this.update();
       }).catch(error => { console.log(error) }); // Handle Error
-    }
+  }
 
 	onHeightChange = (e) => {
     var codeData = this.state.codeData;
@@ -296,7 +319,7 @@ class UploadTab extends React.Component {
     var codeData = this.state.codeData;
 		codeData.scroll = e;
     this.setState({codeData: codeData})
-    if (typeof document.getElementById('wed-svg-visual').contentWindow.document.documentElement !== "undefined" && document.getElementById('wed-svg-visual').contentWindow.document.documentElement.scrollTop !== this.state.codeData.scroll){
+    if (this.state.codeData && typeof document.getElementById('wed-svg-visual').contentWindow.document.documentElement !== "undefined" && document.getElementById('wed-svg-visual').contentWindow.document.documentElement.scrollTop !== this.state.codeData.scroll){
       document.getElementById('wed-svg-visual').contentWindow.document.documentElement.scrollTop = this.state.codeData.scroll;
     }
 		this.autosave();
@@ -331,7 +354,7 @@ class UploadTab extends React.Component {
                   <TextField 
                     label={'URL'}
                     // key={'window-height-selector'}
-                    value={(typeof this.state.codeData.url !== "undefined" && this.state.codeData.url ) ? this.state.codeData.url : ""}
+                    value={(this.state.codeData && typeof this.state.codeData.url !== "undefined" && this.state.codeData.url ) ? this.state.codeData.url : ""}
                     fullWidth 
                     variant="filled" 
                     placeholder='URL to scrape'
@@ -390,7 +413,7 @@ class UploadTab extends React.Component {
               <TextField 
                 label={'Window height'}
                 key={'window-height-selector'}
-                value={(typeof this.state.codeData.height !== "undefined" && this.state.codeData.height ) ? this.state.codeData.height : ""}
+                value={(this.state.codeData && typeof this.state.codeData.height !== "undefined" && this.state.codeData.height ) ? this.state.codeData.height : ""}
                 fullWidth 
                 variant="filled" 
                 onChange={e => {this.onHeightChange(e.currentTarget.value)}}
@@ -406,7 +429,7 @@ class UploadTab extends React.Component {
               <TextField 
                 label={'Window width'}
                 key={'window-width-selector'}
-                value={(typeof this.state.codeData.width !== "undefined" && this.state.codeData.width ) ? this.state.codeData.width : ""}
+                value={(this.state.codeData && typeof this.state.codeData.width !== "undefined" && this.state.codeData.width ) ? this.state.codeData.width : ""}
                 fullWidth 
                 variant="filled" 
                 onChange={e => {this.onWidthChange(e.currentTarget.value)}}
@@ -422,7 +445,7 @@ class UploadTab extends React.Component {
               <TextField 
                 label={'Window scroll position'}
                 key={'window-scroll-selector'}
-                value={(typeof this.state.codeData.scroll !== "undefined" && this.state.codeData.scroll ) ? this.state.codeData.scroll : ""}
+                value={(this.state.codeData && typeof this.state.codeData.scroll !== "undefined" && this.state.codeData.scroll ) ? this.state.codeData.scroll : ""}
                 fullWidth 
                 type="number"
                 variant="filled" 
@@ -446,7 +469,7 @@ class UploadTab extends React.Component {
                     onChange={e => {this.onStyleChange(e.target.value, tag, e)}}
                     // value={(typeof this.props.test.project.fonts != "undefined" && this.props.test.project.fonts.length) ? this.props.test.project.fonts[0] : 0} 
                     // value={(typeof this.state.codeData.styles !== "undefined" && typeof this.state.codeData.styles[tag] !== "undefined" && typeof this.state.codeData.styleMap !== "undefined" && typeof this.state.codeData.styleMap[tag] !== "undefined"  && this.state.codeData.styles[tag] !== false) ? this.state.codeData.styleMap[tag] : {name: false}} 
-                    value={(typeof this.state.codeData.styles !== "undefined" && typeof this.state.codeData.styles[tag] !== "undefined" && this.state.codeData.styles[tag] !== false) ? this.state.codeData.styles[tag] : false} 
+                    value={(this.state.codeData && typeof this.state.codeData.styles !== "undefined" && typeof this.state.codeData.styles[tag] !== "undefined" && this.state.codeData.styles[tag] !== false) ? this.state.codeData.styles[tag] : false} 
                     fullWidth 
                     variant="filled" 
                     InputLabelProps={{ style:{display: "none"} }}
@@ -479,7 +502,7 @@ class UploadTab extends React.Component {
         </Grid>
         <Grid item xs={8} className="visual-editor" style={{background: "rgba(0, 0, 0, 0.07)"}}>
           <LinearProgress variant="indeterminate" style={{ display: this.state.loading ? "" : "none" }}/>
-          <iframe id="wed-svg-visual" width={this.state.codeData.width} height={this.state.codeData.height} frameBorder="0" border="0" scrolling="no" srcDoc={this.state.img + "<div id='ext-eqx-styles' style='display:none'></div>"}/>
+          <iframe id="wed-svg-visual" width={this.state.codeData && this.state.codeData.width} height={this.state.codeData && this.state.codeData.height} frameBorder="0" border="0" scrolling="no" srcDoc={this.state.img + "<div id='ext-eqx-styles' style='display:none'></div>"}/>
           {/* <iframe id="wed-svg-visual" sandbox width={this.state.codeData.width} height={this.state.codeData.height} frameBorder="0" border="0" scrolling="no" src={"data:text/html,"+encodeURIComponent(this.state.img+"<script>document.documentElement.scrollTop = document.body.scrollTop = '"+this.state.codeData.scroll+"'</script>")}/> */}
           {/* <iframe id="wed-svg-visual" width={this.state.codeData.width} height={this.state.codeData.height} frameBorder="0" border="0" scrolling="no" srcDoc={this.state.img+"<script>document.documentElement.scrollTop = '"+this.state.codeData.scroll+"'</script>"}/> */}
         </Grid>

@@ -55,31 +55,35 @@ class CreateQuestionPage extends React.Component {
   }
 
   update = (newQuestion) => {
-
     let questionNumber = Router.router.query.question;
     if (Number(Router.router.query.question) < 1){
       window.location = "/create-question?test=" + Router.router.query.test + "&question=1";
       return false;
     }
-    this.setState({ questionNumber: questionNumber });
     axios
       .get(apiUrl + '/tests?id=' + Router.router.query.test, {
         headers: { Authorization: "Bearer " + Cookies.get("jwt") }
       }).then(test => { // Handle success
-        this.setState({ 
-          test: test.data[0],
-          tmpTest: test.data[0] 
-        });
-        if (Number(Router.router.query.question) > this.state.test.questions.length){
-          window.location = "/create-question?test=" + Router.router.query.test + "&question=" + this.state.test.questions.length;
+        if (Number(Router.router.query.question) > test.data[0].questions.length){
+          this.setState({ 
+            test: test.data[0],
+            tmpTest: test.data[0],
+            questionNumber: questionNumber
+          });
+          window.location = "/create-question?test=" + Router.router.query.test + "&question=" + test.data[0].questions.length;
           return false;
         }
         if(newQuestion){ 
+          this.setState({ 
+            test: test.data[0],
+            tmpTest: test.data[0],
+            questionNumber: questionNumber
+          });
           Router.push({
             pathname: '/create-question',
             query: { 
               test: Router.router.query.test, 
-              question: this.state.test.questions.length
+              question: test.data[0].questions.length
             },
           })
         }
@@ -91,7 +95,8 @@ class CreateQuestionPage extends React.Component {
             newTest.project = project.data[0];
             this.setState({ 
               test: newTest,
-              tmpTest: newTest 
+              tmpTest: newTest,
+              questionNumber: questionNumber
             });
           }).catch(error => { console.log(error) });
       }).catch(error => { console.log(error) });

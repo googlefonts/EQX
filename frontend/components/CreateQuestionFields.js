@@ -56,7 +56,8 @@ const apiUrl = publicRuntimeConfig.API_URL || 'http://localhost:1337';
 class CreateQuestionFields extends React.Component {
 	state = {
 		questionValue: '',
-		contextValue: ''
+		contextValue: '',
+		focus: false
 	};
 
 	componentDidMount = () => {
@@ -65,22 +66,21 @@ class CreateQuestionFields extends React.Component {
 	}
 	
 	componentDidUpdate(nextProps) {
-		if (nextProps.questionNumber !== this.props.questionNumber ||
-			nextProps.test !== this.props.test) {
+		if (nextProps.questionNumber !== this.props.questionNumber || nextProps.test !== this.props.test) {
 			this.update();
 		}
 	}
 
 	autosave = () => {
 		axios
-		  .put(apiUrl + '/questions/' + this.props.test.questions[Number(this.props.questionNumber - 1)].id, {
-		    question: this.state.questionValue,
-			 context: this.state.contextValue
-		  }, { headers: { Authorization: 'Bearer ' + Cookies.get("jwt") } 
-		  }).catch(error => { console.log(error); // Handle Error
-		  }).then(response => { // Handle success
-		    // Router.push("/create-question?test=" + this.props.test.id + "&question=" + (this.props.test.questions.length + 2))
-		  });
+		  	.put(apiUrl + '/questions/' + this.props.test.questions[Number(this.props.questionNumber - 1)].id, {
+		    	question: this.state.questionValue,
+			 	context: this.state.contextValue
+		  	}, { headers: { Authorization: 'Bearer ' + Cookies.get("jwt") } 
+		  	}).catch(error => { console.log(error); // Handle Error
+		  	}).then(response => { // Handle success
+		   	// Router.push("/create-question?test=" + this.props.test.id + "&question=" + (this.props.test.questions.length + 2))
+		  	});
 	}
 
 	update = () => { 
@@ -89,14 +89,16 @@ class CreateQuestionFields extends React.Component {
 			typeof this.props.test != "undefined" && 
 			Object.keys(this.props.test).length > 0
 		){
-			// console.log(this.props.test.questions[Number(this.props.questionNumber - 1)])
+			const question = this.props.test.questions[Number(this.props.questionNumber - 1)];
+			// console.log(question)
 			let questionValue = "";
-			if (this.props.test.questions[Number(this.props.questionNumber - 1)].question){
-				questionValue = this.props.test.questions[Number(this.props.questionNumber - 1)].question
+			if (question.question){
+				questionValue = question.question
+				questionValue === "" ? this.setState({focus: false}) : this.setState({focus: true});
 			}
 			let contextValue = "";
-			if (this.props.test.questions[Number(this.props.questionNumber - 1)].context){
-				contextValue = this.props.test.questions[Number(this.props.questionNumber - 1)].context
+			if (question.context){
+				contextValue = question.context
 			}
 			this.setState({
 				questionValue:  questionValue,
