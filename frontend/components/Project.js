@@ -365,7 +365,7 @@ class FontRow extends React.Component {
 		){
 			this.setState({
         name: this.props.font.info.name.records.preferredFamily.en,
-        weight: this.props.font.info.name.records.preferredSubfamily.en,
+        weight: this.props.font.variable && this.props.font.info.variationAxes.hasOwnProperty('wght') ? "[" + this.props.font.info.variationAxes.wght.min + " - " + this.props.font.info.variationAxes.wght.max + "]" : this.props.font.info.name.records.preferredSubfamily.en,
         style: this.props.font.info.name.records.fontSubfamily.en,
 			})
 		}
@@ -450,22 +450,27 @@ class ProjectFonts extends React.Component {
           }
         }).catch(error => { console.log(error); // Handle error
         }).then(response => {
-
+          console.log(response)
           var fontFile = response.data[0];
           axios
             .post('/api/font-info', {
               url: response.data[0].url,
-              originUrl: el.name
+              originUrl: el.name,
+              jwt: Cookies.get("jwt")
             }).catch(error => { console.log(error); // Handle error
             }).then(response => {
               var fontInfo = response.data;
+              var variable = false;
+              if (Object.keys(fontInfo.variationAxes).length){
+                variable = true;
+              }
               axios
                 .post(apiUrl + '/fonts', {
                   file: fontFile,
                   name: fontFile.name,
                   weight: "",
                   style: "",
-                  variable: false,
+                  variable: variable,
                   major_version: 0,
                   minor_version: 1,
                   project: this.props.project.id,

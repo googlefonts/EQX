@@ -11,6 +11,7 @@ import Cookies from "js-cookie";
 import { typography } from '@material-ui/system';
 import debounce from 'lodash/debounce';
 import GetAppIcon from '@material-ui/icons/GetApp';
+import { format } from 'url';
 // const {parse, stringify} = require('flatted');
 
 class UploadTab extends React.Component {
@@ -69,9 +70,10 @@ class UploadTab extends React.Component {
     if (typeof prevProps !== "undefined" && this.props !== prevProps) {
       var prevQuestion = prevProps.test.questions[Number(prevProps.questionNumber - 1)];
       var question = this.props.test.questions[Number(this.props.questionNumber - 1)];
-      
-      if (question.code_data && prevQuestion.code_data && prevQuestion.code_data.url !== question.code_data.url){
-        console.log(question.code_data.url)
+      if (
+        question.code_data && prevQuestion.code_data && (prevQuestion.code_data.url !== question.code_data.url)||
+        question.code_image && prevQuestion.code_image && (prevQuestion.code_image.url !== question.code_image.url)
+      ){
         this.setState({ 
           loading: true,
           codeData: question.code_data,
@@ -153,23 +155,32 @@ class UploadTab extends React.Component {
           .get(apiUrl + this.state.imageData.url) 
           .then(response => {
             var imgData = response.data;
-            var domParser = new DOMParser();
-            var docElement = domParser.parseFromString(imgData, "text/html").documentElement;
+            // var domParser = new DOMParser();
+            var docElement = new DOMParser().parseFromString(imgData, "text/html").documentElement;
             var newTagList = [];
             if (ext === "svg"){
               var texts = docElement.getElementsByTagName("text");
               for (var i = 0; i < texts.length; i++) {
-                newTagList.push("#"+texts[i].id);
+                newTagList.push({name: "#"+texts[i].id});
               }
             } else if (ext === "html"){
-              var tagList = ['h1','h2','h3','h4','h5','h6','p','li'];
+              var tagList = [{name:'h1'},{name:'h2'},{name:'h3'},{name:'h4'},{name:'h5'},{name:'h6'},{name:'p'},{name:'li'}];
               tagList.forEach(function(tag, index){
-                var texts = docElement.getElementsByTagName(tag);
-                if (texts.length){
+                if (docElement.getElementsByTagName(tag.name).length){
                   newTagList.push(tag);
                 }
               });
-            // console.log(domParser.parseFromString(imgData, "text/html").eqxDefaults);
+
+              if (docElement.querySelector("#eqxDefaults")){
+                var eqxDefaults = eval(docElement.querySelector("#eqxDefaults").innerHTML.split("=").pop());
+                eqxDefaults.forEach(style => {
+                  if (docElement.querySelector(style.name)){
+                    style.default = true;
+                    newTagList.push(style);
+                  }
+                });
+              }
+
             } else {
               imgData = "<p style='padding: 2rem 0' class='MuiTypography-root MuiTypography-body1 MuiTypography-alignCenter'>This filetype isn't supported.</p>"
             }
@@ -179,8 +190,8 @@ class UploadTab extends React.Component {
               tagList: newTagList,
               loading: false
             });
-            // this.matchStyles();
-            // setTimeout(() => {  this.matchStyles(); }, 2000);
+            this.matchStyles();
+            setTimeout(() => {  this.matchStyles(); }, 2000);
 
           }).catch(error => { console.log(error) });
       }
@@ -191,16 +202,37 @@ class UploadTab extends React.Component {
     var codeData = this.state.codeData;
     codeData.styleMap = {};
     codeData.styleHTML = "<style>";
+    console.log("this.props.test.project.fonts")
+    console.log(this.props.test.project.fonts)
     this.state.tagList.forEach( (tag) => {
-      codeData.styleMap[tag] = this.props.test.project.fonts.find(obj => { return obj.name === codeData.styles[tag] });
-      if (typeof codeData.styleMap[tag] !== "undefined"){
-        if (!codeData.styleHTML.includes("@font-face{ font-family: '"+codeData.styleMap[tag].name)){
-          codeData.styleHTML += "@font-face{font-family: '"+codeData.styleMap[tag].name+"';src:url('"+apiUrl+codeData.styleMap[tag].file.url+"') format('"+codeData.styleMap[tag].info.extension+"');font-weight:400;font-style:normal;}";
+      codeData.styleMap[tag.name] = this.props.test.project.fonts.find(obj => { return obj.name === codeData.styles[tag.name] });
+      if (typeof tag.default !== "undefined" && tag.default && typeof codeData.styleMap[tag.name] === "undefined"){ codeData.styleMap[tag.name] = this.props.test.project.fonts[0] } 
+      if (typeof codeData.styleMap[tag.name] !== "undefined"){
+        var format = codeData.styleMap[tag.name].info.extension;
+        if (format == "ttf"){format = "truetype"}
+        if (!codeData.styleHTML.includes("@font-face{font-family:'"+codeData.styleMap[tag.name].name)){
+          if (codeData.styleMap[tag.name].variable){
+            codeData.styleHTML += "@font-face{font-family:'"+codeData.styleMap[tag.name].name+"';src:url('"+apiUrl+codeData.styleMap[tag.name].file.url+"') format('"+format+"-variations');}";
+          } else {
+            codeData.styleHTML += "@font-face{font-family:'"+codeData.styleMap[tag.name].name+"';src:url('"+apiUrl+codeData.styleMap[tag.name].file.url+"') format('"+format+"');font-weight:400;font-style:normal;}";
+          }
         }
-        codeData.styleHTML += tag + "{font-family:'"+codeData.styleMap[tag].name+"'!important;font-weight:400;font-style:normal;}";
+        if (codeData.styleMap[tag.name].variable){
+          codeData.styleHTML += tag.name + "{font-family:'"+codeData.styleMap[tag.name].name+"'!important; font-variation-settings: ";
+          if(tag.hasOwnProperty('wdth')){ codeData.styleHTML += "'wdth' "+tag.wdth+"," }
+          if(tag.hasOwnProperty('opsz')){ codeData.styleHTML += "'opsz' "+tag.opsz+"," }
+          if(tag.hasOwnProperty('wght')){ codeData.styleHTML += "'wght' "+tag.wght+"," }
+          codeData.styleHTML = codeData.styleHTML.substring(0, codeData.styleHTML.length - 1);
+          codeData.styleHTML += ";}";
+        } else {
+          codeData.styleHTML += tag.name + "{font-family:'"+codeData.styleMap[tag.name].name+"'!important;font-weight:400;font-style:normal;}";
+        }
       }
     })
+    console.log(this.state.tagList)
+    console.log(codeData.styleMap)
     codeData.styleHTML += "</style>";
+    console.log(codeData.styleHTML)
     if(document.getElementById('wed-svg-visual').contentWindow.document.getElementById('ext-eqx-styles')){
       document.getElementById('wed-svg-visual').contentWindow.document.getElementById('ext-eqx-styles').innerHTML = codeData.styleHTML;
     }
@@ -213,7 +245,6 @@ class UploadTab extends React.Component {
     var codeData = this.state.codeData;
 		codeData.url = "";
     codeData.styles = {};
-    var question = this.props.test.questions[Number(this.props.questionNumber - 1)];
     this.setState({
       img: "",
       codeData: codeData,
@@ -226,11 +257,13 @@ class UploadTab extends React.Component {
       .then(response => {
         var image = response.data[0];
         var ext = image.url.substring(image.url.lastIndexOf(".") + 1);
+        var question = this.props.test.questions[Number(this.props.questionNumber - 1)];
         if (ext === "svg" || ext === "html"){
           axios // Download and edit file
             .get(apiUrl + image.url) 
             .then(response => {
-              var data = response.data.replace(/<script[^>]*>(?:(?!<\/script>)[^])*<\/script>/g, "");
+              // var data = response.data.replace(/<script[^>]*>(?:(?!<\/script>)[^])*<\/script>/g, "");
+              var data = response.data;
               var newData = data;
               var domParser = new DOMParser();
               var docElement = domParser.parseFromString(data, "text/html").documentElement;
@@ -293,7 +326,7 @@ class UploadTab extends React.Component {
 
 	autosave = () => {
 		axios
-		  .put(apiUrl + '/questions/' + question.id, {
+		  .put(apiUrl + '/questions/' + this.props.test.questions[Number(this.props.questionNumber - 1)].id, {
 		    code_data: this.state.codeData,
 		  }, { headers: { Authorization: 'Bearer ' + Cookies.get("jwt") } 
       }).then(response => { // Handle success
@@ -463,13 +496,13 @@ class UploadTab extends React.Component {
               {(typeof this.state.tagList != "undefined" && this.state.tagList.length) ?
                 this.state.tagList.map((tag, index) => (
                   <TextField 
-                    label={tag + ' style' }
+                    label={tag.name + ' style' }
                     key={index + '-element-selector' }
                     select 
-                    onChange={e => {this.onStyleChange(e.target.value, tag, e)}}
+                    onChange={e => {this.onStyleChange(e.target.value, tag.name, e)}}
                     // value={(typeof this.props.test.project.fonts != "undefined" && this.props.test.project.fonts.length) ? this.props.test.project.fonts[0] : 0} 
-                    // value={(typeof this.state.codeData.styles !== "undefined" && typeof this.state.codeData.styles[tag] !== "undefined" && typeof this.state.codeData.styleMap !== "undefined" && typeof this.state.codeData.styleMap[tag] !== "undefined"  && this.state.codeData.styles[tag] !== false) ? this.state.codeData.styleMap[tag] : {name: false}} 
-                    value={(this.state.codeData && typeof this.state.codeData.styles !== "undefined" && typeof this.state.codeData.styles[tag] !== "undefined" && this.state.codeData.styles[tag] !== false) ? this.state.codeData.styles[tag] : false} 
+                    // value={(typeof this.state.codeData.styles !== "undefined" && typeof this.state.codeData.styles[tag.name] !== "undefined" && typeof this.state.codeData.styleMap !== "undefined" && typeof this.state.codeData.styleMap[tag.name] !== "undefined"  && this.state.codeData.styles[tag.name] !== false) ? this.state.codeData.styleMap[tag.name] : {name: false}} 
+                    value={(this.state.codeData && typeof this.state.codeData.styles !== "undefined" && typeof this.state.codeData.styles[tag.name] !== "undefined" && this.state.codeData.styles[tag.name] !== false) ? this.state.codeData.styles[tag.name] : false} 
                     fullWidth 
                     variant="filled" 
                     InputLabelProps={{ style:{display: "none"} }}
@@ -479,7 +512,7 @@ class UploadTab extends React.Component {
                       }
                     }}
                     InputProps={{
-                      startAdornment: <InputAdornment style={{width: "75px", marginTop: 0}} position="start">{tag}</InputAdornment>,
+                      startAdornment: <InputAdornment style={{width: "75px", marginTop: 0}} position="start">{tag.name}</InputAdornment>,
                       style:{borderRadius: 0}
                     }}
                   >

@@ -10,7 +10,7 @@ export default (req, res) => {
    const { method } = req
    switch (method) {
       case 'POST':
-         http.get(url.parse(apiUrl + req.body.url), function(response) {
+         http.get(url.parse(apiUrl.replace("localhost", "host.docker.internal") + req.body.url), function(response) {
             var data = [];
             response.on('data', function(chunk) {
                data.push(chunk);
