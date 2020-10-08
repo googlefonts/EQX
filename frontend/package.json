@@ -61,7 +61,7 @@
     "lodash-es": "^4.17.15",
     "material-ui-dropzone": "^3.4.0",
     "mimetype": "0.0.8",
-    "next": "^9.5.2",
+    "next": "^9.5.4",
     "next-apollo": "^3.1.10",
     "next-with-apollo": "^4.3.0",
     "node-fetch": "^2.6.1",
