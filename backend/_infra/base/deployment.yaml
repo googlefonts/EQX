@@ -29,6 +29,11 @@ spec:
             secretKeyRef:
               name: backend
               key: app-host
+        - name: ADMIN_JWT_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: backend
+              key: admin-jwt-secret
         - name: PERMISSIONS_SET
           value: "false"
         - name: DATABASE_PORT

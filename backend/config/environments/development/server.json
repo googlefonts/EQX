@@ -8,6 +8,9 @@
     "enabled": false
   },
   "admin": {
-    "autoOpen": false
+    "autoOpen": false,
+    "auth": {
+      "secret": "${process.env.ADMIN_JWT_SECRET}"
+    }
   }
 }

@@ -48,15 +48,15 @@ class EditorImagesImport extends React.Component {
           imageType: "editor_image",
           tabValue: 0
         });
-      } else if (this.props.test.questions[Number(this.props.questionNumber - 1)].image_type === "uploaded_image"){
-        this.setState({ 
-          imageType: "uploaded_image",
-          tabValue: 1
-        });
+      // } else if (this.props.test.questions[Number(this.props.questionNumber - 1)].image_type === "uploaded_image"){
+      //   this.setState({ 
+      //     imageType: "uploaded_image",
+      //     tabValue: 1
+      //   });
       } else if (this.props.test.questions[Number(this.props.questionNumber - 1)].image_type === "code_image"){
         this.setState({ 
           imageType: "code_image",
-          tabValue: 2
+          tabValue: 1
         });
       } else {
         this.setState({ 
@@ -73,9 +73,9 @@ class EditorImagesImport extends React.Component {
     var imageType= "editor_image";
     if (newValue == 0){
       imageType= "editor_image";
-    } else if (newValue == 1){
-      imageType= "uploaded_image";
-    } else if (newValue == 2){
+    // } else if (newValue == 1){
+    //   imageType= "uploaded_image";
+    } else if (newValue == q){
       imageType= "code_image";
     }
     this.setState({ imageType: imageType });

@@ -70,6 +70,7 @@
     "react": "^16.13.1",
     "react-apollo": "^3.1.5",
     "react-dom": "^16.13.1",
+    "react-dropzone": "^11.2.0",
     "reactstrap": "^8.5.1",
     "recompose": "^0.30.0",
     "strapi-sdk-javascript": "^0.3.3",
