@@ -1,3 +1,46 @@
+input FileInfoInput {
+  name: String
+  alternativeText: String
+  caption: String
+}
+
+type UsersPermissionsMe {
+  id: ID!
+  username: String!
+  email: String!
+  confirmed: Boolean
+  blocked: Boolean
+  role: UsersPermissionsMeRole
+}
+
+type UsersPermissionsMeRole {
+  id: ID!
+  name: String!
+  description: String
+  type: String
+}
+
+input UsersPermissionsRegisterInput {
+  username: String!
+  email: String!
+  password: String!
+}
+
+input UsersPermissionsLoginInput {
+  identifier: String!
+  password: String!
+  provider: String = "local"
+}
+
+type UsersPermissionsLoginPayload {
+  jwt: String
+  user: UsersPermissionsMe!
+}
+
+type UserPermissionsPasswordPayload {
+  ok: Boolean!
+}
+
 type Comment {
   id: ID!
   created_at: DateTime!
@@ -10,6 +53,12 @@ type Comment {
   SomeText: String
 }
 
+type CommentConnection {
+  values: [Comment]
+  groupBy: CommentGroupBy
+  aggregate: CommentAggregator
+}
+
 type CommentAggregator {
   count: Int
   totalCount: Int
@@ -19,13 +68,13 @@ type CommentAggregator {
   max: CommentAggregatorMax
 }
 
-type CommentAggregatorAvg {
+type CommentAggregatorSum {
   x: Float
   y: Float
   radius: Float
 }
 
-type CommentAggregatorMax {
+type CommentAggregatorAvg {
   x: Float
   y: Float
   radius: Float
@@ -37,61 +86,10 @@ type CommentAggregatorMin {
   radius: Float
 }
 
-type CommentAggregatorSum {
+type CommentAggregatorMax {
   x: Float
   y: Float
   radius: Float
-}
-
-type CommentConnection {
-  values: [Comment]
-  groupBy: CommentGroupBy
-  aggregate: CommentAggregator
-}
-
-type CommentConnectionCreated_at {
-  key: DateTime
-  connection: CommentConnection
-}
-
-type CommentConnectionId {
-  key: ID
-  connection: CommentConnection
-}
-
-type CommentConnectionRadius {
-  key: Int
-  connection: CommentConnection
-}
-
-type CommentConnectionSomeText {
-  key: String
-  connection: CommentConnection
-}
-
-type CommentConnectionText {
-  key: String
-  connection: CommentConnection
-}
-
-type CommentConnectionUpdated_at {
-  key: DateTime
-  connection: CommentConnection
-}
-
-type CommentConnectionUser {
-  key: ID
-  connection: CommentConnection
-}
-
-type CommentConnectionX {
-  key: Int
-  connection: CommentConnection
-}
-
-type CommentConnectionY {
-  key: Int
-  connection: CommentConnection
 }
 
 type CommentGroupBy {
@@ -106,6 +104,51 @@ type CommentGroupBy {
   SomeText: [CommentConnectionSomeText]
 }
 
+type CommentConnectionId {
+  key: ID
+  connection: CommentConnection
+}
+
+type CommentConnectionCreated_at {
+  key: DateTime
+  connection: CommentConnection
+}
+
+type CommentConnectionUpdated_at {
+  key: DateTime
+  connection: CommentConnection
+}
+
+type CommentConnectionUser {
+  key: ID
+  connection: CommentConnection
+}
+
+type CommentConnectionText {
+  key: String
+  connection: CommentConnection
+}
+
+type CommentConnectionX {
+  key: Int
+  connection: CommentConnection
+}
+
+type CommentConnectionY {
+  key: Int
+  connection: CommentConnection
+}
+
+type CommentConnectionRadius {
+  key: Int
+  connection: CommentConnection
+}
+
+type CommentConnectionSomeText {
+  key: String
+  connection: CommentConnection
+}
+
 input CommentInput {
   user: ID
   text: String!
@@ -113,6 +156,19 @@ input CommentInput {
   y: Int
   radius: Int
   SomeText: String
+  created_by: ID
+  updated_by: ID
+}
+
+input editCommentInput {
+  user: ID
+  text: String
+  x: Int
+  y: Int
+  radius: Int
+  SomeText: String
+  created_by: ID
+  updated_by: ID
 }
 
 input createCommentInput {
@@ -123,91 +179,14 @@ type createCommentPayload {
   comment: Comment
 }
 
-input createFileInput {
-  data: FileInput
+input updateCommentInput {
+  where: InputID
+  data: editCommentInput
 }
 
-type createFilePayload {
-  file: UploadFile
+type updateCommentPayload {
+  comment: Comment
 }
-
-input createFontInput {
-  data: FontInput
-}
-
-type createFontPayload {
-  font: Font
-}
-
-input createOrganizationInput {
-  data: OrganizationInput
-}
-
-type createOrganizationPayload {
-  organization: Organization
-}
-
-input createProjectInput {
-  data: ProjectInput
-}
-
-type createProjectPayload {
-  project: Project
-}
-
-input createQuestionInput {
-  data: QuestionInput
-}
-
-type createQuestionPayload {
-  question: Question
-}
-
-input createRoleInput {
-  data: RoleInput
-}
-
-type createRolePayload {
-  role: UsersPermissionsRole
-}
-
-input createTagInput {
-  data: TagInput
-}
-
-type createTagPayload {
-  tag: Tag
-}
-
-input createTestInput {
-  data: TestInput
-}
-
-type createTestPayload {
-  test: Test
-}
-
-input createUserInput {
-  data: UserInput
-}
-
-type createUserPayload {
-  user: UsersPermissionsUser
-}
-
-"""
-A date string, such as 2007-12-03, compliant with the `full-date` format
-outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for
-representation of dates and times using the Gregorian calendar.
-"""
-scalar Date
-
-"""
-A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the
-`date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO
-8601 standard for representation of dates and times using the Gregorian calendar.
-"""
-scalar DateTime
 
 input deleteCommentInput {
   where: InputID
@@ -217,103 +196,143 @@ type deleteCommentPayload {
   comment: Comment
 }
 
-input deleteFileInput {
-  where: InputID
-}
-
-type deleteFilePayload {
+type Font {
+  id: ID!
+  created_at: DateTime!
+  updated_at: DateTime!
   file: UploadFile
-}
-
-input deleteFontInput {
-  where: InputID
-}
-
-type deleteFontPayload {
-  font: Font
-}
-
-input deleteOrganizationInput {
-  where: InputID
-}
-
-type deleteOrganizationPayload {
-  organization: Organization
-}
-
-input deleteProjectInput {
-  where: InputID
-}
-
-type deleteProjectPayload {
-  project: Project
-}
-
-input deleteQuestionInput {
-  where: InputID
-}
-
-type deleteQuestionPayload {
-  question: Question
-}
-
-input deleteRoleInput {
-  where: InputID
-}
-
-type deleteRolePayload {
-  role: UsersPermissionsRole
-}
-
-input deleteTagInput {
-  where: InputID
-}
-
-type deleteTagPayload {
-  tag: Tag
-}
-
-input deleteTestInput {
-  where: InputID
-}
-
-type deleteTestPayload {
-  test: Test
-}
-
-input deleteUserInput {
-  where: InputID
-}
-
-type deleteUserPayload {
-  user: UsersPermissionsUser
-}
-
-input editCommentInput {
-  user: ID
-  text: String
-  x: Int
-  y: Int
-  radius: Int
-  SomeText: String
-}
-
-input editFileInput {
   name: String
-  alternativeText: String
-  caption: String
-  width: Int
-  height: Int
-  formats: JSON
-  hash: String
-  ext: String
-  mime: String
-  size: Float
-  url: String
-  previewUrl: String
-  provider: String
-  provider_metadata: JSON
-  related: [ID]
+  weight: String
+  style: String
+  variable: Boolean
+  major_version: Int
+  minor_version: Int
+  project: Project
+  info: JSON
+}
+
+type FontConnection {
+  values: [Font]
+  groupBy: FontGroupBy
+  aggregate: FontAggregator
+}
+
+type FontAggregator {
+  count: Int
+  totalCount: Int
+  sum: FontAggregatorSum
+  avg: FontAggregatorAvg
+  min: FontAggregatorMin
+  max: FontAggregatorMax
+}
+
+type FontAggregatorSum {
+  major_version: Float
+  minor_version: Float
+}
+
+type FontAggregatorAvg {
+  major_version: Float
+  minor_version: Float
+}
+
+type FontAggregatorMin {
+  major_version: Float
+  minor_version: Float
+}
+
+type FontAggregatorMax {
+  major_version: Float
+  minor_version: Float
+}
+
+type FontGroupBy {
+  id: [FontConnectionId]
+  created_at: [FontConnectionCreated_at]
+  updated_at: [FontConnectionUpdated_at]
+  file: [FontConnectionFile]
+  name: [FontConnectionName]
+  weight: [FontConnectionWeight]
+  style: [FontConnectionStyle]
+  variable: [FontConnectionVariable]
+  major_version: [FontConnectionMajor_version]
+  minor_version: [FontConnectionMinor_version]
+  project: [FontConnectionProject]
+  info: [FontConnectionInfo]
+}
+
+type FontConnectionId {
+  key: ID
+  connection: FontConnection
+}
+
+type FontConnectionCreated_at {
+  key: DateTime
+  connection: FontConnection
+}
+
+type FontConnectionUpdated_at {
+  key: DateTime
+  connection: FontConnection
+}
+
+type FontConnectionFile {
+  key: ID
+  connection: FontConnection
+}
+
+type FontConnectionName {
+  key: String
+  connection: FontConnection
+}
+
+type FontConnectionWeight {
+  key: String
+  connection: FontConnection
+}
+
+type FontConnectionStyle {
+  key: String
+  connection: FontConnection
+}
+
+type FontConnectionVariable {
+  key: Boolean
+  connection: FontConnection
+}
+
+type FontConnectionMajor_version {
+  key: Int
+  connection: FontConnection
+}
+
+type FontConnectionMinor_version {
+  key: Int
+  connection: FontConnection
+}
+
+type FontConnectionProject {
+  key: ID
+  connection: FontConnection
+}
+
+type FontConnectionInfo {
+  key: JSON
+  connection: FontConnection
+}
+
+input FontInput {
+  file: ID
+  name: String
+  weight: String
+  style: String
+  variable: Boolean
+  major_version: Int
+  minor_version: Int
+  project: ID
+  info: JSON
+  created_by: ID
+  updated_by: ID
 }
 
 input editFontInput {
@@ -326,12 +345,238 @@ input editFontInput {
   minor_version: Int
   project: ID
   info: JSON
+  created_by: ID
+  updated_by: ID
+}
+
+input createFontInput {
+  data: FontInput
+}
+
+type createFontPayload {
+  font: Font
+}
+
+input updateFontInput {
+  where: InputID
+  data: editFontInput
+}
+
+type updateFontPayload {
+  font: Font
+}
+
+input deleteFontInput {
+  where: InputID
+}
+
+type deleteFontPayload {
+  font: Font
+}
+
+type Organization {
+  id: ID!
+  created_at: DateTime!
+  updated_at: DateTime!
+  name: String
+  users(sort: String, limit: Int, start: Int, where: JSON): [UsersPermissionsUser]
+  projects(sort: String, limit: Int, start: Int, where: JSON): [Project]
+}
+
+type OrganizationConnection {
+  values: [Organization]
+  groupBy: OrganizationGroupBy
+  aggregate: OrganizationAggregator
+}
+
+type OrganizationAggregator {
+  count: Int
+  totalCount: Int
+}
+
+type OrganizationGroupBy {
+  id: [OrganizationConnectionId]
+  created_at: [OrganizationConnectionCreated_at]
+  updated_at: [OrganizationConnectionUpdated_at]
+  name: [OrganizationConnectionName]
+}
+
+type OrganizationConnectionId {
+  key: ID
+  connection: OrganizationConnection
+}
+
+type OrganizationConnectionCreated_at {
+  key: DateTime
+  connection: OrganizationConnection
+}
+
+type OrganizationConnectionUpdated_at {
+  key: DateTime
+  connection: OrganizationConnection
+}
+
+type OrganizationConnectionName {
+  key: String
+  connection: OrganizationConnection
+}
+
+input OrganizationInput {
+  users: [ID]
+  name: String
+  projects: [ID]
+  created_by: ID
+  updated_by: ID
 }
 
 input editOrganizationInput {
   users: [ID]
   name: String
   projects: [ID]
+  created_by: ID
+  updated_by: ID
+}
+
+input createOrganizationInput {
+  data: OrganizationInput
+}
+
+type createOrganizationPayload {
+  organization: Organization
+}
+
+input updateOrganizationInput {
+  where: InputID
+  data: editOrganizationInput
+}
+
+type updateOrganizationPayload {
+  organization: Organization
+}
+
+input deleteOrganizationInput {
+  where: InputID
+}
+
+type deleteOrganizationPayload {
+  organization: Organization
+}
+
+type Project {
+  id: ID!
+  created_at: DateTime!
+  updated_at: DateTime!
+  name: String!
+  major_version: Int
+  minor_version: Int
+  archived: Boolean
+  description: String
+  fonts(sort: String, limit: Int, start: Int, where: JSON): [Font]
+  tags(sort: String, limit: Int, start: Int, where: JSON): [Tag]
+  tests(sort: String, limit: Int, start: Int, where: JSON): [Test]
+  users(sort: String, limit: Int, start: Int, where: JSON): [UsersPermissionsUser]
+  owners(sort: String, limit: Int, start: Int, where: JSON): [UsersPermissionsUser]
+}
+
+type ProjectConnection {
+  values: [Project]
+  groupBy: ProjectGroupBy
+  aggregate: ProjectAggregator
+}
+
+type ProjectAggregator {
+  count: Int
+  totalCount: Int
+  sum: ProjectAggregatorSum
+  avg: ProjectAggregatorAvg
+  min: ProjectAggregatorMin
+  max: ProjectAggregatorMax
+}
+
+type ProjectAggregatorSum {
+  major_version: Float
+  minor_version: Float
+}
+
+type ProjectAggregatorAvg {
+  major_version: Float
+  minor_version: Float
+}
+
+type ProjectAggregatorMin {
+  major_version: Float
+  minor_version: Float
+}
+
+type ProjectAggregatorMax {
+  major_version: Float
+  minor_version: Float
+}
+
+type ProjectGroupBy {
+  id: [ProjectConnectionId]
+  created_at: [ProjectConnectionCreated_at]
+  updated_at: [ProjectConnectionUpdated_at]
+  name: [ProjectConnectionName]
+  major_version: [ProjectConnectionMajor_version]
+  minor_version: [ProjectConnectionMinor_version]
+  archived: [ProjectConnectionArchived]
+  description: [ProjectConnectionDescription]
+}
+
+type ProjectConnectionId {
+  key: ID
+  connection: ProjectConnection
+}
+
+type ProjectConnectionCreated_at {
+  key: DateTime
+  connection: ProjectConnection
+}
+
+type ProjectConnectionUpdated_at {
+  key: DateTime
+  connection: ProjectConnection
+}
+
+type ProjectConnectionName {
+  key: String
+  connection: ProjectConnection
+}
+
+type ProjectConnectionMajor_version {
+  key: Int
+  connection: ProjectConnection
+}
+
+type ProjectConnectionMinor_version {
+  key: Int
+  connection: ProjectConnection
+}
+
+type ProjectConnectionArchived {
+  key: Boolean
+  connection: ProjectConnection
+}
+
+type ProjectConnectionDescription {
+  key: String
+  connection: ProjectConnection
+}
+
+input ProjectInput {
+  name: String!
+  major_version: Int
+  minor_version: Int
+  fonts: [ID]
+  tags: [ID]
+  archived: Boolean
+  tests: [ID]
+  users: [ID]
+  owners: [ID]
+  description: String
+  created_by: ID
+  updated_by: ID
 }
 
 input editProjectInput {
@@ -345,6 +590,162 @@ input editProjectInput {
   users: [ID]
   owners: [ID]
   description: String
+  created_by: ID
+  updated_by: ID
+}
+
+input createProjectInput {
+  data: ProjectInput
+}
+
+type createProjectPayload {
+  project: Project
+}
+
+input updateProjectInput {
+  where: InputID
+  data: editProjectInput
+}
+
+type updateProjectPayload {
+  project: Project
+}
+
+input deleteProjectInput {
+  where: InputID
+}
+
+type deleteProjectPayload {
+  project: Project
+}
+
+enum ENUM_QUESTION_IMAGE_TYPE {
+  uploaded_image
+  code_image
+  editor_image
+}
+
+type Question {
+  id: ID!
+  created_at: DateTime!
+  updated_at: DateTime!
+  editor_image: JSON
+  image_type: ENUM_QUESTION_IMAGE_TYPE
+  context: String
+  question: String
+  uploaded_image: UploadFile
+  published: Boolean
+  test: Test
+  source: String
+  code_image: UploadFile
+  code_data: JSON
+}
+
+type QuestionConnection {
+  values: [Question]
+  groupBy: QuestionGroupBy
+  aggregate: QuestionAggregator
+}
+
+type QuestionAggregator {
+  count: Int
+  totalCount: Int
+}
+
+type QuestionGroupBy {
+  id: [QuestionConnectionId]
+  created_at: [QuestionConnectionCreated_at]
+  updated_at: [QuestionConnectionUpdated_at]
+  editor_image: [QuestionConnectionEditor_image]
+  image_type: [QuestionConnectionImage_type]
+  context: [QuestionConnectionContext]
+  question: [QuestionConnectionQuestion]
+  uploaded_image: [QuestionConnectionUploaded_image]
+  published: [QuestionConnectionPublished]
+  test: [QuestionConnectionTest]
+  source: [QuestionConnectionSource]
+  code_image: [QuestionConnectionCode_image]
+  code_data: [QuestionConnectionCode_data]
+}
+
+type QuestionConnectionId {
+  key: ID
+  connection: QuestionConnection
+}
+
+type QuestionConnectionCreated_at {
+  key: DateTime
+  connection: QuestionConnection
+}
+
+type QuestionConnectionUpdated_at {
+  key: DateTime
+  connection: QuestionConnection
+}
+
+type QuestionConnectionEditor_image {
+  key: JSON
+  connection: QuestionConnection
+}
+
+type QuestionConnectionImage_type {
+  key: String
+  connection: QuestionConnection
+}
+
+type QuestionConnectionContext {
+  key: String
+  connection: QuestionConnection
+}
+
+type QuestionConnectionQuestion {
+  key: String
+  connection: QuestionConnection
+}
+
+type QuestionConnectionUploaded_image {
+  key: ID
+  connection: QuestionConnection
+}
+
+type QuestionConnectionPublished {
+  key: Boolean
+  connection: QuestionConnection
+}
+
+type QuestionConnectionTest {
+  key: ID
+  connection: QuestionConnection
+}
+
+type QuestionConnectionSource {
+  key: String
+  connection: QuestionConnection
+}
+
+type QuestionConnectionCode_image {
+  key: ID
+  connection: QuestionConnection
+}
+
+type QuestionConnectionCode_data {
+  key: JSON
+  connection: QuestionConnection
+}
+
+input QuestionInput {
+  editor_image: JSON
+  image_type: ENUM_QUESTION_IMAGE_TYPE
+  context: String
+  question: String
+  uploaded_image: ID
+  published: Boolean
+  test: ID
+  source: String
+  code_image: ID
+  code_data: JSON
+  created_by: ID
+  updated_by: ID
 }
 
 input editQuestionInput {
@@ -352,27 +753,274 @@ input editQuestionInput {
   image_type: ENUM_QUESTION_IMAGE_TYPE
   context: String
   question: String
-  reference_images: [ID]
   uploaded_image: ID
   published: Boolean
   test: ID
   source: String
   code_image: ID
   code_data: JSON
+  created_by: ID
+  updated_by: ID
 }
 
-input editRoleInput {
+input createQuestionInput {
+  data: QuestionInput
+}
+
+type createQuestionPayload {
+  question: Question
+}
+
+input updateQuestionInput {
+  where: InputID
+  data: editQuestionInput
+}
+
+type updateQuestionPayload {
+  question: Question
+}
+
+input deleteQuestionInput {
+  where: InputID
+}
+
+type deleteQuestionPayload {
+  question: Question
+}
+
+type Tag {
+  id: ID!
+  created_at: DateTime!
+  updated_at: DateTime!
   name: String
-  description: String
-  type: String
-  permissions: [ID]
-  users: [ID]
+  color: String
+  projects(sort: String, limit: Int, start: Int, where: JSON): [Project]
+}
+
+type TagConnection {
+  values: [Tag]
+  groupBy: TagGroupBy
+  aggregate: TagAggregator
+}
+
+type TagAggregator {
+  count: Int
+  totalCount: Int
+}
+
+type TagGroupBy {
+  id: [TagConnectionId]
+  created_at: [TagConnectionCreated_at]
+  updated_at: [TagConnectionUpdated_at]
+  name: [TagConnectionName]
+  color: [TagConnectionColor]
+}
+
+type TagConnectionId {
+  key: ID
+  connection: TagConnection
+}
+
+type TagConnectionCreated_at {
+  key: DateTime
+  connection: TagConnection
+}
+
+type TagConnectionUpdated_at {
+  key: DateTime
+  connection: TagConnection
+}
+
+type TagConnectionName {
+  key: String
+  connection: TagConnection
+}
+
+type TagConnectionColor {
+  key: String
+  connection: TagConnection
+}
+
+input TagInput {
+  name: String
+  color: String
+  projects: [ID]
+  created_by: ID
+  updated_by: ID
 }
 
 input editTagInput {
   name: String
   color: String
   projects: [ID]
+  created_by: ID
+  updated_by: ID
+}
+
+input createTagInput {
+  data: TagInput
+}
+
+type createTagPayload {
+  tag: Tag
+}
+
+input updateTagInput {
+  where: InputID
+  data: editTagInput
+}
+
+type updateTagPayload {
+  tag: Tag
+}
+
+input deleteTagInput {
+  where: InputID
+}
+
+type deleteTagPayload {
+  tag: Tag
+}
+
+type Test {
+  id: ID!
+  created_at: DateTime!
+  updated_at: DateTime!
+  name: String!
+  tags: JSON
+  major_version: Int!
+  minor_version: Int!
+  completeness: Float
+  archived: Boolean
+  project: Project
+  description: String
+  questions(sort: String, limit: Int, start: Int, where: JSON): [Question]
+  users(sort: String, limit: Int, start: Int, where: JSON): [UsersPermissionsUser]
+  owners(sort: String, limit: Int, start: Int, where: JSON): [UsersPermissionsUser]
+}
+
+type TestConnection {
+  values: [Test]
+  groupBy: TestGroupBy
+  aggregate: TestAggregator
+}
+
+type TestAggregator {
+  count: Int
+  totalCount: Int
+  sum: TestAggregatorSum
+  avg: TestAggregatorAvg
+  min: TestAggregatorMin
+  max: TestAggregatorMax
+}
+
+type TestAggregatorSum {
+  major_version: Float
+  minor_version: Float
+  completeness: Float
+}
+
+type TestAggregatorAvg {
+  major_version: Float
+  minor_version: Float
+  completeness: Float
+}
+
+type TestAggregatorMin {
+  major_version: Float
+  minor_version: Float
+  completeness: Float
+}
+
+type TestAggregatorMax {
+  major_version: Float
+  minor_version: Float
+  completeness: Float
+}
+
+type TestGroupBy {
+  id: [TestConnectionId]
+  created_at: [TestConnectionCreated_at]
+  updated_at: [TestConnectionUpdated_at]
+  name: [TestConnectionName]
+  tags: [TestConnectionTags]
+  major_version: [TestConnectionMajor_version]
+  minor_version: [TestConnectionMinor_version]
+  completeness: [TestConnectionCompleteness]
+  archived: [TestConnectionArchived]
+  project: [TestConnectionProject]
+  description: [TestConnectionDescription]
+}
+
+type TestConnectionId {
+  key: ID
+  connection: TestConnection
+}
+
+type TestConnectionCreated_at {
+  key: DateTime
+  connection: TestConnection
+}
+
+type TestConnectionUpdated_at {
+  key: DateTime
+  connection: TestConnection
+}
+
+type TestConnectionName {
+  key: String
+  connection: TestConnection
+}
+
+type TestConnectionTags {
+  key: JSON
+  connection: TestConnection
+}
+
+type TestConnectionMajor_version {
+  key: Int
+  connection: TestConnection
+}
+
+type TestConnectionMinor_version {
+  key: Int
+  connection: TestConnection
+}
+
+type TestConnectionCompleteness {
+  key: Float
+  connection: TestConnection
+}
+
+type TestConnectionArchived {
+  key: Boolean
+  connection: TestConnection
+}
+
+type TestConnectionProject {
+  key: ID
+  connection: TestConnection
+}
+
+type TestConnectionDescription {
+  key: String
+  connection: TestConnection
+}
+
+input TestInput {
+  name: String!
+  tags: JSON
+  major_version: Int
+  minor_version: Int
+  questions: [ID]
+  completeness: Float
+  archived: Boolean
+  users: [ID]
+  owners: [ID]
+  project: ID
+  description: String
+  created_by: ID
+  updated_by: ID
 }
 
 input editTestInput {
@@ -387,29 +1035,198 @@ input editTestInput {
   owners: [ID]
   project: ID
   description: String
+  created_by: ID
+  updated_by: ID
 }
 
-input editUserInput {
-  username: String
-  email: String
-  provider: String
-  password: String
-  resetPasswordToken: String
-  confirmed: Boolean
-  blocked: Boolean
-  role: ID
-  Avatar: ID
-  comment: ID
-  projects: [ID]
-  tests: [ID]
-  owned_tests: [ID]
-  owned_projects: [ID]
+input createTestInput {
+  data: TestInput
 }
 
-enum ENUM_QUESTION_IMAGE_TYPE {
-  uploaded_image
-  code_image
-  editor_image
+type createTestPayload {
+  test: Test
+}
+
+input updateTestInput {
+  where: InputID
+  data: editTestInput
+}
+
+type updateTestPayload {
+  test: Test
+}
+
+input deleteTestInput {
+  where: InputID
+}
+
+type deleteTestPayload {
+  test: Test
+}
+
+type UploadFile {
+  id: ID!
+  created_at: DateTime!
+  updated_at: DateTime!
+  name: String!
+  alternativeText: String
+  caption: String
+  width: Int
+  height: Int
+  formats: JSON
+  hash: String!
+  ext: String
+  mime: String!
+  size: Float!
+  url: String!
+  previewUrl: String
+  provider: String!
+  provider_metadata: JSON
+  related(sort: String, limit: Int, start: Int, where: JSON): [Morph]
+}
+
+type UploadFileConnection {
+  values: [UploadFile]
+  groupBy: UploadFileGroupBy
+  aggregate: UploadFileAggregator
+}
+
+type UploadFileAggregator {
+  count: Int
+  totalCount: Int
+  sum: UploadFileAggregatorSum
+  avg: UploadFileAggregatorAvg
+  min: UploadFileAggregatorMin
+  max: UploadFileAggregatorMax
+}
+
+type UploadFileAggregatorSum {
+  width: Float
+  height: Float
+  size: Float
+}
+
+type UploadFileAggregatorAvg {
+  width: Float
+  height: Float
+  size: Float
+}
+
+type UploadFileAggregatorMin {
+  width: Float
+  height: Float
+  size: Float
+}
+
+type UploadFileAggregatorMax {
+  width: Float
+  height: Float
+  size: Float
+}
+
+type UploadFileGroupBy {
+  id: [UploadFileConnectionId]
+  created_at: [UploadFileConnectionCreated_at]
+  updated_at: [UploadFileConnectionUpdated_at]
+  name: [UploadFileConnectionName]
+  alternativeText: [UploadFileConnectionAlternativeText]
+  caption: [UploadFileConnectionCaption]
+  width: [UploadFileConnectionWidth]
+  height: [UploadFileConnectionHeight]
+  formats: [UploadFileConnectionFormats]
+  hash: [UploadFileConnectionHash]
+  ext: [UploadFileConnectionExt]
+  mime: [UploadFileConnectionMime]
+  size: [UploadFileConnectionSize]
+  url: [UploadFileConnectionUrl]
+  previewUrl: [UploadFileConnectionPreviewUrl]
+  provider: [UploadFileConnectionProvider]
+  provider_metadata: [UploadFileConnectionProvider_metadata]
+}
+
+type UploadFileConnectionId {
+  key: ID
+  connection: UploadFileConnection
+}
+
+type UploadFileConnectionCreated_at {
+  key: DateTime
+  connection: UploadFileConnection
+}
+
+type UploadFileConnectionUpdated_at {
+  key: DateTime
+  connection: UploadFileConnection
+}
+
+type UploadFileConnectionName {
+  key: String
+  connection: UploadFileConnection
+}
+
+type UploadFileConnectionAlternativeText {
+  key: String
+  connection: UploadFileConnection
+}
+
+type UploadFileConnectionCaption {
+  key: String
+  connection: UploadFileConnection
+}
+
+type UploadFileConnectionWidth {
+  key: Int
+  connection: UploadFileConnection
+}
+
+type UploadFileConnectionHeight {
+  key: Int
+  connection: UploadFileConnection
+}
+
+type UploadFileConnectionFormats {
+  key: JSON
+  connection: UploadFileConnection
+}
+
+type UploadFileConnectionHash {
+  key: String
+  connection: UploadFileConnection
+}
+
+type UploadFileConnectionExt {
+  key: String
+  connection: UploadFileConnection
+}
+
+type UploadFileConnectionMime {
+  key: String
+  connection: UploadFileConnection
+}
+
+type UploadFileConnectionSize {
+  key: Float
+  connection: UploadFileConnection
+}
+
+type UploadFileConnectionUrl {
+  key: String
+  connection: UploadFileConnection
+}
+
+type UploadFileConnectionPreviewUrl {
+  key: String
+  connection: UploadFileConnection
+}
+
+type UploadFileConnectionProvider {
+  key: String
+  connection: UploadFileConnection
+}
+
+type UploadFileConnectionProvider_metadata {
+  key: JSON
+  connection: UploadFileConnection
 }
 
 input FileInput {
@@ -428,162 +1245,357 @@ input FileInput {
   provider: String!
   provider_metadata: JSON
   related: [ID]
+  created_by: ID
+  updated_by: ID
 }
 
-type Font {
+input editFileInput {
+  name: String
+  alternativeText: String
+  caption: String
+  width: Int
+  height: Int
+  formats: JSON
+  hash: String
+  ext: String
+  mime: String
+  size: Float
+  url: String
+  previewUrl: String
+  provider: String
+  provider_metadata: JSON
+  related: [ID]
+  created_by: ID
+  updated_by: ID
+}
+
+input deleteFileInput {
+  where: InputID
+}
+
+type deleteFilePayload {
+  file: UploadFile
+}
+
+type UsersPermissionsPermission {
+  id: ID!
+  type: String!
+  controller: String!
+  action: String!
+  enabled: Boolean!
+  policy: String
+  role: UsersPermissionsRole
+}
+
+type UsersPermissionsRole {
+  id: ID!
+  name: String!
+  description: String
+  type: String
+  permissions(sort: String, limit: Int, start: Int, where: JSON): [UsersPermissionsPermission]
+  users(sort: String, limit: Int, start: Int, where: JSON): [UsersPermissionsUser]
+}
+
+type UsersPermissionsRoleConnection {
+  values: [UsersPermissionsRole]
+  groupBy: UsersPermissionsRoleGroupBy
+  aggregate: UsersPermissionsRoleAggregator
+}
+
+type UsersPermissionsRoleAggregator {
+  count: Int
+  totalCount: Int
+}
+
+type UsersPermissionsRoleGroupBy {
+  id: [UsersPermissionsRoleConnectionId]
+  name: [UsersPermissionsRoleConnectionName]
+  description: [UsersPermissionsRoleConnectionDescription]
+  type: [UsersPermissionsRoleConnectionType]
+}
+
+type UsersPermissionsRoleConnectionId {
+  key: ID
+  connection: UsersPermissionsRoleConnection
+}
+
+type UsersPermissionsRoleConnectionName {
+  key: String
+  connection: UsersPermissionsRoleConnection
+}
+
+type UsersPermissionsRoleConnectionDescription {
+  key: String
+  connection: UsersPermissionsRoleConnection
+}
+
+type UsersPermissionsRoleConnectionType {
+  key: String
+  connection: UsersPermissionsRoleConnection
+}
+
+input RoleInput {
+  name: String!
+  description: String
+  type: String
+  permissions: [ID]
+  users: [ID]
+  created_by: ID
+  updated_by: ID
+}
+
+input editRoleInput {
+  name: String
+  description: String
+  type: String
+  permissions: [ID]
+  users: [ID]
+  created_by: ID
+  updated_by: ID
+}
+
+input createRoleInput {
+  data: RoleInput
+}
+
+type createRolePayload {
+  role: UsersPermissionsRole
+}
+
+input updateRoleInput {
+  where: InputID
+  data: editRoleInput
+}
+
+type updateRolePayload {
+  role: UsersPermissionsRole
+}
+
+input deleteRoleInput {
+  where: InputID
+}
+
+type deleteRolePayload {
+  role: UsersPermissionsRole
+}
+
+type UsersPermissionsUser {
   id: ID!
   created_at: DateTime!
   updated_at: DateTime!
-  file: UploadFile
-  name: String
-  weight: String
-  style: String
-  variable: Boolean
-  major_version: Int
-  minor_version: Int
-  project: Project
-  info: JSON
+  username: String!
+  email: String!
+  provider: String
+  confirmed: Boolean
+  blocked: Boolean
+  role: UsersPermissionsRole
+  Avatar: UploadFile
+  comment: Comment
+  projects(sort: String, limit: Int, start: Int, where: JSON): [Project]
+  tests(sort: String, limit: Int, start: Int, where: JSON): [Test]
+  owned_tests(sort: String, limit: Int, start: Int, where: JSON): [Test]
+  owned_projects(sort: String, limit: Int, start: Int, where: JSON): [Project]
 }
 
-type FontAggregator {
+type UsersPermissionsUserConnection {
+  values: [UsersPermissionsUser]
+  groupBy: UsersPermissionsUserGroupBy
+  aggregate: UsersPermissionsUserAggregator
+}
+
+type UsersPermissionsUserAggregator {
   count: Int
   totalCount: Int
-  sum: FontAggregatorSum
-  avg: FontAggregatorAvg
-  min: FontAggregatorMin
-  max: FontAggregatorMax
 }
 
-type FontAggregatorAvg {
-  major_version: Float
-  minor_version: Float
+type UsersPermissionsUserGroupBy {
+  id: [UsersPermissionsUserConnectionId]
+  created_at: [UsersPermissionsUserConnectionCreated_at]
+  updated_at: [UsersPermissionsUserConnectionUpdated_at]
+  username: [UsersPermissionsUserConnectionUsername]
+  email: [UsersPermissionsUserConnectionEmail]
+  provider: [UsersPermissionsUserConnectionProvider]
+  confirmed: [UsersPermissionsUserConnectionConfirmed]
+  blocked: [UsersPermissionsUserConnectionBlocked]
+  role: [UsersPermissionsUserConnectionRole]
+  Avatar: [UsersPermissionsUserConnectionAvatar]
+  comment: [UsersPermissionsUserConnectionComment]
 }
 
-type FontAggregatorMax {
-  major_version: Float
-  minor_version: Float
+type UsersPermissionsUserConnectionId {
+  key: ID
+  connection: UsersPermissionsUserConnection
 }
 
-type FontAggregatorMin {
-  major_version: Float
-  minor_version: Float
-}
-
-type FontAggregatorSum {
-  major_version: Float
-  minor_version: Float
-}
-
-type FontConnection {
-  values: [Font]
-  groupBy: FontGroupBy
-  aggregate: FontAggregator
-}
-
-type FontConnectionCreated_at {
+type UsersPermissionsUserConnectionCreated_at {
   key: DateTime
-  connection: FontConnection
+  connection: UsersPermissionsUserConnection
 }
 
-type FontConnectionFile {
-  key: ID
-  connection: FontConnection
-}
-
-type FontConnectionId {
-  key: ID
-  connection: FontConnection
-}
-
-type FontConnectionInfo {
-  key: JSON
-  connection: FontConnection
-}
-
-type FontConnectionMajor_version {
-  key: Int
-  connection: FontConnection
-}
-
-type FontConnectionMinor_version {
-  key: Int
-  connection: FontConnection
-}
-
-type FontConnectionName {
-  key: String
-  connection: FontConnection
-}
-
-type FontConnectionProject {
-  key: ID
-  connection: FontConnection
-}
-
-type FontConnectionStyle {
-  key: String
-  connection: FontConnection
-}
-
-type FontConnectionUpdated_at {
+type UsersPermissionsUserConnectionUpdated_at {
   key: DateTime
-  connection: FontConnection
+  connection: UsersPermissionsUserConnection
 }
 
-type FontConnectionVariable {
+type UsersPermissionsUserConnectionUsername {
+  key: String
+  connection: UsersPermissionsUserConnection
+}
+
+type UsersPermissionsUserConnectionEmail {
+  key: String
+  connection: UsersPermissionsUserConnection
+}
+
+type UsersPermissionsUserConnectionProvider {
+  key: String
+  connection: UsersPermissionsUserConnection
+}
+
+type UsersPermissionsUserConnectionConfirmed {
   key: Boolean
-  connection: FontConnection
+  connection: UsersPermissionsUserConnection
 }
 
-type FontConnectionWeight {
-  key: String
-  connection: FontConnection
+type UsersPermissionsUserConnectionBlocked {
+  key: Boolean
+  connection: UsersPermissionsUserConnection
 }
 
-type FontGroupBy {
-  id: [FontConnectionId]
-  created_at: [FontConnectionCreated_at]
-  updated_at: [FontConnectionUpdated_at]
-  file: [FontConnectionFile]
-  name: [FontConnectionName]
-  weight: [FontConnectionWeight]
-  style: [FontConnectionStyle]
-  variable: [FontConnectionVariable]
-  major_version: [FontConnectionMajor_version]
-  minor_version: [FontConnectionMinor_version]
-  project: [FontConnectionProject]
-  info: [FontConnectionInfo]
+type UsersPermissionsUserConnectionRole {
+  key: ID
+  connection: UsersPermissionsUserConnection
 }
 
-input FontInput {
-  file: ID
-  name: String
-  weight: String
-  style: String
-  variable: Boolean
-  major_version: Int
-  minor_version: Int
-  project: ID
-  info: JSON
+type UsersPermissionsUserConnectionAvatar {
+  key: ID
+  connection: UsersPermissionsUserConnection
 }
 
-type ForgotPassword {
-  ok: Boolean
+type UsersPermissionsUserConnectionComment {
+  key: ID
+  connection: UsersPermissionsUserConnection
 }
+
+input UserInput {
+  confirmationToken: String
+  username: String!
+  email: String!
+  provider: String
+  password: String
+  resetPasswordToken: String
+  confirmed: Boolean
+  blocked: Boolean
+  role: ID
+  Avatar: ID
+  comment: ID
+  projects: [ID]
+  tests: [ID]
+  owned_tests: [ID]
+  owned_projects: [ID]
+  created_by: ID
+  updated_by: ID
+}
+
+input editUserInput {
+  confirmationToken: String
+  username: String
+  email: String
+  provider: String
+  password: String
+  resetPasswordToken: String
+  confirmed: Boolean
+  blocked: Boolean
+  role: ID
+  Avatar: ID
+  comment: ID
+  projects: [ID]
+  tests: [ID]
+  owned_tests: [ID]
+  owned_projects: [ID]
+  created_by: ID
+  updated_by: ID
+}
+
+input createUserInput {
+  data: UserInput
+}
+
+type createUserPayload {
+  user: UsersPermissionsUser
+}
+
+input updateUserInput {
+  where: InputID
+  data: editUserInput
+}
+
+type updateUserPayload {
+  user: UsersPermissionsUser
+}
+
+input deleteUserInput {
+  where: InputID
+}
+
+type deleteUserPayload {
+  user: UsersPermissionsUser
+}
+
+union Morph = UsersPermissionsMe | UsersPermissionsMeRole | UsersPermissionsLoginPayload | UserPermissionsPasswordPayload | Comment | CommentConnection | CommentAggregator | CommentAggregatorSum | CommentAggregatorAvg | CommentAggregatorMin | CommentAggregatorMax | CommentGroupBy | CommentConnectionId | CommentConnectionCreated_at | CommentConnectionUpdated_at | CommentConnectionUser | CommentConnectionText | CommentConnectionX | CommentConnectionY | CommentConnectionRadius | CommentConnectionSomeText | createCommentPayload | updateCommentPayload | deleteCommentPayload | Font | FontConnection | FontAggregator | FontAggregatorSum | FontAggregatorAvg | FontAggregatorMin | FontAggregatorMax | FontGroupBy | FontConnectionId | FontConnectionCreated_at | FontConnectionUpdated_at | FontConnectionFile | FontConnectionName | FontConnectionWeight | FontConnectionStyle | FontConnectionVariable | FontConnectionMajor_version | FontConnectionMinor_version | FontConnectionProject | FontConnectionInfo | createFontPayload | updateFontPayload | deleteFontPayload | Organization | OrganizationConnection | OrganizationAggregator | OrganizationGroupBy | OrganizationConnectionId | OrganizationConnectionCreated_at | OrganizationConnectionUpdated_at | OrganizationConnectionName | createOrganizationPayload | updateOrganizationPayload | deleteOrganizationPayload | Project | ProjectConnection | ProjectAggregator | ProjectAggregatorSum | ProjectAggregatorAvg | ProjectAggregatorMin | ProjectAggregatorMax | ProjectGroupBy | ProjectConnectionId | ProjectConnectionCreated_at | ProjectConnectionUpdated_at | ProjectConnectionName | ProjectConnectionMajor_version | ProjectConnectionMinor_version | ProjectConnectionArchived | ProjectConnectionDescription | createProjectPayload | updateProjectPayload | deleteProjectPayload | Question | QuestionConnection | QuestionAggregator | QuestionGroupBy | QuestionConnectionId | QuestionConnectionCreated_at | QuestionConnectionUpdated_at | QuestionConnectionEditor_image | QuestionConnectionImage_type | QuestionConnectionContext | QuestionConnectionQuestion | QuestionConnectionUploaded_image | QuestionConnectionPublished | QuestionConnectionTest | QuestionConnectionSource | QuestionConnectionCode_image | QuestionConnectionCode_data | createQuestionPayload | updateQuestionPayload | deleteQuestionPayload | Tag | TagConnection | TagAggregator | TagGroupBy | TagConnectionId | TagConnectionCreated_at | TagConnectionUpdated_at | TagConnectionName | TagConnectionColor | createTagPayload | updateTagPayload | deleteTagPayload | Test | TestConnection | TestAggregator | TestAggregatorSum | TestAggregatorAvg | TestAggregatorMin | TestAggregatorMax | TestGroupBy | TestConnectionId | TestConnectionCreated_at | TestConnectionUpdated_at | TestConnectionName | TestConnectionTags | TestConnectionMajor_version | TestConnectionMinor_version | TestConnectionCompleteness | TestConnectionArchived | TestConnectionProject | TestConnectionDescription | createTestPayload | updateTestPayload | deleteTestPayload | UploadFile | UploadFileConnection | UploadFileAggregator | UploadFileAggregatorSum | UploadFileAggregatorAvg | UploadFileAggregatorMin | UploadFileAggregatorMax | UploadFileGroupBy | UploadFileConnectionId | UploadFileConnectionCreated_at | UploadFileConnectionUpdated_at | UploadFileConnectionName | UploadFileConnectionAlternativeText | UploadFileConnectionCaption | UploadFileConnectionWidth | UploadFileConnectionHeight | UploadFileConnectionFormats | UploadFileConnectionHash | UploadFileConnectionExt | UploadFileConnectionMime | UploadFileConnectionSize | UploadFileConnectionUrl | UploadFileConnectionPreviewUrl | UploadFileConnectionProvider | UploadFileConnectionProvider_metadata | deleteFilePayload | UsersPermissionsPermission | UsersPermissionsRole | UsersPermissionsRoleConnection | UsersPermissionsRoleAggregator | UsersPermissionsRoleGroupBy | UsersPermissionsRoleConnectionId | UsersPermissionsRoleConnectionName | UsersPermissionsRoleConnectionDescription | UsersPermissionsRoleConnectionType | createRolePayload | updateRolePayload | deleteRolePayload | UsersPermissionsUser | UsersPermissionsUserConnection | UsersPermissionsUserAggregator | UsersPermissionsUserGroupBy | UsersPermissionsUserConnectionId | UsersPermissionsUserConnectionCreated_at | UsersPermissionsUserConnectionUpdated_at | UsersPermissionsUserConnectionUsername | UsersPermissionsUserConnectionEmail | UsersPermissionsUserConnectionProvider | UsersPermissionsUserConnectionConfirmed | UsersPermissionsUserConnectionBlocked | UsersPermissionsUserConnectionRole | UsersPermissionsUserConnectionAvatar | UsersPermissionsUserConnectionComment | createUserPayload | updateUserPayload | deleteUserPayload
 
 input InputID {
   id: ID!
 }
 
-"""
-The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).
-"""
-scalar JSON
+enum PublicationState {
+  LIVE
+  PREVIEW
+}
 
-"""The `Long` scalar type represents 52-bit integers"""
-scalar Long
+type AdminUser {
+  id: ID!
+  username: String
+  firstname: String!
+  lastname: String!
+}
 
-union Morph = UsersPermissionsMe | UsersPermissionsMeRole | UsersPermissionsLoginPayload | ForgotPassword | Comment | CommentConnection | CommentAggregator | CommentAggregatorSum | CommentAggregatorAvg | CommentAggregatorMin | CommentAggregatorMax | CommentGroupBy | CommentConnectionId | CommentConnectionCreated_at | CommentConnectionUpdated_at | CommentConnectionUser | CommentConnectionText | CommentConnectionX | CommentConnectionY | CommentConnectionRadius | CommentConnectionSomeText | createCommentPayload | updateCommentPayload | deleteCommentPayload | Font | FontConnection | FontAggregator | FontAggregatorSum | FontAggregatorAvg | FontAggregatorMin | FontAggregatorMax | FontGroupBy | FontConnectionId | FontConnectionCreated_at | FontConnectionUpdated_at | FontConnectionFile | FontConnectionName | FontConnectionWeight | FontConnectionStyle | FontConnectionVariable | FontConnectionMajor_version | FontConnectionMinor_version | FontConnectionProject | FontConnectionInfo | createFontPayload | updateFontPayload | deleteFontPayload | Organization | OrganizationConnection | OrganizationAggregator | OrganizationGroupBy | OrganizationConnectionId | OrganizationConnectionCreated_at | OrganizationConnectionUpdated_at | OrganizationConnectionName | createOrganizationPayload | updateOrganizationPayload | deleteOrganizationPayload | Project | ProjectConnection | ProjectAggregator | ProjectAggregatorSum | ProjectAggregatorAvg | ProjectAggregatorMin | ProjectAggregatorMax | ProjectGroupBy | ProjectConnectionId | ProjectConnectionCreated_at | ProjectConnectionUpdated_at | ProjectConnectionName | ProjectConnectionMajor_version | ProjectConnectionMinor_version | ProjectConnectionArchived | ProjectConnectionDescription | createProjectPayload | updateProjectPayload | deleteProjectPayload | Question | QuestionConnection | QuestionAggregator | QuestionGroupBy | QuestionConnectionId | QuestionConnectionCreated_at | QuestionConnectionUpdated_at | QuestionConnectionEditor_image | QuestionConnectionImage_type | QuestionConnectionContext | QuestionConnectionQuestion | QuestionConnectionUploaded_image | QuestionConnectionPublished | QuestionConnectionTest | QuestionConnectionSource | QuestionConnectionCode_image | QuestionConnectionCode_data | createQuestionPayload | updateQuestionPayload | deleteQuestionPayload | Tag | TagConnection | TagAggregator | TagGroupBy | TagConnectionId | TagConnectionCreated_at | TagConnectionUpdated_at | TagConnectionName | TagConnectionColor | createTagPayload | updateTagPayload | deleteTagPayload | Test | TestConnection | TestAggregator | TestAggregatorSum | TestAggregatorAvg | TestAggregatorMin | TestAggregatorMax | TestGroupBy | TestConnectionId | TestConnectionCreated_at | TestConnectionUpdated_at | TestConnectionName | TestConnectionTags | TestConnectionMajor_version | TestConnectionMinor_version | TestConnectionCompleteness | TestConnectionArchived | TestConnectionProject | TestConnectionDescription | createTestPayload | updateTestPayload | deleteTestPayload | UploadFile | UploadFileConnection | UploadFileAggregator | UploadFileAggregatorSum | UploadFileAggregatorAvg | UploadFileAggregatorMin | UploadFileAggregatorMax | UploadFileGroupBy | UploadFileConnectionId | UploadFileConnectionCreated_at | UploadFileConnectionUpdated_at | UploadFileConnectionName | UploadFileConnectionAlternativeText | UploadFileConnectionCaption | UploadFileConnectionWidth | UploadFileConnectionHeight | UploadFileConnectionFormats | UploadFileConnectionHash | UploadFileConnectionExt | UploadFileConnectionMime | UploadFileConnectionSize | UploadFileConnectionUrl | UploadFileConnectionPreviewUrl | UploadFileConnectionProvider | UploadFileConnectionProvider_metadata | createFilePayload | updateFilePayload | deleteFilePayload | UsersPermissionsPermission | UsersPermissionsRole | UsersPermissionsRoleConnection | UsersPermissionsRoleAggregator | UsersPermissionsRoleGroupBy | UsersPermissionsRoleConnectionId | UsersPermissionsRoleConnectionName | UsersPermissionsRoleConnectionDescription | UsersPermissionsRoleConnectionType | createRolePayload | updateRolePayload | deleteRolePayload | UsersPermissionsUser | UsersPermissionsUserConnection | UsersPermissionsUserAggregator | UsersPermissionsUserGroupBy | UsersPermissionsUserConnectionId | UsersPermissionsUserConnectionCreated_at | UsersPermissionsUserConnectionUpdated_at | UsersPermissionsUserConnectionUsername | UsersPermissionsUserConnectionEmail | UsersPermissionsUserConnectionProvider | UsersPermissionsUserConnectionConfirmed | UsersPermissionsUserConnectionBlocked | UsersPermissionsUserConnectionRole | UsersPermissionsUserConnectionAvatar | UsersPermissionsUserConnectionComment | createUserPayload | updateUserPayload | deleteUserPayload
+type Query {
+  comment(id: ID!, publicationState: PublicationState): Comment
+  comments(sort: String, limit: Int, start: Int, where: JSON, publicationState: PublicationState): [Comment]
+  commentsConnection(sort: String, limit: Int, start: Int, where: JSON): CommentConnection
+  font(id: ID!, publicationState: PublicationState): Font
+  fonts(sort: String, limit: Int, start: Int, where: JSON, publicationState: PublicationState): [Font]
+  fontsConnection(sort: String, limit: Int, start: Int, where: JSON): FontConnection
+  organization(id: ID!, publicationState: PublicationState): Organization
+  organizations(sort: String, limit: Int, start: Int, where: JSON, publicationState: PublicationState): [Organization]
+  organizationsConnection(sort: String, limit: Int, start: Int, where: JSON): OrganizationConnection
+  project(id: ID!, publicationState: PublicationState): Project
+  projects(sort: String, limit: Int, start: Int, where: JSON, publicationState: PublicationState): [Project]
+  projectsConnection(sort: String, limit: Int, start: Int, where: JSON): ProjectConnection
+  question(id: ID!, publicationState: PublicationState): Question
+  questions(sort: String, limit: Int, start: Int, where: JSON, publicationState: PublicationState): [Question]
+  questionsConnection(sort: String, limit: Int, start: Int, where: JSON): QuestionConnection
+  tag(id: ID!, publicationState: PublicationState): Tag
+  tags(sort: String, limit: Int, start: Int, where: JSON, publicationState: PublicationState): [Tag]
+  tagsConnection(sort: String, limit: Int, start: Int, where: JSON): TagConnection
+  test(id: ID!, publicationState: PublicationState): Test
+  tests(sort: String, limit: Int, start: Int, where: JSON, publicationState: PublicationState): [Test]
+  testsConnection(sort: String, limit: Int, start: Int, where: JSON): TestConnection
+  files(sort: String, limit: Int, start: Int, where: JSON, publicationState: PublicationState): [UploadFile]
+  filesConnection(sort: String, limit: Int, start: Int, where: JSON): UploadFileConnection
+  role(id: ID!, publicationState: PublicationState): UsersPermissionsRole
+
+  """
+  Retrieve all the existing roles. You can't apply filters on this query.
+  """
+  roles(sort: String, limit: Int, start: Int, where: JSON, publicationState: PublicationState): [UsersPermissionsRole]
+  rolesConnection(sort: String, limit: Int, start: Int, where: JSON): UsersPermissionsRoleConnection
+  user(id: ID!, publicationState: PublicationState): UsersPermissionsUser
+  users(sort: String, limit: Int, start: Int, where: JSON, publicationState: PublicationState): [UsersPermissionsUser]
+  usersConnection(sort: String, limit: Int, start: Int, where: JSON): UsersPermissionsUserConnection
+  me: UsersPermissionsMe
+}
 
 type Mutation {
   createComment(input: createCommentInput): createCommentPayload
@@ -608,6 +1620,9 @@ type Mutation {
   updateTest(input: updateTestInput): updateTestPayload
   deleteTest(input: deleteTestInput): deleteTestPayload
 
+  """Delete one file"""
+  deleteFile(input: deleteFileInput): deleteFilePayload
+
   """Create a new role"""
   createRole(input: createRoleInput): createRolePayload
 
@@ -627,1003 +1642,34 @@ type Mutation {
   deleteUser(input: deleteUserInput): deleteUserPayload
   upload(refId: ID, ref: String, field: String, source: String, file: Upload!): UploadFile!
   multipleUpload(refId: ID, ref: String, field: String, source: String, files: [Upload]!): [UploadFile]!
+  updateFileInfo(id: ID!, info: FileInfoInput!): UploadFile!
   login(input: UsersPermissionsLoginInput!): UsersPermissionsLoginPayload!
-  register(input: UserInput!): UsersPermissionsLoginPayload!
-  forgotPassword(email: String!): ForgotPassword
-  changePassword(password: String!, passwordConfirmation: String!, code: String!): UsersPermissionsLoginPayload
+  register(input: UsersPermissionsRegisterInput!): UsersPermissionsLoginPayload!
+  forgotPassword(email: String!): UserPermissionsPasswordPayload
+  resetPassword(password: String!, passwordConfirmation: String!, code: String!): UsersPermissionsLoginPayload
   emailConfirmation(confirmation: String!): UsersPermissionsLoginPayload
 }
 
-type Organization {
-  id: ID!
-  created_at: DateTime!
-  updated_at: DateTime!
-  name: String
-  users(sort: String, limit: Int, start: Int, where: JSON): [UsersPermissionsUser]
-  projects(sort: String, limit: Int, start: Int, where: JSON): [Project]
-}
-
-type OrganizationAggregator {
-  count: Int
-  totalCount: Int
-}
-
-type OrganizationConnection {
-  values: [Organization]
-  groupBy: OrganizationGroupBy
-  aggregate: OrganizationAggregator
-}
-
-type OrganizationConnectionCreated_at {
-  key: DateTime
-  connection: OrganizationConnection
-}
-
-type OrganizationConnectionId {
-  key: ID
-  connection: OrganizationConnection
-}
-
-type OrganizationConnectionName {
-  key: String
-  connection: OrganizationConnection
-}
-
-type OrganizationConnectionUpdated_at {
-  key: DateTime
-  connection: OrganizationConnection
-}
-
-type OrganizationGroupBy {
-  id: [OrganizationConnectionId]
-  created_at: [OrganizationConnectionCreated_at]
-  updated_at: [OrganizationConnectionUpdated_at]
-  name: [OrganizationConnectionName]
-}
-
-input OrganizationInput {
-  users: [ID]
-  name: String
-  projects: [ID]
-}
-
-type Project {
-  id: ID!
-  created_at: DateTime!
-  updated_at: DateTime!
-  name: String!
-  major_version: Int
-  minor_version: Int
-  archived: Boolean
-  description: String
-  fonts(sort: String, limit: Int, start: Int, where: JSON): [Font]
-  tags(sort: String, limit: Int, start: Int, where: JSON): [Tag]
-  tests(sort: String, limit: Int, start: Int, where: JSON): [Test]
-  users(sort: String, limit: Int, start: Int, where: JSON): [UsersPermissionsUser]
-  owners(sort: String, limit: Int, start: Int, where: JSON): [UsersPermissionsUser]
-}
-
-type ProjectAggregator {
-  count: Int
-  totalCount: Int
-  sum: ProjectAggregatorSum
-  avg: ProjectAggregatorAvg
-  min: ProjectAggregatorMin
-  max: ProjectAggregatorMax
-}
-
-type ProjectAggregatorAvg {
-  major_version: Float
-  minor_version: Float
-}
-
-type ProjectAggregatorMax {
-  major_version: Float
-  minor_version: Float
-}
-
-type ProjectAggregatorMin {
-  major_version: Float
-  minor_version: Float
-}
-
-type ProjectAggregatorSum {
-  major_version: Float
-  minor_version: Float
-}
-
-type ProjectConnection {
-  values: [Project]
-  groupBy: ProjectGroupBy
-  aggregate: ProjectAggregator
-}
-
-type ProjectConnectionArchived {
-  key: Boolean
-  connection: ProjectConnection
-}
-
-type ProjectConnectionCreated_at {
-  key: DateTime
-  connection: ProjectConnection
-}
-
-type ProjectConnectionDescription {
-  key: String
-  connection: ProjectConnection
-}
-
-type ProjectConnectionId {
-  key: ID
-  connection: ProjectConnection
-}
-
-type ProjectConnectionMajor_version {
-  key: Int
-  connection: ProjectConnection
-}
-
-type ProjectConnectionMinor_version {
-  key: Int
-  connection: ProjectConnection
-}
-
-type ProjectConnectionName {
-  key: String
-  connection: ProjectConnection
-}
-
-type ProjectConnectionUpdated_at {
-  key: DateTime
-  connection: ProjectConnection
-}
-
-type ProjectGroupBy {
-  id: [ProjectConnectionId]
-  created_at: [ProjectConnectionCreated_at]
-  updated_at: [ProjectConnectionUpdated_at]
-  name: [ProjectConnectionName]
-  major_version: [ProjectConnectionMajor_version]
-  minor_version: [ProjectConnectionMinor_version]
-  archived: [ProjectConnectionArchived]
-  description: [ProjectConnectionDescription]
-}
-
-input ProjectInput {
-  name: String!
-  major_version: Int
-  minor_version: Int
-  fonts: [ID]
-  tags: [ID]
-  archived: Boolean
-  tests: [ID]
-  users: [ID]
-  owners: [ID]
-  description: String
-}
-
-type Query {
-  comment(id: ID!): Comment
-  comments(sort: String, limit: Int, start: Int, where: JSON): [Comment]
-  commentsConnection(sort: String, limit: Int, start: Int, where: JSON): CommentConnection
-  font(id: ID!): Font
-  fonts(sort: String, limit: Int, start: Int, where: JSON): [Font]
-  fontsConnection(sort: String, limit: Int, start: Int, where: JSON): FontConnection
-  organization(id: ID!): Organization
-  organizations(sort: String, limit: Int, start: Int, where: JSON): [Organization]
-  organizationsConnection(sort: String, limit: Int, start: Int, where: JSON): OrganizationConnection
-  project(id: ID!): Project
-  projects(sort: String, limit: Int, start: Int, where: JSON): [Project]
-  projectsConnection(sort: String, limit: Int, start: Int, where: JSON): ProjectConnection
-  question(id: ID!): Question
-  questions(sort: String, limit: Int, start: Int, where: JSON): [Question]
-  questionsConnection(sort: String, limit: Int, start: Int, where: JSON): QuestionConnection
-  tag(id: ID!): Tag
-  tags(sort: String, limit: Int, start: Int, where: JSON): [Tag]
-  tagsConnection(sort: String, limit: Int, start: Int, where: JSON): TagConnection
-  test(id: ID!): Test
-  tests(sort: String, limit: Int, start: Int, where: JSON): [Test]
-  testsConnection(sort: String, limit: Int, start: Int, where: JSON): TestConnection
-  files(sort: String, limit: Int, start: Int, where: JSON): [UploadFile]
-  filesConnection(sort: String, limit: Int, start: Int, where: JSON): UploadFileConnection
-  role(id: ID!): UsersPermissionsRole
-
-  """
-  Retrieve all the existing roles. You can't apply filters on this query.
-  """
-  roles(sort: String, limit: Int, start: Int, where: JSON): [UsersPermissionsRole]
-  rolesConnection(sort: String, limit: Int, start: Int, where: JSON): UsersPermissionsRoleConnection
-  user(id: ID!): UsersPermissionsUser
-  users(sort: String, limit: Int, start: Int, where: JSON): [UsersPermissionsUser]
-  usersConnection(sort: String, limit: Int, start: Int, where: JSON): UsersPermissionsUserConnection
-  me: UsersPermissionsMe
-}
-
-type Question {
-  id: ID!
-  created_at: DateTime!
-  updated_at: DateTime!
-  editor_image: JSON
-  image_type: ENUM_QUESTION_IMAGE_TYPE
-  context: String
-  question: String
-  uploaded_image: UploadFile
-  published: Boolean
-  test: Test
-  source: String
-  code_image: UploadFile
-  code_data: JSON
-  reference_images(sort: String, limit: Int, start: Int, where: JSON): [UploadFile]
-}
-
-type QuestionAggregator {
-  count: Int
-  totalCount: Int
-}
-
-type QuestionConnection {
-  values: [Question]
-  groupBy: QuestionGroupBy
-  aggregate: QuestionAggregator
-}
-
-type QuestionConnectionCode_data {
-  key: JSON
-  connection: QuestionConnection
-}
-
-type QuestionConnectionCode_image {
-  key: ID
-  connection: QuestionConnection
-}
-
-type QuestionConnectionContext {
-  key: String
-  connection: QuestionConnection
-}
-
-type QuestionConnectionCreated_at {
-  key: DateTime
-  connection: QuestionConnection
-}
-
-type QuestionConnectionEditor_image {
-  key: JSON
-  connection: QuestionConnection
-}
-
-type QuestionConnectionId {
-  key: ID
-  connection: QuestionConnection
-}
-
-type QuestionConnectionImage_type {
-  key: String
-  connection: QuestionConnection
-}
-
-type QuestionConnectionPublished {
-  key: Boolean
-  connection: QuestionConnection
-}
-
-type QuestionConnectionQuestion {
-  key: String
-  connection: QuestionConnection
-}
-
-type QuestionConnectionSource {
-  key: String
-  connection: QuestionConnection
-}
-
-type QuestionConnectionTest {
-  key: ID
-  connection: QuestionConnection
-}
-
-type QuestionConnectionUpdated_at {
-  key: DateTime
-  connection: QuestionConnection
-}
-
-type QuestionConnectionUploaded_image {
-  key: ID
-  connection: QuestionConnection
-}
-
-type QuestionGroupBy {
-  id: [QuestionConnectionId]
-  created_at: [QuestionConnectionCreated_at]
-  updated_at: [QuestionConnectionUpdated_at]
-  editor_image: [QuestionConnectionEditor_image]
-  image_type: [QuestionConnectionImage_type]
-  context: [QuestionConnectionContext]
-  question: [QuestionConnectionQuestion]
-  uploaded_image: [QuestionConnectionUploaded_image]
-  published: [QuestionConnectionPublished]
-  test: [QuestionConnectionTest]
-  source: [QuestionConnectionSource]
-  code_image: [QuestionConnectionCode_image]
-  code_data: [QuestionConnectionCode_data]
-}
-
-input QuestionInput {
-  editor_image: JSON
-  image_type: ENUM_QUESTION_IMAGE_TYPE
-  context: String
-  question: String
-  reference_images: [ID]
-  uploaded_image: ID
-  published: Boolean
-  test: ID
-  source: String
-  code_image: ID
-  code_data: JSON
-}
-
-input RoleInput {
-  name: String!
-  description: String
-  type: String
-  permissions: [ID]
-  users: [ID]
-}
-
-type Tag {
-  id: ID!
-  created_at: DateTime!
-  updated_at: DateTime!
-  name: String
-  color: String
-  projects(sort: String, limit: Int, start: Int, where: JSON): [Project]
-}
-
-type TagAggregator {
-  count: Int
-  totalCount: Int
-}
-
-type TagConnection {
-  values: [Tag]
-  groupBy: TagGroupBy
-  aggregate: TagAggregator
-}
-
-type TagConnectionColor {
-  key: String
-  connection: TagConnection
-}
-
-type TagConnectionCreated_at {
-  key: DateTime
-  connection: TagConnection
-}
-
-type TagConnectionId {
-  key: ID
-  connection: TagConnection
-}
-
-type TagConnectionName {
-  key: String
-  connection: TagConnection
-}
-
-type TagConnectionUpdated_at {
-  key: DateTime
-  connection: TagConnection
-}
-
-type TagGroupBy {
-  id: [TagConnectionId]
-  created_at: [TagConnectionCreated_at]
-  updated_at: [TagConnectionUpdated_at]
-  name: [TagConnectionName]
-  color: [TagConnectionColor]
-}
-
-input TagInput {
-  name: String
-  color: String
-  projects: [ID]
-}
-
-type Test {
-  id: ID!
-  created_at: DateTime!
-  updated_at: DateTime!
-  name: String!
-  tags: JSON
-  major_version: Int!
-  minor_version: Int!
-  completeness: Float
-  archived: Boolean
-  project: Project
-  description: String
-  questions(sort: String, limit: Int, start: Int, where: JSON): [Question]
-  users(sort: String, limit: Int, start: Int, where: JSON): [UsersPermissionsUser]
-  owners(sort: String, limit: Int, start: Int, where: JSON): [UsersPermissionsUser]
-}
-
-type TestAggregator {
-  count: Int
-  totalCount: Int
-  sum: TestAggregatorSum
-  avg: TestAggregatorAvg
-  min: TestAggregatorMin
-  max: TestAggregatorMax
-}
-
-type TestAggregatorAvg {
-  major_version: Float
-  minor_version: Float
-  completeness: Float
-}
-
-type TestAggregatorMax {
-  major_version: Float
-  minor_version: Float
-  completeness: Float
-}
-
-type TestAggregatorMin {
-  major_version: Float
-  minor_version: Float
-  completeness: Float
-}
-
-type TestAggregatorSum {
-  major_version: Float
-  minor_version: Float
-  completeness: Float
-}
-
-type TestConnection {
-  values: [Test]
-  groupBy: TestGroupBy
-  aggregate: TestAggregator
-}
-
-type TestConnectionArchived {
-  key: Boolean
-  connection: TestConnection
-}
-
-type TestConnectionCompleteness {
-  key: Float
-  connection: TestConnection
-}
-
-type TestConnectionCreated_at {
-  key: DateTime
-  connection: TestConnection
-}
-
-type TestConnectionDescription {
-  key: String
-  connection: TestConnection
-}
-
-type TestConnectionId {
-  key: ID
-  connection: TestConnection
-}
-
-type TestConnectionMajor_version {
-  key: Int
-  connection: TestConnection
-}
-
-type TestConnectionMinor_version {
-  key: Int
-  connection: TestConnection
-}
-
-type TestConnectionName {
-  key: String
-  connection: TestConnection
-}
-
-type TestConnectionProject {
-  key: ID
-  connection: TestConnection
-}
-
-type TestConnectionTags {
-  key: JSON
-  connection: TestConnection
-}
-
-type TestConnectionUpdated_at {
-  key: DateTime
-  connection: TestConnection
-}
-
-type TestGroupBy {
-  id: [TestConnectionId]
-  created_at: [TestConnectionCreated_at]
-  updated_at: [TestConnectionUpdated_at]
-  name: [TestConnectionName]
-  tags: [TestConnectionTags]
-  major_version: [TestConnectionMajor_version]
-  minor_version: [TestConnectionMinor_version]
-  completeness: [TestConnectionCompleteness]
-  archived: [TestConnectionArchived]
-  project: [TestConnectionProject]
-  description: [TestConnectionDescription]
-}
-
-input TestInput {
-  name: String!
-  tags: JSON
-  major_version: Int!
-  minor_version: Int!
-  questions: [ID]
-  completeness: Float
-  archived: Boolean
-  users: [ID]
-  owners: [ID]
-  project: ID
-  description: String
-}
+"""
+The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).
+"""
+scalar JSON @specifiedBy(url: "http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf")
+
+"""
+A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar.
+"""
+scalar DateTime
 
 """A time string with format: HH:mm:ss.SSS"""
 scalar Time
 
-input updateCommentInput {
-  where: InputID
-  data: editCommentInput
-}
+"""
+A date string, such as 2007-12-03, compliant with the `full-date` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar.
+"""
+scalar Date
 
-type updateCommentPayload {
-  comment: Comment
-}
-
-input updateFileInput {
-  where: InputID
-  data: editFileInput
-}
-
-type updateFilePayload {
-  file: UploadFile
-}
-
-input updateFontInput {
-  where: InputID
-  data: editFontInput
-}
-
-type updateFontPayload {
-  font: Font
-}
-
-input updateOrganizationInput {
-  where: InputID
-  data: editOrganizationInput
-}
-
-type updateOrganizationPayload {
-  organization: Organization
-}
-
-input updateProjectInput {
-  where: InputID
-  data: editProjectInput
-}
-
-type updateProjectPayload {
-  project: Project
-}
-
-input updateQuestionInput {
-  where: InputID
-  data: editQuestionInput
-}
-
-type updateQuestionPayload {
-  question: Question
-}
-
-input updateRoleInput {
-  where: InputID
-  data: editRoleInput
-}
-
-type updateRolePayload {
-  role: UsersPermissionsRole
-}
-
-input updateTagInput {
-  where: InputID
-  data: editTagInput
-}
-
-type updateTagPayload {
-  tag: Tag
-}
-
-input updateTestInput {
-  where: InputID
-  data: editTestInput
-}
-
-type updateTestPayload {
-  test: Test
-}
-
-input updateUserInput {
-  where: InputID
-  data: editUserInput
-}
-
-type updateUserPayload {
-  user: UsersPermissionsUser
-}
+"""The `Long` scalar type represents 52-bit integers"""
+scalar Long
 
 """The `Upload` scalar type represents a file upload."""
 scalar Upload
-
-type UploadFile {
-  id: ID!
-  created_at: DateTime!
-  updated_at: DateTime!
-  name: String!
-  alternativeText: String
-  caption: String
-  width: Int
-  height: Int
-  formats: JSON
-  hash: String!
-  ext: String
-  mime: String!
-  size: Float!
-  url: String!
-  previewUrl: String
-  provider: String!
-  provider_metadata: JSON
-  related(sort: String, limit: Int, start: Int, where: JSON): [Morph]
-}
-
-type UploadFileAggregator {
-  count: Int
-  totalCount: Int
-  sum: UploadFileAggregatorSum
-  avg: UploadFileAggregatorAvg
-  min: UploadFileAggregatorMin
-  max: UploadFileAggregatorMax
-}
-
-type UploadFileAggregatorAvg {
-  width: Float
-  height: Float
-  size: Float
-}
-
-type UploadFileAggregatorMax {
-  width: Float
-  height: Float
-  size: Float
-}
-
-type UploadFileAggregatorMin {
-  width: Float
-  height: Float
-  size: Float
-}
-
-type UploadFileAggregatorSum {
-  width: Float
-  height: Float
-  size: Float
-}
-
-type UploadFileConnection {
-  values: [UploadFile]
-  groupBy: UploadFileGroupBy
-  aggregate: UploadFileAggregator
-}
-
-type UploadFileConnectionAlternativeText {
-  key: String
-  connection: UploadFileConnection
-}
-
-type UploadFileConnectionCaption {
-  key: String
-  connection: UploadFileConnection
-}
-
-type UploadFileConnectionCreated_at {
-  key: DateTime
-  connection: UploadFileConnection
-}
-
-type UploadFileConnectionExt {
-  key: String
-  connection: UploadFileConnection
-}
-
-type UploadFileConnectionFormats {
-  key: JSON
-  connection: UploadFileConnection
-}
-
-type UploadFileConnectionHash {
-  key: String
-  connection: UploadFileConnection
-}
-
-type UploadFileConnectionHeight {
-  key: Int
-  connection: UploadFileConnection
-}
-
-type UploadFileConnectionId {
-  key: ID
-  connection: UploadFileConnection
-}
-
-type UploadFileConnectionMime {
-  key: String
-  connection: UploadFileConnection
-}
-
-type UploadFileConnectionName {
-  key: String
-  connection: UploadFileConnection
-}
-
-type UploadFileConnectionPreviewUrl {
-  key: String
-  connection: UploadFileConnection
-}
-
-type UploadFileConnectionProvider {
-  key: String
-  connection: UploadFileConnection
-}
-
-type UploadFileConnectionProvider_metadata {
-  key: JSON
-  connection: UploadFileConnection
-}
-
-type UploadFileConnectionSize {
-  key: Float
-  connection: UploadFileConnection
-}
-
-type UploadFileConnectionUpdated_at {
-  key: DateTime
-  connection: UploadFileConnection
-}
-
-type UploadFileConnectionUrl {
-  key: String
-  connection: UploadFileConnection
-}
-
-type UploadFileConnectionWidth {
-  key: Int
-  connection: UploadFileConnection
-}
-
-type UploadFileGroupBy {
-  id: [UploadFileConnectionId]
-  created_at: [UploadFileConnectionCreated_at]
-  updated_at: [UploadFileConnectionUpdated_at]
-  name: [UploadFileConnectionName]
-  alternativeText: [UploadFileConnectionAlternativeText]
-  caption: [UploadFileConnectionCaption]
-  width: [UploadFileConnectionWidth]
-  height: [UploadFileConnectionHeight]
-  formats: [UploadFileConnectionFormats]
-  hash: [UploadFileConnectionHash]
-  ext: [UploadFileConnectionExt]
-  mime: [UploadFileConnectionMime]
-  size: [UploadFileConnectionSize]
-  url: [UploadFileConnectionUrl]
-  previewUrl: [UploadFileConnectionPreviewUrl]
-  provider: [UploadFileConnectionProvider]
-  provider_metadata: [UploadFileConnectionProvider_metadata]
-}
-
-input UserInput {
-  username: String!
-  email: String!
-  provider: String
-  password: String
-  resetPasswordToken: String
-  confirmed: Boolean
-  blocked: Boolean
-  role: ID
-  Avatar: ID
-  comment: ID
-  projects: [ID]
-  tests: [ID]
-  owned_tests: [ID]
-  owned_projects: [ID]
-}
-
-input UsersPermissionsLoginInput {
-  identifier: String!
-  password: String!
-  provider: String = "local"
-}
-
-type UsersPermissionsLoginPayload {
-  jwt: String!
-  user: UsersPermissionsMe!
-}
-
-type UsersPermissionsMe {
-  id: ID!
-  username: String!
-  email: String!
-  confirmed: Boolean
-  blocked: Boolean
-  role: UsersPermissionsMeRole
-}
-
-type UsersPermissionsMeRole {
-  id: ID!
-  name: String!
-  description: String
-  type: String
-}
-
-type UsersPermissionsPermission {
-  id: ID!
-  type: String!
-  controller: String!
-  action: String!
-  enabled: Boolean!
-  policy: String
-  role: UsersPermissionsRole
-}
-
-type UsersPermissionsRole {
-  id: ID!
-  name: String!
-  description: String
-  type: String
-  permissions(sort: String, limit: Int, start: Int, where: JSON): [UsersPermissionsPermission]
-  users(sort: String, limit: Int, start: Int, where: JSON): [UsersPermissionsUser]
-}
-
-type UsersPermissionsRoleAggregator {
-  count: Int
-  totalCount: Int
-}
-
-type UsersPermissionsRoleConnection {
-  values: [UsersPermissionsRole]
-  groupBy: UsersPermissionsRoleGroupBy
-  aggregate: UsersPermissionsRoleAggregator
-}
-
-type UsersPermissionsRoleConnectionDescription {
-  key: String
-  connection: UsersPermissionsRoleConnection
-}
-
-type UsersPermissionsRoleConnectionId {
-  key: ID
-  connection: UsersPermissionsRoleConnection
-}
-
-type UsersPermissionsRoleConnectionName {
-  key: String
-  connection: UsersPermissionsRoleConnection
-}
-
-type UsersPermissionsRoleConnectionType {
-  key: String
-  connection: UsersPermissionsRoleConnection
-}
-
-type UsersPermissionsRoleGroupBy {
-  id: [UsersPermissionsRoleConnectionId]
-  name: [UsersPermissionsRoleConnectionName]
-  description: [UsersPermissionsRoleConnectionDescription]
-  type: [UsersPermissionsRoleConnectionType]
-}
-
-type UsersPermissionsUser {
-  id: ID!
-  created_at: DateTime!
-  updated_at: DateTime!
-  username: String!
-  email: String!
-  provider: String
-  confirmed: Boolean
-  blocked: Boolean
-  role: UsersPermissionsRole
-  Avatar: UploadFile
-  comment: Comment
-  projects(sort: String, limit: Int, start: Int, where: JSON): [Project]
-  tests(sort: String, limit: Int, start: Int, where: JSON): [Test]
-  owned_tests(sort: String, limit: Int, start: Int, where: JSON): [Test]
-  owned_projects(sort: String, limit: Int, start: Int, where: JSON): [Project]
-}
-
-type UsersPermissionsUserAggregator {
-  count: Int
-  totalCount: Int
-}
-
-type UsersPermissionsUserConnection {
-  values: [UsersPermissionsUser]
-  groupBy: UsersPermissionsUserGroupBy
-  aggregate: UsersPermissionsUserAggregator
-}
-
-type UsersPermissionsUserConnectionAvatar {
-  key: ID
-  connection: UsersPermissionsUserConnection
-}
-
-type UsersPermissionsUserConnectionBlocked {
-  key: Boolean
-  connection: UsersPermissionsUserConnection
-}
-
-type UsersPermissionsUserConnectionComment {
-  key: ID
-  connection: UsersPermissionsUserConnection
-}
-
-type UsersPermissionsUserConnectionConfirmed {
-  key: Boolean
-  connection: UsersPermissionsUserConnection
-}
-
-type UsersPermissionsUserConnectionCreated_at {
-  key: DateTime
-  connection: UsersPermissionsUserConnection
-}
-
-type UsersPermissionsUserConnectionEmail {
-  key: String
-  connection: UsersPermissionsUserConnection
-}
-
-type UsersPermissionsUserConnectionId {
-  key: ID
-  connection: UsersPermissionsUserConnection
-}
-
-type UsersPermissionsUserConnectionProvider {
-  key: String
-  connection: UsersPermissionsUserConnection
-}
-
-type UsersPermissionsUserConnectionRole {
-  key: ID
-  connection: UsersPermissionsUserConnection
-}
-
-type UsersPermissionsUserConnectionUpdated_at {
-  key: DateTime
-  connection: UsersPermissionsUserConnection
-}
-
-type UsersPermissionsUserConnectionUsername {
-  key: String
-  connection: UsersPermissionsUserConnection
-}
-
-type UsersPermissionsUserGroupBy {
-  id: [UsersPermissionsUserConnectionId]
-  created_at: [UsersPermissionsUserConnectionCreated_at]
-  updated_at: [UsersPermissionsUserConnectionUpdated_at]
-  username: [UsersPermissionsUserConnectionUsername]
-  email: [UsersPermissionsUserConnectionEmail]
-  provider: [UsersPermissionsUserConnectionProvider]
-  confirmed: [UsersPermissionsUserConnectionConfirmed]
-  blocked: [UsersPermissionsUserConnectionBlocked]
-  role: [UsersPermissionsUserConnectionRole]
-  Avatar: [UsersPermissionsUserConnectionAvatar]
-  comment: [UsersPermissionsUserConnectionComment]
-}
