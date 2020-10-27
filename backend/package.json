@@ -40,6 +40,7 @@
     "strapi-plugin-graphql": "3.2.5",
     "strapi-plugin-upload": "3.2.5",
     "strapi-plugin-users-permissions": "3.2.5",
+    "strapi-provider-email-sendmail": "^3.2.5",
     "strapi-provider-upload-google-cloud-storage": "3.1.6",
     "strapi-utils": "3.2.5",
     "yup": "^0.28.5"
