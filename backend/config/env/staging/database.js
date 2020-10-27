@@ -5,17 +5,17 @@ module.exports = ({ env }) => ({
       connector: 'bookshelf',
       settings: {
         client: 'sqlite',
-        host: process.env.DATABASE_HOST || "127.0.0.1",
-        port: process.env.DATABASE_PORT || 27017,
-        srv: process.env.DATABASE_SRV || false,
-        database: process.env.DATABASE_NAME || "strapi",
-        username: process.env.DATABASE_USERNAME || "",
-        password: process.env.DATABASE_PASSWORD || "",
-        ssl: process.env.DATABASE_SSL || false
+        host: env('DATABASE_HOST', "127.0.0.1"),
+        port: env('DATABASE_PORT', 27017),
+        srv: env('DATABASE_SRV', false),
+        database: env('DATABASE_NAME', "strapi"),
+        username: env('DATABASE_USERNAME', ""),
+        password: env('DATABASE_PASSWORD', ""),
+        ssl: env('DATABASE_SSL', false)
       },
       options: {
-        ssl: process.env.DATABASE_SSL || false,
-        authenticationDatabase: process.env.DATABASE_AUTHENTICATION_DATABASE || ""
+        ssl: env('DATABASE_SSL', false),
+        authenticationDatabase: env('DATABASE_AUTHENTICATION_DATABASE', "")
       }
     }
   }
