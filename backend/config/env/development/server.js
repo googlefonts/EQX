@@ -1,5 +1,5 @@
 module.exports = ({ env }) => ({
-  host: '${process.env.APP_HOST || "0.0.0.0"}',
+  host: process.env.APP_HOST || '0.0.0.0',
   port: 1337,
   proxy: {
     enabled: false
@@ -7,7 +7,7 @@ module.exports = ({ env }) => ({
   cron: {
     enabled: false
   },
-  admin: { 
+  admin: {
     autoOpen: false
   }
 });
