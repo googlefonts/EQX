@@ -1,26 +1,44 @@
 ---
 version: '3'
 services:
-  backend:
-    build: backend/
-    command: npm run-script develop
-    ports:
-      - 1337:1337
-    volumes:
-      - ./backend:/usr/src/app/eqx
-      - sqlite3:/usr/src/app/eqx/.tmp/data.db
-    environment:
-      ADMIN_JWT_SECRET: W/6TMWPq3W4s1WJyn6QrrT4XneIGAsNvnqQkSxuktHwOLbbXowCRU6MxioUV6QgdlHUX09nTZWG9n2fcYZ4rpA==
-      APP_NAME: eqx
-  
-  frontend:
-    build: frontend/
-    ports:
-      - 3000:3000
-    volumes:
-      - ./frontend:/usr/src/app
-      - /usr/src/app/node_modules
-    working_dir: /usr/src/app
+    backend:
+        build: backend/
+        command: npm run-script develop
+        ports:
+            - 1337:1337
+        volumes:
+            - ./backend:/usr/src/app/eqx
+        environment:
+            ADMIN_JWT_SECRET: W/6TMWPq3W4s1WJyn6QrrT4XneIGAsNvnqQkSxuktHwOLbbXowCRU6MxioUV6QgdlHUX09nTZWG9n2fcYZ4rpA==
+            APP_NAME: eqx
+            DATABASE_USERNAME: strapi
+            DATABASE_PASSWORD: password
+        networks:
+            - strapi-app
 
+
+    frontend:
+        build: frontend/
+        ports:
+            - 3000:3000
+        volumes:
+            - ./frontend:/usr/src/app
+            - /usr/src/app/node_modules
+        working_dir: /usr/src/app
+
+    postgres:
+        image: postgres
+        environment:
+            POSTGRES_USER: strapi
+            POSTGRES_PASSWORD: password
+        volumes:
+            - dataDB:/var/lib/postgresql/data
+        ports:
+            - '5432:5432'
+        networks:
+            - strapi-app
 volumes:
-  sqlite3:
+    dataDB:
+
+networks:
+    strapi-app:
