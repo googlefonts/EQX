@@ -11,7 +11,8 @@ services:
       - sqlite3:/usr/src/app/eqx/.tmp/data.db
     environment:
       ADMIN_JWT_SECRET: W/6TMWPq3W4s1WJyn6QrrT4XneIGAsNvnqQkSxuktHwOLbbXowCRU6MxioUV6QgdlHUX09nTZWG9n2fcYZ4rpA==
-
+      APP_NAME: eqx
+  
   frontend:
     build: frontend/
     ports:
