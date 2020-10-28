@@ -8,12 +8,11 @@ services:
       - 1337:1337
     volumes:
       - ./backend:/usr/src/app/eqx
-    #   - sqlite3:/usr/src/app/eqx/.tmp/
+      - sqlite3:/usr/src/app/eqx/.tmp/data.db
     environment:
       ADMIN_JWT_SECRET: W/6TMWPq3W4s1WJyn6QrrT4XneIGAsNvnqQkSxuktHwOLbbXowCRU6MxioUV6QgdlHUX09nTZWG9n2fcYZ4rpA==
       APP_NAME: eqx
-      MONGODB_URI: "mongodb://strapi:J3S0XOTjcQPXFHnB@cluster0-shard-00-00.3prx6.mongodb.net:27017,cluster0-shard-00-01.3prx6.mongodb.net:27017,cluster0-shard-00-02.3prx6.mongodb.net:27017/strapi?ssl=true&replicaSet=atlas-11tf78-shard-0&authSource=admin&retryWrites=true&w=majority"
-
+  
   frontend:
     build: frontend/
     ports:
