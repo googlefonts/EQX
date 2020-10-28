@@ -130,13 +130,15 @@ We use [kubesec](https://github.com/shyiko/kubesec) and Google Cloud KMS to stor
 ## Secret Encryption
 
 ```
-kubesec encrypt -i --key=gcp:projects/eqx-host/locations/us-east1/keyRings/eqx/cryptoKeys/kubernetes-secrets postgresql/secrets.yaml
+gcloud auth application-default login
+kubesec encrypt -i --key=gcp:projects/eqx-host/locations/us-east1/keyRings/eqx/cryptoKeys/kubernetes-secrets base/secrets.yaml
 ```
 
 ## Secret Decryption
 
  ```
- kubesec decrypt -i postgresql/secrets.yaml
+ gcloud auth application-default login
+ kubesec decrypt -i base /secrets.yaml
  ```
 
 
