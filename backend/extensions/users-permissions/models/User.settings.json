@@ -13,6 +13,11 @@
     ]
   },
   "attributes": {
+    "confirmationToken": {
+      "type": "string",
+      "configurable": false,
+      "private": true
+    },
     "username": {
       "type": "string",
       "minLength": 3,

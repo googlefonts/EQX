@@ -32,12 +32,6 @@
     "question": {
       "type": "string"
     },
-    "reference_images": {
-      "collection": "file",
-      "via": "related",
-      "plugin": "upload",
-      "required": false
-    },
     "uploaded_image": {
       "model": "file",
       "via": "related",

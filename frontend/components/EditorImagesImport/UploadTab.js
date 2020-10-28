@@ -36,7 +36,6 @@ class UploadTab extends React.Component {
   }
 
   componentDidMount = () => {
-    console.log("componentDidMount")
     var question = this.props.test.questions[Number(this.props.questionNumber - 1)];
     var codeData, imageData;
     if (question.code_data && question.code_image){
@@ -140,10 +139,8 @@ class UploadTab extends React.Component {
   }
   
   update = () => {
-    console.log('update')
 		if (typeof this.state.imageData !== "undefined" && this.state.imageData && typeof this.state.imageData.url !== "undefined") {
       var ext = this.state.imageData.url.substring(this.state.imageData.url.lastIndexOf(".") + 1);
-      console.log(this.state.imageData.url);
       if (ext === "jpg" || ext === "jpeg" || ext === "png" || ext === "gif" || ext === "eps" || ext === "webp") {
         var imgData = "<img src='" + apiUrl + this.state.imageData.url + "'/>";
         this.setState({
@@ -184,7 +181,6 @@ class UploadTab extends React.Component {
             } else {
               imgData = "<p style='padding: 2rem 0' class='MuiTypography-root MuiTypography-body1 MuiTypography-alignCenter'>This filetype isn't supported.</p>"
             }
-            // console.log(this.state.imageData.url);
             this.setState({
               img: imgData,
               tagList: newTagList,
@@ -202,8 +198,6 @@ class UploadTab extends React.Component {
     var codeData = this.state.codeData;
     codeData.styleMap = {};
     codeData.styleHTML = "<style>";
-    console.log("this.props.test.project.fonts")
-    console.log(this.props.test.project.fonts)
     this.state.tagList.forEach( (tag) => {
       codeData.styleMap[tag.name] = this.props.test.project.fonts.find(obj => { return obj.name === codeData.styles[tag.name] });
       if (typeof tag.default !== "undefined" && tag.default && typeof codeData.styleMap[tag.name] === "undefined"){ codeData.styleMap[tag.name] = this.props.test.project.fonts[0] } 
@@ -229,10 +223,7 @@ class UploadTab extends React.Component {
         }
       }
     })
-    console.log(this.state.tagList)
-    console.log(codeData.styleMap)
     codeData.styleHTML += "</style>";
-    console.log(codeData.styleHTML)
     if(document.getElementById('wed-svg-visual').contentWindow.document.getElementById('ext-eqx-styles')){
       document.getElementById('wed-svg-visual').contentWindow.document.getElementById('ext-eqx-styles').innerHTML = codeData.styleHTML;
     }

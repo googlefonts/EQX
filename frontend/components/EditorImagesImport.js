@@ -75,7 +75,7 @@ class EditorImagesImport extends React.Component {
       imageType= "editor_image";
     // } else if (newValue == 1){
     //   imageType= "uploaded_image";
-    } else if (newValue == q){
+    } else if (newValue == 1){
       imageType= "code_image";
     }
     this.setState({ imageType: imageType });
