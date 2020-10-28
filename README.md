@@ -26,7 +26,9 @@ You can develop using docker-compose or through node.js on your local machine.
 To develop using docker-compose
 
 ```bash
-docker-compose up # downloaded a new version? run `docker-compose build --no-cache`
+docker-compose up 
+# Timeout issues? COMPOSE_HTTP_TIMEOUT=200 docker-compose up
+# Still not working? docker-compose build --no-cache
 ```
 <!-- 
 ## 2. Local Development
