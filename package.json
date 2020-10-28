@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "strapi-connector-mongoose": "^3.2.5"
+  }
+}

@@ -22,6 +22,7 @@
     "eslint-plugin-react": "^7.21.5"
   },
   "dependencies": {
+    "strapi-connector-mongoose": "^3.2.5",
     "axios": "^0.19.2",
     "bookshelf": "^1.2.0",
     "bookshelf-uuid": "^1.0.1",
