@@ -127,6 +127,8 @@ Remove reactstrap and bootstrap
 
 We use [kubesec](https://github.com/shyiko/kubesec) and Google Cloud KMS to store encrypted secrets in this repo.
 
+To add a new secret, first decrypt, then add secret, and then encrypt. 
+
 ## Secret Encryption
 
 ```
