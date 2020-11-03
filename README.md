@@ -8,11 +8,11 @@
 
 
 # Development
-
+<!-- 
 ## Post Setup Quickstart
 
 cd frontend && killall -9 node && npm run dev
-cd backend && npm run develop
+cd backend && npm run develop -->
 
 
 **Frontend**: [http://localhost:3000](http://localhost:3000)
