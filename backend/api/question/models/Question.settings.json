@@ -12,7 +12,8 @@
       "created_at",
       "updated_at"
     ],
-    "comment": ""
+    "comment": "",
+    "draftAndPublish": false
   },
   "attributes": {
     "editor_image": {
@@ -43,8 +44,8 @@
       "type": "boolean"
     },
     "test": {
-      "via": "questions",
-      "model": "test"
+      "model": "test",
+      "via": "questions"
     },
     "source": {
       "type": "string"
@@ -62,6 +63,11 @@
     },
     "code_data": {
       "type": "json"
+    },
+    "reference_images": {
+      "type": "component",
+      "repeatable": true,
+      "component": "images.reference-images"
     }
   }
 }

@@ -49,7 +49,6 @@ class ReferenceImages extends React.Component {
 	update = () => {
 		if (this.props.questionNumber){
 			this.setState({referenceImages: this.props.test.questions[Number(this.props.questionNumber - 1)].reference_images });
-			console.log(this.props.test.questions[Number(this.props.questionNumber - 1)].reference_images)
 		}
 	}
 	onCaptionChange = (caption, i) => {
@@ -60,7 +59,6 @@ class ReferenceImages extends React.Component {
 	}
 
 	autosave = (caption, i) => {
-		console.log(this.state.referenceImages)
 		var newReferenceImages = this.state.referenceImages;
 		newReferenceImages[i].caption = caption;
 		axios
@@ -69,7 +67,6 @@ class ReferenceImages extends React.Component {
 				}, { headers: { Authorization: 'Bearer ' + Cookies.get("jwt") } 
 			}).catch(error => { console.log(error); // Handle Error
 			}).then(response => { // Handle success
-				console.log(response)
 			});
 	}
 
@@ -91,18 +88,15 @@ class ReferenceImages extends React.Component {
 		files.map((file) => {
 			formData.append('files', file);
 		});
-		console.log(this.state.referenceImages)
 		axios // Upload new file
 			.post(apiUrl + '/upload', formData, 
 				{ headers: { 'Authorization': 'Bearer ' + Cookies.get("jwt") } 
 			})
 			.then(response => { 
-				console.log(response.data[0])
-				var newImages = this.state.referenceImages;
+				var newImages = this.state.referenceImages ? this.state.referenceImages : [];
 				response.data.map((image) => {
 					newImages.push({image: image});
 				});
-				console.log(apiUrl + '/questions/' + this.props.test.questions[Number(this.props.questionNumber - 1)].id)
 				axios // Save to question
 					.put(apiUrl + '/questions/' + this.props.test.questions[Number(this.props.questionNumber - 1)].id, { 
 						reference_images: newImages,
