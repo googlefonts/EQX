@@ -110,6 +110,8 @@ coverage
 ############################
 
 .next
+backend/public/uploads/
+backend/public/uploads/**/*
 backend/build/
 backend/build/*
 backend/build/**/*
