@@ -118,3 +118,4 @@ backend/build/**/*
 backend/.cache
 db-data/
 .env
+.package-lock
