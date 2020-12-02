@@ -21,6 +21,7 @@ class UploadTab extends React.Component {
       tagList: [],
       imageData: {},
       img: "",
+      staticImg: false,
       loading: false,
       fonts: {},
       codeData: {
@@ -36,7 +37,7 @@ class UploadTab extends React.Component {
   }
 
   componentDidMount = () => {
-    var question = this.props.test.questions[Number(this.props.questionNumber - 1)];
+    var question = this.props.test.questions ? this.props.test.questions[Number(this.props.questionNumber) - 1] : false;
     var codeData, imageData;
     if (question.code_data && question.code_image){
       codeData = question.code_data;
@@ -58,8 +59,8 @@ class UploadTab extends React.Component {
 
     this.autosave = debounce(this.autosave, 500);
     const timer = setInterval(() => {
-      if (this.state.codeData && typeof this.state.codeData.scroll !== "undefined" && document.getElementById('wed-svg-visual') && document.getElementById('wed-svg-visual').contentWindow.document.documentElement && typeof document.getElementById('wed-svg-visual').contentWindow.document.documentElement !== "undefined" && ( Number(document.getElementById('wed-svg-visual').contentWindow.document.documentElement.scrollTop) !== Number(this.state.codeData.scroll))){
-        document.getElementById('wed-svg-visual').contentWindow.document.documentElement.scrollTop = this.state.codeData.scroll;
+      if (this.state.codeData && typeof this.state.codeData.scroll !== "undefined" && document.getElementById('code-visual') && document.getElementById('code-visual').contentWindow.document.documentElement && typeof document.getElementById('code-visual').contentWindow.document.documentElement !== "undefined" && ( Number(document.getElementById('code-visual').contentWindow.document.documentElement.scrollTop) !== Number(this.state.codeData.scroll))){
+        document.getElementById('code-visual').contentWindow.document.documentElement.scrollTop = this.state.codeData.scroll;
       }
     }, 1000);
     return () => clearInterval(timer);
@@ -67,8 +68,8 @@ class UploadTab extends React.Component {
 
   componentDidUpdate(prevProps, prevState) {
     if (typeof prevProps !== "undefined" && this.props !== prevProps) {
-      var prevQuestion = prevProps.test.questions[Number(prevProps.questionNumber - 1)];
-      var question = this.props.test.questions[Number(this.props.questionNumber - 1)];
+      var prevQuestion = prevProps.test.questions ? prevProps.test.questions[Number(prevProps.questionNumber) - 1] : false;
+      var question = this.props.test.questions ? this.props.test.questions[Number(this.props.questionNumber) - 1] : false;
       if (
         question.code_data && prevQuestion.code_data && (prevQuestion.code_data.url !== question.code_data.url)||
         question.code_image && prevQuestion.code_image && (prevQuestion.code_image.url !== question.code_image.url)
@@ -76,14 +77,13 @@ class UploadTab extends React.Component {
         this.setState({ 
           loading: true,
           codeData: question.code_data,
-          imageData: question.code_image},
-          () => this.update()
-        );
+          imageData: question.code_image
+        }, () => this.update());
       } else {
         this.setState({ 
           codeData: question.code_data,
           imageData: question.code_image
-        });
+        }, () => this.update());
       }
     } 
   }
@@ -123,7 +123,7 @@ class UploadTab extends React.Component {
           that.setState({imageData: image });
 
           axios // Save to question
-            .put(apiUrl + '/questions/' + that.props.test.questions[Number(that.props.questionNumber - 1)].id, { 
+            .put(apiUrl + '/questions/' + that.props.test.questions[Number(that.props.questionNumber) - 1].id, { 
                 code_image: image,
                 code_data: that.state.codeData
               }, 
@@ -144,10 +144,12 @@ class UploadTab extends React.Component {
       if (ext === "jpg" || ext === "jpeg" || ext === "png" || ext === "gif" || ext === "eps" || ext === "webp") {
         var imgData = "<img src='" + apiUrl + this.state.imageData.url + "'/>";
         this.setState({
+          staticImg: true,
           img: imgData,
           loading: false
         });
-      } else {
+      } else {        
+        this.setState({ staticImg: false });
         axios
           .get(apiUrl + this.state.imageData.url) 
           .then(response => {
@@ -191,6 +193,8 @@ class UploadTab extends React.Component {
 
           }).catch(error => { console.log(error) });
       }
+    } else { 
+      this.setState({ img: "" });
     }
   }
 
@@ -224,8 +228,8 @@ class UploadTab extends React.Component {
       }
     })
     codeData.styleHTML += "</style>";
-    if(document.getElementById('wed-svg-visual').contentWindow.document.getElementById('ext-eqx-styles')){
-      document.getElementById('wed-svg-visual').contentWindow.document.getElementById('ext-eqx-styles').innerHTML = codeData.styleHTML;
+    if(document.getElementById('code-visual').contentWindow.document.getElementById('ext-eqx-styles')){
+      document.getElementById('code-visual').contentWindow.document.getElementById('ext-eqx-styles').innerHTML = codeData.styleHTML;
     }
     this.setState({ codeData: codeData }); 
   }
@@ -248,7 +252,7 @@ class UploadTab extends React.Component {
       .then(response => {
         var image = response.data[0];
         var ext = image.url.substring(image.url.lastIndexOf(".") + 1);
-        var question = this.props.test.questions[Number(this.props.questionNumber - 1)];
+        var question = this.props.test.questions[Number(this.props.questionNumber) - 1];
         if (ext === "svg" || ext === "html"){
           axios // Download and edit file
             .get(apiUrl + image.url) 
@@ -317,7 +321,7 @@ class UploadTab extends React.Component {
 
 	autosave = () => {
 		axios
-		  .put(apiUrl + '/questions/' + this.props.test.questions[Number(this.props.questionNumber - 1)].id, {
+		  .put(apiUrl + '/questions/' + this.props.test.questions[Number(this.props.questionNumber) - 1].id, {
 		    code_data: this.state.codeData,
 		  }, { headers: { Authorization: 'Bearer ' + Cookies.get("jwt") } 
       }).then(response => { // Handle success
@@ -343,8 +347,8 @@ class UploadTab extends React.Component {
     var codeData = this.state.codeData;
 		codeData.scroll = e;
     this.setState({codeData: codeData})
-    if (this.state.codeData && typeof document.getElementById('wed-svg-visual').contentWindow.document.documentElement !== "undefined" && document.getElementById('wed-svg-visual').contentWindow.document.documentElement.scrollTop !== this.state.codeData.scroll){
-      document.getElementById('wed-svg-visual').contentWindow.document.documentElement.scrollTop = this.state.codeData.scroll;
+    if (this.state.codeData && typeof document.getElementById('code-visual').contentWindow.document.documentElement !== "undefined" && document.getElementById('code-visual').contentWindow.document.documentElement.scrollTop !== this.state.codeData.scroll){
+      document.getElementById('code-visual').contentWindow.document.documentElement.scrollTop = this.state.codeData.scroll;
     }
 		this.autosave();
 	}
@@ -434,56 +438,59 @@ class UploadTab extends React.Component {
 
             </Grid>
             <Grid item xs={12} style={{ minHeight: "293px", background: "white"}}>
-              <TextField 
-                label={'Window height'}
-                key={'window-height-selector'}
-                value={(this.state.codeData && typeof this.state.codeData.height !== "undefined" && this.state.codeData.height ) ? this.state.codeData.height : ""}
-                fullWidth 
-                variant="filled" 
-                onChange={e => {this.onHeightChange(e.currentTarget.value)}}
-                InputLabelProps={{ style:{display: "none"} }}
-                inputProps={{
-                    style:{ paddingTop: "20px", position: "relative", paddingBottom: "20px", paddingLeft: "5px"}
-                }}
-                InputProps={{
-                  startAdornment: <InputAdornment style={{width: "75px", marginTop: 0}} position="start">height</InputAdornment>,
-                  style:{borderRadius: 0}
-                }}
-              ></TextField>          
-              <TextField 
-                label={'Window width'}
-                key={'window-width-selector'}
-                value={(this.state.codeData && typeof this.state.codeData.width !== "undefined" && this.state.codeData.width ) ? this.state.codeData.width : ""}
-                fullWidth 
-                variant="filled" 
-                onChange={e => {this.onWidthChange(e.currentTarget.value)}}
-                InputLabelProps={{ style:{display: "none"} }}
-                inputProps={{
-                    style:{ paddingTop: "20px", position: "relative", paddingBottom: "20px", paddingLeft: "5px"}
-                }}
-                InputProps={{
-                  startAdornment: <InputAdornment style={{width: "75px", marginTop: 0}} position="start">width</InputAdornment>,
-                  style:{borderRadius: 0}
-                }}
-              ></TextField>
-              <TextField 
-                label={'Window scroll position'}
-                key={'window-scroll-selector'}
-                value={(this.state.codeData && typeof this.state.codeData.scroll !== "undefined" && this.state.codeData.scroll ) ? this.state.codeData.scroll : ""}
-                fullWidth 
-                type="number"
-                variant="filled" 
-                onChange={e => {this.onScrollChange(e.currentTarget.value)}}
-                InputLabelProps={{ style:{display: "none"} }}
-                inputProps={{
-                    style:{ paddingTop: "20px", position: "relative", paddingBottom: "20px", paddingLeft: "5px"}
-                }}
-                InputProps={{
-                  startAdornment: <InputAdornment style={{width: "75px", marginTop: 0}} position="start">scroll</InputAdornment>,
-                  style:{borderRadius: 0}
-                }}
-              ></TextField>
-
+            { (!this.state.staticImg && this.state.img !== "") &&
+              <>
+                <TextField 
+                    label={'Window height'}
+                    key={'window-height-selector'}
+                    value={(this.state.codeData && typeof this.state.codeData.height !== "undefined" && this.state.codeData.height ) ? this.state.codeData.height : ""}
+                    fullWidth 
+                    variant="filled" 
+                    onChange={e => {this.onHeightChange(e.currentTarget.value)}}
+                    InputLabelProps={{ style:{display: "none"} }}
+                    inputProps={{
+                        style:{ paddingTop: "20px", position: "relative", paddingBottom: "20px", paddingLeft: "5px"}
+                    }}
+                    InputProps={{
+                      startAdornment: <InputAdornment style={{width: "75px", marginTop: 0}} position="start">height</InputAdornment>,
+                      style:{borderRadius: 0}
+                    }}
+                  ></TextField>          
+                  <TextField 
+                    label={'Window width'}
+                    key={'window-width-selector'}
+                    value={(this.state.codeData && typeof this.state.codeData.width !== "undefined" && this.state.codeData.width ) ? this.state.codeData.width : ""}
+                    fullWidth 
+                    variant="filled" 
+                    onChange={e => {this.onWidthChange(e.currentTarget.value)}}
+                    InputLabelProps={{ style: {display: "none"} }}
+                    inputProps={{
+                        style:{ paddingTop: "20px", position: "relative", paddingBottom: "20px", paddingLeft: "5px"}
+                    }}
+                    InputProps={{
+                      startAdornment: <InputAdornment style={{width: "75px", marginTop: 0}} position="start">width</InputAdornment>,
+                      style:{borderRadius: 0}
+                    }}
+                  ></TextField>
+                  <TextField 
+                    label={'Window scroll position'}
+                    key={'window-scroll-selector'}
+                    value={(this.state.codeData && typeof this.state.codeData.scroll !== "undefined" && this.state.codeData.scroll ) ? this.state.codeData.scroll : ""}
+                    fullWidth 
+                    type="number"
+                    variant="filled" 
+                    onChange={e => {this.onScrollChange(e.currentTarget.value)}}
+                    InputLabelProps={{ style:{display: "none"} }}
+                    inputProps={{
+                        style:{ paddingTop: "20px", position: "relative", paddingBottom: "20px", paddingLeft: "5px"}
+                    }}
+                    InputProps={{
+                      startAdornment: <InputAdornment style={{width: "75px", marginTop: 0}} position="start">scroll</InputAdornment>,
+                      style:{borderRadius: 0}
+                    }}
+                  ></TextField>
+                </>
+              }
               {(typeof this.state.tagList != "undefined" && this.state.tagList.length) ?
                 this.state.tagList.map((tag, index) => (
                   <TextField 
@@ -526,9 +533,11 @@ class UploadTab extends React.Component {
         </Grid>
         <Grid item xs={8} className="visual-editor" style={{background: "rgba(0, 0, 0, 0.07)"}}>
           <LinearProgress variant="indeterminate" style={{ display: this.state.loading ? "" : "none" }}/>
-          <iframe id="wed-svg-visual" width={this.state.codeData && this.state.codeData.width} height={this.state.codeData && this.state.codeData.height} frameBorder="0" border="0" scrolling="no" srcDoc={this.state.img + "<div id='ext-eqx-styles' style='display:none'></div>"}/>
-          {/* <iframe id="wed-svg-visual" sandbox width={this.state.codeData.width} height={this.state.codeData.height} frameBorder="0" border="0" scrolling="no" src={"data:text/html,"+encodeURIComponent(this.state.img+"<script>document.documentElement.scrollTop = document.body.scrollTop = '"+this.state.codeData.scroll+"'</script>")}/> */}
-          {/* <iframe id="wed-svg-visual" width={this.state.codeData.width} height={this.state.codeData.height} frameBorder="0" border="0" scrolling="no" srcDoc={this.state.img+"<script>document.documentElement.scrollTop = '"+this.state.codeData.scroll+"'</script>"}/> */}
+          { this.state.staticImg ?
+            <div className="img-visual" dangerouslySetInnerHTML={{__html: this.state.img}} />
+          :
+            <iframe id="code-visual" width={this.state.codeData && this.state.codeData.width} height={this.state.codeData && this.state.codeData.height} frameBorder="0" border="0" scrolling="no" srcDoc={this.state.img + "<div id='ext-eqx-styles' style='display:none'></div>"}/>
+          }
         </Grid>
       </Grid>
     );

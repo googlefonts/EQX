@@ -1,4 +1,4 @@
-import Link from "next/link"
+import Link from "next/link";
 import {TopAppBarRow } from '@material/react-top-app-bar';
 import IconButton from '@material/react-icon-button';
 import MaterialIcon from '@material/react-material-icon';
@@ -150,7 +150,7 @@ class Header extends React.Component {
             </Grid>
           </TopAppBarRow>
           {this.props.headerType == "creating" ? <CreatingHeader {...this.props}/> : null}  
-          {this.props.headerType == "answering" ? <AnsweringHeader progressBar={this.props.progressBar}/> : null}    
+          {this.props.headerType == "answering" ? <AnsweringHeader progressBar={this.props.progressBar} {...this.props}/> : null}    
         </Container>
       </AppBar>
     );
