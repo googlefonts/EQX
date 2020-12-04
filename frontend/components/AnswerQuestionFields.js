@@ -1,14 +1,10 @@
 import MaterialIcon from '@material/react-material-icon';
-import {Cell, Grid, Row} from '@material/react-layout-grid';
-import { Headline4, Body1, Body2 } from '@material/react-typography';
-import Fab from '@material/react-fab'
-import Button from '@material/react-button';
-import List, {ListItem, ListItemText, ListItemGraphic, ListItemMeta} from '@material/react-list';
-import TextField, {Input} from '@material/react-text-field';
-
+import { Box, Grid, Card, Fab, CardMedia, ButtonGroup, TextField, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, FormGroup, Input, InputLabel, Button, Typography } from '@material-ui/core';
+import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 import CommentBox from '../components/CommentBox';
-
-import "../styles/main.scss"
+import getConfig from 'next/config';
+const { serverRuntimeConfig, publicRuntimeConfig } = getConfig()
+const apiUrl = publicRuntimeConfig.API_URL || 'http://localhost:1337';
 
 const QuinnAvi = props => (
   <img src="static/img/quinn-avi.png" alt="avatar"/>
@@ -21,11 +17,28 @@ const EbenAvi = props => (
 class AnswerQuestionFields extends React.Component {
 
   state = {
-    lightboxOpen: false,
-    questionNumber: '9',
-    questionValue: 'Is it easy to find the italic parts in the sample?',
-    descriptionValue: 'Note: In Merriweather Display we want it to be easy to detect the italics. But we want this to be the result of textural difference and not because of a difference in apparent weight or greyness in text.',
+    question: {},
   };
+
+  
+
+	componentDidMount = () => {
+		this.update();
+	}
+	
+	componentDidUpdate = (prevProps) => {
+		if ( 
+      typeof this.props.test.questions[Number(this.props.questionNumber)-1] !== "undefined" && 
+      this.props.test.questions[Number(this.props.questionNumber)-1] !== (typeof prevProps.test.questions !== "undefined" ? prevProps.test.questions[Number(prevProps.questionNumber)-1] : "") 
+    ) {
+      console.log(this.props.test.questions[Number(this.props.questionNumber)-1])
+      this.setState({question: this.props.test.questions[Number(this.props.questionNumber)-1]})
+			this.update();
+		}
+  }
+
+  update = () => {
+  }
 
   closeLightbox = () => {
     this.setState({lightboxOpen:false})
@@ -37,53 +50,67 @@ class AnswerQuestionFields extends React.Component {
 
   render() {
     return (
-      <div>
-        <Grid>
-          <Row className="answer-question-fields">
-            <Cell desktopColumns={2}></Cell>
-            <Cell columns={8}>
-              <Body1 className="question-number">Question #{this.state.questionNumber}</Body1>
-              <Headline4 tag="h1" className="question">{this.state.questionValue}</Headline4>
-              <Body1>{this.state.descriptionValue}</Body1>
-            </Cell>
-          </Row>
+      <>
+				<Grid container spacing={0} className="question-fields">
+					<Grid item xs={2}></Grid>
+					<Grid item xs={8}>
+            <Box mb={2} mt={2}>
+              <Typography align="left" style={{maxWidth: "700px", marginLeft: "auto", marginRight: "auto"}} variant="h4">{this.state.question.question ? this.state.question.question : ""}</Typography>
+            </Box>
+					</Grid>
+					<Grid item xs={2}></Grid>
+
+					<Grid item xs={2}></Grid>
+					<Grid item xs={8}>
+						<Box mb={2}>
+              <Typography align="left" style={{maxWidth: "700px", marginLeft: "auto", marginRight: "auto"}} variant="body1">{this.state.question.context ? this.state.question.context : ""}</Typography>
+						</Box>
+					</Grid>
+					<Grid item xs={2}></Grid>
         </Grid>
-        <div className="answer-question-images-comments">
-          <div className="column">
-            <div className="question-image-wrapper">
-              <img className="question-image" src="static/img/type-example.png" alt=""/>
-              <Fab 
-                className="question-image-fab" 
-                icon={<MaterialIcon icon="fullscreen"/>}
-                onClick={this.openLightbox} />
-            </div>
-            {/*<Button className="next" raised icon={<MaterialIcon icon="arrow_forward"/>}>Next Question</Button>*/}
 
-          </div>
-          <div className="answer-comments-wrapper column">
-            <Body1 className="your-answer">Your answer</Body1>
-            <Button className="yes" outlined>Yes</Button>
-            <Button className="no" outlined>No</Button>
-            <Button className="next" raised icon={<MaterialIcon icon="arrow_forward"/>}>Next Question</Button>
-            <CommentBox size="small"/>
-          </div>
-        </div>
-        <div 
-          className={`lightbox ${this.state.lightboxOpen ? 'open' : null }`}
-          onClick={this.closeLightbox}
-          >
-          <Grid>
-            <Row>
-              <Cell desktopColumns={1}></Cell>
-              <Cell desktopColumns={10}>
-                  <img className="lightbox-image" src="static/img/type-example.png" alt=""/>
-                  <CommentBox/>
-              </Cell>
-            </Row>
-          </Grid>
-        </div>
-      </div>
-
+				<Grid container spacing={4} className="question-fields">
+					<Grid item xs={8}>
+            <Box mb={2}>
+              <Card>
+                <div 
+                  class="question-img-container" 
+                  style={{
+                    width: this.state.question.code_image && this.state.question.code_image.width !== "" ? this.state.question.code_image.width : "inherit", 
+                    height: this.state.question.code_image && this.state.question.code_image.height !== "" ? this.state.question.code_image.height : "inherit"
+                  }}
+                >
+                  {/* { this.state.question.code_image ? 
+                    <CardMedia src={apiUrl + this.state.question.code_image.url} } />
+                  : 
+                    <div className="no-image"></div>
+                  } */}
+                  { this.state.question.code_image ? 
+                    <img src={apiUrl + this.state.question.code_image.url} />
+                  : 
+                    <div className="no-image"></div>
+                  }
+                </div>
+              </Card>
+            </Box>
+					</Grid>
+					<Grid item xs={4}>
+						<Box mb={2}>
+              <ButtonGroup color="primary" fullWidth={true} size="large" aria-label="outlined primary button group">
+                <Button>Yes</Button>
+                <Button>No</Button>
+              </ButtonGroup>
+            </Box>
+            <Box mb={2}>
+              <Button color="primary" fullWidth={true} variant="contained" startIcon={<ArrowForwardIcon/>}>Next Question</Button>
+						</Box>
+            <Box mb={2}>
+              <CommentBox size="small"/>
+						</Box>
+					</Grid>
+        </Grid>
+   
+      </>
     );
   }
 }

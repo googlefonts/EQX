@@ -98,7 +98,7 @@ class EditorImagesImport extends React.Component {
     return (
       <Grid container spacing={0} className="editor-images-import">
         <Grid item xs={12}>
-          <AppBar position="static" color="default">
+          <AppBar elevation={10} position="relative" color="default">
             <Tabs
               className="editor-images-import-tab-bar"
               value={this.state.tabValue} 
@@ -108,15 +108,15 @@ class EditorImagesImport extends React.Component {
               variant="fullWidth" 
               scrollButtons="auto"
             >
+              <Tab label="Upload" />
               <Tab label="Editor" />
               {/* <Tab label="Image Upload" /> */}
-              <Tab label="Upload" />
             </Tabs>
           </AppBar>
 
-          {this.state.tabValue == 0 ? <EditorTab {...this.props}/> : null}
+          {this.state.tabValue == 0 ? <UploadTab {...this.props}/> : null}
+          {this.state.tabValue == 1 ? <EditorTab {...this.props}/> : null}
           {/* {this.state.tabValue == 1 ? <UploadTab {...this.props}/> : null} */}
-          {this.state.tabValue == 1 ? <UploadTab {...this.props}/> : null}
         </Grid>
       </Grid>
     );

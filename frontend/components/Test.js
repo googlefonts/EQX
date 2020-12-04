@@ -4,7 +4,8 @@ import AddCircleIcon from '@material-ui/icons/AddCircle';
 import Cookies from "js-cookie";
 import Strapi from 'strapi-sdk-javascript/build/main';
 import axios from 'axios';
-import getConfig from 'next/config'
+import getConfig from 'next/config';
+import Link from "next/link";
 const { serverRuntimeConfig, publicRuntimeConfig } = getConfig()
 const apiUrl = publicRuntimeConfig.API_URL || 'http://localhost:1337';
 const strapi = new Strapi(apiUrl);
@@ -303,7 +304,9 @@ class Test extends React.Component {
                 <Typography style={{ width: "200px", display: "inline-block" }} align="right" variant="h6">{this.state.test.completeness}% Done</Typography>
               </Box>
               <Box component="span" color="purple" className="inline-button" mr={2} >
-                <Button color="primary" size="large" variant="contained" >Start</Button>
+                <Link href={"/answer-question?test=" + this.state.test.id + "&question=1"}><a>
+                  <Button color="primary" size="large" variant="contained">Start</Button>
+                </a></Link>
               </Box>
               <Typography display="inline" variant="body2">
                 <Box component="span">{this.state.questionLength} Questions</Box>

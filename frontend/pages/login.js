@@ -6,11 +6,10 @@ import Router from "next/router";
 
 import defaultPage from "../hocs/defaultPage";
 import Layout from '../components/Layout';
-import {Cell, Grid, Row} from '@material/react-layout-grid';
-import { FormGroup, FormControl, FormLabel, Input, InputLabel, FormHelperText, Button } from '@material-ui/core';
+import { Grid, FormGroup, FormControl, FormLabel, Input, InputLabel, FormHelperText, Button } from '@material-ui/core';
 
 import Cookies from "js-cookie";
-import "../styles/main.scss";
+// import "../styles/main.scss";
 
 class SignIn extends React.Component {
 	constructor(props) {
@@ -48,34 +47,32 @@ class SignIn extends React.Component {
 		const { error } = this.state;
 		return (
 			<Layout>
-				<Grid>
-					<Row>
-						<Cell desktopColumns={12}>
-							<div className="notification">{error}</div>
-							<FormGroup>
-								<FormControl>
-									<InputLabel>Username:</InputLabel>
-									<Input onChange={this.onChange.bind(this, "username")} type="text" name="username" />
-								</FormControl>
-								<FormControl>
-									<InputLabel>Email:</InputLabel>
-									<Input onChange={this.onChange.bind(this, "email")} type="email" name="email" />
-								</FormControl>
-								<FormControl style={{ marginBottom: 30 }}>
-									<InputLabel>Password:</InputLabel>
-									<Input onChange={this.onChange.bind(this, "password")} type="password" name="password" />
-								</FormControl>
-								<FormControl>
-									<span>
-										<a href="">
-											<small>Forgot Password?</small>
-										</a>
-									</span>
-									<Button color="primary" onClick={this.onSubmit.bind(this)}>Submit</Button>
-								</FormControl>
-							</FormGroup>
-						</Cell>
-					</Row>
+				<Grid container>
+					<Grid item xs={12}>
+						<div className="notification">{error}</div>
+						<FormGroup>
+							<FormControl>
+								<InputLabel>Username:</InputLabel>
+								<Input onChange={this.onChange.bind(this, "username")} type="text" name="username" />
+							</FormControl>
+							<FormControl>
+								<InputLabel>Email:</InputLabel>
+								<Input onChange={this.onChange.bind(this, "email")} type="email" name="email" />
+							</FormControl>
+							<FormControl style={{ marginBottom: 30 }}>
+								<InputLabel>Password:</InputLabel>
+								<Input onChange={this.onChange.bind(this, "password")} type="password" name="password" />
+							</FormControl>
+							<FormControl>
+								<span>
+									<a href="">
+										<small>Forgot Password?</small>
+									</a>
+								</span>
+								<Button color="primary" onClick={this.onSubmit.bind(this)}>Submit</Button>
+							</FormControl>
+						</FormGroup>
+					</Grid>
 				</Grid>
 	  		</Layout>
 		);

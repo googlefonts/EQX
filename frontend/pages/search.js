@@ -7,7 +7,7 @@ import Layout from '../components/Layout';
 import {Cell, Grid, Row} from '@material/react-layout-grid';
 import { FormGroup, FormControl, FormLabel, Input, InputLabel, FormHelperText, Button } from '@material-ui/core';
 
-import "../styles/main.scss";
+// import "../styles/main.scss";
 
 class Index extends React.Component {
   constructor(props) {

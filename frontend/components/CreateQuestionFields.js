@@ -245,7 +245,7 @@ class CreateQuestionFields extends React.Component {
 	render() {
 		return (
 			<>
-				<Grid container spacing={0} className="create-question-fields">
+				<Grid container spacing={0} className="question-fields">
 					<Grid item xs={2}></Grid>
 					<Grid item xs={8}>
 						<Box mb={2}>

@@ -18,6 +18,8 @@ import NoteIcon from '@material-ui/icons/Note';
 import FolderIcon from '@material-ui/icons/Folder';
 import WorkIcon from '@material-ui/icons/Work';
 import GroupIcon from '@material-ui/icons/Group';
+import ShowChart from '@material-ui/icons/ShowChart';
+
 import axios from 'axios';
 import Cookies from "js-cookie";
 import DeleteIcon from '@material-ui/icons/Delete';
@@ -93,7 +95,7 @@ import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 import FormatListNumberedIcon from '@material-ui/icons/FormatListNumbered';
 import Router from 'next/router';
 
-class SideNavCreateQuestion extends React.Component {
+class SideNavQuestion extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -178,7 +180,7 @@ class SideNavCreateQuestion extends React.Component {
 
   nextQuestion = () => {
     Router.push({
-      pathname: '/create-question',
+      pathname: (this.props.page === "create-question" ? '/create-question' : '/answer-question'),
       query: { 
         test: this.props.test.id, 
         question: this.state.questionNumber + 1
@@ -189,7 +191,7 @@ class SideNavCreateQuestion extends React.Component {
 
   prevQuestion = () => {
     Router.push({
-      pathname: '/create-question',
+      pathname: (this.props.page === "create-question" ? '/create-question' : '/answer-question'),
       query: { 
         test: this.props.test.id, 
         question: this.state.questionNumber - 1
@@ -212,10 +214,12 @@ class SideNavCreateQuestion extends React.Component {
           PaperProps={{ elevation: 6 }}
         >
           <List padding={2} style={{paddingTop: "64px"}} >
-            <ListItem key="list-item-add-question" onClick={this.addQuestion} selected={this.props.page === "dashboard" ? true : false} button key="dashboard">
-              <ListItemIcon><AddIcon /></ListItemIcon>
-              <ListItemText primary='Add Question'/>
-            </ListItem>
+            {(this.props.page === "create-question") &&
+              <ListItem key="list-item-add-question" onClick={this.addQuestion} selected={this.props.page === "dashboard" ? true : false} button key="dashboard">
+                <ListItemIcon><AddIcon /></ListItemIcon>
+                <ListItemText primary='Add Question'/>
+              </ListItem>
+            }
             {(this.props.test.questions && (this.state.questionNumber < this.props.test.questions.length)) &&
               <ListItem key="list-item-next-question" onClick={this.nextQuestion} selected={this.props.page === "tests" ? true : false} button>
                 <ListItemIcon><ArrowForwardIcon /></ListItemIcon>
@@ -232,6 +236,12 @@ class SideNavCreateQuestion extends React.Component {
               <ListItemIcon><FormatListNumberedIcon /></ListItemIcon>
               <ListItemText primary='Overview'/>
             </ListItem>
+            {(this.props.page === "answer-question") &&
+              <ListItem key="list-item-results" onClick={this.addQuestion} selected={this.props.page === "dashboard" ? true : false} button key="dashboard">
+                <ListItemIcon><ShowChart /></ListItemIcon>
+                <ListItemText primary='See Results'/>
+              </ListItem>
+            }
           </List>
         </Drawer>
         <Drawer
@@ -255,11 +265,13 @@ class SideNavCreateQuestion extends React.Component {
                           }
                         </Typography>
                       </Grid>
-                      <Grid item style={{position:"relative"}} xs={4} >
-                        <IconButton onClick={() => this.sideQuestionDelete(question.id, i+1)} style={{position:"absolute", right: "0", top: "-8px"}} component="span">
-                          <DeleteIcon />
-                        </IconButton>
-                      </Grid>
+                      {(this.props.page === "create-question") &&
+                        <Grid item style={{position:"relative"}} xs={4} >
+                          <IconButton onClick={() => this.sideQuestionDelete(question.id, i+1)} style={{position:"absolute", right: "0", top: "-8px"}} component="span">
+                            <DeleteIcon />
+                          </IconButton>
+                        </Grid>
+                      }
                     </Grid>
                   </Box>
                 </ListItem>
@@ -283,8 +295,8 @@ class SideNav extends React.Component {
   render() {
     return (
       <>
-        {	this.props.page === "create-question" ? (	
-            <SideNavCreateQuestion {...this.props}/>
+        {	(this.props.page === "create-question" || this.props.page === "answer-question") ? (	
+            <SideNavQuestion {...this.props}/>
 					) : (
             <SideNavRegular {...this.props}/>
 					)}

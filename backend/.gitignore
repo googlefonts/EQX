@@ -24,7 +24,6 @@ Icon
 
 Thumbs.db
 ehthumbs.db
-package-lock.json
 Desktop.ini
 $RECYCLE.BIN/
 *.cab
@@ -103,19 +102,3 @@ node_modules
 
 testApp
 coverage
-
-
-############################
-# EQX
-############################
-
-.next
-backend/public/uploads/
-backend/public/uploads/**/*
-backend/build/
-backend/build/*
-backend/build/**/*
-backend/.cache
-db-data/
-.env
-.package-lock

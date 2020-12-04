@@ -16,6 +16,7 @@ import ApolloClient from "apollo-boost";
 import getConfig from 'next/config'
 const { serverRuntimeConfig, publicRuntimeConfig } = getConfig()
 const apiUrl = publicRuntimeConfig.API_URL || 'http://localhost:1337';
+import "../styles/main.scss";
 
 const client = new ApolloClient({
   uri: apiUrl + "/graphql"

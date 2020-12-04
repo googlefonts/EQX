@@ -9,7 +9,7 @@ import Section from "../components/Section";
 import { TextField, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, FormGroup, Input, InputLabel, Button, Typography } from '@material-ui/core';
 import Cookies from "js-cookie";
 import axios from 'axios';
-import "../styles/main.scss";
+// import "../styles/main.scss";
 import getConfig from 'next/config'
 import NewProject from "../components/NewProject";
 const { serverRuntimeConfig, publicRuntimeConfig } = getConfig()
