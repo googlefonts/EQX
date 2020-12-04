@@ -1,6 +1,4 @@
-import Link from "next/link"
-import Button from "@material/react-button";
-import {Headline5, Body1} from "@material/react-typography";
+import Link from "next/link";
 import { Container, Grid } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
 

@@ -17,7 +17,7 @@ import NewProject from "../components/NewProject";
 const { serverRuntimeConfig, publicRuntimeConfig } = getConfig()
 const apiUrl = publicRuntimeConfig.API_URL || 'http://localhost:1337';
 
-import "../styles/main.scss";
+// import "../styles/main.scss";
 
 class Index extends React.Component {
   constructor(props) {

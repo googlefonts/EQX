@@ -14,7 +14,7 @@ import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 
 import Cookies from "js-cookie";
-import "../styles/main.scss";
+// import "../styles/main.scss";
 
 
 class SignIn extends React.Component {

@@ -39,7 +39,6 @@
     "@material/react-typography": "^0.15.0",
     "@material/slider": "^3.2.0",
     "@rmwc/slider": "^5.7.2",
-    "@zeit/next-sass": "^1.0.1",
     "apollo-boost": "^0.4.9",
     "apollo-link-http": "^1.5.17",
     "async": "^3.2.0",

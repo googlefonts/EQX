@@ -11,39 +11,21 @@
     "develop": "strapi develop",
     "start": "strapi start",
     "build": "strapi build",
-    "strapi": "strapi",
-    "lint": "eslint ."
+    "strapi": "strapi"
   },
-  "devDependencies": {
-    "babel-eslint": "^10.1.0",
-    "eslint": "^6.8.0",
-    "eslint-config-airbnb": "^18.2.0",
-    "eslint-plugin-import": "^2.22.1",
-    "eslint-plugin-react": "^7.21.5"
-  },
+  "devDependencies": {},
   "dependencies": {
-    "axios": "^0.19.2",
-    "bookshelf": "^1.2.0",
-    "bookshelf-uuid": "^1.0.1",
-    "graphql": "^15.3.0",
-    "jquery": "^3.5.1",
-    "knex": "^0.21.6",
-    "lodash": "^4.17.20",
-    "pg": "^7.18.2",
-    "sqlite3": "^4.2.0",
-    "strapi": "3.2.5",
-    "strapi-admin": "3.2.5",
-    "strapi-connector-bookshelf": "3.2.5",
-    "strapi-plugin-content-manager": "3.2.5",
-    "strapi-plugin-content-type-builder": "3.2.5",
-    "strapi-plugin-email": "3.2.5",
-    "strapi-plugin-graphql": "3.2.5",
-    "strapi-plugin-upload": "3.2.5",
-    "strapi-plugin-users-permissions": "3.2.5",
-    "strapi-provider-email-sendmail": "^3.2.5",
-    "strapi-provider-upload-google-cloud-storage": "3.1.6",
-    "strapi-utils": "3.2.5",
-    "yup": "^0.28.5"
+    "strapi": "3.3.4",
+    "strapi-admin": "3.3.4",
+    "strapi-utils": "3.3.4",
+    "strapi-plugin-content-type-builder": "3.3.4",
+    "strapi-plugin-content-manager": "3.3.4",
+    "strapi-plugin-users-permissions": "3.3.4",
+    "strapi-plugin-email": "3.3.4",
+    "strapi-plugin-upload": "3.3.4",
+    "strapi-connector-bookshelf": "3.3.4",
+    "knex": "<0.20.0",
+    "sqlite3": "latest"
   },
   "author": {
     "name": "A Strapi developer"
@@ -52,7 +34,7 @@
     "uuid": "da8f0a12-549e-43c4-85d6-ac9e19.296c506"
   },
   "engines": {
-    "node": ">=10.0.0",
+    "node": ">=10.16.0 <=14.x.x",
     "npm": ">=6.0.0"
   },
   "license": "MIT"

@@ -9,7 +9,7 @@ import axios from 'axios';
 import { Link, Typography, FormGroup, FormControl, Card, CardContent, FormLabel, Input, InputLabel, InputAdornment, FormHelperText, IconButton, Button } from '@material-ui/core';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
-import "../styles/main.scss";
+// import "../styles/main.scss";
 
 class SignUp extends React.Component {
   constructor(props) {

@@ -10,7 +10,7 @@ import NewProject from "../components/NewProject";
 import { TextField, Box, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, FormGroup, Input, InputLabel, Button, Typography } from '@material-ui/core';
 import Cookies from "js-cookie";
 import axios from 'axios';
-import "../styles/main.scss";
+// import "../styles/main.scss";
 import getConfig from 'next/config'
 const { serverRuntimeConfig, publicRuntimeConfig } = getConfig()
 const apiUrl = publicRuntimeConfig.API_URL || 'http://localhost:1337';
