@@ -14,6 +14,16 @@ import GetAppIcon from '@material-ui/icons/GetApp';
 import { format } from 'url';
 // const {parse, stringify} = require('flatted');
 
+const codeDataTemplate = {
+  url: "",
+  width: "700px",
+  height: "700px",
+  scroll: "0",
+  styles: {},
+  stylesMap: {},
+  stylesHTML: "",
+};
+
 class UploadTab extends React.Component {
   constructor(props) {
     super(props);
@@ -24,15 +34,7 @@ class UploadTab extends React.Component {
       staticImg: false,
       loading: false,
       fonts: {},
-      codeData: {
-        url: "",
-        width: "700px",
-        height: "700px",
-        scroll: "0",
-        styles: {},
-        stylesMap: {},
-        stylesHTML: "",
-      }
+      codeData: codeDataTemplate
     };
   }
 
@@ -67,29 +69,41 @@ class UploadTab extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (typeof prevProps !== "undefined" && this.props !== prevProps) {
+    console.log("The Component Updated")
+    if (
+      typeof prevProps !== "undefined" && 
+      this.props !== prevProps && 
+      this.props.questionNumber !== prevProps.questionNumber
+    ) {
       var prevQuestion = prevProps.test.questions ? prevProps.test.questions[Number(prevProps.questionNumber) - 1] : false;
       var question = this.props.test.questions ? this.props.test.questions[Number(this.props.questionNumber) - 1] : false;
       if (
-        question.code_data && prevQuestion.code_data && (prevQuestion.code_data.url !== question.code_data.url)||
+        question.code_data && prevQuestion.code_data && (prevQuestion.code_data.url !== question.code_data.url) ||
         question.code_image && prevQuestion.code_image && (prevQuestion.code_image.url !== question.code_image.url)
       ){
-        this.setState({ 
+      this.setState({ 
           loading: true,
           codeData: question.code_data,
           imageData: question.code_image
         }, () => this.update());
       } else {
         this.setState({ 
-          codeData: question.code_data,
-          imageData: question.code_image
+          codeData: question.code_data ? question.code_data : codeDataTemplate,
+          imageData: question.code_image ? question.code_image : {}
         }, () => this.update());
       }
     } 
   }
 
   scrapeUrl = () => {
-    if (typeof this.state.codeData === "undefined" || typeof this.state.codeData.url === "undefined" || this.state.codeData.url === "") { return; }
+
+    console.log("Scrapping URL")
+    if (
+      typeof this.state.codeData === "undefined" || 
+      typeof this.state.codeData.url === "undefined" || 
+      this.state.codeData.url === ""
+    ) { return; }
+    
     var that = this;
     var url = this.state.codeData.url;
     that.setState({ 
@@ -139,12 +153,15 @@ class UploadTab extends React.Component {
   }
   
   update = () => {
+
+    console.log("Updating Upload Tab")
 		if (typeof this.state.imageData !== "undefined" && this.state.imageData && typeof this.state.imageData.url !== "undefined") {
       var ext = this.state.imageData.url.substring(this.state.imageData.url.lastIndexOf(".") + 1);
       if (ext === "jpg" || ext === "jpeg" || ext === "png" || ext === "gif" || ext === "eps" || ext === "webp") {
         var imgData = "<img src='" + apiUrl + this.state.imageData.url + "'/>";
         this.setState({
           staticImg: true,
+          tagList: [],
           img: imgData,
           loading: false
         });
@@ -189,7 +206,7 @@ class UploadTab extends React.Component {
               loading: false
             });
             this.matchStyles();
-            setTimeout(() => {  this.matchStyles(); }, 2000);
+            // setTimeout(() => {  this.matchStyles(); }, 2000);
 
           }).catch(error => { console.log(error) });
       }
@@ -199,6 +216,7 @@ class UploadTab extends React.Component {
   }
 
   matchStyles = () => {
+    console.log("match Styles")
     var codeData = this.state.codeData;
     codeData.styleMap = {};
     codeData.styleHTML = "<style>";
@@ -235,6 +253,7 @@ class UploadTab extends React.Component {
   }
 
   uploadFile = (e) => {
+    console.log("Uploading files")
     var formData = new FormData();
     formData.append("files", e.target.files[0]);
     var codeData = this.state.codeData;
@@ -361,6 +380,7 @@ class UploadTab extends React.Component {
 	}
 
 	onStyleChange = (value, tag, e) => {
+    console.log("Changing Styles")
     var codeData = this.state.codeData;
     if (typeof codeData.styles === "undefined"){
       codeData.styles = {};
