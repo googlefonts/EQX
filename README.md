@@ -25,11 +25,10 @@ You can develop using docker-compose, or through node.js on your local machine.
 
 Stack summary:
 
-* [Google's Official Material Web Components for React](https://github.com/material-components/material-components-web-react)
+* [Material UI Components for React](https://material-ui.com/)
 * [NextJS](https://github.com/zeit/next.js) for the frontend framework
 * [Strapi](https://github.com/strapi/strapi) for the Headless CMS
-* [SQLite](https://www.postgresql.org/download) for the Dev Database
-* [PostgreSQL](https://www.postgresql.org/download) for the Prod Database
+* [PostgreSQL](https://www.postgresql.org/download) for the Database
 
 ### 1. Docker-Compose
 
@@ -37,7 +36,7 @@ To develop using docker-compose:
 
 ```bash
 docker-compose up 
-# Timeout issues? COMPOSE_HTTP_TIMEOUT=200 docker-compose up
+# Timeout issues? COMPOSE_HTTP_TIMEOUT=1000 docker-compose up
 # Still not working? docker-compose build --no-cache
 ```
 
@@ -124,6 +123,46 @@ kubesec encrypt -i --key=gcp:projects/eqx-host/locations/us-east1/keyRings/eqx/c
  kubesec decrypt -i base /secrets.yaml
  ```
 
-## To Do
+# Debugging
 
-Remove reactstrap and bootstrap
+### Step 1
+First stop and delete instance.
+
+```bash
+nvm use 14
+```
+
+### Step 2
+Then on backed.
+
+```bash
+npm cache clean --force
+rm -r build
+rm .yard-lock
+rm .yard-lock
+rm package-lock.json
+rm -r node_modules
+```
+
+
+### Step 3
+Then on frontend.
+
+```bash
+npm cache clean --force
+rm .next
+rm .yard-lock
+rm package-lock.json
+rm -r node_modules
+```
+
+### Step 4
+Then on root.
+
+```bash
+docker-compose pull
+docker-compose build --no-cache
+# repeat step 1 and 2 if necessary
+COMPOSE_HTTP_TIMEOUT=1000 docker-compose up # Timeout issues? 
+```
+
