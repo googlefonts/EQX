@@ -4,8 +4,8 @@
   "description": "EQX's frontend",
   "main": "index.js",
   "repository": {
-    "type" : "git",
-    "url" : "https://github.com/SorkinType/EQX"
+    "type": "git",
+    "url": "https://github.com/SorkinType/EQX"
   },
   "scripts": {
     "dev": "next",
@@ -22,6 +22,7 @@
     "@material-ui/icons": "^4.9.1",
     "@material-ui/lab": "^4.0.0-alpha.56",
     "@material-ui/system": "^4.9.14",
+    "@material/feature-targeting": "^9.0.0",
     "@material/react-button": "^0.15.0",
     "@material/react-drawer": "^0.15.0",
     "@material/react-fab": "^0.15.0",

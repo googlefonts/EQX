@@ -17,6 +17,7 @@
   "dependencies": {
     "knex": "<0.20.0",
     "pg": "^8.5.1",
+    "sqlite3": "latest",
     "strapi": "3.3.4",
     "strapi-admin": "3.3.4",
     "strapi-connector-bookshelf": "3.3.4",
