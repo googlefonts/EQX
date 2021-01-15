@@ -9,7 +9,7 @@
 
 ## Getting Started
 
-Quickstart tip:
+We use Docker to setup the EQX environment. Please open terminal, and running `docker-compose up` in the root of this repository. Docker should do the rest!
 
     docker-compose up
     # Timeout issues? COMPOSE_HTTP_TIMEOUT=1000 docker-compose up
