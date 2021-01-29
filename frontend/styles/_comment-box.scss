@@ -1,5 +1,5 @@
 .comment-box{
-	@include mdc-elevation(1);
+	// @include mdc-elevation(1);
 	background-color: white;
 	border-radius: 4px;
 	
@@ -51,7 +51,7 @@
 		}
 
 		.comment-list-fab{
-			@include mdc-fab-container-color($mdc-theme-primary);
+			// @include mdc-fab-container-color($mdc-theme-primary);
 			position: absolute;
 			bottom: -28px; // 1/2 of fab height (56px)
 			right: 28px;

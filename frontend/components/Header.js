@@ -103,8 +103,8 @@ class Header extends React.Component {
       // <TopAppBar className="header">
       <AppBar color="inherit" className="header">
         <Container maxWidth={false}>
-          <TopAppBarRow className="header-row-1">
-            <Grid container className="header-grid-1">
+          <TopAppBarRow>
+            <Grid container spacing={3}>
               <Grid item xs={6}>
                 <Link href="/">
                   <a>
@@ -112,25 +112,21 @@ class Header extends React.Component {
                   </a>
                 </Link>
               </Grid>
-              <Grid item xs={6}>
+              <Grid item xs={6} className="header-right" align="right">
                 {this.props.auth ? (	
                   <>
-                    <div className="sidebar-align">
-                      <IconButton className="header-notifications">
-                        <MaterialIcon icon='notifications' />
-                      </IconButton>
-                      {/* <IconButton className="header-notifications header-avatar">
-                        <MaterialIcon icon='avatar' />
-                      </IconButton> */}
-                      <Avatar/>
-                    </div>
+                    <IconButton className="header-notifications">
+                      <MaterialIcon icon='notifications' />
+                    </IconButton>
+                    {/* <IconButton className="header-notifications header-avatar">
+                      <MaterialIcon icon='avatar' />
+                    </IconButton> */}
+                    <Avatar/>
                   </>
                 ) : (
                   <>
-                    <div className="sidebar-align text-align-right">
-                      <Button color="primary" className="sign-in-button" onClick={() => console.log("clicked login!")}>Login</Button>
-                      <Button variant="contained" color="primary" className="sign-up-button" onClick={this.handleSignupOpen}>Sign Up</Button>
-                    </div>
+                    <Button color="primary" className="sign-in-button" onClick={() => console.log("clicked login!")}>Login</Button>
+                    <Button variant="contained" color="primary" className="sign-up-button" onClick={this.handleSignupOpen}>Sign Up</Button>
 
                     <Dialog open={this.state.openSignup} onClose={this.handleSignupClose}>
                       <SignUp/>

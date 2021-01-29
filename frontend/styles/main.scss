@@ -4,7 +4,7 @@
 // /* Theme colours */
 // /*———————————————*/
 
-// @import "./_config"; // Must be imported first
+@import "./_config"; // Must be imported first
 
 // /*——————————————————————————————*/
 // /* Import material default scss */
@@ -90,12 +90,12 @@ a, a:focus, a:active, a:hover{
 /*—————————————————————————*/
 
 main{
-	margin-top: 64px; // Height of top-bar
+	margin-top: 50px; // Height of top-bar
 	.layout-wrapper[data-has-progress-header="answering"] &, .layout-wrapper[data-has-progress-header="creating"] &{
 		margin-top: 128px; // Height of top-bar
 	}
 	min-height: 90vh;
-	min-height: calc(100vh - 64px - 190px);
+	min-height: calc(100vh - 50px - 190px);
 	background: linear-gradient(45deg, $mdc-theme-primary-light, $mdc-theme-primary-light, $mdc-theme-primary);
 	&:not(.no-auth){
 		padding-right: 230px;
