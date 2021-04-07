@@ -31,6 +31,30 @@ theme.overrides = {
 			width: 230
 		},
 	},
+	MuiTypography:{
+		...theme.MuiTypography,
+		body2: {
+			...theme.body2,
+			maxWidth: "800px"
+		},
+		h4: {
+			...theme.h4,
+			lineHeight: 1.4
+		},
+		h6: {
+			...theme.h6,
+			letterSpacing: "0.04em",
+			fontSize: "1rem!important",
+			textTransform: "uppercase"
+		},
+	},
+	MuiInputBase:{
+		...theme.MuiInputBase,
+		input: {
+			...theme.input,
+			lineHeight: 1.4
+		},
+	},
 	MuiDialog:{
 		...theme.MuiDialog,
 		paper: {
