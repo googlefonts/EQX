@@ -91,7 +91,7 @@ class EditableTitle extends React.Component {
   render() {
     return (
       <>
-        <Box pb={2}>
+        <Box pb={1}>
           <Typography style={{position: "relative"}} variant="h4">
             <TextField 
               multiline
@@ -120,7 +120,7 @@ class EditableTitle extends React.Component {
           </Typography>
         </Box>
         {( this.state.descValue || this.state.item1Opacity ) ?  
-          <Box pb={2}>
+          <Box pb={1}>
             <Typography component="div" style={{ position: "relative" }} variant="body2">
               <TextField 
                 fullWidth
