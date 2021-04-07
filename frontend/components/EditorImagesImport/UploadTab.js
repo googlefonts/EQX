@@ -206,7 +206,7 @@ class UploadTab extends React.Component {
               loading: false
             });
             this.matchStyles();
-            // setTimeout(() => {  this.matchStyles(); }, 2000);
+            setTimeout(() => {  this.matchStyles(); }, 2000);
 
           }).catch(error => { console.log(error) });
       }
