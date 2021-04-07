@@ -12,7 +12,7 @@
 			".next":true,
 			"node_modules":true,
 			"package-lock.json":true,
-			"dist":true,
+			"dist/":true,
 			"dump":true,
 			".cache":true,
 			".config":true,
