@@ -41,14 +41,19 @@ class AnswerQuestionPage extends React.Component {
     this.update(newQuestion);
   }
 
-  titleUpdate = () => {
-    axios
-      .get(apiUrl + '/tests?id=' + Router.router.query.test, {
-        headers: { Authorization: "Bearer " + Cookies.get("jwt") }
-      }).then(response => { // Handle success
-        this.setState({ tmpTest: response.data[0] });
-      }).catch(error => { console.log(error) });
+  // titleUpdate = () => {
+  //   axios
+  //     .get(apiUrl + '/tests?id=' + Router.router.query.test, {
+  //       headers: { Authorization: "Bearer " + Cookies.get("jwt") }
+  //     }).then(response => { // Handle success
+  //       this.setState({ tmpTest: response.data[0] });
+  //     }).catch(error => { console.log(error) });
+  // }
+
+  questionUpdate = () => {
+    this.update();
   }
+
 
   update = (newQuestion) => {
     let questionNumber = Router.router.query.question;
@@ -102,7 +107,7 @@ class AnswerQuestionPage extends React.Component {
     return (
       <Layout page={this.state.page} headerType="creating" test={this.state.tmpTest} pageUpdate={this.pageUpdate} {...this.props}>
         <Box pt={8} bgcolor="#fff">
-          <AnswerQuestionFields titleUpdate={this.titleUpdate} {...this.state} {...this.props} />
+          <AnswerQuestionFields pageUpdate={this.pageUpdate} questionUpdate={this.questionUpdate} titleUpdate={this.titleUpdate} {...this.state} {...this.props} />
         </Box>
       </Layout>
     );
