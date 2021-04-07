@@ -12,13 +12,14 @@
       "created_at",
       "updated_at"
     ],
-    "comment": ""
+    "comment": "",
+    "draftAndPublish": false
   },
   "attributes": {
     "user": {
-      "via": "comment",
       "plugin": "users-permissions",
-      "model": "user"
+      "model": "user",
+      "via": "comment"
     },
     "text": {
       "required": true,
@@ -35,6 +36,10 @@
     },
     "SomeText": {
       "type": "string"
+    },
+    "question": {
+      "via": "comments",
+      "model": "question"
     }
   }
 }

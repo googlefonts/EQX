@@ -69,8 +69,8 @@
       "required": false
     },
     "comment": {
-      "model": "comment",
-      "via": "user"
+      "via": "user",
+      "model": "comment"
     },
     "projects": {
       "via": "users",
@@ -91,6 +91,10 @@
       "via": "owners",
       "collection": "project",
       "dominant": true
+    },
+    "answers": {
+      "via": "user",
+      "collection": "answer"
     }
   }
 }
