@@ -1,13 +1,14 @@
 import Link from "next/link";
 import {TopAppBarRow } from '@material/react-top-app-bar';
-import IconButton from '@material/react-icon-button';
-import MaterialIcon from '@material/react-material-icon';
-import {Box, AppBar, Container, Grid, Button, Typography, TextField, DialogActions, DialogContent, Dialog, DialogTitle, DialogContentText } from '@material-ui/core';
+// import IconButton from '@material/react-icon-button';
+// import MaterialIcon from '@material/react-material-icon';
+import {IconButton, Box, AppBar, Container, Grid, Button, Typography, TextField, DialogActions, DialogContent, Dialog, DialogTitle, DialogContentText } from '@material-ui/core';
 import Switch from '@material/react-switch';
 import LinearProgress from '@material/react-linear-progress';
 import Avatar from './header/Avatar';
 import SignUp from '../components/SignUp';
 import Router from 'next/router';
+import NotificationsIcon from '@material-ui/icons/Notifications';
 
 class CreatingHeader extends React.Component {
   constructor(props) {
@@ -104,7 +105,7 @@ class Header extends React.Component {
       <AppBar color="inherit" className="header">
         <Container maxWidth={false}>
           <TopAppBarRow>
-            <Grid container spacing={3}>
+            <Grid container spacing={0}>
               <Grid item xs={6}>
                 <Link href="/">
                   <a>
@@ -115,8 +116,9 @@ class Header extends React.Component {
               <Grid item xs={6} className="header-right" align="right">
                 {this.props.auth ? (	
                   <>
-                    <IconButton className="header-notifications">
-                      <MaterialIcon icon='notifications' />
+
+                    <IconButton color="primary" aria-label="notifications" style={{marginTop: "5px"}}>
+                      <NotificationsIcon style={{fontSize: "26px"}}/>
                     </IconButton>
                     {/* <IconButton className="header-notifications header-avatar">
                       <MaterialIcon icon='avatar' />
@@ -125,8 +127,8 @@ class Header extends React.Component {
                   </>
                 ) : (
                   <>
-                    <Button color="primary" className="sign-in-button" onClick={() => console.log("clicked login!")}>Login</Button>
-                    <Button variant="contained" color="primary" className="sign-up-button" onClick={this.handleSignupOpen}>Sign Up</Button>
+                    <Button color="primary" style={{marginTop: "10px"}} className="sign-in-button" onClick={() => console.log("clicked login!")}>Login</Button>
+                    <Button variant="contained" style={{marginTop: "10px"}} color="primary" className="sign-up-button" onClick={this.handleSignupOpen}>Sign Up</Button>
 
                     <Dialog open={this.state.openSignup} onClose={this.handleSignupClose}>
                       <SignUp/>
