@@ -289,37 +289,54 @@ class Test extends React.Component {
           {/* General Info */}
           <CardContent >
             <Box p={1}>
-              <Typography variant="h6">
-                <Box component="span" color="grey.400">{this.props.project.name} v.{this.props.project.major_version}.{this.props.project.minor_version}</Box>
-              </Typography>
-              <Typography variant="h4">
-                {this.state.test.name}
-                <Box component="span" color="grey.400"> v.{this.state.test.major_version}.{this.state.test.minor_version}</Box>
-              </Typography>
-              <Typography variant="body2">{this.state.test.description}</Typography>
-              <Box className="progress-bar" pb={1}>
-                <Box style={{ width: "calc(100% - 200px)", display: "inline-block" }}>
-                  <LinearProgress variant="determinate" value={this.state.test.completeness ? this.state.test.completeness : 0} />
-                </Box>
-                <Typography style={{ width: "200px", display: "inline-block" }} align="right" variant="h6">{this.state.test.completeness}% Done</Typography>
-              </Box>
-              <Box component="span" color="purple" className="inline-button" mr={2} >
-                <Link href={"/answer-question?test=" + this.state.test.id + "&question=1"}><a>
-                  <Button color="primary" size="large" variant="contained">Start</Button>
-                </a></Link>
-              </Box>
-              <Typography display="inline" variant="body2">
-                <Box component="span">{this.state.questionLength} Questions</Box>
-              </Typography>
-              <Divider display="inline-block" orientation="vertical" />
-              <Typography display="inline" variant="body2">
-                <Box component="span" color="purple" className="inline-button" >Answers</Box>
-              </Typography>
-              <Divider display="inline-block" orientation="vertical" />
-              <Typography display="inline" variant="body2">
-                <Box component="span" color="purple" className="inline-button" >Comments</Box>
-              </Typography>
+              <Grid container spacing={0}>
+                <Grid item xs>
+                  <Box pb={1}>
+                    <Typography variant="h6">
+                      <Box component="span" color="grey.400">{this.props.project.name} v.{this.props.project.major_version}.{this.props.project.minor_version}</Box>
+                    </Typography>
+                    <Typography variant="h4" style={{padding: "6px 0 7px"}}>
+                      {this.state.test.name}
+                      <Box component="span" color="grey.400"> v.{this.state.test.major_version}.{this.state.test.minor_version}</Box>
+                    </Typography>
+                  </Box>
+                  <Box pb={1}>
+                    <Typography variant="body2">{this.state.test.description}</Typography>
+                  </Box>
+
+                  <Box className="progress-bar" pb={3}>
+                    <Box style={{ width: "calc(100% - 110px)", display: "inline-block" }}>
+                      <LinearProgress variant="determinate" value={this.state.test.completeness ? this.state.test.completeness : 0} />
+                    </Box>
+                    <Box style={{ position: "relative", top:"3px", padding: "1px 10px 0 0 ", borderRadius: "5px", background: "rgb(217, 172, 224)", width: "110px", display: "inline-block" }}>
+                      <Typography style={{color: "white"}} align="right" variant="h6">{this.state.test.completeness}% Done</Typography>
+                    </Box>
+                  </Box>
+                  <Box>
+                    <Box component="span" color="purple" className="inline-button" mr={2} >
+                      <Link href={"/answer-question?test=" + this.state.test.id + "&question=1"}><a>
+                        <Button color="primary" size="large" variant="contained">Start</Button>
+                      </a></Link>
+                    </Box>
+                    <Typography display="inline" variant="body2">
+                      <Box component="span">{this.state.questionLength} Questions</Box>
+                    </Typography>
+                    <Divider display="inline-block" orientation="vertical" />
+                    <Typography display="inline" variant="body2">
+                      <Box component="span" color="purple" className="inline-button" >Answers</Box>
+                    </Typography>
+                    <Divider display="inline-block" orientation="vertical" />
+                    <Typography display="inline" variant="body2">
+                      <Box component="span" color="purple" className="inline-button" >Comments</Box>
+                    </Typography>
+                  </Box>
+                </Grid>
+                {/* <Grid item xs={4}>
+                  <RadialGrade grade={80} />
+                </Grid> */}
+              </Grid>
             </Box>
+
           </CardContent>
         </Card>
       </Box>
