@@ -1,9 +1,10 @@
 import React from 'react';
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
-import IconButton from '@material/react-icon-button';
-import MaterialIcon from '@material/react-material-icon';
+import {IconButton, MenuItem, Menu, Container, Grid, Button, Typography, TextField, DialogActions, DialogContent, Dialog, DialogTitle, DialogContentText } from '@material-ui/core';
+
+// import IconButton from '@material/react-icon-button';
+// import MaterialIcon from '@material/react-material-icon';
 import { unsetToken, checkAuth } from "../../lib/auth";
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 
 export default function Avatar() {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -18,8 +19,8 @@ export default function Avatar() {
 
   return (
     <>
-      <IconButton className="header-notifications header-avatar" aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
-        <MaterialIcon icon='avatar' />
+      <IconButton style={{marginTop: "5px"}} onClick={handleClick}>
+        <AccountCircleIcon style={{fontSize: "26px"}}/>
       </IconButton>
       <Menu
         id="simple-menu"
