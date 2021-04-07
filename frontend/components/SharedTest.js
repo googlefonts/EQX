@@ -154,10 +154,12 @@ class TestMembers extends React.Component {
             <Box p={1} pt={2} width="100%">
               <Grid container spacing={2}>
                 <Grid item xs={12}>
-                  <Box style={{ width: "calc(100% - 200px)", display: "inline-block" }}>
-                    <LinearProgress className="linear-progress-thick" variant="determinate" value={0} />
+                  <Box style={{ float: "left", width: "calc(100% - 150px)", display: "inline-block" }}>
+                    <LinearProgress style={{ height: "40px"}} className="linear-progress-thick" variant="determinate" value={0} />
                   </Box>
-                  <Typography style={{ width: "200px", display: "inline-block" }} align="right" variant="h5">{0}% Done</Typography>
+                  <Box style={{ borderRadius: "0 5px 5px 0", float: "left", position: "relative", padding: "0 10px 0 0 ", background: "rgb(217, 172, 224)", width: "150px", display: "inline-block" }}>
+                    <Typography style={{color: "#9c27b0", lineHeight: "40px"}} align="right" variant="h5">{0}% Done</Typography>
+                  </Box>
                 </Grid>
                 <Grid item xs={12}>
                   <Typography color="inherit" variant="body2">Completed by 0 of 1 users</Typography>
@@ -170,12 +172,14 @@ class TestMembers extends React.Component {
             this.props.test.users.map((member, i) =>
               <ListItem key={"test-member-" + i}>
                 <Box p={1} pt={2} width="100%">
-                  <Grid container spacing={2}>
+                  <Grid container spacing={0}>
                     <Grid item xs={12}>
-                      <Box style={{ width: "calc(100% - 200px)", display: "inline-block" }}>
+                      <Box style={{ width: "calc(100% - 110px)", display: "inline-block" }}>
                         <LinearProgress variant="determinate" value={0} />
                       </Box>
-                      <Typography style={{ width: "200px", display: "inline-block" }} align="right" variant="h6">{0}% Done</Typography>
+                      <Box style={{ position: "relative", top:"3px", padding: "1px 10px 0 0 ", borderRadius: "5px", background: "rgb(217, 172, 224)", width: "110px", display: "inline-block" }}>
+                        <Typography style={{color: "#9c27b0"}} align="right" variant="h6">{0}% Done</Typography>
+                      </Box>
                     </Grid>
                     <Grid item xs={12}>
                       <Box>

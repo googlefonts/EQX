@@ -93,17 +93,44 @@ class ProjectTests extends React.Component {
             this.props.project.tests.map((test, i) =>
               <ListItem onClick={() => this.testModalHandleOpen(test)} button key={"test-" + i}>
                 <Box p={1} pt={2} width="100%">
-                  <Grid container spacing={2}>
+                  <Grid container spacing={0}>
                     <Grid item xs={12}>
                       <Typography variant="h5">
                         {test.name}
                         <Box component="span" color="grey.400"> v.{test.major_version}.{test.minor_version}</Box>
                         {/* <Box component="span" color="grey.400">({test.questions ? test.questions.length : "0"} Questions)</Box> */}
                       </Typography>
-                      <Box style={{ width: "calc(100% - 200px)", display: "inline-block" }}>
+                      {/* <Box style={{ width: "calc(100% - 200px)", display: "inline-block" }}>
                         <LinearProgress variant="determinate" value={test.completeness ? test.completeness : 0} />
                       </Box>
                       <Typography style={{ width: "200px", display: "inline-block" }} align="right" variant="body1">{test.completeness}% Done</Typography>
+                    */}
+                      <Box style={{ width: "calc(100% - 110px)", display: "inline-block" }}>
+                        <LinearProgress variant="determinate" value={test.completeness ? test.completeness : 0} />
+                      </Box>
+                      <Box style={{ position: "relative", top:"3px", padding: "1px 10px 0 0 ", borderRadius: "5px", background: "rgb(217, 172, 224)", width: "110px", display: "inline-block" }}>
+                        <Typography style={{color: "white"}} align="right" variant="h6">{test.completeness ? test.completeness : 0}% Done</Typography>
+                      </Box>
+                    </Grid>
+
+                    <Grid item xs={12}>
+                      <Box>
+                        <Typography display="inline" variant="body2">
+                          <Box component="span">View</Box>
+                        </Typography>
+                        <Divider display="inline-block" orientation="vertical" />
+                        <Typography display="inline" variant="body2">
+                          <Box component="span" className="inline-button" >Answers</Box>
+                        </Typography>
+                        <Divider display="inline-block" orientation="vertical" />
+                        <Typography display="inline" variant="body2">
+                          <Box component="span" className="inline-button" >Comments</Box>
+                        </Typography>
+                        <Divider display="inline-block" orientation="vertical" />
+                        <Typography display="inline" variant="body2">
+                          <Box component="span" className="inline-button" >Remind</Box>
+                        </Typography>
+                      </Box>
                     </Grid>
                   </Grid>
                 </Box>
