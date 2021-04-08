@@ -12,6 +12,7 @@ import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
 import Router from 'next/router';
 import AddCommentIcon from '@material-ui/icons/AddComment';
 import PermMediaIcon from '@material-ui/icons/PermMedia';
+// import { AutoRotatingCarousel, Slide } from "material-auto-rotating-carousel"; // Doesnt work anymore
 
 class AnswerQuestionFields extends React.Component {
   constructor(props) {
@@ -19,6 +20,7 @@ class AnswerQuestionFields extends React.Component {
     this.state = {
       question: {},
       staticImg: false,
+      referenceImagesOpen: false,
       img: "",
     };
   }
@@ -133,6 +135,12 @@ class AnswerQuestionFields extends React.Component {
     }
   }
 
+  referenceImagesToggle = () => {
+    this.setState({
+      referenceImagesOpen: this.state.referenceImagesOpen ? false : true,
+    });
+  }
+
   closeLightbox = () => {
     this.setState({lightboxOpen:false})
   };
@@ -216,11 +224,47 @@ class AnswerQuestionFields extends React.Component {
                   </Card>
                 </Box>
               </Grid>
-              <Grid item xs={12}>
-                <Box mb={6} align="right">
-                  <Button color="primary" size="large" variant="outlined" startIcon={<PermMediaIcon/>}>Show Reference Images</Button>
-                </Box>
-              </Grid>
+              {(this.state.question.reference_images && this.state.question.reference_images.length) ?
+                <>
+                  <Grid item xs={12}>
+                    <Box mb={2} align="right">
+                      <Button onClick={() => this.referenceImagesToggle()}  color="primary" size="large" variant="outlined" startIcon={<PermMediaIcon/>}>Show Reference Images</Button>
+                    </Box>
+                  </Grid>
+                  {/* <AutoRotatingCarousel
+                    label="Get started"
+                    open={this.state.referenceImagesOpen}
+                    onClose={() => this.referenceImagesToggle()}
+                    // onStart={() => setHandleOpen({ open: false })}
+                    autoplay={false}
+                    mobile={false}
+                  >
+
+                    { this.state.question.reference_images.map((img, i) => 
+                      // <img key={"reference-"+i} src={apiUrl + img.image.url} />
+                      <Slide
+                        media={
+                          <img src={apiUrl + img.image.url} />
+                        }
+                        mediaBackgroundStyle={{ backgroundColor: red[400] }}
+                        // style={{ backgroundColor: red[600] }}
+                        title="This is a very cool feature"
+                        subtitle="Just using this will blow your mind."
+                      />
+                    )}
+                  </AutoRotatingCarousel>  */}
+                  
+                  {/* <Dialog 
+                    PaperProps={{ style: { overflow: "visible", borderRadius: "4px" } }} 
+                    fullWidth={true} maxWidth="md" open={this.state.referenceImagesOpen} onClose={() => this.referenceImagesToggle()}
+                  >
+
+                    { this.state.question.reference_images.map((img, i) => 
+                      {console.log(img)}
+                    )}
+                  </Dialog> */}
+                </>
+              : "" }
             </Grid>
           </Grid>
 					<Grid item xs={4}>
@@ -337,8 +381,12 @@ class AnswerQuestionFields extends React.Component {
                               />
                             </Grid>
                             <Grid item xs={12} align="left">
-                              <Button variant="contained" color="primary">Post</Button>
-                              <Button color="primary">Clear</Button>
+                              <Box display="inline-block" pr={1}>
+                                <Button variant="contained" color="primary">Post</Button>
+                              </Box>
+                              <Box display="inline-block" pr={1}>
+                                <Button color="primary">Clear</Button>
+                              </Box>
                             </Grid>
                           </Grid>
                         </Box>
