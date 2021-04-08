@@ -161,7 +161,7 @@ class ReferenceImages extends React.Component {
 								<section style={{border: "1px dashed", background: "rgba(0,0,0,0.1)"}}>
 									<div {...getRootProps()}>
 										<input {...getInputProps()} />
-										<Typography variant="h6"><br/>Add reference images.<br/><br/></Typography>
+										<Typography variant="h6"><br/>Add reference images<br/><br/></Typography>
 									</div>
 								</section>
 							)}
