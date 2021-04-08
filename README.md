@@ -9,6 +9,13 @@ In its place is something faster and more useful for type designers, their colla
 
 We are excited about EQX because it already does a great deal, and it's libre license empowers anyone to use it and build on it.
 
+22 minute introduction presentation at ATypI 2020 by Eben Sorkin:
+
+[youtu.be/L61M-rU43ec](https://www.youtube.com/watch?v=L61M-rU43ec)
+
+Eben is a type designer, teacher, type design reviewer, type art director and now software package designer.
+He served on the board of ATypI from 2010-2018.
+
 ## Demos
 
 **Frontend**: <http://34.73.108.93>
