@@ -234,7 +234,7 @@ class SideNavQuestion extends React.Component {
             }
             <ListItem className="multi-drawer-toggle" key="list-item-overview" onClick={this.overviewToggle} selected={this.props.page === "tests" ? true : false} button>
               <ListItemIcon><FormatListNumberedIcon /></ListItemIcon>
-              <ListItemText primary='Overview'/>
+              <ListItemText primary='Question List'/>
             </ListItem>
             {(this.props.page === "answer-question") &&
               <ListItem key="list-item-results" onClick={this.addQuestion} selected={this.props.page === "dashboard" ? true : false} button key="dashboard">
