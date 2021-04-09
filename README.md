@@ -1,4 +1,20 @@
-# EQX
+# EQX: A tool for visually evaluating font quality
+
+A new way to test your typefaces, track your progress, and work with teams when designing families:
+EQX is a tool for visually evaluating font quality.
+
+EQX was made to replace the typical type design workflow:
+web searches, ad-hoc testing strings, and reaching for things on our bookshelves.
+In its place is something faster and more useful for type designers, their collaborators, managers, and consulting experts.
+
+We are excited about EQX because it already does a great deal, and it's libre license empowers anyone to use it and build on it.
+
+22 minute introduction presentation at ATypI 2020 by Eben Sorkin:
+
+[youtu.be/L61M-rU43ec](https://www.youtube.com/watch?v=L61M-rU43ec)
+
+Eben is a type designer, teacher, type design reviewer, type art director and now software package designer.
+He served on the board of ATypI from 2010-2018.
 
 ## Demos
 
