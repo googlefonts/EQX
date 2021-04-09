@@ -115,16 +115,16 @@ class SignIn extends React.Component {
 						</CardContent>
 					</Card>
 					<br/>
-					<Typography variant="h6" align="center" gutterBottom>  
+					{/* <Typography variant="h6" align="center" gutterBottom>  
 						<Link href="#" className="text-on-primary" onClick={this.handleSignupOpen}>Need to sign up?</Link>
 
 						<Dialog open={this.state.openSignup} onClose={this.handleSignupClose}>
 							<SignUp/>
                   </Dialog>
-					</Typography>
-					<Typography variant="h6" align="center" gutterBottom>  
+					</Typography> */}
+					{/* <Typography variant="h6" align="center" gutterBottom>  
 						<Link href="#" className="text-on-primary">Forgot Password?</Link>
-					</Typography>
+					</Typography> */}
 				</Grid>
 			</Grid>
 		);

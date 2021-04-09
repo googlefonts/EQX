@@ -127,7 +127,7 @@ class Header extends React.Component {
                   </>
                 ) : (
                   <>
-                    <Button color="primary" style={{marginTop: "10px"}} className="sign-in-button" onClick={() => console.log("clicked login!")}>Login</Button>
+                    {/* <Button color="primary" style={{marginTop: "10px"}} className="sign-in-button" onClick={() => console.log("clicked login!")}>Login</Button> */}
                     <Button variant="contained" style={{marginTop: "10px"}} color="primary" className="sign-up-button" onClick={this.handleSignupOpen}>Sign Up</Button>
 
                     <Dialog open={this.state.openSignup} onClose={this.handleSignupClose}>

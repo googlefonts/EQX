@@ -64,11 +64,11 @@ class SignIn extends React.Component {
 								<Input onChange={this.onChange.bind(this, "password")} type="password" name="password" />
 							</FormControl>
 							<FormControl>
-								<span>
+								{/* <span>
 									<a href="">
 										<small>Forgot Password?</small>
 									</a>
-								</span>
+								</span> */}
 								<Button color="primary" onClick={this.onSubmit.bind(this)}>Submit</Button>
 							</FormControl>
 						</FormGroup>
