@@ -6,7 +6,7 @@ const apiUrl = publicRuntimeConfig.API_URL || 'http://localhost:1337';
 import React from "react";
 import { strapiLogin } from "../lib/auth";
 import axios from 'axios';
-import { Link, Typography, FormGroup, FormControl, Card, CardContent, FormLabel, Input, InputLabel, InputAdornment, FormHelperText, IconButton, Button } from '@material-ui/core';
+import { LinearProgress, Link, Typography, FormGroup, FormControl, Card, CardContent, FormLabel, Input, InputLabel, InputAdornment, FormHelperText, IconButton, Button } from '@material-ui/core';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 // import "../styles/main.scss";
@@ -22,6 +22,7 @@ class SignUp extends React.Component {
       },
       error: "",
       showPassword: false,
+      loading: false,
       textFieldSignupValue: ""
     };
   }
@@ -52,6 +53,7 @@ class SignUp extends React.Component {
         strapiLogin(email, password);
       });
   }
+ 
 
   render() {
     const { error } = this.state;
@@ -60,19 +62,20 @@ class SignUp extends React.Component {
         <Card className="auth-card" style={{ padding: "2rem", maxWidth: "700px" }}>
           <CardContent>
             <div className="notification">{error}</div>
-            <Typography variant="h4" align="center" gutterBottom>Join EQX</Typography>
+            <Typography variant="h4" align="center">Want to join EQX?</Typography>
             <FormGroup>
-              <FormControl>
-                <InputLabel>Username</InputLabel>
-                <Input onChange={this.handleChange.bind(this, "username")} type="text" name="username" />
+              <FormControl margin="normal">
+                <InputLabel style={{ fontSize: "1.25rem", lineHeight: "0.8rem" }}>Username</InputLabel>
+                <Input style={{ fontSize: "1.25rem", lineHeight: "0.8rem" }} onChange={this.handleChange.bind(this, "username")} type="text" name="username" />
               </FormControl>
-              <FormControl>
-                <InputLabel>Email</InputLabel>
-                <Input onChange={this.handleChange.bind(this, "email")} type="email" name="email" />
+              <FormControl margin="normal">
+                <InputLabel style={{ fontSize: "1.25rem", lineHeight: "0.8rem" }}>Email</InputLabel>
+                <Input style={{ fontSize: "1.25rem", lineHeight: "0.8rem" }} onChange={this.handleChange.bind(this, "email")} type="email" name="email" />
               </FormControl>
-              <FormControl style={{ marginBottom: 30 }}>
-                <InputLabel htmlFor="standard-adornment-password">Password</InputLabel>
+              <FormControl margin="normal" style={{ marginBottom: 30 }}>
+                <InputLabel style={{ fontSize: "1.25rem", lineHeight: "0.8rem" }} htmlFor="standard-adornment-password">Password</InputLabel>
                 <Input
+                  style={{ fontSize: "1.25rem", lineHeight: "0.8rem" }}
                   id="standard-adornment-password"
                   type={this.state.showPassword ? 'text' : 'password'}
                   value={this.password}
@@ -90,7 +93,7 @@ class SignUp extends React.Component {
                   }
                 />
               </FormControl>
-              <FormControl>
+              <FormControl margin="normal">
                 <Button color="primary" size="large" variant="contained" onClick={this.handleSubmit.bind(this)}>Sign Up</Button>
                 <br />
                 <Typography variant="body2" align="center">By clicking, you agree to our <Link href="#">Customer Agreement</Link>.</Typography>
@@ -98,6 +101,7 @@ class SignUp extends React.Component {
             </FormGroup>
           </CardContent>
         </Card>
+				<LinearProgress style={{display: this.state.loading ? "initial" : "none"}}/>
       </>
     );
   }

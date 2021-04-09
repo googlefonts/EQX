@@ -9,6 +9,7 @@ import Avatar from './header/Avatar';
 import SignUp from '../components/SignUp';
 import Router from 'next/router';
 import NotificationsIcon from '@material-ui/icons/Notifications';
+import SignIn from "../components/SignIn";
 
 class CreatingHeader extends React.Component {
   constructor(props) {
@@ -88,16 +89,25 @@ class Header extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      openSignup: false,
-      textFieldSignupValue: ""
+      openSignUp: false,
+      openSignIn: false,
+      textFieldSignUpValue: "",
+      textFieldSignInValue: ""
     };
   }
-  handleSignupOpen = () => {
-    this.setState({ openSignup: true});
+  handleSignUpOpen = () => {
+    this.setState({ openSignUp: true});
   }
-  handleSignupClose = () => {
-    this.setState({ openSignup: false});
-    this.setState({ textFieldSignupValue: "" });
+  handleSignUpClose = () => {
+    this.setState({ openSignUp: false});
+    this.setState({ textFieldSignUpValue: "" });
+  }
+  handleSignInOpen = () => {
+    this.setState({ openSignIn: true});
+  }
+  handleSignInClose = () => {
+    this.setState({ openSignIn: false});
+    this.setState({ textFieldSignInValue: "" });
   }
   render() {
     return (
@@ -109,7 +119,7 @@ class Header extends React.Component {
               <Grid item xs={6}>
                 <Link href="/">
                   <a>
-                    <Typography variant="h5" className="logo" style={{fontWeight:700}}>EQX</Typography>
+                    <Typography variant="h5" className="logo" style={{fontWeight:"700"}}>EQX</Typography>
                   </a>
                 </Link>
               </Grid>
@@ -127,21 +137,15 @@ class Header extends React.Component {
                   </>
                 ) : (
                   <>
-                    {/* <Button color="primary" style={{marginTop: "10px"}} className="sign-in-button" onClick={() => console.log("clicked login!")}>Login</Button> */}
-                    <Button variant="contained" style={{marginTop: "10px"}} color="primary" className="sign-up-button" onClick={this.handleSignupOpen}>Sign Up</Button>
+                    <Button color="primary" style={{marginTop: "10px"}} className="sign-in-button" onClick={()=>{this.handleSignInOpen();this.handleSignUpClose();} }>Login</Button>
+                    <Button variant="contained" style={{marginTop: "10px"}} color="primary" className="sign-up-button" onClick={()=>{this.handleSignUpOpen();this.handleSignInClose();} }>Sign Up</Button>
 
-                    <Dialog open={this.state.openSignup} onClose={this.handleSignupClose}>
+                    <Dialog open={this.state.openSignUp} onClose={()=>{this.handleSignInClose();this.handleSignUpClose();} }>
                       <SignUp/>
-                      {/* <DialogTitle id="form-dialog-title">New Test</DialogTitle> */}
-                      {/* <DialogContent>
-                        <DialogContentText>Tests should be built around verifying a specific goal.</DialogContentText>
-                        <TextField value={this.state.textFieldSignupValue} onChange={this.handleSignupChange} autoFocus margin="dense" id="name" label="Test's Name" type="text" fullWidth />
-                      </DialogContent>
-                      <DialogActions>
-                        <Button onClick={this.handleSignupClose} color="primary">Cancel</Button>
-                        <Button onClick={this.handleSignupSubmit} color="primary">Create</Button>
-                      </DialogActions> */}
                     </Dialog>
+                    <Dialog open={this.state.openSignIn} onClose={()=>{this.handleSignInClose();this.handleSignUpClose();} }>
+                      <SignIn/>
+                   </Dialog>
                   </>
                 )}
               </Grid>
