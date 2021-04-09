@@ -49,13 +49,13 @@ class Layout extends React.Component {
 					{ this.props.isAuthenticated ? // Logged In
 						<>
 							<SideNav sideNavUpdate={this.sideNavUpdate} {...this.props}/>
-							<main>
+							<main data-page={this.props.page}>
 								{this.props.children}
 							</main>
 						</>
 					: // Not logged In
 						<>
-							<main className="no-auth">
+							<main data-page={this.props.page} className="no-auth">
 								{this.props.children}
 							</main>
 						</>
