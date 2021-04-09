@@ -94,7 +94,7 @@ Then on frontend.
 
 ```bash
 npm cache clean --force
-rm .next
+rm -r .next
 rm .yard-lock
 rm package-lock.json
 rm -r node_modules
