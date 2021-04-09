@@ -20,10 +20,15 @@ He served on the board of ATypI from 2010-2018.
 
 # Demos
 
-**Frontend**: <http://34.73.108.93>
+### Frontend
+<http://34.73.108.93>  
+Username: **example@example.com**  
+Password: **example**
 
-**Backend**: <http://35.231.157.252/admin>
-
+### Backend
+<http://35.231.157.252/admin>  
+Username: **example@admin.com**  
+Password: **exampleAdmin1**
 
 
 # Getting Started
@@ -34,12 +39,16 @@ We use Docker to setup the EQX environment. Please open terminal, and running `d
 docker-compose up # Timeout issues? COMPOSE_HTTP_TIMEOUT=1000 docker-compose up
 ```
 
-**Frontend**: <http://localhost:3000>
-
+**Frontend**: <http://localhost:3000>  
 **Backend**: <http://localhost:1337>
     
 
 # Resources
+
+## Creating HTML visuals with EQX's Visual Generator
+
+This is a tool to help create visuals for use in EQX. It was created to be used with variable fonts to quickly update a package of HTML testing resources.  
+You can learn more about it by visiting its repo at <https://github.com/quitequinn/EQX-Visual-Generator>.
 
 ## Stack summary
 
@@ -51,7 +60,7 @@ docker-compose up # Timeout issues? COMPOSE_HTTP_TIMEOUT=1000 docker-compose up
 
 ## Secrets
 
-We use [kubesec](https://github.com/shyiko/kubesec) and Google Cloud KMS to store encrypted secrets in this repo.
+We use [kubesec](https://github.com/shyiko/kubesec) and Google Cloud KMS to store encrypted secrets in this repo.  
 To add a new secret, first decrypt, then add secret, and then encrypt. 
 
 ### Secret Encryption
