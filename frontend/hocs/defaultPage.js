@@ -10,7 +10,7 @@ import SignIn from "../components/SignIn";
 
 import { getUserFromServerCookie, getUserFromLocalCookie } from "../lib/auth";
 
-export default Page =>
+const Page = Page => (
   class DefaultPage extends React.Component {
     static async getInitialProps({ req }) {
       const loggedUser = process.browser ? getUserFromLocalCookie() : getUserFromServerCookie(req);
@@ -54,4 +54,6 @@ export default Page =>
        </>
       );
     }
-  };
+  }
+);
+export default Page;
