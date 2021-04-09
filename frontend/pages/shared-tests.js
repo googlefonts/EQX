@@ -70,7 +70,7 @@ class NewTest extends React.Component {
           <Button onClick={this.handleOpen} color="primary" size="large" variant="contained">Create a New Test</Button>
           <Button onClick={console.log("not yet, sry.")} color="primary" size="large" variant="contained">Use a Template</Button>
           <br />
-          <Typography align="center" gutterBottom={true} variant="body2" display="block">Don’t worry, we’ll help you through it.</Typography>
+          <Typography align="center" gutterBottom={true} variant="body2" style={{margin: "0 auto"}} display="block">Don’t worry, we’ll help you through it.</Typography>
         </>
 
         <Dialog open={this.state.open} onClose={this.handleClose}>
@@ -119,11 +119,19 @@ class SearchTests extends React.Component {
     let archivedTests = [];
     this.props.projects.forEach(function (project, i) {
       project.tests.forEach(function (test, i) {
-        if (test.archived === true) {
-          archivedTests.push(test);
+        if (test.archived) {
+          var archivedTest = test;
+          archivedTest.project = {
+            id: project.id,
+            major_version: project.major_version,
+            minor_version: project.minor_version,
+            name: project.name,
+          }
+          
+          archivedTests.push(archivedTest);
         }
       })
-    })
+    });
     this.setState({ archivedTests: archivedTests });
   }
 
@@ -145,12 +153,12 @@ class SearchTests extends React.Component {
           <TextField onChange={this.handleChange} autoFocus margin="dense" onChange={this.onChange.bind(this)} label="Search archived tests in active projects" type="text" fullWidth />
         </Box>
 
-        {(this.state.searchedTests && this.state.searchedTests.length) ?
-          this.state.searchedTests.map((test, i) =>
-            <SharedTest key={"archived-test-" + i + "-" + test.id} testId={test.id} pageUpdate={this.pageUpdate} />
+        {(this.state.archivedTests && this.state.archivedTests.length) ?
+          this.state.archivedTests.map((test, i) =>
+            <SharedTest key={"archived-test-" + i + "-" + test.id} project={test.project} testId={test.id} pageUpdate={this.pageUpdate} />
           )
           :
-          <Typography align="center" variant="body1">We couldn’t find any archived tests.</Typography>
+          <Typography align="center" style={{color: "rgba(0,0,0,.25)", margin: "2rem auto", maxWidth: "700px" }} variant="h4">We couldn’t find any archived tests.</Typography>
         }
 
       </>
@@ -195,8 +203,10 @@ class SharedTestPage extends React.Component {
     var hasTests = false;
     this.state.projects.map((project, i1) => {
       project.tests.map((test, i2) => {
-        console.log(test)
-        hasTests = true;
+        // console.log(test)
+        if(!test.archived){
+          hasTests = true;
+        }
       })
     });
     return (
@@ -205,12 +215,14 @@ class SharedTestPage extends React.Component {
           <>
             <Section>
               {this.state.projects.map((project, i1) =>
-                project.tests.map((test, i2) =>
-                  <SharedTest key={"test-" + i2} testId={test.id} project={project} update={this.update} />,
-                )
+                project.tests
+                  .filter(test => !test.archived )
+                  .map((test, i2) =>
+                      <SharedTest key={"test-" + i2} testId={test.id} project={project} pageUpdate={this.pageUpdate} update={this.update} />
+                  )
               )}
               { !hasTests ?
-                <Typography align="center" gutterBottom={true} variant="body1">Looks like you have projects but no tests. <Link href="/projects"><a>Try making one </a></Link>or ask your project owner&nbsp;to.</Typography>
+                <Typography align="center" style={{color: "rgba(0,0,0,.25)", margin: "2rem auto", maxWidth: "700px" }} variant="h4">Looks like you have projects but no tests. <Link href="/projects"><a>Try making one </a></Link>or ask your project owner&nbsp;to.</Typography>
               :
                 <></>
               }

@@ -309,7 +309,7 @@ class Test extends React.Component {
                       <LinearProgress variant="determinate" value={this.state.test.completeness ? this.state.test.completeness : 0} />
                     </Box>
                     <Box style={{ position: "relative", top:"3px", padding: "1px 10px 0 0 ", borderRadius: "5px", background: "rgb(217, 172, 224)", width: "110px", display: "inline-block" }}>
-                      <Typography style={{color: "white"}} align="right" variant="h6">{this.state.test.completeness}% Done</Typography>
+                      <Typography style={{color: "white"}} align="right" variant="h6">{this.state.test.completeness ? this.state.test.completeness : 0}% Done</Typography>
                     </Box>
                   </Box>
                   <Box>
@@ -332,7 +332,7 @@ class Test extends React.Component {
                   </Box>
                 </Grid>
                 {/* <Grid item xs={4}>
-                  <RadialGrade grade={80} />
+                  <RadialGrade grade={this.state.test.grade ? this.state.test.grade : 0}  />
                 </Grid> */}
               </Grid>
             </Box>

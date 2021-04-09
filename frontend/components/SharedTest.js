@@ -238,21 +238,21 @@ class TestImportExport extends React.Component {
         <Typography align="center" gutterBottom={true} variant="h5">Need to get a test off of EQX? Lets make that happen.</Typography>
         <Box my={4} className="text-align-center">
           <Box m={2} display="inline">
-            <Button onClick={this.handleOpen} display="inline" size="large" variant="contained">Import JSON</Button>
+            <Button onClick={this.handleOpen} disabled={true} display="inline" size="large" variant="contained">Import JSON</Button>
           </Box>
           <Box m={2} display="inline">
-            <Button onClick={this.handleOpen} display="inline" size="large" variant="contained">Export JSON</Button>
+            <Button onClick={this.handleOpen} disabled={true} display="inline" size="large" variant="contained">Export JSON</Button>
           </Box>
         </Box>
         <Box my={4} className="text-align-center">
           <Box m={2} display="inline">
-            <Button onClick={this.handleOpen} display="inline" size="large" variant="contained">Import CSV</Button>
+            <Button onClick={this.handleOpen} disabled={true} display="inline" size="large" variant="contained">Import CSV</Button>
           </Box>
           <Box m={2} display="inline">
-            <Button onClick={this.handleOpen} display="inline" size="large" variant="contained">Export CSV</Button>
+            <Button onClick={this.handleOpen} disabled={true} display="inline" size="large" variant="contained">Export CSV</Button>
           </Box>
         </Box>
-        <Typography align="center" gutterBottom={true} variant="body2" display="block">You can find more on this here.</Typography>
+        <Typography align="center" gutterBottom={true} variant="body2" style={{margin: "0 auto"}} display="block">You can find more on this here.</Typography>
         <br />
         <br />
       </Box>
@@ -270,7 +270,7 @@ class SharedTest extends React.Component {
     this.state = {
       elevation: 3,
       tabValue: 0,
-      test: {},
+      test: {}
     };
   }
 
@@ -286,6 +286,20 @@ class SharedTest extends React.Component {
       }).then(response => { // Handle success
         this.setState({ test: response.data[0] });
       });
+  }
+
+
+  archive = () => {
+    axios
+      .put(apiUrl + '/tests/' + this.state.test.id, {
+        archived: !this.state.test.archived
+      }, {
+        headers: { Authorization: 'Bearer ' + Cookies.get("jwt") }
+      }).catch(err => { console.log(err); // Handle error
+      }).then(response => { // Handle success
+        this.props.pageUpdate();
+      });
+
   }
 
   cardOver = () => {
@@ -306,14 +320,14 @@ class SharedTest extends React.Component {
       <Box mb={this.props.modal === true ? 0 : 6} className="test-container" position="relative">
         <Card elevation={this.state.elevation} onMouseOver={this.cardOver} onMouseOut={this.cardOut}>
 
-          {/* Genral Info */}
+          {/* General Info */}
           <CardContent >
             <Box p={1}>
               <Grid container spacing={0}>
                 <Grid item xs>
                   <Box pb={2}>
                     <Typography variant="h6">
-                      <Box component="span" color="grey.400">{this.props.project.name} v.{this.props.project.major_version}.{this.props.project.minor_version}</Box>
+                      <Box component="span" color="grey.400">{this.props.project ? this.props.project.name : ""} v.{this.props.project ? this.props.project.major_version : ""}.{this.props.project ? this.props.project.minor_version : ""}</Box>
                     </Typography>
                     <Typography variant="h4">
                       {/* <EditableTitle value={this.state.test.name} item={this.state.test} type="test" {...this.state}/> */}
@@ -332,35 +346,40 @@ class SharedTest extends React.Component {
                     </Typography>
                     <Divider display="inline-block" orientation="vertical" />
                     <Typography display="inline" variant="body2">
-                      <Box component="span" color="purple" className="inline-button" >Archive</Box>
+                      <Box component="span" color="purple" onClick={this.archive} className="inline-button" >Archive</Box>
                     </Typography>
-                    <Divider display="inline-block" orientation="vertical" />
+                    {/* <Divider display="inline-block" orientation="vertical" />
                     <Typography display="inline" variant="body2">
                       <Box component="span" color="purple" className="inline-button" >Remind</Box>
-                    </Typography>
-                    <Divider display="inline-block" orientation="vertical" />
+                    </Typography> */}
+                    {/* <Divider display="inline-block" orientation="vertical" />
                     <Typography display="inline" variant="body2">
                       <Box component="span" color="purple" className="inline-button" >Share</Box>
-                    </Typography>
+                    </Typography> */}
                   </Box>
                 </Grid>
                 <Grid item xs={4}>
-                  <RadialGrade grade={80} />
+                  <RadialGrade grade={this.state.test.grade ? Number(this.state.test.grade) : 0} />
                 </Grid>
               </Grid>
             </Box>
           </CardContent>
 
-          {/* Actionable Info */}
-          <Box bgcolor="primary.main">
+          {/* <Box bgcolor="primary.main"> */}
             <AppBar position="static" color="primary">
-              <Tabs value={this.state.tabValue} onChange={this.handleChange} TabIndicatorProps={{ style: { backgroundColor: "#fff" } }} variant="scrollable" scrollButtons="auto">
+              <Tabs 
+                value={this.state.tabValue} 
+                onChange={this.handleChange} 
+                TabIndicatorProps={{ style: { backgroundColor: "#fff" } }} 
+                variant="scrollable" 
+                scrollButtons="auto"
+              >
                 <Tab label={"Questions (" + (this.state.test.questions ? this.state.test.questions.length : "0") + ")"} />
                 <Tab label={"Members (" + (this.state.test.users ? this.state.test.users.length : "0") + ")"} />
                 <Tab label="Import/Export" />
               </Tabs>
             </AppBar>
-          </Box>
+          {/* </Box> */}
 
           {/* Tests */}
           <TestQuestions {...this.state} update={this.update} />

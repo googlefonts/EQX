@@ -58,7 +58,7 @@ class SearchProjects extends React.Component {
             <Project key={"archived-project-" + i + "-" + project.id} projectId={project.id} pageUpdate={this.pageUpdate} />
           )
           :
-          <Typography align="center" variant="body1">We couldn’t find any archived projects.</Typography>
+          <Typography align="center" style={{color: "rgba(0,0,0,.25)", margin: "2rem auto", maxWidth: "700px" }} variant="h4">We couldn’t find any archived projects.</Typography>
         }
       </>
     );
@@ -96,7 +96,7 @@ class ProjectPage extends React.Component {
         if (typeof response !== "undefined" && typeof response.data !== "undefined"){
           this.setState({ projects: response.data });
         }
-      })
+      });
     axios
       .get(apiUrl + '/projects/?owners.id=' + Cookies.get("id") + '&archived_eq=true', {
         headers: { Authorization: "Bearer " + Cookies.get("jwt") }
@@ -123,7 +123,7 @@ class ProjectPage extends React.Component {
         <Section>
           <NewProject update={this.update} />
         </Section>
-        {(this.state.projects && this.state.projects.length) ?
+        {(this.state.archivedProjects && this.state.archivedProjects.length) ?
           <Section bgcolor="background.paper2">
             <SearchProjects projects={this.state.archivedProjects} pageUpdate={this.pageUpdate} />
           </Section>

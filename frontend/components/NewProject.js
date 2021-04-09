@@ -73,7 +73,7 @@ class NewProject extends React.Component {
            <br />
            <Button onClick={this.handleOpen} className="align-center" color="primary" size="large" variant="contained">Create a New Project</Button>
            <br />
-           <Typography align="center" gutterBottom={true} variant="body2" display="block">Don’t worry, we’ll help you through it.</Typography>
+           <Typography align="center" gutterBottom={true} variant="body2" style={{margin: "0 auto"}} display="block">Don’t worry, we’ll help you through it.</Typography>
          </>
  
          <Dialog open={this.state.open} onClose={this.handleClose}>

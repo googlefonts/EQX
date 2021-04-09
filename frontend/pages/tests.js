@@ -165,7 +165,7 @@ class TestPage extends React.Component {
                 )
               )}
               { !hasTests ?
-                <Typography align="center" gutterBottom={true} variant="body1">Looks like you have projects but no tests. <Link href="/projects"><a>Try making one </a></Link>or ask your project owner&nbsp;to.</Typography>
+                <Typography align="center" style={{color: "rgba(0,0,0,.25)", margin: "2rem auto", maxWidth: "700px" }} variant="h4">Looks like you have projects but no tests. <Link href="/projects"><a>Try making one </a></Link>or ask your project owner&nbsp;to.</Typography>
               :
                 <></>
               }

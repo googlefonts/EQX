@@ -584,21 +584,21 @@ class ProjectImportExport extends React.Component {
         <Typography align="center" gutterBottom={true} variant="h5">Need to get a project off of EQX? Lets make that happen.</Typography>
         <Box my={4} className="text-align-center">
           <Box m={2} display="inline">
-            <Button onClick={this.handleOpen} display="inline" color="primary" size="large" variant="contained">Import JSON</Button>
+            <Button onClick={this.handleOpen} disabled={true} display="inline" color="primary" size="large" variant="contained">Import JSON</Button>
           </Box>
           <Box m={2} display="inline">
-            <Button onClick={this.handleOpen} display="inline" color="primary" size="large" variant="contained">Export JSON</Button>
+            <Button onClick={this.handleOpen} disabled={true} display="inline" color="primary" size="large" variant="contained">Export JSON</Button>
           </Box>
         </Box>
         <Box my={4} className="text-align-center">
           <Box m={2} display="inline">
-            <Button onClick={this.handleOpen} display="inline" color="primary" size="large" variant="contained">Import CSV</Button>
+            <Button onClick={this.handleOpen} disabled={true} display="inline" color="primary" size="large" variant="contained">Import CSV</Button>
           </Box>
           <Box m={2} display="inline">
-            <Button onClick={this.handleOpen} display="inline" color="primary" size="large" variant="contained">Export CSV</Button>
+            <Button onClick={this.handleOpen} disabled={true} display="inline" color="primary" size="large" variant="contained">Export CSV</Button>
           </Box>
         </Box>
-        <Typography align="center" gutterBottom={true} variant="body2" display="block">You can find more on this here.</Typography>
+        <Typography align="center" gutterBottom={true} variant="body2" style={{margin: "0 auto"}} display="block">You can find more on this here.</Typography>
         <br />
         <br />
       </Box>
@@ -647,7 +647,6 @@ class Project extends React.Component {
       }).then(response => { // Handle success
         this.props.pageUpdate();
       });
-
   }
 
   cardOver = () => {
@@ -684,10 +683,10 @@ class Project extends React.Component {
               <Typography display="inline" variant="body2">
                 <Box component="span" color="purple" onClick={this.archive} className="inline-button" >Archive</Box>
               </Typography>
-              <Divider display="inline-block" orientation="vertical" />
+              {/* <Divider display="inline-block" orientation="vertical" />
               <Typography display="inline" variant="body2">
                 <Box component="span" color="purple" className="inline-button" >Share</Box>
-              </Typography>
+              </Typography> */}
             </Box>
           </CardContent>
 
