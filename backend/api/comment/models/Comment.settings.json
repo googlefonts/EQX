@@ -16,7 +16,7 @@
     "draftAndPublish": false
   },
   "attributes": {
-    "user": {
+    "owner": {
       "plugin": "users-permissions",
       "model": "user",
       "via": "comment"
@@ -34,12 +34,16 @@
     "radius": {
       "type": "integer"
     },
-    "SomeText": {
-      "type": "string"
-    },
     "question": {
-      "via": "comments",
-      "model": "question"
+      "model": "question",
+      "via": "comments"
+    },
+    "number": {
+      "type": "integer"
+    },
+    "replies": {
+      "via": "comment",
+      "collection": "reply"
     }
   }
 }

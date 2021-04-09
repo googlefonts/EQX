@@ -44,8 +44,8 @@
       "type": "boolean"
     },
     "test": {
-      "model": "test",
-      "via": "questions"
+      "via": "questions",
+      "model": "test"
     },
     "source": {
       "type": "string"
@@ -70,8 +70,8 @@
       "component": "images.reference-images"
     },
     "comments": {
-      "collection": "comment",
-      "via": "question"
+      "via": "question",
+      "collection": "comment"
     },
     "answers": {
       "via": "question",

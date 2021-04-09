@@ -1,0 +1,16 @@
+{
+  "collectionName": "components_scores_scores",
+  "info": {
+    "name": "scores",
+    "icon": "balance-scale"
+  },
+  "options": {},
+  "attributes": {
+    "major_version": {
+      "type": "integer"
+    },
+    "minor_version": {
+      "type": "integer"
+    }
+  }
+}

@@ -68,10 +68,6 @@
       "plugin": "upload",
       "required": false
     },
-    "comment": {
-      "via": "user",
-      "model": "comment"
-    },
     "projects": {
       "via": "users",
       "collection": "project",
@@ -95,6 +91,14 @@
     "answers": {
       "via": "user",
       "collection": "answer"
+    },
+    "comment": {
+      "via": "owner",
+      "model": "comment"
+    },
+    "replies": {
+      "via": "user",
+      "collection": "reply"
     }
   }
 }
