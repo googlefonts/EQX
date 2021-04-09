@@ -16,24 +16,27 @@ We are excited about EQX because it already does a great deal, and it's libre li
 Eben is a type designer, teacher, type design reviewer, type art director and now software package designer.
 He served on the board of ATypI from 2010-2018.
 
-## Demos
+
+
+# Demos
 
 **Frontend**: <http://34.73.108.93>
 
 **Backend**: <http://35.231.157.252/admin>
 
 
-## Getting Started
+
+# Getting Started
 
 We use Docker to setup the EQX environment. Please open terminal, and running `docker-compose up` in the root of this repository. Docker should do the rest!
 
-    docker-compose up
-    # Timeout issues? COMPOSE_HTTP_TIMEOUT=1000 docker-compose up
-    # Still not working? docker-compose build --no-cache
+```bash
+docker-compose up # Timeout issues? COMPOSE_HTTP_TIMEOUT=1000 docker-compose up
+```
 
-**Frontend**: [http://localhost:3000](http://localhost:3000)
+**Frontend**: <http://localhost:3000>
 
-**Backend**: [http://localhost:1337](http://localhost:1337)
+**Backend**: <http://localhost:1337>
     
 
 # Resources
@@ -49,35 +52,33 @@ We use Docker to setup the EQX environment. Please open terminal, and running `d
 ## Secrets
 
 We use [kubesec](https://github.com/shyiko/kubesec) and Google Cloud KMS to store encrypted secrets in this repo.
-
 To add a new secret, first decrypt, then add secret, and then encrypt. 
 
+### Secret Encryption
 
-#### Secret Encryption
-
-```
+```bash
 gcloud auth application-default login
 kubesec encrypt -i --key=gcp:projects/eqx-host/locations/us-east1/keyRings/eqx/cryptoKeys/kubernetes-secrets base/secrets.yaml
 ```
 
-#### Secret Decryption
+### Secret Decryption
 
- ```
- gcloud auth application-default login
- kubesec decrypt -i base /secrets.yaml
- ```
+```bash
+gcloud auth application-default login
+kubesec decrypt -i base /secrets.yaml
+```
 
-# Debugging
+## Debugging
 
-#### Step 1
-First stop and delete instance.
+### Step 1
+Stop and delete instance. Makesure you are using Node 14.
 
 ```bash
 nvm use 14
 ```
 
-#### Step 2
-Then on backed.
+### Step 2
+Navigate to backend (`/EQX/backend`).
 
 ```bash
 npm cache clean --force
@@ -89,8 +90,8 @@ rm -r node_modules
 ```
 
 
-#### Step 3
-Then on frontend.
+### Step 3
+Navigate to frontend (`/EQX/frontend`).
 
 ```bash
 npm cache clean --force
@@ -100,13 +101,12 @@ rm package-lock.json
 rm -r node_modules
 ```
 
-#### Step 4
-Then on root.
+### Step 4
+Navigate back to root (`/EQX`).
 
 ```bash
 docker-compose pull
 docker-compose build --no-cache
-# repeat step 1 and 2 if necessary
-COMPOSE_HTTP_TIMEOUT=1000 docker-compose up # Timeout issues? 
+COMPOSE_HTTP_TIMEOUT=1000 docker-compose up # This increases timeout length (incase your computer is slow) Repeat step 1 and 2 if necessary
 ```
 
