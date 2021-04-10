@@ -1,5 +1,5 @@
 import MaterialIcon from '@material/react-material-icon';
-import { List, ListItem, ListItemAvatar, CardActions, Avatar, ListItemText, Divider, Box, Grid, Card, CardHeader, Fab, CardMedia, ButtonGroup, TextField, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, FormGroup, Input, InputLabel, Button, Typography } from '@material-ui/core';
+import { List, ListItem, ListItemAvatar, CardActions, CardContent, Avatar, ListItemText, Divider, Box, Grid, Card, CardHeader, Fab, CardMedia, ButtonGroup, TextField, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, FormGroup, Input, InputLabel, Button, Typography } from '@material-ui/core';
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 import CommentBox from '../components/CommentBox';
 import getConfig from 'next/config';
@@ -228,41 +228,38 @@ class AnswerQuestionFields extends React.Component {
                 <>
                   <Grid item xs={12}>
                     <Box mb={2} align="right">
-                      <Button onClick={() => this.referenceImagesToggle()}  color="primary" size="large" variant="outlined" startIcon={<PermMediaIcon/>}>Show Reference Images</Button>
+                      <Button onClick={() => this.referenceImagesToggle()}  color="primary" size="large" variant="outlined" startIcon={<PermMediaIcon/>}>Expand Reference Images</Button>
                     </Box>
                   </Grid>
-                  {/* <AutoRotatingCarousel
-                    label="Get started"
-                    open={this.state.referenceImagesOpen}
-                    onClose={() => this.referenceImagesToggle()}
-                    // onStart={() => setHandleOpen({ open: false })}
-                    autoplay={false}
-                    mobile={false}
-                  >
-
+                  <Grid item style={{display: this.state.referenceImagesOpen ? "initial" : "none"}} xs={12}>
                     { this.state.question.reference_images.map((img, i) => 
-                      // <img key={"reference-"+i} src={apiUrl + img.image.url} />
-                      <Slide
-                        media={
-                          <img src={apiUrl + img.image.url} />
-                        }
-                        mediaBackgroundStyle={{ backgroundColor: red[400] }}
-                        // style={{ backgroundColor: red[600] }}
-                        title="This is a very cool feature"
-                        subtitle="Just using this will blow your mind."
-                      />
+                      <Box mb={4}>
+                        <Card >
+                          <CardMedia>
+                            <img style={{width: "100%"}} src={apiUrl + img.image.url} />
+                          </CardMedia>
+                          {img.caption && img.caption !== "" ?
+                          
+                            <CardContent>
+                              {/* <img style={{width: "100%"}} src={apiUrl + img.image.url} /> */}
+                              <Typography variant="body2" color="textSecondary" component="p">{img.caption}</Typography>
+                            </CardContent>
+                          :
+                            null
+                          }
+                        </Card>
+                      </Box> 
                     )}
-                  </AutoRotatingCarousel>  */}
-                  
-                  {/* <Dialog 
-                    PaperProps={{ style: { overflow: "visible", borderRadius: "4px" } }} 
-                    fullWidth={true} maxWidth="md" open={this.state.referenceImagesOpen} onClose={() => this.referenceImagesToggle()}
-                  >
+                    {/* <Dialog 
+                      PaperProps={{ style: { overflow: "visible", borderRadius: "4px" } }} 
+                      fullWidth={true} maxWidth="md" open={this.state.referenceImagesOpen} onClose={() => this.referenceImagesToggle()}
+                    >
 
-                    { this.state.question.reference_images.map((img, i) => 
-                      {console.log(img)}
-                    )}
-                  </Dialog> */}
+                      { this.state.question.reference_images.map((img, i) => 
+                        {console.log(img)}
+                      )}
+                    </Dialog> */}
+                  </Grid>
                 </>
               : "" }
             </Grid>
@@ -318,9 +315,7 @@ class AnswerQuestionFields extends React.Component {
                       // color="primary"
                       // bgcolor="primary.main"
                         avatar={
-                          <Avatar aria-label="recipe">
-                            1
-                          </Avatar>
+                          <Avatar aria-label="recipe">1</Avatar>
                         }
                         title="2 comments"
                         subheader="Created 10/13/2021"

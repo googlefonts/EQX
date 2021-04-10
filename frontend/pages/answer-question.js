@@ -106,7 +106,7 @@ class AnswerQuestionPage extends React.Component {
   render() {
     return (
       <Layout page={this.state.page} headerType="creating" test={this.state.tmpTest} pageUpdate={this.pageUpdate} {...this.props}>
-        <Box pt={8} bgcolor="#fff">
+        <Box pt={8} pb={8} bgcolor="#fff">
           <AnswerQuestionFields pageUpdate={this.pageUpdate} questionUpdate={this.questionUpdate} titleUpdate={this.titleUpdate} {...this.state} {...this.props} />
         </Box>
       </Layout>
