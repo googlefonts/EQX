@@ -46,7 +46,6 @@ class Index extends React.Component {
     var hasTests = false;
     this.state.projects.map((project, i1) => {
       project.tests.map((test, i2) => {
-        console.log(test)
         hasTests = true;
       })
     });

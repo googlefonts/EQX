@@ -485,7 +485,7 @@ class AnswerQuestionFields extends React.Component {
               { (typeof this.props.test.questions !== "undefined" && Number(this.props.questionNumber) + 1 <= this.props.test.questions.length) ?
                 <Button onClick={this.nextQuestion} color="primary" fullWidth={true} size="large" variant="contained" startIcon={<ArrowForwardIcon/>}>Next Question</Button>
               :
-                <Link href={"/test-overview?test=" + this.props.test.id}><a>
+                <Link href={"/test-results?test=" + this.props.test.id}><a>
                   <Button color="primary" fullWidth={true} size="large" variant="contained" startIcon={<ShowChart />}>
                     <br/>
                     See Results

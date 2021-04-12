@@ -71,7 +71,7 @@ class TestQuestions extends React.Component {
                   <Box p={1} pt={2} width="100%">
                     <Grid container spacing={2}>
                       <Grid item xs={8}>
-                        <Typography variant="body1">
+                        <Typography variant="body1" style={{maxWidth: "initial"}}>
                           { (typeof question.question !== "undefined" && question.question && question.question.trim() !== "" ) ? 
                             question.question  : 
                             <Box color="text.disabled" component="span" className="blank">Blank Question</Box>
@@ -280,11 +280,11 @@ class SharedTest extends React.Component {
 
   update = () => {
     axios
-      .get(apiUrl + '/tests?id_in=' + this.props.testId, {
+      .get(apiUrl + '/tests/' + this.props.testId, {
         headers: { Authorization: 'Bearer ' + Cookies.get("jwt") }
       }).catch(err => { console.log(err); // Handle error
       }).then(response => { // Handle success
-        this.setState({ test: response.data[0] });
+        this.setState({ test: response.data});
       });
   }
 

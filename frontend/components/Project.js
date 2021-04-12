@@ -477,7 +477,6 @@ class ProjectFonts extends React.Component {
           }
         }).catch(error => { console.log(error); // Handle error
         }).then(response => {
-          console.log(response)
           var fontFile = response.data[0];
           axios
             .post('/api/font-info', {
@@ -505,7 +504,6 @@ class ProjectFonts extends React.Component {
                 }, { headers: { Authorization: 'Bearer ' + Cookies.get("jwt") } 
                 }).catch(err => { console.log(err);  // Handle Error
                 }).then(response => { // Handle success
-                  console.log(response);
                   this.props.update();
                 });
             });
@@ -629,11 +627,11 @@ class Project extends React.Component {
 
   update = () => {
     axios
-      .get(apiUrl + '/projects?id_in=' + this.props.projectId, {
+      .get(apiUrl + '/projects/' + this.props.projectId, {
         headers: { Authorization: 'Bearer ' + Cookies.get("jwt") }
       }).catch(err => { console.log(err); // Handle error
       }).then(response => { // Handle success
-        this.setState({ project: response.data[0] });
+        this.setState({ project: response.data});
       });
   }
 

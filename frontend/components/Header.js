@@ -42,7 +42,7 @@ class CreatingHeader extends React.Component {
         <Grid container className="header-grid-2">
           <Grid item xs={12} >
             {/*<TopAppBarSection className="">*/}
-              <Typography variant="h6" className="question-counter">Question {this.state.questionNumber}</Typography>
+              <Typography variant="h6" className="question-counter">{(this.props.page === "test-results") ? "Test Results" : "Question "+this.state.questionNumber}</Typography>
               <Box className="titles-wrapper">
                 <Typography className="font-title" variant="body1"><span className="emphasis">{this.props.test.name}</span> v.{this.props.test.major_version}.{this.props.test.minor_version}</Typography>
                 <Typography className="project-title" variant="body1" style={{opacity: "0.25"}}><span className="emphasis">{this.props.test.project && this.props.test.project.name}</span> v.{this.props.test.project && this.props.test.project.major_version}.{this.props.test.project && this.props.test.project.minor_version}</Typography>

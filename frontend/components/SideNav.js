@@ -120,7 +120,7 @@ class SideNavQuestion extends React.Component {
   
   sideQuestionNavUpdate = (questionNumber) => {
     Router.push({
-      pathname: this.props.page === "answer-question" ? "/answer-question" : '/create-question',
+      pathname: (this.props.page === "answer-question" || this.props.page === "test-results") ? "/answer-question" : '/create-question',
       query: { 
         test: this.props.test.id, 
         question: questionNumber
@@ -214,6 +214,14 @@ class SideNavQuestion extends React.Component {
           PaperProps={{ elevation: 6 }}
         >
           <List padding={2} style={{paddingTop: "64px"}} >
+            {(this.props.page === "test-results") &&
+              <Link href="/"><a>
+                <ListItem selected={this.props.page === "dashboard" ? true : false} button key="dashboard">
+                  <ListItemIcon><DashboardIcon /></ListItemIcon>
+                  <ListItemText primary='Dashboard'/>
+                </ListItem>
+              </a></Link>
+            }
             {(this.props.page === "create-question") &&
               <ListItem key="list-item-add-question" onClick={this.addQuestion} selected={this.props.page === "dashboard" ? true : false} button key="dashboard">
                 <ListItemIcon><AddIcon /></ListItemIcon>
@@ -237,7 +245,7 @@ class SideNavQuestion extends React.Component {
               <ListItemText primary='Question List'/>
             </ListItem>
             {(this.props.page === "answer-question") &&
-              <Link href={"/test-overview?test=" + this.props.test.id}><a>
+              <Link href={"/test-results?test=" + this.props.test.id}><a>
                 <ListItem key="list-item-results" selected={this.props.page === "dashboard" ? true : false} button key="dashboard">
                   <ListItemIcon><ShowChart /></ListItemIcon>
                   <ListItemText primary='See Results'/>
@@ -297,7 +305,7 @@ class SideNav extends React.Component {
   render() {
     return (
       <>
-        {	(this.props.page === "create-question" || this.props.page === "answer-question") ? (	
+        {	(this.props.page === "create-question" || (this.props.page === "answer-question" || this.props.page === "test-results")) ? (	
             <SideNavQuestion {...this.props}/>
 					) : (
             <SideNavRegular {...this.props}/>
