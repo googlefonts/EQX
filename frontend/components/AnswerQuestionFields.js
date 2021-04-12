@@ -12,7 +12,152 @@ import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
 import Router from 'next/router';
 import AddCommentIcon from '@material-ui/icons/AddComment';
 import PermMediaIcon from '@material-ui/icons/PermMedia';
+import moment from 'moment'; // for future timestamps
 // import { AutoRotatingCarousel, Slide } from "material-auto-rotating-carousel"; // Doesnt work anymore
+import eachOf from 'async/eachOf';
+import async from 'async';
+import Link from 'next/link';
+// var async = require("async");
+import ShowChart from '@material-ui/icons/ShowChart';
+
+class Comment extends React.Component {
+
+	state = {
+    comment : this.props.comment ? this.props.comment : {},
+    newReplyValue : ""
+	};
+	componentDidMount = () => {
+		this.update();
+	}
+	// componentDidUpdate(nextProps) {
+	// 	if (this.props.test && nextProps.test.questions !== this.props.test.questions) {
+	// 		this.update();
+	// 	}
+	// }
+	update = () => {
+    
+    axios // Update Comment
+    .get(apiUrl + "/comments/" + (this.state.comment.id ? this.state.comment.id : this.props.comment.id), 
+      { headers: { Authorization: 'Bearer ' + Cookies.get("jwt") } 
+    }).catch(error => { console.log(error); // Handle Error
+    }).then(comment => { // Handle success
+      var comment = comment.data;
+      this.setState({comment: comment});
+      async.eachOf(comment.replies, (reply, i, callback) => {
+
+        axios // Update Comment
+        .get(apiUrl + "/replies/" + reply.id, 
+          { headers: { Authorization: 'Bearer ' + Cookies.get("jwt") } 
+        }).catch(error => { console.log(error); // Handle Error
+        }).then(reply => { // Handle success
+          comment.replies[i] = reply.data;
+          callback();
+        });
+
+      }, (err, results) => {
+        this.setState({comment: comment});
+      });
+    });
+	}
+
+	onNewReplyChange = (e) => {
+		this.setState({newReplyValue: e})
+	}
+
+  createReply = () => {
+    axios // Create Reply
+      .post(apiUrl + '/replies/', {
+        comment: this.state.comment.id,
+        user: Cookies.get("id"),
+        text: this.state.newReplyValue
+      }, { headers: { Authorization: 'Bearer ' + Cookies.get("jwt") } 
+      }).catch(error => { console.log(error); // Handle Error
+      }).then(newReply => { // Handle success
+        this.setState({newReplyValue: ""})
+        this.update();
+      });
+  }
+
+	render() {
+		return (
+      <Grid key={"inner-comment-" + this.state.comment.id} item xs={12}>
+        <Box mb={2} >
+          <Card className="comment-section" >
+            <CardHeader
+              align="left"
+              avatar={
+                <Avatar aria-label="recipe">{this.state.comment.number ? this.state.comment.number : this.props.question.comments.length}</Avatar>
+              }
+              title={typeof this.state.comment.replies !== "undefined" && this.state.comment.replies.length ? (this.state.comment.replies.length+1) + " messages" : "1 message"}
+              subheader={"Created " + moment(this.state.comment.created_at).format("DD/MM/YY")} 
+              />
+            <CardMedia>
+              <List>
+                <ListItem>
+                  <ListItemAvatar>
+                    <Avatar>{this.state.comment.owner.username ? this.state.comment.owner.username.charAt(0).toUpperCase() : ""}</Avatar>
+                  </ListItemAvatar>
+                  <ListItemText
+                    primary={this.state.comment.owner.username ? this.state.comment.owner.username : this.state.comment.owner.email}
+                    secondary={
+                      <>
+                        <Typography component="span" variant="body2" color="textPrimary">{this.state.comment.text}</Typography>
+                      </>
+                    }
+                  />
+                </ListItem>
+                { this.state.comment.replies ? 
+                  this.state.comment.replies.map((reply, i) =>    
+                    <Box key={"comment-section-wrap-"+this.state.comment.id+"-reply-"+reply.id}>             
+                      {/* {console.log(reply)} */}
+                      <Divider key={"divider-"+this.state.comment.id+"-reply-"+reply.id} variant="inset" component="li" />
+                      <ListItem key={"comment-section-"+this.state.comment.id+"-reply-"+reply.id}>
+                        <ListItemAvatar>
+                          <Avatar>{reply.user.username ? reply.user.username.charAt(0).toUpperCase() : ""}</Avatar>
+                        </ListItemAvatar>
+                        <ListItemText
+                          primary={reply.user.username ? reply.user.username : reply.user.email}
+                          secondary={
+                            <>
+                              <Typography component="span" variant="body2" color="textPrimary">{reply.text}</Typography>
+                            </>
+                          }
+                        />
+                      </ListItem>
+                    </Box>
+                  )
+                : null }
+              </List>
+            </CardMedia>
+            <CardActions >
+              <Box p={1}>
+                <Grid container spacing={2}>
+                  <Grid item xs={12}>
+                    <TextField
+                      value={this.state.newReplyValue}  
+                      onChange={e => {this.onNewReplyChange(e.currentTarget.value)}}
+                      type="text"
+                      label=""
+                      size="small"
+                      fullWidth
+                      placeholder="Add a reply"
+                      multiline
+                    />
+                  </Grid>
+                  <Grid item xs={12} align="left">
+                    <Box display="inline-block" pr={1}>
+                      <Button onClick={this.createReply} disabled={this.state.newReplyValue === "" ? true : false} color="primary" fullWidth size="large" variant="outlined" startIcon={<AddCommentIcon/>}>Post</Button>
+                    </Box>
+                  </Grid>
+                </Grid>
+              </Box>
+            </CardActions>
+          </Card>
+        </Box>
+      </Grid>
+		)
+	}
+}
 
 class AnswerQuestionFields extends React.Component {
   constructor(props) {
@@ -22,6 +167,7 @@ class AnswerQuestionFields extends React.Component {
       staticImg: false,
       referenceImagesOpen: false,
       img: "",
+      newCommentValue: ""
     };
   }
 
@@ -54,7 +200,6 @@ class AnswerQuestionFields extends React.Component {
         this.setState({ 
           question: response.data[0]
         }, function(){
-          console.log(1)
           if (typeof this.state.question.code_image !== "undefined" && this.state.question.code_image && typeof this.state.question.code_image.url !== "undefined") {
             this.setState({loading: false});
             var ext = this.state.question.code_image.url.substring(this.state.question.code_image.url.lastIndexOf(".") + 1);
@@ -160,6 +305,43 @@ class AnswerQuestionFields extends React.Component {
     this.props.pageUpdate();
   }
 
+	onNewCommentChange = (e) => {
+		this.setState({newCommentValue: e})
+	}
+
+  createComment = () => {
+
+    axios // Create Comment
+      .post(apiUrl + '/comments/', {
+        question: this.state.question.id,
+        owner: Cookies.get("id"),
+        text: this.state.newCommentValue
+      }, { headers: { Authorization: 'Bearer ' + Cookies.get("jwt") } 
+      }).catch(error => { console.log(error); // Handle Error
+      }).then(newComment => { // Handle success
+        this.setState({newCommentValue: ""})
+        this.update();
+        
+        axios // Update Comment
+          .get(apiUrl + "/comments?question=" + this.state.question.id, 
+            { headers: { Authorization: 'Bearer ' + Cookies.get("jwt") } 
+          }).catch(error => { console.log(error); // Handle Error
+          }).then(questionComments => { // Handle success
+
+            axios // Update Comment
+              .put(apiUrl + '/comments/' + newComment.data.id, { 
+                number: Number(questionComments.data.findIndex(comment => comment.id === newComment.data.id)) + 1,
+              }, { headers: { Authorization: 'Bearer ' + Cookies.get("jwt") } 
+              }).catch(error => { console.log(error); // Handle Error
+              }).then(response => { // Handle success
+                this.update();            
+              });
+
+          });
+
+      });
+  }
+
   render() {
     return (
       <>
@@ -226,17 +408,29 @@ class AnswerQuestionFields extends React.Component {
               </Grid>
               {(this.state.question.reference_images && this.state.question.reference_images.length) ?
                 <>
+
                   <Grid item xs={12}>
                     <Box mb={2} align="right">
-                      <Button onClick={() => this.referenceImagesToggle()}  color="primary" size="large" variant="outlined" startIcon={<PermMediaIcon/>}>Expand Reference Images</Button>
+                      <Button onClick={() => this.referenceImagesToggle()}  color="primary" size="large" variant="outlined" startIcon={<PermMediaIcon/>}>{this.state.referenceImagesOpen ? "Collapse Reference Images" : "Expand Reference Images"}</Button>
                     </Box>
+                  </Grid>
+                  <Grid className="small-reference-imgs" item style={{display: this.state.referenceImagesOpen ? "none" : "flex", height: "200px", overflowX: "scroll", overflowY: "hidden"}} xs={12}>
+                    { this.state.question.reference_images.map((img, i) => 
+                      <Box key={"small-reference-img-" + i} style={{float: "left", marginRight: "1rem"}} mb={4}>
+                        <Card >
+                          <CardMedia>
+                            <img style={{height: "200px", display:"block"}} src={apiUrl + img.image.url} />
+                          </CardMedia>
+                        </Card>
+                      </Box> 
+                    )}
                   </Grid>
                   <Grid item style={{display: this.state.referenceImagesOpen ? "initial" : "none"}} xs={12}>
                     { this.state.question.reference_images.map((img, i) => 
-                      <Box mb={4}>
+                      <Box key={"reference-img-" + i} mb={4}>
                         <Card >
                           <CardMedia>
-                            <img style={{width: "100%"}} src={apiUrl + img.image.url} />
+                            <img style={{width: "100%", display:"block"}} src={apiUrl + img.image.url} />
                           </CardMedia>
                           {img.caption && img.caption !== "" ?
                           
@@ -288,107 +482,64 @@ class AnswerQuestionFields extends React.Component {
               </ButtonGroup>
             </Box>
             <Box mb={2}>
-              <Button onClick={this.nextQuestion} color="primary" disabled={typeof this.state.question.answers !== "undefined" && this.state.question.answers.some(e => e.user === Number(Cookies.get("id"))) ? false : true} fullWidth={true} size="large" variant="contained" startIcon={<ArrowForwardIcon/>}>Next Question</Button>
-						</Box>
+              { (typeof this.props.test.questions !== "undefined" && Number(this.props.questionNumber) + 1 <= this.props.test.questions.length) ?
+                <Button onClick={this.nextQuestion} color="primary" fullWidth={true} size="large" variant="contained" startIcon={<ArrowForwardIcon/>}>Next Question</Button>
+              :
+                <Link href={"/test-overview?test=" + this.props.test.id}><a>
+                  <Button color="primary" fullWidth={true} size="large" variant="contained" startIcon={<ShowChart />}>
+                    <br/>
+                    See Results
+                    <br/>
+                    <br/>
+                    </Button>
+                </a></Link>
+              }
+            </Box>
             <Box mb={2}>
               {/* <CommentBox size="small"/> */}
             { typeof this.state.question.answers !== 'undefined' && 
               this.state.question.answers.find(e => e.user === Number(Cookies.get("id"))) && 
               this.state.question.answers.find(e => e.user === Number(Cookies.get("id"))).true === false 
               ? 
-
-                <Grid container spacing={0}>
-                  <Grid item xs={12}>
-                    <Box mb={2}>
-                      <Divider />
-                    </Box>
+                <>
+                  <Grid key={"comment-new"} container spacing={0}>
+                    <Grid item xs={12}>
+                      <Box mb={2}>
+                        <Divider />
+                      </Box>
+                    </Grid>
+                    <Grid item xs={12}>
+                      <Box mb={2}>
+                        <Card className="new-comment-section" >
+                          <CardActions >
+                            <Box p={1}>
+                              <Grid container spacing={2}>
+                                <Grid item xs={12}>
+                                  <TextField
+                                    value={this.state.newCommentValue}  
+                                    onChange={e => {this.onNewCommentChange(e.currentTarget.value)}}
+                                    type="text"
+                                    label=""
+                                    size="small"
+                                    fullWidth
+                                    placeholder="Your Comment"
+                                    multiline
+                                  />
+                                </Grid>
+                                <Grid item xs={12} align="left">
+                                  <Button onClick={this.createComment} disabled={this.state.newCommentValue === "" ? true : false} color="primary" fullWidth size="large" variant="outlined" startIcon={<AddCommentIcon/>}>Create Comment</Button>
+                                </Grid>
+                              </Grid>
+                            </Box>
+                          </CardActions>
+                        </Card>
+                      </Box>
+                    </Grid>
                   </Grid>
-                  <Grid item xs={12}>
-                    <Box mb={2}>
-                      <Button color="primary" fullWidth size="large" variant="outlined" startIcon={<AddCommentIcon/>}>New Comment</Button>
-                    </Box>
-                  </Grid>
-                  <Grid item xs={12}>
-                    <Card className="comment-section" >
-                      <CardHeader
-                        align="left"
-                      // color="primary"
-                      // bgcolor="primary.main"
-                        avatar={
-                          <Avatar aria-label="recipe">1</Avatar>
-                        }
-                        title="2 comments"
-                        subheader="Created 10/13/2021"
-                      />
-                      <CardMedia>
-                        <List>
-                          <ListItem>
-                            <ListItemAvatar>
-                              <Avatar alt="Eben Sorkin" src="static/img/eben-avi.png" />
-                            </ListItemAvatar>
-                            <ListItemText
-                              primary="Eben Sorkin"
-                              secondary={
-                                <>
-                                  <Typography
-                                    component="span"
-                                    variant="body2"
-                                    color="textPrimary"
-                                  >
-                                    The contrast is OK but the weight is not a match.
-                                  </Typography>
-                                </>
-                              }
-                            />
-                          </ListItem>
-                          <Divider variant="inset" component="li" />
-                          <ListItem>
-                            <ListItemAvatar>
-                              <Avatar alt="Quinn Keaveney" src="static/img/quinn-avi.png" />
-                            </ListItemAvatar>
-                            <ListItemText
-                              primary="Quinn Keaveney"
-                              secondary={
-                                <>
-                                  <Typography
-                                    component="span"
-                                    variant="body2"
-                                    color="textPrimary"
-                                  >
-                                    I agree, we will have that next week’s test.
-                                  </Typography>
-                                </>
-                              }
-                            />
-                          </ListItem>
-                        </List>
-                      </CardMedia>
-                      <CardActions >
-                        <Box p={1}>
-                          <Grid container spacing={2}>
-                            <Grid item xs={12}>
-                              <TextField
-                                label=""
-                                size="small"
-                                fullWidth
-                                placeholder="Add a reply"
-                                multiline
-                              />
-                            </Grid>
-                            <Grid item xs={12} align="left">
-                              <Box display="inline-block" pr={1}>
-                                <Button variant="contained" color="primary">Post</Button>
-                              </Box>
-                              <Box display="inline-block" pr={1}>
-                                <Button color="primary">Clear</Button>
-                              </Box>
-                            </Grid>
-                          </Grid>
-                        </Box>
-                      </CardActions>
-                    </Card>
-                  </Grid>
-                </Grid>
+                  { this.state.question.comments.slice(0).reverse().map((comment, i) => 
+                    <Comment key={"comment-" + comment.id} question={this.state.question} comment={comment}/> 
+                  )}
+                </>
               :
                <></>
               }

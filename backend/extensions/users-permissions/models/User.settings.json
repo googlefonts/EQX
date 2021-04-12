@@ -92,13 +92,13 @@
       "via": "user",
       "collection": "answer"
     },
-    "comment": {
-      "via": "owner",
-      "model": "comment"
-    },
     "replies": {
       "via": "user",
       "collection": "reply"
+    },
+    "comments": {
+      "via": "owner",
+      "collection": "comment"
     }
   }
 }

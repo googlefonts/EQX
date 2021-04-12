@@ -2,7 +2,8 @@
   "kind": "collectionType",
   "collectionName": "replies",
   "info": {
-    "name": "Reply"
+    "name": "Reply",
+    "description": ""
   },
   "options": {
     "increments": true,
@@ -10,7 +11,7 @@
     "draftAndPublish": true
   },
   "attributes": {
-    "content": {
+    "text": {
       "type": "text"
     },
     "user": {

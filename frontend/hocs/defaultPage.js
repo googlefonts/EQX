@@ -70,7 +70,7 @@ const Page = Page => (
                     <Typography style={{color: "white"}} paragraph={true} variant="h5">We are excited about EQX because it already does a great deal, and it's libre license empowers anyone to use it and build on it.</Typography>
  
                     <Box style={{margin: "2rem auto 0.5rem", width: "100%", paddingBottom: "56.25%", height: "0", position: "relative"}}>
-                      <iframe style={{ position: "absolute", top: "0", left: "0", width: "100%", height: "100%"}} width="560" height="315"  src="https://www.youtube.com/embed/L61M-rU43ec" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                      <iframe style={{ position: "absolute", top: "0", left: "0", width: "100%", height: "100%"}} width="560" height="315"  src="https://www.youtube.com/embed/L61M-rU43ec" title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>
                     </Box>
                     <Typography style={{color: "white"}} paragraph={true} variant="body1">22 minute introduction presentation at ATypI 2020</Typography>
 

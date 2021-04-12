@@ -120,7 +120,7 @@ class SideNavQuestion extends React.Component {
   
   sideQuestionNavUpdate = (questionNumber) => {
     Router.push({
-      pathname: '/create-question',
+      pathname: this.props.page === "answer-question" ? "/answer-question" : '/create-question',
       query: { 
         test: this.props.test.id, 
         question: questionNumber
@@ -237,10 +237,12 @@ class SideNavQuestion extends React.Component {
               <ListItemText primary='Question List'/>
             </ListItem>
             {(this.props.page === "answer-question") &&
-              <ListItem key="list-item-results" onClick={this.addQuestion} selected={this.props.page === "dashboard" ? true : false} button key="dashboard">
-                <ListItemIcon><ShowChart /></ListItemIcon>
-                <ListItemText primary='See Results'/>
-              </ListItem>
+              <Link href={"/test-overview?test=" + this.props.test.id}><a>
+                <ListItem key="list-item-results" selected={this.props.page === "dashboard" ? true : false} button key="dashboard">
+                  <ListItemIcon><ShowChart /></ListItemIcon>
+                  <ListItemText primary='See Results'/>
+                </ListItem>
+              </a></Link>
             }
           </List>
         </Drawer>

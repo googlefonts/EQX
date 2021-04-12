@@ -19,7 +19,7 @@
     "owner": {
       "plugin": "users-permissions",
       "model": "user",
-      "via": "comment"
+      "via": "comments"
     },
     "text": {
       "required": true,
