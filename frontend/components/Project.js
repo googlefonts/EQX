@@ -490,6 +490,21 @@ class ProjectFonts extends React.Component {
               if (Object.keys(fontInfo.variationAxes).length){
                 variable = true;
               }
+
+              console.log("getting font data on client")
+              console.log(response.data)
+              console.log("checking all file type production")
+              console.log({
+                file: fontFile,
+                name: fontFile.name,
+                weight: "",
+                style: "",
+                variable: variable,
+                major_version: 0,
+                minor_version: 1,
+                project: this.props.project.id,
+                info: fontInfo})
+
               axios
                 .post(apiUrl + '/fonts', {
                   file: fontFile,

@@ -10,6 +10,8 @@ export default (req, res) => {
    const { method } = req
    switch (method) {
       case 'POST':
+         console.log("getting font data")
+         console.log(apiUrl)
          http.get(url.parse(apiUrl.replace("localhost", "host.docker.internal") + req.body.url), function(response) {
             var data = [];
             response.on('data', function(chunk) {
