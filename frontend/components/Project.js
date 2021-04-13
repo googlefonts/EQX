@@ -391,9 +391,9 @@ class FontRow extends React.Component {
 			Object.keys(this.props.font).length > 0
 		){
 			this.setState({
-        name: this.props.font.info.name.records.preferredFamily.en,
-        weight: this.props.font.variable && this.props.font.info.variationAxes.hasOwnProperty('wght') ? "[" + this.props.font.info.variationAxes.wght.min + " - " + this.props.font.info.variationAxes.wght.max + "]" : this.props.font.info.name.records.preferredSubfamily.en,
-        style: this.props.font.info.name.records.fontSubfamily.en,
+        name: typeof this.props.font.info.name.records.preferredFamily[Object.keys(this.props.font.info.name.records.preferredFamily)[0]] !== "undefined" ? this.props.font.info.name.records.preferredFamily[Object.keys(this.props.font.info.name.records.preferredFamily)[0]] : "Nameless Typeface",
+        weight: this.props.font.variable && this.props.font.info.variationAxes.hasOwnProperty('wght') ? "[" + this.props.font.info.variationAxes.wght.min + " - " + this.props.font.info.variationAxes.wght.max + "]" : this.props.font.info.name.records.preferredSubfamily[Object.keys(this.props.font.info.name.records.preferredSubfamily)[0]],
+        style: typeof this.props.font.info.name.records.fontSubfamily[Object.keys(this.props.font.info.name.records.fontSubfamily)[0]] !== "undefined" ? this.props.font.info.name.records.fontSubfamily[Object.keys(this.props.font.info.name.records.fontSubfamily)[0]] : "Nameless Style",
 			})
 		}
 	}
