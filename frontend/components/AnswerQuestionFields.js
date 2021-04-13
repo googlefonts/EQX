@@ -406,9 +406,9 @@ class AnswerQuestionFields extends React.Component {
                   </Card>
                 </Box>
               </Grid>
+              
               {(this.state.question.reference_images && this.state.question.reference_images.length) ?
                 <>
-
                   <Grid item xs={12}>
                     <Box mb={2} align="right">
                       <Button onClick={() => this.referenceImagesToggle()}  color="primary" size="large" variant="outlined" startIcon={<PermMediaIcon/>}>{this.state.referenceImagesOpen ? "Collapse Reference Images" : "Expand Reference Images"}</Button>

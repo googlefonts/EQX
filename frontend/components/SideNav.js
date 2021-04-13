@@ -46,7 +46,7 @@ class SideNavRegular extends React.Component {
         >
           <List>
             <Link href="/"><a>
-              <ListItem selected={this.props.page === "dashboard" ? true : false} button key="dashboard">
+              <ListItem selected={this.props.page === "dashboard" ? true : false} button>
                 <ListItemIcon><DashboardIcon /></ListItemIcon>
                 <ListItemText primary='Dashboard'/>
               </ListItem>
@@ -216,14 +216,14 @@ class SideNavQuestion extends React.Component {
           <List padding={2} style={{paddingTop: "64px"}} >
             {(this.props.page === "test-results") &&
               <Link href="/"><a>
-                <ListItem selected={this.props.page === "dashboard" ? true : false} button key="dashboard">
+                <ListItem selected={this.props.page === "dashboard" ? true : false} button>
                   <ListItemIcon><DashboardIcon /></ListItemIcon>
                   <ListItemText primary='Dashboard'/>
                 </ListItem>
               </a></Link>
             }
             {(this.props.page === "create-question") &&
-              <ListItem key="list-item-add-question" onClick={this.addQuestion} selected={this.props.page === "dashboard" ? true : false} button key="dashboard">
+              <ListItem key="list-item-add-question" onClick={this.addQuestion} selected={this.props.page === "dashboard" ? true : false} button>
                 <ListItemIcon><AddIcon /></ListItemIcon>
                 <ListItemText primary='Add Question'/>
               </ListItem>
@@ -246,7 +246,7 @@ class SideNavQuestion extends React.Component {
             </ListItem>
             {(this.props.page === "answer-question") &&
               <Link href={"/test-results?test=" + this.props.test.id}><a>
-                <ListItem key="list-item-results" selected={this.props.page === "dashboard" ? true : false} button key="dashboard">
+                <ListItem key="list-item-results" selected={this.props.page === "dashboard" ? true : false} button>
                   <ListItemIcon><ShowChart /></ListItemIcon>
                   <ListItemText primary='See Results'/>
                 </ListItem>

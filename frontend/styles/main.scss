@@ -90,7 +90,7 @@ a, a:focus, a:active, a:hover{
 /*—————————————————————————*/
 
 main{
-	margin-top: 50px; // Height of top-bar
+	margin-top: 60px; // Height of top-bar
 	.layout-wrapper[data-has-progress-header="answering"] &, .layout-wrapper[data-has-progress-header="creating"] &{
 		margin-top: 128px; // Height of top-bar
 	}
@@ -251,4 +251,15 @@ main{
 		transition: all $xfast;
 		opacity: 1;
 	}
+}
+
+
+//////////////////////
+// Section style
+
+.section{
+	padding-left: 24px;
+	padding-right: 24px;
+	padding-top: 24px;
+	padding-bottom: 24px;
 }

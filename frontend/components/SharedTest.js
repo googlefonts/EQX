@@ -93,7 +93,7 @@ class TestQuestions extends React.Component {
               <Grid container spacing={2}>
                 <Grid item xs={12}>
                   <Box color="text.disabled">
-                    <Typography variant="body1">This test doesn't have any questions yet.</Typography>
+                    <Typography variant="body1" style={{maxWidth: "initial"}}>This test doesn't have any questions yet.</Typography>
                   </Box>
                 </Grid>
               </Grid>
@@ -341,9 +341,11 @@ class SharedTest extends React.Component {
                     <Box component="span" color="purple" className="inline-button" mr={2} >
                       <Button color="primary" size="large" variant="contained" >View</Button>
                     </Box>
-                    <Typography display="inline" variant="body2">
-                      <Box component="span" color="purple" className="inline-button" >Comments</Box>
-                    </Typography>
+                    <Link href={"/test-results?test=" + this.state.test.id}><a>
+                      <Typography display="inline" variant="body2">
+                        <Box component="span" color="purple" className="inline-button" >See Results</Box>
+                      </Typography>
+                    </a></Link>
                     <Divider display="inline-block" orientation="vertical" />
                     <Typography display="inline" variant="body2">
                       <Box component="span" color="purple" onClick={this.archive} className="inline-button" >Archive</Box>

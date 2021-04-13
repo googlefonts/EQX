@@ -25,6 +25,7 @@ class Test extends React.Component {
       tabValue: 0,
       test: {},
       questionLength: 0,
+      testCompleteness: 0
     };
   }
 
@@ -38,13 +39,43 @@ class Test extends React.Component {
         headers: { Authorization: 'Bearer ' + Cookies.get("jwt") }
       }).catch(err => { console.log(err); // Handle error
       }).then(response => { // Handle success
-        this.setState({ test: response.data });
-        console.log(response.data)
+        var test = response.data;
+        console.log(test);
         let questionLength = 0;
-        if (typeof response.data.questions !== 'undefined' && response.data.questions > 0) {
-          questionLength = response.data.questions;
+        if (typeof test.questions !== 'undefined' && test.questions > 0) {
+          questionLength = test.questions;
         }
-        this.setState({ questionLength: questionLength });
+        this.setState({ 
+          test: test,
+          questionLength: questionLength
+        });
+
+        async.eachOf(test.questions, (question, i, callback) => {
+          axios // Get Question
+          .get(apiUrl + "/questions/" + question.id, 
+            { headers: { Authorization: 'Bearer ' + Cookies.get("jwt") } 
+          }).catch(error => { console.log(error); // Handle Error
+          }).then(question => { // Handle success
+            test.questions[i] = question.data;
+            callback();
+          });
+
+        }, (err, results) => {
+
+          var userAnswers = 0;
+          test.questions.forEach(question => {
+            question.answers.forEach(answer => {
+              if (answer.user = Cookies.get("id")){
+                userAnswers++
+              }
+            });
+          });
+          var testCompleteness = userAnswers / test.questions.length * 100;
+          this.setState({ 
+            test: test,
+            testCompleteness: testCompleteness
+          });
+        });
       });
   }
 
@@ -86,10 +117,10 @@ class Test extends React.Component {
 
                   <Box className="progress-bar" pb={3}>
                     <Box style={{ width: "calc(100% - 110px)", display: "inline-block" }}>
-                      <LinearProgress variant="determinate" value={this.state.test.completeness ? this.state.test.completeness : 0} />
+                      <LinearProgress variant="determinate" value={this.state.testCompleteness ? this.state.testCompleteness : 0} />
                     </Box>
-                    <Box style={{ position: "relative", top:"3px", padding: "1px 10px 0 0 ", borderRadius: "5px", background: "rgb(217, 172, 224)", width: "110px", display: "inline-block" }}>
-                      <Typography style={{color: "white"}} align="right" variant="h6">{this.state.test.completeness ? this.state.test.completeness : 0}% Done</Typography>
+                    <Box style={{ position: "relative", top:"3px", padding: "1px 10px 0 0 ", borderRadius: "5px", background: this.state.testCompleteness >= 100 ? "#9c27b0" : "rgb(217, 172, 224)", width: "110px", display: "inline-block" }}>
+                      <Typography style={{color: "white"}} align="right" variant="h6">{this.state.testCompleteness ? this.state.testCompleteness : 0}% Done</Typography>
                     </Box>
                   </Box>
                   <Box>
@@ -99,16 +130,14 @@ class Test extends React.Component {
                       </a></Link>
                     </Box>
                     <Typography display="inline" variant="body2">
-                      <Box component="span">{this.state.questionLength} Questions</Box>
+                      <Box component="span">{this.state.test.questions ? (this.state.test.questions.length) : 0} Questions</Box>
                     </Typography>
                     <Divider display="inline-block" orientation="vertical" />
-                    <Typography display="inline" variant="body2">
-                      <Box component="span" color="purple" className="inline-button" >Answers</Box>
-                    </Typography>
-                    <Divider display="inline-block" orientation="vertical" />
-                    <Typography display="inline" variant="body2">
-                      <Box component="span" color="purple" className="inline-button" >Comments</Box>
-                    </Typography>
+                    <Link href={"/test-results?test=" + this.state.test.id}><a>
+                      <Typography display="inline" variant="body2">
+                        <Box component="span" color="purple" className="inline-button" >See Results</Box>
+                      </Typography>
+                    </a></Link>
                   </Box>
                 </Grid>
                 {/* <Grid item xs={4}>
