@@ -30,8 +30,8 @@ export default function Avatar() {
         onClose={handleClose}
         style={{zIndex:9999}}
       >
-        <MenuItem onClick={handleClose}>Profile</MenuItem>
-        <MenuItem onClick={handleClose}>Settings</MenuItem>
+        {/* <MenuItem onClick={handleClose}>Profile</MenuItem>
+        <MenuItem onClick={handleClose}>Settings</MenuItem> */}
         <MenuItem onClick={unsetToken}>Logout</MenuItem>
       </Menu>
     </>
