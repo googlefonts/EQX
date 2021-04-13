@@ -20,12 +20,12 @@ He served on the board of ATypI from 2010-2018.
 
 # Demos
 
-### Frontend
+### EQX App
 <http://34.73.108.93>  
 Username: **example@example.com**  
 Password: **example**
 
-### Backend
+### Content API
 <http://35.231.157.252/admin>  
 Username: **example@admin.com**  
 Password: **exampleAdmin1**
