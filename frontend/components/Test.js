@@ -54,7 +54,7 @@ class Test extends React.Component {
           axios // Get Question
           .get(apiUrl + "/questions/" + question.id, 
             { headers: { Authorization: 'Bearer ' + Cookies.get("jwt") } 
-          }).catch(error => { console.log(error); // Handle Error
+          }).catch(error => { console.error(error); // Handle Error
           }).then(question => { // Handle success
             test.questions[i] = question.data;
             callback();

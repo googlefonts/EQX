@@ -49,7 +49,7 @@ class NewProject extends React.Component {
        }, {
          headers: { Authorization: 'Bearer ' + Cookies.get("jwt") }
        }).catch(error => {
-         console.log(error); // Handle error 
+         console.error(error); // Handle error 
        }).then(response => { // Handle success
          this.handleClose();
          this.props.update();

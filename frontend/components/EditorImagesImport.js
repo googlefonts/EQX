@@ -88,7 +88,7 @@ class EditorImagesImport extends React.Component {
         .put(apiUrl + '/questions/' + this.props.test.questions[Number(this.props.questionNumber - 1)].id, {
           image_type: imageType
         }, { headers: { Authorization: 'Bearer ' + Cookies.get("jwt") } 
-        }).catch(error => { console.log(error); // Handle Error
+        }).catch(error => { console.error(error); // Handle Error
         }).then(response => { // Handle success
         });
     }

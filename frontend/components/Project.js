@@ -68,7 +68,7 @@ class ProjectTests extends React.Component {
       }, {
         headers: { Authorization: 'Bearer ' + Cookies.get("jwt") }
       }).catch(error => {
-        console.log(error);  // Handle Error
+        console.error(error);  // Handle Error
       }).then(response => { // Handle success
         axios
           .put(apiUrl + '/projects/' + this.props.project.id, {
@@ -76,7 +76,7 @@ class ProjectTests extends React.Component {
           }, {
             headers: { Authorization: 'Bearer ' + Cookies.get("jwt") }
           }).catch(error => {
-            console.log(error); // Handle Error
+            console.error(error); // Handle Error
           }).then(response => { // Handle success
             this.handleClose();
             this.props.update();
@@ -271,7 +271,7 @@ class ProjectMembers extends React.Component {
         users: this.state.currentUsers.map(i => i = i.id),
       }, {
         headers: { Authorization: 'Bearer ' + Cookies.get("jwt") }
-      }).catch(error => { console.log(error); // Handle error 
+      }).catch(error => { console.error(error); // Handle error 
       }).then(response => { // Handle success
         this.handleClose();
         this.props.update();
@@ -378,7 +378,7 @@ class FontRow extends React.Component {
 		//     question: this.state.questionValue,
 		// 	 context: this.state.contextValue
 		//   }, { headers: { Authorization: 'Bearer ' + Cookies.get("jwt") } 
-		//   }).catch(error => { console.log(error); // Handle Error
+		//   }).catch(error => { console.error(error); // Handle Error
 		//   }).then(response => { // Handle success
 		//     // Router.push("/create-question?test=" + this.props.test.id + "&question=" + (this.props.test.questions.length + 2))
 		//   });
@@ -402,7 +402,7 @@ class FontRow extends React.Component {
 		axios
       .delete(apiUrl + '/fonts/' + this.props.font.id, 
         { headers: { Authorization: 'Bearer ' + Cookies.get("jwt") } 
-      }).catch(error => { console.log(error);  // Handle Error
+      }).catch(error => { console.error(error);  // Handle Error
       }).then(response => { // Handle success
         this.props.update();
       });
@@ -475,7 +475,7 @@ class ProjectFonts extends React.Component {
           headers: {
             'Authorization': 'Bearer ' + Cookies.get("jwt")
           }
-        }).catch(error => { console.log(error); // Handle error
+        }).catch(error => { console.error(error); // Handle error
         }).then(response => {
           var fontFile = response.data[0];
           console.log("file upload");
@@ -485,7 +485,7 @@ class ProjectFonts extends React.Component {
               url: response.data[0].url,
               originUrl: el.name,
               jwt: Cookies.get("jwt")
-            }).catch(error => { console.log(error); // Handle error
+            }).catch(error => { console.error(error); // Handle error
             }).then(response => {
               console.log("font info");
               console.log(response);

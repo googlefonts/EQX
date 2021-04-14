@@ -47,7 +47,7 @@ class ReferenceImages extends React.Component {
 		}
 	}
 	update = () => {
-		if (this.props.questionNumber){
+		if (this.props.questionNumber && this.props.test.questions[Number(this.props.questionNumber - 1)]){
 			this.setState({referenceImages: this.props.test.questions[Number(this.props.questionNumber - 1)].reference_images });
 		}
 	}
@@ -65,7 +65,7 @@ class ReferenceImages extends React.Component {
 			.put(apiUrl + '/questions/' + this.props.test.questions[Number(this.props.questionNumber - 1)].id, { 
 				reference_images: newReferenceImages,
 				}, { headers: { Authorization: 'Bearer ' + Cookies.get("jwt") } 
-			}).catch(error => { console.log(error); // Handle Error
+			}).catch(error => { console.error(error); // Handle Error
 			}).then(response => { // Handle success
 			});
 	}
@@ -78,7 +78,7 @@ class ReferenceImages extends React.Component {
 			.put(apiUrl + '/questions/' + this.props.test.questions[Number(this.props.questionNumber - 1)].id, { 
 				reference_images: newReferenceImages,
 				}, { headers: { Authorization: 'Bearer ' + Cookies.get("jwt") } 
-			}).catch(error => { console.log(error); // Handle Error
+			}).catch(error => { console.error(error); // Handle Error
 			}).then(response => { // Handle success
 			});
 	}
@@ -101,7 +101,7 @@ class ReferenceImages extends React.Component {
 					.put(apiUrl + '/questions/' + this.props.test.questions[Number(this.props.questionNumber - 1)].id, { 
 						reference_images: newImages,
 					}, { headers: { Authorization: 'Bearer ' + Cookies.get("jwt") } 
-					}).catch(error => { console.log(error) 
+					}).catch(error => { console.error(error) 
 					}).then(response => {
 						this.setState({referenceImages: newImages });
 					});
@@ -198,7 +198,7 @@ class CreateQuestionFields extends React.Component {
 		    	question: this.state.questionValue,
 			 	context: this.state.contextValue
 		  	}, { headers: { Authorization: 'Bearer ' + Cookies.get("jwt") } 
-		  	}).catch(error => { console.log(error); // Handle Error
+		  	}).catch(error => { console.error(error); // Handle Error
 		  	}).then(response => { // Handle success
 		   	// Router.push("/create-question?test=" + this.props.test.id + "&question=" + (this.props.test.questions.length + 2))
 		  	});

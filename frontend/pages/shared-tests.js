@@ -49,7 +49,7 @@ class NewTest extends React.Component {
       }, {
         headers: { Authorization: 'Bearer ' + Cookies.get("jwt") }
       }).catch(error => {
-        console.log(error); // Handle error 
+        console.error(error); // Handle error 
       }).then(response => { // Handle success
         this.handleClose();
       });
@@ -191,7 +191,7 @@ class SharedTestPage extends React.Component {
     axios
       .get(apiUrl + '/projects?owners.id=' + Cookies.get("id") + '&archived_eq=false', {
         headers: { Authorization: "Bearer " + Cookies.get("jwt") }
-      }).catch(error => { console.log(error); // Handle error 
+      }).catch(error => { console.error(error); // Handle error 
       }).then(response => { // Handle success
         if (typeof response !== "undefined" && typeof response.data !== "undefined"){
           this.setState({ projects: response.data });

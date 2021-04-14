@@ -39,7 +39,7 @@ class Comment extends React.Component {
     axios // Update Comment
     .get(apiUrl + "/comments/" + (this.state.comment.id ? this.state.comment.id : this.props.comment.id), 
       { headers: { Authorization: 'Bearer ' + Cookies.get("jwt") } 
-    }).catch(error => { console.log(error); // Handle Error
+    }).catch(error => { console.error(error); // Handle Error
     }).then(comment => { // Handle success
       var comment = comment.data;
       this.setState({comment: comment});
@@ -48,7 +48,7 @@ class Comment extends React.Component {
         axios // Update Comment
         .get(apiUrl + "/replies/" + reply.id, 
           { headers: { Authorization: 'Bearer ' + Cookies.get("jwt") } 
-        }).catch(error => { console.log(error); // Handle Error
+        }).catch(error => { console.error(error); // Handle Error
         }).then(reply => { // Handle success
           comment.replies[i] = reply.data;
           callback();
@@ -71,7 +71,7 @@ class Comment extends React.Component {
         user: Cookies.get("id"),
         text: this.state.newReplyValue
       }, { headers: { Authorization: 'Bearer ' + Cookies.get("jwt") } 
-      }).catch(error => { console.log(error); // Handle Error
+      }).catch(error => { console.error(error); // Handle Error
       }).then(newReply => { // Handle success
         this.setState({newReplyValue: ""})
         this.update();
@@ -223,7 +223,9 @@ class AnswerQuestionFields extends React.Component {
                     img: imgData,
                     loading: false
                   });
-                }).catch(error => { console.log(error) });
+                  this.matchStyles();
+                  setTimeout(() => {  this.matchStyles(); }, 2000);
+                }).catch(error => { console.error(error) });
             }
           } else { 
             this.setState({ img: "" });
@@ -251,7 +253,7 @@ class AnswerQuestionFields extends React.Component {
         .put(apiUrl + '/answers/' + this.state.question.answers.find(e => e.user === Number(Cookies.get("id"))).id, {
           true: answer
         }, { headers: { Authorization: 'Bearer ' + Cookies.get("jwt") } 
-        }).catch(error => { console.log(error); // Handle Error
+        }).catch(error => { console.error(error); // Handle Error
         }).then(response => { // Handle success
           this.update();
         });
@@ -262,7 +264,7 @@ class AnswerQuestionFields extends React.Component {
           user: Cookies.get("id"),
           true: answer
         }, { headers: { Authorization: 'Bearer ' + Cookies.get("jwt") } 
-        }).catch(error => { console.log(error); // Handle Error
+        }).catch(error => { console.error(error); // Handle Error
         }).then(response => { // Handle success
           this.update();
           // axios // Add answer to question
@@ -271,7 +273,7 @@ class AnswerQuestionFields extends React.Component {
           //   user: [Cookies.get("id")],
           //   true: answer
           // }, { headers: { Authorization: 'Bearer ' + Cookies.get("jwt") } 
-          // }).catch(error => { console.log(error); // Handle Error
+          // }).catch(error => { console.error(error); // Handle Error
           // }).then(response => { // Handle success
             
           // this.props.questionUpdate();
@@ -317,7 +319,7 @@ class AnswerQuestionFields extends React.Component {
         owner: Cookies.get("id"),
         text: this.state.newCommentValue
       }, { headers: { Authorization: 'Bearer ' + Cookies.get("jwt") } 
-      }).catch(error => { console.log(error); // Handle Error
+      }).catch(error => { console.error(error); // Handle Error
       }).then(newComment => { // Handle success
         this.setState({newCommentValue: ""})
         this.update();
@@ -325,14 +327,14 @@ class AnswerQuestionFields extends React.Component {
         axios // Update Comment
           .get(apiUrl + "/comments?question=" + this.state.question.id, 
             { headers: { Authorization: 'Bearer ' + Cookies.get("jwt") } 
-          }).catch(error => { console.log(error); // Handle Error
+          }).catch(error => { console.error(error); // Handle Error
           }).then(questionComments => { // Handle success
 
             axios // Update Comment
               .put(apiUrl + '/comments/' + newComment.data.id, { 
                 number: Number(questionComments.data.findIndex(comment => comment.id === newComment.data.id)) + 1,
               }, { headers: { Authorization: 'Bearer ' + Cookies.get("jwt") } 
-              }).catch(error => { console.log(error); // Handle Error
+              }).catch(error => { console.error(error); // Handle Error
               }).then(response => { // Handle success
                 this.update();            
               });
@@ -340,6 +342,14 @@ class AnswerQuestionFields extends React.Component {
           });
 
       });
+  }
+
+  matchStyles = () => {
+    console.log("match Styles")
+    console.log(this.state.question)
+    if(document.getElementById('code-visual').contentWindow.document.getElementById('ext-eqx-styles')){
+      document.getElementById('code-visual').contentWindow.document.getElementById('ext-eqx-styles').innerHTML = this.state.question.code_data.styleHTML;
+    }
   }
 
   render() {

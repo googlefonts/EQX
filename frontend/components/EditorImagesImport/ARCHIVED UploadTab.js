@@ -48,13 +48,13 @@ class UploadTab extends React.Component {
           .put(apiUrl + '/questions/' + this.props.test.questions[Number(this.props.questionNumber - 1)].id, {
             uploaded_image: image
           }, { headers: { Authorization: 'Bearer ' + Cookies.get("jwt") } 
-          }).catch(error => { console.log(error); // Handle Error
+          }).catch(error => { console.error(error); // Handle Error
           }).then(response => { // Handle success
             console.log(response)
         });
       })
       .catch(error => {
-        console.log(error);
+        console.error(error);
       });
   };
 

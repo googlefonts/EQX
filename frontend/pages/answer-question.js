@@ -47,7 +47,7 @@ class AnswerQuestionPage extends React.Component {
   //       headers: { Authorization: "Bearer " + Cookies.get("jwt") }
   //     }).then(response => { // Handle success
   //       this.setState({ tmpTest: response.data[0] });
-  //     }).catch(error => { console.log(error) });
+  //     }).catch(error => { console.error(error) });
   // }
 
   questionUpdate = () => {
@@ -99,8 +99,8 @@ class AnswerQuestionPage extends React.Component {
               tmpTest: newTest,
               questionNumber: questionNumber
             });
-          }).catch(error => { console.log(error) });
-      }).catch(error => { console.log(error) });
+          }).catch(error => { console.error(error) });
+      }).catch(error => { console.error(error) });
   }
 
   render() {

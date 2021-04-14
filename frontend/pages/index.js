@@ -39,7 +39,7 @@ class Index extends React.Component {
       }).then(response => { // Handle success
         this.setState({ projects: response.data });
 
-      }).catch(error => { console.log(error); }); // Handle error 
+      }).catch(error => { console.error(error); }); // Handle error 
   }
 
   render() {

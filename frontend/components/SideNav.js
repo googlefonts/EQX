@@ -133,14 +133,14 @@ class SideNavQuestion extends React.Component {
     axios
       .delete(apiUrl + '/questions/' + questionId
       , { headers: { Authorization: 'Bearer ' + Cookies.get("jwt") } 
-      }).catch(error => { console.log(error);  // Handle Error
+      }).catch(error => { console.error(error);  // Handle Error
       }).then(response => { // Handle success
         let questions = this.props.test.questions.filter( function(value, index, arr){ return value.id !== questionId });
         axios
           .put(apiUrl + '/tests/' + this.props.test.id, {
             questions: [...questions ]
           }, { headers: { Authorization: 'Bearer ' + Cookies.get("jwt") } 
-          }).catch(error => { console.log(error); // Handle Error
+          }).catch(error => { console.error(error); // Handle Error
           }).then(response => { // Handle success
             if (questions.length <= 0){
               this.addQuestion();
@@ -165,13 +165,13 @@ class SideNavQuestion extends React.Component {
       .post(apiUrl + '/questions', {
         test: this.props.test.id,
       }, { headers: { Authorization: 'Bearer ' + Cookies.get("jwt") } 
-      }).catch(error => { console.log(error);  // Handle Error
+      }).catch(error => { console.error(error);  // Handle Error
       }).then(response => { // Handle success
         axios
           .put(apiUrl + '/tests/' + this.props.test.id, {
             questions: [...this.props.test.questions, response.data.id]
           }, { headers: { Authorization: 'Bearer ' + Cookies.get("jwt") } 
-          }).catch(error => { console.log(error); // Handle Error
+          }).catch(error => { console.error(error); // Handle Error
           }).then(response => { // Handle success
             this.props.pageUpdate(true);
           });

@@ -32,7 +32,7 @@ const query = gql`
 //         }
 //       `
 //     }
-//   }).catch(error => { console.log(error); // Handle error 
+//   }).catch(error => { console.error(error); // Handle error 
 //   }).then(response => { // Handle success
 //     console.log(response)
 //   });

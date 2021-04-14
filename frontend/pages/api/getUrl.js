@@ -74,7 +74,7 @@ export default (req, res) => {
          })
       ]
    })
-   .catch(error => { console.log(error); })
+   .catch(error => { console.error(error); })
    .then((result) => {
 
       var host = new URL(req.query.url).hostname + "/";
@@ -91,7 +91,7 @@ export default (req, res) => {
          if (url.lastIndexOf('.') && (file.startsWith("svg") || file.startsWith("woff") || file.startsWith("woff2"))){
             axios
                .get(url) 
-               .catch(error => { console.log(error); callback(); })
+               .catch(error => { console.error(error); callback(); })
                .then(response => {
                   var data = response.data;
                   data = Base64.encode(data); 
@@ -125,7 +125,7 @@ export default (req, res) => {
             if (file.startsWith("jpg") || file.startsWith("png") || file.startsWith("gif") || file.startsWith("webp") || file.startsWith("svg")) {
                axios
                   .get(item.url) 
-                  .catch(error => { console.log(error); callback(); })
+                  .catch(error => { console.error(error); callback(); })
                   .then(response => {
                      var data = response.data;
                      data = Base64.encode(data); 
@@ -146,7 +146,7 @@ export default (req, res) => {
                } else if (file.startsWith("css")) {
                   axios
                      .get(item.url) 
-                     .catch(error => { console.log(error); callback(); })
+                     .catch(error => { console.error(error); callback(); })
                      .then(response => {
                         var cssFile = response.data;
                         $('link[href="'+item.filename+'"], link[href="'+item.url+'"]').remove();
@@ -162,7 +162,7 @@ export default (req, res) => {
                            if (url.lastIndexOf('.') && (file.startsWith("svg") || file.startsWith("woff") || file.startsWith("woff2"))){
                               axios
                                  .get(url) 
-                                 .catch(error => { console.log(error); callback2(); })
+                                 .catch(error => { console.error(error); callback2(); })
                                  .then(response => {
                                     var data = response.data;
                                     data = Base64.encode(data); 
@@ -195,7 +195,7 @@ export default (req, res) => {
                } else if (file.startsWith("js")) {
                   axios
                      .get(item.url) 
-                     .catch(error => { console.log(error); callback(); })
+                     .catch(error => { console.error(error); callback(); })
                      .then(response => {
                         var data = response.data;
                         $('script[src="'+item.filename+'"], script[src="'+item.url+'"]').remove();

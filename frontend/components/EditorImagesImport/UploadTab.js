@@ -69,7 +69,6 @@ class UploadTab extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    console.log("The Component Updated")
     if (
       typeof prevProps !== "undefined" && 
       this.props !== prevProps && 
@@ -96,8 +95,6 @@ class UploadTab extends React.Component {
   }
 
   scrapeUrl = () => {
-
-    console.log("Scrapping URL")
     if (
       typeof this.state.codeData === "undefined" || 
       typeof this.state.codeData.url === "undefined" || 
@@ -142,19 +139,18 @@ class UploadTab extends React.Component {
                 code_data: that.state.codeData
               }, 
               { headers: { Authorization: 'Bearer ' + Cookies.get("jwt") } 
-            }).catch(error => { console.log(error) 
+            }).catch(error => { console.error(error) 
             }).then(response => {
               that.update();
             });
 
-      }).catch(error => { console.log(error) });
+      }).catch(error => { console.error(error) });
 
     });
   }
   
   update = () => {
 
-    console.log("Updating Upload Tab")
 		if (typeof this.state.imageData !== "undefined" && this.state.imageData && typeof this.state.imageData.url !== "undefined") {
       var ext = this.state.imageData.url.substring(this.state.imageData.url.lastIndexOf(".") + 1);
       if (ext === "jpg" || ext === "jpeg" || ext === "png" || ext === "gif" || ext === "eps" || ext === "webp") {
@@ -208,7 +204,7 @@ class UploadTab extends React.Component {
             this.matchStyles();
             setTimeout(() => {  this.matchStyles(); }, 2000);
 
-          }).catch(error => { console.log(error) });
+          }).catch(error => { console.error(error) });
       }
     } else { 
       this.setState({ img: "" });
@@ -216,7 +212,6 @@ class UploadTab extends React.Component {
   }
 
   matchStyles = () => {
-    console.log("match Styles")
     var codeData = this.state.codeData;
     codeData.styleMap = {};
     codeData.styleHTML = "<style>";
@@ -248,12 +243,21 @@ class UploadTab extends React.Component {
     codeData.styleHTML += "</style>";
     if(document.getElementById('code-visual').contentWindow.document.getElementById('ext-eqx-styles')){
       document.getElementById('code-visual').contentWindow.document.getElementById('ext-eqx-styles').innerHTML = codeData.styleHTML;
+    
+      var newCode_data = this.state.codeData;
+      newCode_data.stylesHTML = codeData.styleHTML;
+      axios // Save image data to question
+      .put(apiUrl + '/questions/' + this.props.test.questions[Number(this.props.questionNumber) - 1].id, { 
+          code_data: newCode_data
+        }, 
+        { headers: { Authorization: 'Bearer ' + Cookies.get("jwt") } 
+      }).catch(error => { console.error(error) 
+      }).then(response => {});
     }
     this.setState({ codeData: codeData }); 
   }
 
   uploadFile = (e) => {
-    console.log("Uploading files")
     var formData = new FormData();
     formData.append("files", e.target.files[0]);
     var codeData = this.state.codeData;
@@ -297,7 +301,7 @@ class UploadTab extends React.Component {
               axios // Delete old file
                 .delete(apiUrl + '/upload/files/' + image.id, 
                   { headers: { Authorization: 'Bearer ' + Cookies.get("jwt") } 
-                }).catch(error => { console.log(error) });
+                }).catch(error => { console.error(error) });
 
               axios // Upload new file
                 .post(apiUrl + '/upload', formData, 
@@ -316,9 +320,9 @@ class UploadTab extends React.Component {
                       { headers: { Authorization: 'Bearer ' + Cookies.get("jwt") } 
                     }).then(response => {
                       this.update();
-                    }).catch(error => { console.log(error) });
-                }).catch(error => { console.log(error) });
-            }).catch(error => { console.log(error) });
+                    }).catch(error => { console.error(error) });
+                }).catch(error => { console.error(error) });
+            }).catch(error => { console.error(error) });
         } else {
 
           this.setState({ 
@@ -333,9 +337,9 @@ class UploadTab extends React.Component {
               { headers: { Authorization: 'Bearer ' + Cookies.get("jwt") } 
             }).then(response => {
               this.update();
-            }).catch(error => { console.log(error) });
+            }).catch(error => { console.error(error) });
         }
-      }).catch(error => { console.log(error) });
+      }).catch(error => { console.error(error) });
   };
 
 	autosave = () => {
@@ -345,7 +349,7 @@ class UploadTab extends React.Component {
 		  }, { headers: { Authorization: 'Bearer ' + Cookies.get("jwt") } 
       }).then(response => { // Handle success
         this.update();
-      }).catch(error => { console.log(error) }); // Handle Error
+      }).catch(error => { console.error(error) }); // Handle Error
   }
 
 	onHeightChange = (e) => {
@@ -380,7 +384,6 @@ class UploadTab extends React.Component {
 	}
 
 	onStyleChange = (value, tag, e) => {
-    console.log("Changing Styles")
     var codeData = this.state.codeData;
     if (typeof codeData.styles === "undefined"){
       codeData.styles = {};

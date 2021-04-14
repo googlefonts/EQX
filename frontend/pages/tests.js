@@ -49,7 +49,7 @@ const apiUrl = publicRuntimeConfig.API_URL || 'http://localhost:1337';
 //       }, {
 //         headers: { Authorization: 'Bearer ' + Cookies.get("jwt") }
 //       }).catch(error => {
-//         console.log(error); // Handle error 
+//         console.error(error); // Handle error 
 //       }).then(response => { // Handle success
 //         this.handleClose();
 //       });
@@ -142,7 +142,7 @@ class TestPage extends React.Component {
       }).then(response => { // Handle success
         this.setState({ projects: response.data });
 
-      }).catch(error => { console.log(error); }); // Handle error 
+      }).catch(error => { console.error(error); }); // Handle error 
   }
 
   render() {

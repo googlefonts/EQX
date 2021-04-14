@@ -53,7 +53,7 @@ class TestResultsPage extends React.Component {
       }).then(test => { // Handle success
         
           this.setState({test: test.data});
-      }).catch(error => { console.log(error) });
+      }).catch(error => { console.error(error) });
   }
 
   render() {

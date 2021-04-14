@@ -41,7 +41,7 @@ class TestQuestions extends React.Component {
       }, {
         headers: { Authorization: 'Bearer ' + Cookies.get("jwt") }
       }).catch(error => {
-        console.log(error);  // Handle Error
+        console.error(error);  // Handle Error
       }).then(response => { // Handle success
         axios
           .put(apiUrl + '/tests/' + this.props.test.id, {
@@ -49,7 +49,7 @@ class TestQuestions extends React.Component {
           }, {
             headers: { Authorization: 'Bearer ' + Cookies.get("jwt") }
           }).catch(error => {
-            console.log(error); // Handle Error
+            console.error(error); // Handle Error
           }).then(response => { // Handle success
             Router.push("/create-question?test=" + this.props.test.id + "&question=" + (this.props.test.questions.length + 1))
           });
