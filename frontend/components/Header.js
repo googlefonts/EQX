@@ -126,7 +126,7 @@ class Header extends React.Component {
               <Grid item xs={6} className="header-right" align="right">
                 {this.props.auth ? (	
                   <>
-                    <Typography display="inline" style={{top: "4px", position: "relative"}} variant="h6" >{this.props.loggedUser ? this.props.loggedUser : ""}</Typography>
+                    <Typography display="inline" style={{top: "4px", position: "relative"}} variant="h6" >{this.props.loggedUser ? decodeURI(this.props.loggedUser) : ""}</Typography>
                     <Avatar/>
                     <IconButton color="primary" aria-label="notifications" style={{marginTop: "5px"}}>
                       <NotificationsIcon style={{fontSize: "26px"}}/>
