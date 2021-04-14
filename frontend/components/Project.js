@@ -391,21 +391,21 @@ class FontRow extends React.Component {
 			Object.keys(this.props.font).length > 0
 		){
 			this.setState({
-        name: typeof this.props.font.info.name.records.preferredFamily[Object.keys(this.props.font.info.name.records.preferredFamily)[0]] !== "undefined" ? this.props.font.info.name.records.preferredFamily[Object.keys(this.props.font.info.name.records.preferredFamily)[0]] : "Nameless Typeface",
-        weight: this.props.font.variable && this.props.font.info.variationAxes.hasOwnProperty('wght') ? "[" + this.props.font.info.variationAxes.wght.min + " - " + this.props.font.info.variationAxes.wght.max + "]" : this.props.font.info.name.records.preferredSubfamily[Object.keys(this.props.font.info.name.records.preferredSubfamily)[0]],
-        style: typeof this.props.font.info.name.records.fontSubfamily[Object.keys(this.props.font.info.name.records.fontSubfamily)[0]] !== "undefined" ? this.props.font.info.name.records.fontSubfamily[Object.keys(this.props.font.info.name.records.fontSubfamily)[0]] : "Nameless Style",
+        name: typeof this.props.font.info.name.records.preferredFamily !== "undefined" && typeof this.props.font.info.name.records.preferredFamily[Object.keys(this.props.font.info.name.records.preferredFamily)[0]] !== "undefined" ? this.props.font.info.name.records.preferredFamily[Object.keys(this.props.font.info.name.records.preferredFamily)[0]] : "Nameless Typeface",
+        weight: this.props.font.variable && typeof this.props.font.info.variationAxes !== "undefined" && this.props.font.info.variationAxes.hasOwnProperty('wght') ? "[" + this.props.font.info.variationAxes.wght.min + " - " + this.props.font.info.variationAxes.wght.max + "]" : "",
+        style: typeof this.props.font.info.name.records.fontSubfamily !== "undefined" && typeof this.props.font.info.name.records.fontSubfamily[Object.keys(this.props.font.info.name.records.fontSubfamily)[0]] !== "undefined" ? this.props.font.info.name.records.fontSubfamily[Object.keys(this.props.font.info.name.records.fontSubfamily)[0]] : "",
 			})
 		}
 	}
 
 	delete = () => { 
 		axios
-      .delete(apiUrl + '/fonts/' + this.props.font.id
-        , { headers: { Authorization: 'Bearer ' + Cookies.get("jwt") } 
-        }).catch(error => { console.log(error);  // Handle Error
-        }).then(response => { // Handle success
-          this.props.update();
-        });
+      .delete(apiUrl + '/fonts/' + this.props.font.id, 
+        { headers: { Authorization: 'Bearer ' + Cookies.get("jwt") } 
+      }).catch(error => { console.log(error);  // Handle Error
+      }).then(response => { // Handle success
+        this.props.update();
+      });
 	}
 
 	// onQuestionChange = (e) => {
@@ -478,6 +478,8 @@ class ProjectFonts extends React.Component {
         }).catch(error => { console.log(error); // Handle error
         }).then(response => {
           var fontFile = response.data[0];
+          console.log("file upload");
+          console.log(response);
           axios
             .post('/api/font-info', {
               url: response.data[0].url,
@@ -485,9 +487,11 @@ class ProjectFonts extends React.Component {
               jwt: Cookies.get("jwt")
             }).catch(error => { console.log(error); // Handle error
             }).then(response => {
-              var fontInfo = response.data;
+              console.log("font info");
+              console.log(response);
+              var fontInfo = response.data ? response.data : {};
               var variable = false;
-              if (Object.keys(fontInfo.variationAxes).length){
+              if (fontInfo.variationAxes && Object.keys(fontInfo.variationAxes).length){
                 variable = true;
               }
 
@@ -503,7 +507,7 @@ class ProjectFonts extends React.Component {
                 major_version: 0,
                 minor_version: 1,
                 project: this.props.project.id,
-                info: fontInfo})
+                info: fontInfo ? fontInfo : {}})
 
               axios
                 .post(apiUrl + '/fonts', {
@@ -515,10 +519,12 @@ class ProjectFonts extends React.Component {
                   major_version: 0,
                   minor_version: 1,
                   project: this.props.project.id,
-                  info: fontInfo
+                  info: fontInfo ? fontInfo : {}
                 }, { headers: { Authorization: 'Bearer ' + Cookies.get("jwt") } 
                 }).catch(err => { console.log(err);  // Handle Error
                 }).then(response => { // Handle success
+                  console.log("font file created")
+                  console.log(response)
                   this.props.update();
                 });
             });
