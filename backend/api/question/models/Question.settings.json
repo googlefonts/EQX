@@ -44,8 +44,8 @@
       "type": "boolean"
     },
     "test": {
-      "via": "questions",
-      "model": "test"
+      "model": "test",
+      "via": "questions"
     },
     "source": {
       "type": "string"
@@ -70,12 +70,15 @@
       "component": "images.reference-images"
     },
     "comments": {
-      "via": "question",
-      "collection": "comment"
+      "collection": "comment",
+      "via": "question"
     },
     "answers": {
-      "via": "question",
-      "collection": "answer"
+      "collection": "answer",
+      "via": "question"
+    },
+    "grade": {
+      "type": "decimal"
     }
   }
 }

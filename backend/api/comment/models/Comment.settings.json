@@ -35,8 +35,8 @@
       "type": "integer"
     },
     "question": {
-      "model": "question",
-      "via": "comments"
+      "via": "comments",
+      "model": "question"
     },
     "number": {
       "type": "integer"

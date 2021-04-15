@@ -337,7 +337,7 @@ class SharedTest extends React.Component {
                       <Box component="span" color="grey.400"> v.{this.state.test.major_version}.{this.state.test.minor_version}</Box> */}
                     </Typography>
                   </Box>
-                  <Box>
+                  {/* <Box> */}
                     <Box component="span" color="purple" className="inline-button" mr={2} >
                       <Button color="primary" size="large" variant="contained" >View</Button>
                     </Box>
@@ -358,7 +358,7 @@ class SharedTest extends React.Component {
                     <Typography display="inline" variant="body2">
                       <Box component="span" color="purple" className="inline-button" >Share</Box>
                     </Typography> */}
-                  </Box>
+                  {/* </Box> */}
                 </Grid>
                 <Grid item xs={4}>
                   <RadialGrade grade={this.state.test.grade ? Number(this.state.test.grade) : 0} />

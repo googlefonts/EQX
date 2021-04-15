@@ -14,6 +14,9 @@ const apiUrl = publicRuntimeConfig.API_URL || 'http://localhost:1337';
 const { Parser } = require('json2csv');
 import Router from 'next/router';
 import RadialGrade from "../components/RadialGrade";
+import RadialGradeSmall from "../components/RadialGradeSmall";
+import eachOf from 'async/eachOf';
+import async from 'async';
 
 //////////////////////////////
 // Create Test Page
@@ -24,6 +27,8 @@ class TestResultsPage extends React.Component {
     this.state = {
       page: "test-results",
       test: {},
+      testCompleteness: 0,
+      testGrade: 0
     };
   }
   
@@ -52,7 +57,66 @@ class TestResultsPage extends React.Component {
         headers: { Authorization: "Bearer " + Cookies.get("jwt") }
       }).then(test => { // Handle success
         
-          this.setState({test: test.data});
+        var test = test.data;
+        let questionLength = 0;
+        if (typeof test.questions !== 'undefined' && test.questions > 0) {
+          questionLength = test.questions;
+        }
+        this.setState({test: test});
+        async.eachOf(test.questions, (question, i, callback) => {
+          axios // Get Question
+          .get(apiUrl + "/questions/" + question.id, 
+            { headers: { Authorization: 'Bearer ' + Cookies.get("jwt") } 
+          }).catch(error => { console.error(error); // Handle Error
+          }).then(question => { // Handle success
+            test.questions[i] = question.data;
+            callback();
+          });
+
+        }, (err, results) => {
+
+          // Find Total Answers
+          var userAnswers = 0;
+          test.questions.forEach(question => {
+            question.answers.forEach(answer => {
+              if (answer.user = Cookies.get("id")){
+                userAnswers++
+              }
+            });
+          });
+          var testCompleteness = userAnswers / test.questions.length * 100;
+
+          // Find Total Questions and set Question Grade
+          var answeredQuestions = 0;
+          test.questions.forEach(question => {
+            var grade = 0;
+            question.answers.forEach(answer => {
+              if (answer.true){
+                grade += 100 / question.answers.length
+              }
+            });
+            if(question.answers.length){
+              answeredQuestions++;
+            } else {
+              grade = null;
+            }
+            question.grade = grade;
+          });
+
+          // Find and Set Test Grade
+          var testGrade = 0;
+          test.questions.forEach(question => {
+            if(question.answers.length){
+              testGrade += question.grade / answeredQuestions;
+            }
+          });
+
+          this.setState({ 
+            test: test,
+            testCompleteness: testCompleteness ? testCompleteness : 0,
+            testGrade: testGrade ? testGrade : null
+          });
+        });
       }).catch(error => { console.error(error) });
   }
 
@@ -78,14 +142,14 @@ class TestResultsPage extends React.Component {
               </Box>
             </Grid>
             <Grid item xs={4}>
-              <RadialGrade grade={this.state.test.grade ? Number(this.state.test.grade) : 0} />
+              <RadialGrade grade={this.state.testGrade ? Number(this.state.testGrade) : 0} />
             </Grid>
             <Grid item xs={12}>
               <Box style={{ float: "left", width: "calc(100% - 150px)", display: "inline-block" }}>
-                <LinearProgress style={{ height: "40px"}} className="linear-progress-thick" variant="determinate" value={0} />
+                <LinearProgress style={{ height: "40px"}} className="linear-progress-thick" variant="determinate" value={this.state.testCompleteness ? Math.ceil(this.state.testCompleteness) : 0} />
               </Box>
-              <Box style={{ borderRadius: "0 5px 5px 0", float: "left", position: "relative", padding: "0 10px 0 0 ", background: "rgb(217, 172, 224)", width: "150px", display: "inline-block" }}>
-                <Typography style={{color: "#9c27b0", lineHeight: "40px"}} align="right" variant="h5">{0}% Done</Typography>
+              <Box style={{ borderRadius: "0 5px 5px 0", float: "left", position: "relative", padding: "0 10px 0 0 ", background: this.state.testCompleteness >= 100 ? "#9c27b0" : "rgb(217, 172, 224)", width: "150px", display: "inline-block" }}>
+                <Typography style={{color: "#9c27b0", lineHeight: "40px"}} align="right" variant="h5">{this.state.testCompleteness ? Math.ceil(this.state.testCompleteness) : 0}% Done</Typography>
               </Box>
             </Grid>
             <Grid item xs={12}>
@@ -93,7 +157,7 @@ class TestResultsPage extends React.Component {
             </Grid>
           </Grid>
         </Box>       
-        <Box pt={8} pb={8} bgcolor="rgb(156, 39, 176)">
+        <Box pt={0} pb={0} bgcolor="background.paper2">
           <Grid container spacing={4} className="section">
             <Grid item xs={12}>
               {(this.state.test.questions && this.state.test.questions.length) ?
@@ -102,12 +166,17 @@ class TestResultsPage extends React.Component {
                     <Box pt={2} pb={2} width="100%">
                       <Grid container spacing={2}>
                         <Grid item xs={8}>
-                          <Typography variant="body1" style={{color: "white", maxWidth: "initial"}}>
+                          <Typography variant="body1" style={{maxWidth: "initial"}}>
                             { (typeof question.question !== "undefined" && question.question && question.question.trim() !== "" ) ? 
-                              question.question  : 
-                              <Box color="text.disabled" component="span" className="blank">Blank Question</Box>
+                              question.question : 
+                              <Box component="span" className="blank">Blank Question</Box>
                             }
                           </Typography>
+                        </Grid>
+                        <Grid item xs={4}>
+                          {console.log(question.grade)}
+                          <RadialGradeSmall grade={question.grade !== null ? question.grade : "?"} />
+                          {/* <h1>hi</h1> */}
                         </Grid>
                       </Grid>
                     </Box>

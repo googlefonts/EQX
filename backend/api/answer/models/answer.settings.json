@@ -20,8 +20,8 @@
       "via": "answers"
     },
     "question": {
-      "model": "question",
-      "via": "answers"
+      "via": "answers",
+      "model": "question"
     }
   }
 }

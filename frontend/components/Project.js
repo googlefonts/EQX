@@ -7,6 +7,7 @@ import Strapi from 'strapi-sdk-javascript/build/main';
 import axios from 'axios';
 import SharedTest from "../components/SharedTest";
 import getConfig from 'next/config';
+import Link from "next/link";
 const { serverRuntimeConfig, publicRuntimeConfig } = getConfig();
 const apiUrl = publicRuntimeConfig.API_URL || 'http://localhost:1337';
 const strapi = new Strapi(apiUrl);
@@ -67,16 +68,14 @@ class ProjectTests extends React.Component {
         archived: false,
       }, {
         headers: { Authorization: 'Bearer ' + Cookies.get("jwt") }
-      }).catch(error => {
-        console.error(error);  // Handle Error
+      }).catch(error => { console.error(error);  // Handle Error
       }).then(response => { // Handle success
         axios
           .put(apiUrl + '/projects/' + this.props.project.id, {
             tests: [...this.props.project.tests, response.data.id]
           }, {
             headers: { Authorization: 'Bearer ' + Cookies.get("jwt") }
-          }).catch(error => {
-            console.error(error); // Handle Error
+          }).catch(error => { console.error(error); // Handle Error
           }).then(response => { // Handle success
             this.handleClose();
             this.props.update();
@@ -84,6 +83,18 @@ class ProjectTests extends React.Component {
       })
   }
 
+  archive = (test) => {
+    axios
+      .put(apiUrl + '/tests/' + test.id, {
+        archived: !test.archived
+      }, {
+        headers: { Authorization: 'Bearer ' + Cookies.get("jwt") }
+      }).catch(err => { console.log(err); // Handle error
+      }).then(response => { // Handle success
+        this.props.update();
+      });
+
+  }
 
   render() {
     return (
@@ -101,36 +112,28 @@ class ProjectTests extends React.Component {
                         {/* <Box component="span" color="grey.400">({test.questions ? test.questions.length : "0"} Questions)</Box> */}
                       </Typography>
                       {/* <Box style={{ width: "calc(100% - 200px)", display: "inline-block" }}>
-                        <LinearProgress variant="determinate" value={test.completeness ? test.completeness : 0} />
+                        <LinearProgress variant="determinate" value={test.completeness ? Math.ceil(test.completeness) : 0} />
                       </Box>
                       <Typography style={{ width: "200px", display: "inline-block" }} align="right" variant="body1">{test.completeness}% Done</Typography>
                     */}
                       <Box style={{ width: "calc(100% - 110px)", display: "inline-block" }}>
-                        <LinearProgress variant="determinate" value={test.completeness ? test.completeness : 0} />
+                        <LinearProgress variant="determinate" value={test.completeness ? Math.ceil(test.completeness) : 0} />
                       </Box>
                       <Box style={{ position: "relative", top:"3px", padding: "1px 10px 0 0 ", borderRadius: "5px", background: "rgb(217, 172, 224)", width: "110px", display: "inline-block" }}>
-                        <Typography style={{color: "white"}} align="right" variant="h6">{test.completeness ? test.completeness : 0}% Done</Typography>
+                        <Typography style={{color: "white"}} align="right" variant="h6">{test.completeness ? Math.ceil(test.completeness) : 0}% Done</Typography>
                       </Box>
                     </Grid>
-
+                    {console.log("This keeps getting re rendered")}
                     <Grid item xs={12}>
-                      <Box>
+                      <Link href={"/test-results?test=" + (test.id ? test.id : "")}><a>
                         <Typography display="inline" variant="body2">
-                          <Box component="span">View</Box>
+                          <Box component="span" color="purple" className="inline-button" >See Results</Box>
                         </Typography>
-                        <Divider display="inline-block" orientation="vertical" />
-                        <Typography display="inline" variant="body2">
-                          <Box component="span" className="inline-button" >Answers</Box>
-                        </Typography>
-                        <Divider display="inline-block" orientation="vertical" />
-                        <Typography display="inline" variant="body2">
-                          <Box component="span" className="inline-button" >Comments</Box>
-                        </Typography>
-                        <Divider display="inline-block" orientation="vertical" />
-                        <Typography display="inline" variant="body2">
-                          <Box component="span" className="inline-button" >Remind</Box>
-                        </Typography>
-                      </Box>
+                      </a></Link>
+                      {/* <Divider display="inline-block" orientation="vertical" />
+                      <Typography display="inline" variant="body2">
+                        <Box component="span" color="purple" onClick={() => this.archive(test ? test : "")} className="inline-button" >Archive</Box>
+                      </Typography> */}
                     </Grid>
                   </Grid>
                 </Box>

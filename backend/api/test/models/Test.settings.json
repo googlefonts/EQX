@@ -34,8 +34,8 @@
       "required": true
     },
     "questions": {
-      "collection": "question",
-      "via": "test"
+      "via": "test",
+      "collection": "question"
     },
     "completeness": {
       "type": "float"

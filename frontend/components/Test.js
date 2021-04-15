@@ -40,7 +40,6 @@ class Test extends React.Component {
       }).catch(err => { console.log(err); // Handle error
       }).then(response => { // Handle success
         var test = response.data;
-        console.log(test);
         let questionLength = 0;
         if (typeof test.questions !== 'undefined' && test.questions > 0) {
           questionLength = test.questions;
@@ -117,10 +116,10 @@ class Test extends React.Component {
 
                   <Box className="progress-bar" pb={3}>
                     <Box style={{ width: "calc(100% - 110px)", display: "inline-block" }}>
-                      <LinearProgress variant="determinate" value={this.state.testCompleteness ? this.state.testCompleteness : 0} />
+                      <LinearProgress variant="determinate" value={this.state.testCompleteness ? Math.ceil(this.state.testCompleteness) : 0} />
                     </Box>
                     <Box style={{ position: "relative", top:"3px", padding: "1px 10px 0 0 ", borderRadius: "5px", background: this.state.testCompleteness >= 100 ? "#9c27b0" : "rgb(217, 172, 224)", width: "110px", display: "inline-block" }}>
-                      <Typography style={{color: "white"}} align="right" variant="h6">{this.state.testCompleteness ? this.state.testCompleteness : 0}% Done</Typography>
+                      <Typography style={{color: "white"}} align="right" variant="h6">{this.state.testCompleteness ? Math.ceil(this.state.testCompleteness) : 0}% Done</Typography>
                     </Box>
                   </Box>
                   <Box>

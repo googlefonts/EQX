@@ -241,7 +241,7 @@ class UploadTab extends React.Component {
       }
     })
     codeData.styleHTML += "</style>";
-    if(document.getElementById('code-visual').contentWindow.document.getElementById('ext-eqx-styles')){
+    if(typeof document.getElementById('code-visual') !== "undefined" && document.getElementById('code-visual').contentWindow.document.getElementById('ext-eqx-styles')){
       document.getElementById('code-visual').contentWindow.document.getElementById('ext-eqx-styles').innerHTML = codeData.styleHTML;
     
       var newCode_data = this.state.codeData;
