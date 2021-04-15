@@ -15,9 +15,9 @@ class RadialGrade extends React.Component {
     return (
       <Box p={1} align="right" className="radial-grade">
         <CircularProgress className="radial-background" variant="determinate" size={120} thickness={6} value={100} />
-        <CircularProgress variant="determinate" size={120} thickness={6} value={this.props.grade} />
+        <CircularProgress variant="determinate" size={120} thickness={6} value={Math.ceil(this.props.grade)} />
         <Box className="radial-info" align="center" >
-          <Typography className="radial-info-grade" color="primary" variant="h4">{this.props.grade}</Typography>
+          <Typography className="radial-info-grade" color="primary" variant="h4">{Math.ceil(this.props.grade)}</Typography>
           <Typography className="radial-info-label" color="primary" variant="body2">Grade</Typography>
         </Box>
       </Box>
