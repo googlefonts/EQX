@@ -75,6 +75,26 @@ class TestResultsPage extends React.Component {
 
         }, (err, results) => {
 
+          this.setState({test: test});
+
+          // Add responses to comments
+          async.eachOf(test.questions, (question, index, callback) => {
+            async.eachOf(question.comments, (comment, index2, callback2) => {
+              axios // Get Question
+              .get(apiUrl + "/comments/" + comment.id, 
+                { headers: { Authorization: 'Bearer ' + Cookies.get("jwt") } 
+              }).catch(error => { console.error(error); // Handle Error
+              }).then(comment => { // Handle success
+                test.questions[index].comments[index2] = comment.data;
+                callback2();
+              });
+            }, (err, results) => {
+              callback();
+            });
+          }, (err, results) => {
+            this.setState({test: test});
+          });
+
           // Find Total Answers
           var userAnswers = 0;
           test.questions.forEach(question => {
@@ -152,9 +172,6 @@ class TestResultsPage extends React.Component {
                 <Typography style={{color: "#9c27b0", lineHeight: "40px"}} align="right" variant="h5">{this.state.testCompleteness ? Math.ceil(this.state.testCompleteness) : 0}% Done</Typography>
               </Box>
             </Grid>
-            <Grid item xs={12}>
-              <Typography color="inherit" variant="body2">Completed by 0 of 1 users</Typography>
-            </Grid>
           </Grid>
         </Box>       
         <Box pt={0} pb={0} bgcolor="background.paper2">
@@ -162,7 +179,7 @@ class TestResultsPage extends React.Component {
             <Grid item xs={12}>
               {(this.state.test.questions && this.state.test.questions.length) ?
                 this.state.test.questions.map((question, i) =>
-                  <ListItem button key={"question-" + i}>
+                  <ListItem key={"question-" + i}>
                     <Box pt={2} pb={2} width="100%">
                       <Grid container spacing={2}>
                         <Grid item xs={8}>
@@ -174,10 +191,36 @@ class TestResultsPage extends React.Component {
                           </Typography>
                         </Grid>
                         <Grid item xs={4}>
-                          {console.log(question.grade)}
                           <RadialGradeSmall grade={question.grade !== null ? question.grade : "?"} />
-                          {/* <h1>hi</h1> */}
                         </Grid>
+                        <Grid item xs={12}>
+                                
+                          <Box className="progress-bar">
+                            <Box style={{ width: "calc(100% - 110px)", display: "inline-block" }}>
+                              <LinearProgress variant="determinate" value={ typeof question.answers !== "undefined" ? Math.ceil((question.answers.length / this.state.test.users.length) * 100) : 0} />
+                            </Box>
+                            <Box style={{ position: "relative", top:"3px", padding: "1px 10px 0 0 ", borderRadius: "5px", background: (typeof question.answers !== "undefined" && Math.ceil((question.answers.length / this.state.test.users.length) * 100) === 100) ? "#9c27b0" : "rgb(217, 172, 224)", width: "110px", display: "inline-block" }}>
+                              <Typography style={{color: "white"}} align="right" variant="h6">{ typeof question.answers !== "undefined" ? Math.ceil((question.answers.length / this.state.test.users.length) * 100) : 0}% Done</Typography>
+                            </Box>
+                            {typeof question.comments !== "undefined" && question.comments.length ? 
+                              <>
+                                <Typography display="inline" variant="body2">
+                                  <Box component="span">{question.comments.length > 1 ? question.comments.length + " Comments" : "1 Comment"}</Box>
+                                </Typography>
+                                <Divider display="inline-block" orientation="vertical" />
+                              </>
+                            :
+                              null
+                            }
+                            <Link href={"/answer-question?test=" + this.state.test.id + "&question=" + (i+1)}><a>
+                              <Typography display="inline" variant="body2">
+                                <Box component="span" color="purple" className="inline-button" >View Question</Box>
+                              </Typography>
+                            </a></Link>
+                            <Divider style={{opacity: "0"}} display="inline-block" orientation="vertical" />
+                          </Box>
+                        </Grid>
+
                       </Grid>
                     </Box>
                   </ListItem>
