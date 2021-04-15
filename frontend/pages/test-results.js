@@ -18,6 +18,25 @@ import RadialGradeSmall from "../components/RadialGradeSmall";
 import eachOf from 'async/eachOf';
 import async from 'async';
 
+
+const saveTemplateAsFile = (filename, jsonToWrite) => {
+  const blob = new Blob([jsonToWrite], { type: "text/json" });
+  const link = document.createElement("a");
+
+  link.download = filename;
+  link.href = window.URL.createObjectURL(blob);
+  link.dataset.downloadurl = ["text/json", link.download, link.href].join(":");
+
+  const evt = new MouseEvent("click", {
+      view: window,
+      bubbles: true,
+      cancelable: true,
+  });
+
+  link.dispatchEvent(evt);
+  link.remove()
+};
+
 //////////////////////////////
 // Create Test Page
 
@@ -28,7 +47,10 @@ class TestResultsPage extends React.Component {
       page: "test-results",
       test: {},
       testCompleteness: 0,
-      testGrade: 0
+      testGrade: 0,
+      totalAnswers: 0,
+      yourAnswers: 0,
+      yourCorrectAnswers: 0
     };
   }
   
@@ -96,23 +118,31 @@ class TestResultsPage extends React.Component {
           });
 
           // Find Total Answers
-          var userAnswers = 0;
+          var totalAnswers = 0;
           test.questions.forEach(question => {
             question.answers.forEach(answer => {
               if (answer.user = Cookies.get("id")){
-                userAnswers++
+                totalAnswers++
               }
             });
           });
-          var testCompleteness = userAnswers / test.questions.length * 100;
+          var testCompleteness = totalAnswers / test.questions.length * 100;
 
           // Find Total Questions and set Question Grade
           var answeredQuestions = 0;
+          var yourAnswers = 0;
+          var yourCorrectAnswers = 0;
           test.questions.forEach(question => {
             var grade = 0;
             question.answers.forEach(answer => {
               if (answer.true){
                 grade += 100 / question.answers.length
+              }
+              if (answer.user === Cookies.get("id")){
+                yourAnswers++;
+                if (answer.true){
+                  yourCorrectAnswers++;
+                }
               }
             });
             if(question.answers.length){
@@ -134,10 +164,20 @@ class TestResultsPage extends React.Component {
           this.setState({ 
             test: test,
             testCompleteness: testCompleteness ? testCompleteness : 0,
-            testGrade: testGrade ? testGrade : null
+            testGrade: testGrade ? testGrade : null,
+            totalAnswers: totalAnswers,
+            yourAnswers: yourAnswers,
+            yourCorrectAnswers: yourCorrectAnswers
+
           });
         });
       }).catch(error => { console.error(error) });
+  }
+
+
+  downloadTestJson = () => {
+    console.log(this.state.test)
+    saveTemplateAsFile(this.state.test.name, JSON.stringify(this.state.test));
   }
 
   render() {
@@ -171,6 +211,14 @@ class TestResultsPage extends React.Component {
               <Box style={{ borderRadius: "0 5px 5px 0", float: "left", position: "relative", padding: "0 10px 0 0 ", background: this.state.testCompleteness >= 100 ? "#9c27b0" : "rgb(217, 172, 224)", width: "150px", display: "inline-block" }}>
                 <Typography style={{color: "#9c27b0", lineHeight: "40px"}} align="right" variant="h5">{this.state.testCompleteness ? Math.ceil(this.state.testCompleteness) : 0}% Done</Typography>
               </Box>
+            </Grid>
+            <Grid item xs={12}>
+              <Box component="span" color="purple" className="inline-button" mr={2} >
+                <Button onClick={this.downloadTestJson} color="primary" size="large" variant="contained">Download</Button>
+              </Box>
+              <Typography color="inherit"  display="inline" variant="body2">{this.state.totalAnswers} total answers</Typography>
+              <Divider display="inline" orientation="vertical" />
+              <Typography color="inherit"  display="inline" variant="body2">You answered {this.state.yourAnswers} questions ({this.state.yourCorrectAnswers} passed)</Typography>
             </Grid>
           </Grid>
         </Box>       
