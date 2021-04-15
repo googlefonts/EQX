@@ -117,17 +117,6 @@ class TestResultsPage extends React.Component {
             this.setState({test: test});
           });
 
-          // Find Total Answers
-          var totalAnswers = 0;
-          test.questions.forEach(question => {
-            question.answers.forEach(answer => {
-              if (answer.user = Cookies.get("id")){
-                totalAnswers++
-              }
-            });
-          });
-          var testCompleteness = totalAnswers / test.questions.length * 100;
-
           // Find Total Questions and set Question Grade
           var answeredQuestions = 0;
           var yourAnswers = 0;
@@ -138,7 +127,7 @@ class TestResultsPage extends React.Component {
               if (answer.true){
                 grade += 100 / question.answers.length
               }
-              if (answer.user === Cookies.get("id")){
+              if (Number(answer.user) === Number(Cookies.get("id"))){
                 yourAnswers++;
                 if (answer.true){
                   yourCorrectAnswers++;
@@ -161,6 +150,24 @@ class TestResultsPage extends React.Component {
             }
           });
 
+          // Find user completeness of test
+          test.users.forEach((user) => {
+            var answeredQuestions = 0;
+            test.questions.forEach(question => {
+              if (question.answers.some(el => Number(el.user) === Number(user.id))) {
+                answeredQuestions++;
+              }
+            });
+            user.answeredQuestions = answeredQuestions;
+          });
+
+          // Find total completeness of test
+          var totalAnswers = 0;
+          test.users.forEach(user => {
+            totalAnswers += user.answeredQuestions;
+          });
+          var testCompleteness = (totalAnswers / (test.users.length * test.questions.length)) * 100;
+
           this.setState({ 
             test: test,
             testCompleteness: testCompleteness ? testCompleteness : 0,
@@ -176,7 +183,6 @@ class TestResultsPage extends React.Component {
 
 
   downloadTestJson = () => {
-    console.log(this.state.test)
     saveTemplateAsFile(this.state.test.name, JSON.stringify(this.state.test));
   }
 
@@ -250,22 +256,25 @@ class TestResultsPage extends React.Component {
                             <Box style={{ position: "relative", top:"3px", padding: "1px 10px 0 0 ", borderRadius: "5px", background: (typeof question.answers !== "undefined" && Math.ceil((question.answers.length / this.state.test.users.length) * 100) === 100) ? "#9c27b0" : "rgb(217, 172, 224)", width: "110px", display: "inline-block" }}>
                               <Typography style={{color: "white"}} align="right" variant="h6">{ typeof question.answers !== "undefined" ? Math.ceil((question.answers.length / this.state.test.users.length) * 100) : 0}% Done</Typography>
                             </Box>
-                            {typeof question.comments !== "undefined" && question.comments.length ? 
-                              <>
-                                <Typography display="inline" variant="body2">
-                                  <Box component="span">{question.comments.length > 1 ? question.comments.length + " Comments" : "1 Comment"}</Box>
-                                </Typography>
-                                <Divider display="inline-block" orientation="vertical" />
-                              </>
-                            :
-                              null
-                            }
                             <Link href={"/answer-question?test=" + this.state.test.id + "&question=" + (i+1)}><a>
                               <Typography display="inline" variant="body2">
                                 <Box component="span" color="purple" className="inline-button" >View Question</Box>
                               </Typography>
                             </a></Link>
-                            <Divider style={{opacity: "0"}} display="inline-block" orientation="vertical" />
+                            <Divider display="inline-block" orientation="vertical" />
+                            <Typography display="inline" variant="body2">
+                              <Box component="span">{(typeof question.answers !== "undefined" && this.state.test.users.length) ? question.answers.length + " of " + this.state.test.users.length + " members gave feedback" :  "0 members gave feedback"}</Box>
+                            </Typography>
+                            {typeof question.comments !== "undefined" && question.comments.length ? 
+                              <>
+                                <Divider display="inline-block" orientation="vertical" />
+                                <Typography display="inline" variant="body2">
+                                  <Box component="span">{question.comments.length > 1 ? question.comments.length + " Comments" : "1 Comment"}</Box>
+                                </Typography>
+                              </>
+                            :
+                              null
+                            }
                           </Box>
                         </Grid>
 

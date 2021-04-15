@@ -345,8 +345,8 @@ class AnswerQuestionFields extends React.Component {
   }
 
   matchStyles = () => {
-    console.log("match Styles")
-    console.log(this.state.question)
+    // console.log("match Styles")
+    // console.log(this.state.question)
     if(document.getElementById('code-visual').contentWindow.document.getElementById('ext-eqx-styles')){
       document.getElementById('code-visual').contentWindow.document.getElementById('ext-eqx-styles').innerHTML = this.state.question.code_data.styleHTML;
     }

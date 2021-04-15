@@ -1,5 +1,5 @@
 import React from "react";
-import { IconButton, Chip, Dialog, DialogTitle, DialogActions, DialogContentText, DialogContent, Button, TextField, Fab, Grid, LinearProgress, List, ListItem, ListItemAvatar, ListItemText, Avatar, AppBar, Tab, Tabs, Card, CardContent, Typography, Box, Divider } from '@material-ui/core';
+import { ListItemSecondaryAction, IconButton, Chip, Dialog, DialogTitle, DialogActions, DialogContentText, DialogContent, Button, TextField, Fab, Grid, LinearProgress, List, ListItem, ListItemAvatar, ListItemText, Avatar, AppBar, Tab, Tabs, Card, CardContent, Typography, Box, Divider } from '@material-ui/core';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import Cookies from "js-cookie";
@@ -13,7 +13,8 @@ const apiUrl = publicRuntimeConfig.API_URL || 'http://localhost:1337';
 const strapi = new Strapi(apiUrl);
 import EditableTitleAndDescription from "../components/EditableTitleAndDescription";
 import DeleteIcon from '@material-ui/icons/Delete';
-
+import eachOf from 'async/eachOf';
+import async from 'async';
 
 
 //////////////////////////////
@@ -116,20 +117,20 @@ class ProjectTests extends React.Component {
                       </Box>
                       <Typography style={{ width: "200px", display: "inline-block" }} align="right" variant="body1">{test.completeness}% Done</Typography>
                     */}
-                      <Box style={{ width: "calc(100% - 110px)", display: "inline-block" }}>
+                      {/* <Box style={{ width: "calc(100% - 110px)", display: "inline-block" }}>
                         <LinearProgress variant="determinate" value={test.completeness ? Math.ceil(test.completeness) : 0} />
                       </Box>
                       <Box style={{ position: "relative", top:"3px", padding: "1px 10px 0 0 ", borderRadius: "5px", background: "rgb(217, 172, 224)", width: "110px", display: "inline-block" }}>
                         <Typography style={{color: "white"}} align="right" variant="h6">{test.completeness ? Math.ceil(test.completeness) : 0}% Done</Typography>
-                      </Box>
-                    </Grid>
-                    {console.log("This keeps getting re rendered")}
+                      </Box> */}
+                    {/* </Grid> */}
+                    {/* {console.log("This keeps getting re rendered")}
                     <Grid item xs={12}>
                       <Link href={"/test-results?test=" + (test.id ? test.id : "")}><a>
                         <Typography display="inline" variant="body2">
                           <Box component="span" color="purple" className="inline-button" >See Results</Box>
                         </Typography>
-                      </a></Link>
+                      </a></Link> */}
                       {/* <Divider display="inline-block" orientation="vertical" />
                       <Typography display="inline" variant="body2">
                         <Box component="span" color="purple" onClick={() => this.archive(test ? test : "")} className="inline-button" >Archive</Box>
@@ -276,8 +277,23 @@ class ProjectMembers extends React.Component {
         headers: { Authorization: 'Bearer ' + Cookies.get("jwt") }
       }).catch(error => { console.error(error); // Handle error 
       }).then(response => { // Handle success
-        this.handleClose();
-        this.props.update();
+        console.log(response)
+        async.eachOf(response.data.tests, (test, i, callback) => {
+          axios // Add users to all of projects tests
+            .put(apiUrl + '/tests/' + test.id, {
+              users: this.state.currentUsers.map(i => i = i.id),
+            }, {
+              headers: { Authorization: 'Bearer ' + Cookies.get("jwt") }
+            }).catch(error => { console.error(error); // Handle error 
+            }).then(response => { // Handle success
+              callback();
+            });
+        }, (err, results) => {
+
+          this.handleClose();
+          this.props.update();
+        })
+        
       });
   }
 
@@ -294,6 +310,11 @@ class ProjectMembers extends React.Component {
                   </ListItemAvatar>
                   <ListItemText primary={member.username} secondary={member.email} />
                 </ListItem>
+                {/* <ListItemSecondaryAction>
+                  <IconButton edge="end" aria-label="delete">
+                    <DeleteIcon />
+                  </IconButton>
+                </ListItemSecondaryAction> */}
               </Box>
             )
           }
@@ -686,18 +707,18 @@ class Project extends React.Component {
   render() {
     return (
       <Box mb={6} position="relative">
-        <Card elevation={this.state.elevation} onMouseOver={this.cardOver} onMouseOut={this.cardOut}>
+        <Card elevation={this.state.elevation} onMouseEnter={this.cardOver} onMouseLeave={this.cardOut}>
 
-          {/* Genral Info */}
+          {/* General Info */}
           <CardContent >
             <Box p={1}>
               <EditableTitleAndDescription nameValue={this.state.project.name} descValue={this.state.project.description} item={this.state.project} type="project" {...this.state}/>
               <Typography display="inline" variant="body2">
                 <span>
                   {(this.state.project.tests && this.state.project.tests.length) ? (
-                    <span>0 of {this.state.project.tests.length} tests complete</span>
+                    <span>{this.state.project.tests.length > 1 ? this.state.project.tests.length+ " tests available" : "1 test available"}</span>
                   ) : (
-                      <span>0 tests</span>
+                      <span>0 tests available</span>
                     )}
                 </span>
               </Typography>

@@ -94,7 +94,7 @@ class Test extends React.Component {
   render() {
     return (
       <Box mb={6} className="test-container" position="relative">
-        <Card elevation={this.state.elevation} onMouseOver={this.cardOver} onMouseOut={this.cardOut}>
+        <Card elevation={this.state.elevation} onMouseEnter={this.cardOver} onMouseLeave={this.cardOut}>
 
           {/* General Info */}
           <CardContent >

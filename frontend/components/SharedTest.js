@@ -13,7 +13,8 @@ const strapi = new Strapi(apiUrl);
 import Router from 'next/router';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditableTitleAndDescription from "../components/EditableTitleAndDescription";
-
+import eachOf from 'async/eachOf';
+import async from 'async';
 
 //////////////////////////////
 // Test Tests
@@ -153,40 +154,44 @@ class TestMembers extends React.Component {
           <ListItem >
             <Box p={1} pt={2} width="100%">
               <Grid container spacing={2}>
+
                 <Grid item xs={12}>
                   <Box style={{ float: "left", width: "calc(100% - 150px)", display: "inline-block" }}>
-                    <LinearProgress style={{ height: "40px"}} className="linear-progress-thick" variant="determinate" value={0} />
+                    <LinearProgress style={{ height: "40px"}} className="linear-progress-thick linear-progress-white" variant="determinate" value={this.props.testCompleteness ? Math.ceil(this.props.testCompleteness) : 0} />
                   </Box>
-                  <Box style={{ borderRadius: "0 5px 5px 0", float: "left", position: "relative", padding: "0 10px 0 0 ", background: "rgb(217, 172, 224)", width: "150px", display: "inline-block" }}>
-                    <Typography style={{color: "#9c27b0", lineHeight: "40px"}} align="right" variant="h5">{0}% Done</Typography>
+                  <Box style={{ borderRadius: "0 5px 5px 0", float: "left", position: "relative", padding: "0 10px 0 0 ", background: this.props.testCompleteness >= 100 ? "#9c27b0" : "rgb(217, 172, 224)", width: "150px", display: "inline-block" }}>
+                    <Typography style={{color: "#9c27b0", lineHeight: "40px"}} align="right" variant="h5">{this.props.testCompleteness ? Math.ceil(this.props.testCompleteness) : 0}% Done</Typography>
                   </Box>
                 </Grid>
+                
                 <Grid item xs={12}>
-                  <Typography color="inherit" variant="body2">Completed by 0 of 1 users</Typography>
+                  <Typography color="inherit"  display="inline" variant="body2">{this.props.totalAnswers} total answers</Typography>
+                  <Divider display="inline" orientation="vertical" />
+                  <Typography color="inherit"  display="inline" variant="body2">You answered {this.props.yourAnswers} questions ({this.props.yourCorrectAnswers} passed)</Typography>
                 </Grid>
               </Grid>
             </Box>
           </ListItem>
 
           {(this.props.test.users && this.props.test.users.length) &&
-            this.props.test.users.map((member, i) =>
+            this.props.test.users.map((user, i) =>
               <ListItem key={"test-member-" + i}>
                 <Box p={1} pt={2} width="100%">
                   <Grid container spacing={0}>
                     <Grid item xs={12}>
                       <Box style={{ width: "calc(100% - 110px)", display: "inline-block" }}>
-                        <LinearProgress variant="determinate" value={0} />
+                        <LinearProgress className="linear-progress-white" variant="determinate" value={user.answeredQuestions ? Math.ceil(user.answeredQuestions / this.props.test.questions.length * 100) : 0} />
                       </Box>
-                      <Box style={{ position: "relative", top:"3px", padding: "1px 10px 0 0 ", borderRadius: "5px", background: "rgb(217, 172, 224)", width: "110px", display: "inline-block" }}>
-                        <Typography style={{color: "#9c27b0"}} align="right" variant="h6">{0}% Done</Typography>
+                      <Box style={{ position: "relative", top:"3px", padding: "1px 10px 0 0 ", borderRadius: "5px", background: Math.ceil(user.answeredQuestions / this.props.test.questions.length * 100) >= 100 ? "white" : "rgb(217, 172, 224)", width: "110px", display: "inline-block" }}>
+                        <Typography style={{color: "#9c27b0"}} align="right" variant="h6">{user.answeredQuestions ? Math.ceil(user.answeredQuestions / this.props.test.questions.length * 100) : 0}% Done</Typography>
                       </Box>
                     </Grid>
                     <Grid item xs={12}>
                       <Box>
                         <Typography display="inline" variant="body2">
-                          <Box component="span">{member.username}</Box>
+                          <Box component="span">{user.username}</Box>
                         </Typography>
-                        <Divider display="inline-block" orientation="vertical" />
+                        {/* <Divider display="inline-block" orientation="vertical" />
                         <Typography display="inline" variant="body2">
                           <Box component="span" className="inline-button" >Answers</Box>
                         </Typography>
@@ -197,7 +202,7 @@ class TestMembers extends React.Component {
                         <Divider display="inline-block" orientation="vertical" />
                         <Typography display="inline" variant="body2">
                           <Box component="span" className="inline-button" >Remind</Box>
-                        </Typography>
+                        </Typography> */}
                       </Box>
                     </Grid>
                   </Grid>
@@ -270,7 +275,12 @@ class SharedTest extends React.Component {
     this.state = {
       elevation: 3,
       tabValue: 0,
-      test: {}
+      test: {},
+      testCompleteness: 0,
+      testGrade: 0,
+      totalAnswers: 0,
+      yourAnswers: 0,
+      yourCorrectAnswers: 0
     };
   }
 
@@ -281,11 +291,110 @@ class SharedTest extends React.Component {
   update = () => {
     axios
       .get(apiUrl + '/tests/' + this.props.testId, {
-        headers: { Authorization: 'Bearer ' + Cookies.get("jwt") }
-      }).catch(err => { console.log(err); // Handle error
-      }).then(response => { // Handle success
-        this.setState({ test: response.data});
-      });
+        headers: { Authorization: "Bearer " + Cookies.get("jwt") }
+      }).then(test => { // Handle success
+        
+        var test = test.data;
+        let questionLength = 0;
+        if (typeof test.questions !== 'undefined' && test.questions > 0) {
+          questionLength = test.questions;
+        }
+        this.setState({test: test});
+        async.eachOf(test.questions, (question, i, callback) => {
+          axios // Get Question
+          .get(apiUrl + "/questions/" + question.id, 
+            { headers: { Authorization: 'Bearer ' + Cookies.get("jwt") } 
+          }).catch(error => { console.error(error); // Handle Error
+          }).then(question => { // Handle success
+            test.questions[i] = question.data;
+            callback();
+          });
+
+        }, (err, results) => {
+
+          this.setState({test: test});
+
+          // Add responses to comments
+          async.eachOf(test.questions, (question, index, callback) => {
+            async.eachOf(question.comments, (comment, index2, callback2) => {
+              axios // Get Question
+              .get(apiUrl + "/comments/" + comment.id, 
+                { headers: { Authorization: 'Bearer ' + Cookies.get("jwt") } 
+              }).catch(error => { console.error(error); // Handle Error
+              }).then(comment => { // Handle success
+                test.questions[index].comments[index2] = comment.data;
+                callback2();
+              });
+            }, (err, results) => {
+              callback();
+            });
+          }, (err, results) => {
+            this.setState({test: test});
+          });
+
+          // Find Total Questions and set Question Grade
+          var answeredQuestions = 0;
+          var yourAnswers = 0;
+          var yourCorrectAnswers = 0;
+          test.questions.forEach(question => {
+            var grade = 0;
+            question.answers.forEach(answer => {
+              if (answer.true){
+                grade += 100 / question.answers.length
+              }
+              if (answer.user === Cookies.get("id")){
+                yourAnswers++;
+                if (answer.true){
+                  yourCorrectAnswers++;
+                }
+              }
+            });
+            if(question.answers.length){
+              answeredQuestions++;
+            } else {
+              grade = null;
+            }
+            question.grade = grade;
+          });
+
+          // Find and Set Test Grade
+          var testGrade = 0;
+          test.questions.forEach(question => {
+            if(question.answers.length){
+              testGrade += question.grade / answeredQuestions;
+            }
+          });
+
+          // Find user completeness of test
+          test.users.forEach((user) => {
+            var answeredQuestions = 0;
+            test.questions.forEach(question => {
+              if (question.answers.some(el => Number(el.user) === Number(user.id))) {
+                answeredQuestions++;
+              }
+            });
+            user.answeredQuestions = answeredQuestions;
+          });
+
+          // Find total completeness of test
+          var totalAnswers = 0;
+          test.users.forEach(user => {
+            totalAnswers += user.answeredQuestions;
+          });
+          var testCompleteness = (totalAnswers / (test.users.length * test.questions.length)) * 100;
+
+
+          this.setState({ 
+            test: test,
+            testCompleteness: testCompleteness ? testCompleteness : 0,
+            testGrade: testGrade ? testGrade : null,
+            totalAnswers: totalAnswers,
+            yourAnswers: yourAnswers,
+            yourCorrectAnswers: yourCorrectAnswers
+
+          });
+        });
+      }).catch(error => { console.error(error) });
   }
 
 
@@ -318,7 +427,7 @@ class SharedTest extends React.Component {
   render() {
     return (
       <Box mb={this.props.modal === true ? 0 : 6} className="test-container" position="relative">
-        <Card elevation={this.state.elevation} onMouseOver={this.cardOver} onMouseOut={this.cardOut}>
+        <Card elevation={this.state.elevation} onMouseEnter={this.cardOver} onMouseLeave={this.cardOut}>
 
           {/* General Info */}
           <CardContent >
@@ -338,15 +447,14 @@ class SharedTest extends React.Component {
                     </Typography>
                   </Box>
                   {/* <Box> */}
-                    <Box component="span" color="purple" className="inline-button" mr={2} >
-                      <Button color="primary" size="large" variant="contained" >View</Button>
-                    </Box>
                     <Link href={"/test-results?test=" + this.state.test.id}><a>
                       <Typography display="inline" variant="body2">
-                        <Box component="span" color="purple" className="inline-button" >See Results</Box>
+                        <Box component="span" color="purple" className="inline-button" mr={2} >
+                          <Button color="primary" size="large" variant="contained" >See Results</Button>
+                        </Box>
                       </Typography>
                     </a></Link>
-                    <Divider display="inline-block" orientation="vertical" />
+                    {/* <Divider display="inline-block" orientation="vertical" /> */}
                     <Typography display="inline" variant="body2">
                       <Box component="span" color="purple" onClick={this.archive} className="inline-button" >Archive</Box>
                     </Typography>
@@ -361,7 +469,7 @@ class SharedTest extends React.Component {
                   {/* </Box> */}
                 </Grid>
                 <Grid item xs={4}>
-                  <RadialGrade grade={this.state.test.grade ? Number(this.state.test.grade) : 0} />
+                  <RadialGrade grade={this.state.testGrade ? Number(this.state.testGrade) : 0} />
                 </Grid>
               </Grid>
             </Box>

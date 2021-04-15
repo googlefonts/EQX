@@ -106,8 +106,6 @@ main{
 }
 
 
-
-
 /*—————————————————————————*/
 /* Sidebar Adjustments     */
 /*—————————————————————————*/
@@ -130,7 +128,7 @@ main{
 
 
 /*—————————————————————————*/
-/* M UI Adjustments        */
+/* MUI Adjustments        */
 /*—————————————————————————*/
 
 .auth-card{
@@ -151,8 +149,10 @@ main{
 }
 
 
-////////////////////////
-// Tab Changes
+
+/*—————————————————————————*/
+/* Tab Changes             */
+/*—————————————————————————*/
 
 .tabContainer{
 	max-height: 250px;
@@ -161,9 +161,9 @@ main{
 
 
 
-/////////////////////
-// List Changes
-
+/*—————————————————————————*/
+/* List Changes            */
+/*—————————————————————————*/
 
 .MuiListItem-root{
 	+ .MuiListItem-root{
@@ -183,12 +183,11 @@ main{
 }
 
 
-/////////////////////
-// FAB Changes
+/*—————————————————————————*/
+/* FAB Changes             */
+/*—————————————————————————*/
 
 .overflow-fab-wrap{
-	// height: 10px;
-	// position: relative;
 	.overflow-fab{
 		position: absolute;
 		right: 1rem; 
@@ -198,8 +197,9 @@ main{
 
 
 
-//////////////////////
-// radial-grade
+/*—————————————————————————*/
+/* Radial Grade Changes    */
+/*—————————————————————————*/ 
 
 .radial-grade{
 	position: relative;
@@ -237,8 +237,9 @@ main{
 }
 
 
-//////////////////////
-// Primary Background Changes
+/*—————————————————————————*/
+/* Primary Background      */
+/*—————————————————————————*/
 
 .primary-background{
 	color: rgba(white, 1);
@@ -249,10 +250,6 @@ main{
 		color: rgba(white, 1);
 	}
 }
-
-
-
-
 
 .edit-event.MuiIcon-root{
 	cursor: pointer;
@@ -271,12 +268,36 @@ main{
 }
 
 
-//////////////////////
-// Section style
+
+/*—————————————————————————*/
+/* Section styling         */
+/*—————————————————————————*/
 
 .section{
 	padding-left: 24px;
 	padding-right: 24px;
 	padding-top: 24px;
 	padding-bottom: 24px;
+}
+
+
+
+/*—————————————————————————*/
+/* Linear Progress Bar     */
+/*—————————————————————————*/
+
+.linear-progress-white .MuiLinearProgress-bar{
+	background: white;
+}
+
+
+
+/*—————————————————————————*/
+/* List Item			      */
+/*—————————————————————————*/
+
+.MuiListItemText-root{
+	span.MuiTypography-root{
+		max-width: initial;
+	}
 }
