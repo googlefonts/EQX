@@ -91,12 +91,14 @@ a, a:focus, a:active, a:hover{
 
 main{
 	margin-top: 60px; // Height of top-bar
+	padding-left: 16px;
+	padding-right: 16px;
 	.layout-wrapper[data-has-progress-header="answering"] &, .layout-wrapper[data-has-progress-header="creating"] &{
 		margin-top: 128px; // Height of top-bar
 	}
 	min-height: 90vh;
 	min-height: calc(100vh - 50px - 190px);
-	background: linear-gradient(45deg, $mdc-theme-primary-light, $mdc-theme-primary-light, $mdc-theme-primary);
+	background: linear-gradient(45deg, $color-300, $color-300, $color-900);
 	&:not(.no-auth){
 		padding-right: 230px;
 	}

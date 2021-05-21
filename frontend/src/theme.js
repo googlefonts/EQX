@@ -1,18 +1,24 @@
 import { createMuiTheme, responsiveFontSizes } from '@material-ui/core/styles';
-import { purple } from '@material-ui/core/colors';
+import { grey } from '@material-ui/core/colors';
 
 // purple reference
-// 50		#f3e5f5			// 100	#e1bee7
-// 200	#ce93d8			// 300	#ba68c8
-// 400	#ab47bc			// 500	#9c27b0 // DEFAULT
-// 600	#8e24aa			// 700	#7b1fa2
-// 800	#6a1b9a			// 900	#4a148c
-// A100	#ea80fc			// A200	#e040fb
-// A400	#d500f9			// A700	#aa00ff
+// 50		#f3e5f5			100	#e1bee7
+// 200	#ce93d8			300	#ba68c8
+// 400	#ab47bc			500	#9c27b0 // DEFAULT
+// 600	#8e24aa			700	#7b1fa2
+// 800	#6a1b9a			900	#4a148c
+
+// grey reference
+// 50		#fafafa		100	#f5f5f5
+// 200	#eeeeee		300	#e0e0e0
+// 400	#bdbdbd		500	#9e9e9e // DEFAULT
+// 600	#757575		700	#616161
+// 800	#424242		900	#212121
+
 
 let theme = createMuiTheme({
 	palette: {
-   	primary: purple,
+   	primary: grey,
 		background: {
 			paper2: "rgb(245, 245, 245)",
 			footer: "rgb(224, 224, 224)"

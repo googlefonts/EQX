@@ -51,7 +51,7 @@ class Index extends React.Component {
     });
     return (
       <Layout page={this.state.page} {...this.props}>
-
+        {console.log("hi")}
         {(this.state.projects && this.state.projects.length) ?
           <>
             { hasTests ? 

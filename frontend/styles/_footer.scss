@@ -10,7 +10,7 @@ main{
 }
 
 footer{
-	background-color: $mdc-theme-grey100;
+	background-color: $color-grey-100;
 	padding-top: 2rem;
 	padding-bottom: 6rem;
   display: flex;
@@ -18,7 +18,7 @@ footer{
 }
 
 footer h1{
-	color: $mdc-theme-grey600;
+	color: $color-grey-600;
 	display: inline;
 	padding-left: 2rem;
 }
@@ -31,7 +31,7 @@ footer ul{
 footer li{
 	padding-right: 15px;
 	margin-right: 15px;
-	border-right: 1px solid $mdc-theme-grey200;
+	border-right: 1px solid $color-grey-200;
 	&:last-of-type{
 		border-right: none; 
 	}
@@ -43,5 +43,5 @@ footer li p{
 
 footer li p a{
 	text-decoration: none;
-	color: $mdc-theme-grey700;
+	color: $color-grey-700;
 }
