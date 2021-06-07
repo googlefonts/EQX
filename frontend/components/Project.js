@@ -120,7 +120,7 @@ class ProjectTests extends React.Component {
                       {/* <Box style={{ width: "calc(100% - 110px)", display: "inline-block" }}>
                         <LinearProgress variant="determinate" value={test.completeness ? Math.ceil(test.completeness) : 0} />
                       </Box>
-                      <Box style={{ position: "relative", top:"3px", padding: "1px 10px 0 0 ", borderRadius: "5px", background: "rgb(217, 172, 224)", width: "110px", display: "inline-block" }}>
+                      <Box style={{ position: "relative", top:"3px", padding: "1px 10px 0 0 ", borderRadius: "5px", background: theme.palette.primary.light, width: "110px", display: "inline-block" }}>
                         <Typography style={{color: "white"}} align="right" variant="h6">{test.completeness ? Math.ceil(test.completeness) : 0}% Done</Typography>
                       </Box> */}
                     {/* </Grid> */}
@@ -128,12 +128,12 @@ class ProjectTests extends React.Component {
                     <Grid item xs={12}>
                       <Link href={"/test-results?test=" + (test.id ? test.id : "")}><a>
                         <Typography display="inline" variant="body2">
-                          <Box component="span" color="purple" className="inline-button" >See Results</Box>
+                          <Box component="span" className="inline-button" >See Results</Box>
                         </Typography>
                       </a></Link> */}
                       {/* <Divider display="inline-block" orientation="vertical" />
                       <Typography display="inline" variant="body2">
-                        <Box component="span" color="purple" onClick={() => this.archive(test ? test : "")} className="inline-button" >Archive</Box>
+                        <Box component="span" onClick={() => this.archive(test ? test : "")} className="inline-button" >Archive</Box>
                       </Typography> */}
                     </Grid>
                   </Grid>
@@ -502,8 +502,7 @@ class ProjectFonts extends React.Component {
         }).catch(error => { console.error(error); // Handle error
         }).then(response => {
           var fontFile = response.data[0];
-          console.log("file upload");
-          console.log(response);
+          
           axios
             .post('/api/font-info', {
               url: response.data[0].url,
@@ -511,27 +510,11 @@ class ProjectFonts extends React.Component {
               jwt: Cookies.get("jwt")
             }).catch(error => { console.error(error); // Handle error
             }).then(response => {
-              console.log("font info");
-              console.log(response);
               var fontInfo = response.data ? response.data : {};
               var variable = false;
               if (fontInfo.variationAxes && Object.keys(fontInfo.variationAxes).length){
                 variable = true;
               }
-
-              console.log("getting font data on client")
-              console.log(response.data)
-              console.log("checking all file type production")
-              console.log({
-                file: fontFile,
-                name: fontFile.name,
-                weight: "",
-                style: "",
-                variable: variable,
-                major_version: 0,
-                minor_version: 1,
-                project: this.props.project.id,
-                info: fontInfo ? fontInfo : {}})
 
               axios
                 .post(apiUrl + '/fonts', {
@@ -547,8 +530,6 @@ class ProjectFonts extends React.Component {
                 }, { headers: { Authorization: 'Bearer ' + Cookies.get("jwt") } 
                 }).catch(err => { console.log(err);  // Handle Error
                 }).then(response => { // Handle success
-                  console.log("font file created")
-                  console.log(response)
                   this.props.update();
                 });
             });
@@ -724,11 +705,11 @@ class Project extends React.Component {
               </Typography>
               <Divider display="inline-block" orientation="vertical" />
               <Typography display="inline" variant="body2">
-                <Box component="span" color="purple" onClick={this.archive} className="inline-button" >Archive</Box>
+                <Box component="span" onClick={this.archive} className="inline-button" >Archive</Box>
               </Typography>
               {/* <Divider display="inline-block" orientation="vertical" />
               <Typography display="inline" variant="body2">
-                <Box component="span" color="purple" className="inline-button" >Share</Box>
+                <Box component="span" className="inline-button" >Share</Box>
               </Typography> */}
             </Box>
           </CardContent>
@@ -736,12 +717,11 @@ class Project extends React.Component {
 
 
           {/* Actionable Info */}
-          <AppBar position="static" color="default">
+          <AppBar position="static">
             <Tabs
               value={this.state.tabValue}
               onChange={this.handleChange}
-              indicatorColor="primary"
-              textColor="primary"
+              TabIndicatorProps={{ style: { backgroundColor: "#fff" } }} 
               variant="scrollable"
               scrollButtons="auto"
             >

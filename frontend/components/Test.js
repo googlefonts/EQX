@@ -11,7 +11,7 @@ const apiUrl = publicRuntimeConfig.API_URL || 'http://localhost:1337';
 const strapi = new Strapi(apiUrl);
 import eachOf from 'async/eachOf';
 import async from 'async';
-
+import theme from '../src/theme';
 
 
 //////////////////////////////
@@ -118,12 +118,12 @@ class Test extends React.Component {
                     <Box style={{ width: "calc(100% - 110px)", display: "inline-block" }}>
                       <LinearProgress variant="determinate" value={this.state.testCompleteness ? Math.ceil(this.state.testCompleteness) : 0} />
                     </Box>
-                    <Box style={{ position: "relative", top:"3px", padding: "1px 10px 0 0 ", borderRadius: "5px", background: this.state.testCompleteness >= 100 ? "#9c27b0" : "rgb(217, 172, 224)", width: "110px", display: "inline-block" }}>
+                    <Box style={{ position: "relative", top:"3px", padding: "1px 10px 0 0 ", borderRadius: "5px", background: this.state.testCompleteness >= 100 ? theme.palette.primary.dark : theme.palette.primary.light, width: "110px", display: "inline-block" }}>
                       <Typography style={{color: "white"}} align="right" variant="h6">{this.state.testCompleteness ? Math.ceil(this.state.testCompleteness) : 0}% Done</Typography>
                     </Box>
                   </Box>
                   <Box>
-                    <Box component="span" color="purple" className="inline-button" mr={2} >
+                    <Box component="span" className="inline-button" mr={2} >
                       <Link href={"/answer-question?test=" + this.state.test.id + "&question=1"}><a>
                         <Button color="primary" size="large" variant="contained">Start</Button>
                       </a></Link>
@@ -134,7 +134,7 @@ class Test extends React.Component {
                     <Divider display="inline-block" orientation="vertical" />
                     <Link href={"/test-results?test=" + this.state.test.id}><a>
                       <Typography display="inline" variant="body2">
-                        <Box component="span" color="purple" className="inline-button" >See Results</Box>
+                        <Box component="span" className="inline-button" >See Results</Box>
                       </Typography>
                     </a></Link>
                   </Box>

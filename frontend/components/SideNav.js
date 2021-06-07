@@ -26,6 +26,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import getConfig from 'next/config';
 const { serverRuntimeConfig, publicRuntimeConfig } = getConfig();
 const apiUrl = publicRuntimeConfig.API_URL || 'http://localhost:1337';
+import theme from '../src/theme';
 
 
 class SideNavRegular extends React.Component {

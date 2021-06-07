@@ -10,6 +10,7 @@ import SignUp from '../components/SignUp';
 import Router from 'next/router';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import SignIn from "../components/SignIn";
+import theme from '../src/theme';
 
 class CreatingHeader extends React.Component {
   constructor(props) {
@@ -111,9 +112,9 @@ class Header extends React.Component {
   }
   render() {
     return (
-      // <TopAppBar className="header">
       <AppBar color="inherit" className="header">
         <Container maxWidth={false}>
+          {/* {console.log(this.props.theme)} */}
           <TopAppBarRow>
             <Grid container spacing={0}>
               <Grid item xs={6}>

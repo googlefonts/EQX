@@ -45,6 +45,7 @@ class Layout extends React.Component {
 					<Header 
 						auth={this.props.isAuthenticated} 
 						{...this.props}
+						theme={theme}
 					/>
 					{ this.props.isAuthenticated ? // Logged In
 						<>

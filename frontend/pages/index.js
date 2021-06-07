@@ -14,6 +14,7 @@ import Cookies from "js-cookie";
 import axios from 'axios';
 import getConfig from 'next/config'
 import NewProject from "../components/NewProject";
+import theme from "../src/theme";
 const { serverRuntimeConfig, publicRuntimeConfig } = getConfig()
 const apiUrl = publicRuntimeConfig.API_URL || 'http://localhost:1337';
 
@@ -51,12 +52,12 @@ class Index extends React.Component {
     });
     return (
       <Layout page={this.state.page} {...this.props}>
-        {console.log("hi")}
         {(this.state.projects && this.state.projects.length) ?
           <>
             { hasTests ? 
               <>
                 <Section bgcolor="none">
+                  <Typography variant="h3" paragraph={true} style={{color:theme.palette.primary[100]}}>Test to Complete</Typography>
                   {this.state.projects.map((project, i1) =>
                     project.tests.map((test, i2) =>
                       <Test key={"test-" + i2} testId={test.id} project={project} update={this.update} />
@@ -65,6 +66,7 @@ class Index extends React.Component {
                 </Section>
                 
                 <Section bgcolor="background.paper2">
+                  <Typography variant="h3" paragraph={true} color="primary">Shared Tests</Typography>
                   {this.state.projects.map((project, i1) =>
                     project.tests.map((test, i2) =>
                       <SharedTest key={"test-" + i2} testId={test.id} project={project} update={this.update} />
@@ -77,6 +79,7 @@ class Index extends React.Component {
             }
 
             <Section>
+              <Typography variant="h3" paragraph={true} color="primary">Projects</Typography>
               {this.state.projects.map((project, i) =>
                 <Project key={"project-" + i + "-" + project.id} projectId={project.id} update={this.update} pageUpdate={this.pageUpdate} />
               )}

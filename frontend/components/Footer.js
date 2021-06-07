@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Container, Grid } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
+import theme from '../src/theme';
 
 // Unfinished, just sample shows where to place items
 const Footer = () => (

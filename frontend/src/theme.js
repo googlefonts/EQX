@@ -1,14 +1,8 @@
 import { createMuiTheme, responsiveFontSizes } from '@material-ui/core/styles';
 import { grey } from '@material-ui/core/colors';
+import { letterSpacing } from '@material-ui/system';
 
-// purple reference
-// 50		#f3e5f5			100	#e1bee7
-// 200	#ce93d8			300	#ba68c8
-// 400	#ab47bc			500	#9c27b0 // DEFAULT
-// 600	#8e24aa			700	#7b1fa2
-// 800	#6a1b9a			900	#4a148c
-
-// grey reference
+// grey reference (see https://material-ui.com/customization/color/#color-palette)
 // 50		#fafafa		100	#f5f5f5
 // 200	#eeeeee		300	#e0e0e0
 // 400	#bdbdbd		500	#9e9e9e // DEFAULT
@@ -16,7 +10,7 @@ import { grey } from '@material-ui/core/colors';
 // 800	#424242		900	#212121
 
 
-let theme = createMuiTheme({
+const globalTheme = createMuiTheme({
 	palette: {
    	primary: grey,
 		background: {
@@ -39,71 +33,98 @@ let theme = createMuiTheme({
 			'"Segoe UI Symbol"',
 		].join(','),
 		body1: {
-			"&.MuiTypography-body1":{
+			"&.MuiTypography-body1": {
 				maxWidth: '700px',
 				marginRight: 'auto',
 				marginLeft: 'auto',
 			}
 		},
+		h3: {
+			fontWeight: '700',
+			textTransform: "uppercase",
+			letterSpacing: "0.05em"
+		},
 	},
 });
 
-theme.overrides = {
-	...theme.overrides,
-	MuiDrawer:{
-		...theme.MuiDrawer,
-		paperAnchorDockedRight: {
-			...theme.paperAnchorDockedRight,
-			borderLeft: "none",
-			paddingTop: '64px',
-			width: 230
-		},
-	},
-	MuiTypography:{
-		...theme.MuiTypography,
-		body2: {
-			...theme.body2,
-			maxWidth: "800px"
-		},
-		h4: {
-			...theme.h4,
-			lineHeight: 1.4
-		},
-		h6: {
-			...theme.h6,
-			letterSpacing: "0.04em",
-			fontSize: "1rem!important",
-			textTransform: "uppercase"
-		},
-	},
-	MuiInputBase:{
-		...theme.MuiInputBase,
-		input: {
-			...theme.input,
-			lineHeight: 1.4
-		},
-	},
-	MuiDialog:{
-		...theme.MuiDialog,
-		paper: {
-			...theme.paper,
-			width: "100%"
-		},
-	},
-	MuiListItem: {
-		...theme.MuiListItem,
-		root: {
-			...theme.root,
-			"&$selected": { 
-				background: theme.palette.primary.main,
-				color: "white",
-				"& .MuiSvgIcon-root": {
-					color: "white",
-				 },
+// color: theme.palette.getContrastText(theme.palette.error.main),
+// background: theme.palette.error.main,
+
+let theme = createMuiTheme({
+	overrides: {
+		MuiDrawer: {
+			paperAnchorDockedRight: {
+				borderLeft: "none",
+				paddingTop: '64px',
+				width: 230
 			},
 		},
-	},
-}
+		MuiTypography: {
+			body2: {
+				maxWidth: "800px"
+			},
+			h4: {
+				lineHeight: 1.4
+			},
+			h6: {
+				letterSpacing: "0.04em",
+				fontSize: "1rem!important",
+				textTransform: "uppercase"
+			},
+		},
+		MuiInputBase: {
+			input: {
+				lineHeight: 1.4
+			},
+		},
+		MuiButton: {
+			root: {
+				'&.MuiButton-containedPrimary': {
+					backgroundColor: globalTheme.palette.primary.dark,
+					color: globalTheme.palette.getContrastText(globalTheme.palette.primary.dark),
+			  }
+			}
+		},
+		MuiFab: {
+			root: {
+				backgroundColor: globalTheme.palette.primary.dark+"!important",
+				color: globalTheme.palette.getContrastText(globalTheme.palette.primary.dark)+"!important",
+			}
+		},
+		MuiTabs: {
+			root: {
+				backgroundColor: globalTheme.palette.primary.dark+"!important",
+				color: globalTheme.palette.getContrastText(globalTheme.palette.primary.dark)+"!important",
+			}
+		},
+		MuiCircularProgress: {
+			circle: {
+				color: globalTheme.palette.primary.dark,
+			}
+		},
+		MuiLinearProgress: {
+			bar: {
+				backgroundColor: globalTheme.palette.primary.dark+"!important",
+			}
+		},
+		MuiDialog: {
+			paper: {
+				width: "100%"
+			},
+		},
+		MuiListItem: {
+			root: {
+				"&$selected": { 
+					background: globalTheme.palette.primary.dark,
+					color: globalTheme.palette.getContrastText(globalTheme.palette.primary.dark),
+					"& .MuiSvgIcon-root": {
+						color: globalTheme.palette.getContrastText(globalTheme.palette.primary.dark),
+					},
+				},
+			},
+		},
+	}, 
+}, globalTheme);
 theme = responsiveFontSizes(theme);
 
 export default theme;
