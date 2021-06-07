@@ -27,6 +27,16 @@
 		}
 	}
 }
+.test-result-header{
+	@media print {
+		padding-top: 0!important;
+		padding-bottom: 0!important;
+	}
+}
+
+.test-result-section{
+	page-break-inside: avoid;
+}
 
 .user-completion{
 	padding-top: 0;
