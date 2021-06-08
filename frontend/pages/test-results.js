@@ -17,6 +17,7 @@ import RadialGrade from "../components/RadialGrade";
 import RadialGradeSmall from "../components/RadialGradeSmall";
 import eachOf from 'async/eachOf';
 import async from 'async';
+import theme from '../src/theme';
 import GetAppIcon from '@material-ui/icons/GetApp';
 
 const saveTemplateAsFile = (filename, jsonToWrite) => {
@@ -217,15 +218,15 @@ class TestResultsPage extends React.Component {
               <Box style={{ float: "left", width: "calc(100% - 150px)", display: "inline-block" }}>
                 <LinearProgress style={{ height: "40px"}} className="linear-progress-thick" variant="determinate" value={this.state.testCompleteness ? Math.ceil(this.state.testCompleteness) : 0} />
               </Box>
-              <Box style={{ borderRadius: "0 5px 5px 0", float: "left", position: "relative", padding: "0 10px 0 0 ", background: this.state.testCompleteness >= 100 ? "#9c27b0" : "rgb(217, 172, 224)", width: "150px", display: "inline-block" }}>
-                <Typography style={{color: "#9c27b0", lineHeight: "40px"}} align="right" variant="h5">{this.state.testCompleteness ? Math.ceil(this.state.testCompleteness) : 0}% Done</Typography>
+              <Box style={{ borderRadius: "0 5px 5px 0", float: "left", position: "relative", padding: "0 10px 0 0 ", background: this.state.testCompleteness >= 100 ? theme.palette.primary.dark : theme.palette.primary.light, width: "150px", display: "inline-block" }}>
+                <Typography style={{color: theme.palette.primary[100], lineHeight: "40px"}} align="right" variant="h5">{this.state.testCompleteness ? Math.ceil(this.state.testCompleteness) : 0}% Done</Typography>
               </Box>
             </Grid>
             <Grid item xs={12}>
-              <Box component="span" color="purple" className="inline-button" mr={2} >
+              <Box component="span" className="inline-button" mr={2} >
                 <Button onClick={this.downloadTestPDF} color="primary" size="large" variant="contained" startIcon={<GetAppIcon />}>PDF</Button>
               </Box>
-              <Box component="span" color="purple" className="inline-button" mr={2} >
+              <Box component="span" className="inline-button" mr={2} >
                 <Button onClick={this.downloadTestJSON} color="primary" size="large" variant="contained" startIcon={<GetAppIcon />}>JSON</Button>
               </Box>
               <Typography color="inherit"  display="inline" variant="body2">{this.state.totalAnswers} total answers</Typography>
@@ -256,15 +257,15 @@ class TestResultsPage extends React.Component {
                         <Grid item xs={12}>
                                 
                           <Box className="progress-bar">
-                            <Box style={{ width: "calc(100% - 110px)", display: "inline-block" }}>
+                            <Box style={{ width: "calc(100% - 140px)", display: "inline-block" }}>
                               <LinearProgress variant="determinate" value={ typeof question.answers !== "undefined" ? Math.ceil((question.answers.length / this.state.test.users.length) * 100) : 0} />
                             </Box>
-                            <Box style={{ position: "relative", top:"3px", padding: "1px 10px 0 0 ", borderRadius: "5px", background: (typeof question.answers !== "undefined" && Math.ceil((question.answers.length / this.state.test.users.length) * 100) === 100) ? "#9c27b0" : "rgb(217, 172, 224)", width: "110px", display: "inline-block" }}>
-                              <Typography style={{color: "white"}} align="right" variant="h6">{ typeof question.answers !== "undefined" ? Math.ceil((question.answers.length / this.state.test.users.length) * 100) : 0}% Done</Typography>
+                            <Box style={{ position: "relative", top:"3px", padding: "1px 10px 0 0 ", borderRadius: "5px", background: (typeof question.answers !== "undefined" && Math.ceil((question.answers.length / this.state.test.users.length) * 100) === 100) ? theme.palette.primary.dark : theme.palette.primary.light, width: "140px", display: "inline-block" }}>
+                              <Typography style={{color: theme.palette.primary[100]}} align="right" variant="h6">{ typeof question.answers !== "undefined" ? Math.ceil((question.answers.length / this.state.test.users.length) * 100) : 0}% Done</Typography>
                             </Box>
                             <Link href={"/answer-question?test=" + this.state.test.id + "&question=" + (i+1)}><a>
                               <Typography display="inline" variant="body2">
-                                <Box component="span" color="purple" className="inline-button" >View Question</Box>
+                                <Box component="span" className="inline-button" >View Question</Box>
                               </Typography>
                             </a></Link>
                             <Divider display="inline-block" orientation="vertical" />
@@ -293,7 +294,7 @@ class TestResultsPage extends React.Component {
                   <Grid container spacing={2}>
                     <Grid item xs={12}>
                       <Box color="text.disabled">
-                        <Typography variant="body1" style={{color: "white", maxWidth: "initial"}}>This test doesn't have any questions yet.</Typography>
+                        <Typography variant="body1" style={{color: theme.palette.primary[100], maxWidth: "initial"}}>This test doesn't have any questions yet.</Typography>
                       </Box>
                     </Grid>
                   </Grid>

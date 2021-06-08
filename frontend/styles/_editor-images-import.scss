@@ -18,7 +18,7 @@ $eii-height: 392px; // Height of 7 dropdown menus
 	.editor-side-bar{
 		position: relative;
 		z-index: 1;
-		background-color: $mdc-theme-grey50;
+		background-color: $color-grey-50;
 		width: $editor-side-bar-width;
 		min-height: $eii-height;
 	   overflow: scroll;
@@ -48,7 +48,7 @@ $eii-height: 392px; // Height of 7 dropdown menus
 	.editor-main{
 		// @include mdc-elevation(1);
 		flex: 1 1 0;
-		background-color: $mdc-theme-grey50;
+		background-color: $color-grey-50;
 		position: relative;
 	}
 
@@ -87,7 +87,7 @@ $eii-height: 392px; // Height of 7 dropdown menus
 		top: 50%;
 		left: 50%;
 		transform: translate(-50%, -50%);
-		background-color: rgba($mdc-theme-grey200, 0.75);
+		background-color: rgba($color-grey-200, 0.75);
 		border-radius: 100%;
 		padding: 4rem;
 	}

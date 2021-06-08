@@ -1,32 +1,41 @@
 /*————————————————————*/
-/* Material variables */
+/* Material UI variables */
 /*————————————————————*/
 
-$mdc-theme-primary-light: rgb(191,117,220); // Purple
-// $mdc-theme-primary: #6A1B9A; // Purple
-$mdc-theme-primary: #9c27b0; // Purple
-$mdc-theme-primary-dark: rgb(52,2,95); // Purple
-$mdc-theme-secondary: #283593; // Blue
-$mdc-theme-on-primary: #ffffff; // White on purple
-$mdc-theme-on-secondary: #ffffff; // White on blue
-$mdc-theme-background: #ffffff; // White
-$mdc-theme-surface: #ffffff; // White
+// These are based off MUI's color pallets https://material-ui.com/customization/color/
+
+// Primary Color
+$color-50:	#fafafa;		
+$color-100:	#f5f5f5;
+$color-200:	#eeeeee;		
+$color-300:	#e0e0e0;
+$color-400:	#bdbdbd;			
+$color-500:	#9e9e9e;
+$color-600:	#757575;		
+$color-700:	#616161;
+$color-800:	#424242;		
+$color-900:	#212121;
+
+$color-on-500:	#fff;		
+$color-behind-500:#fff;	
+
+// Greys
+$color-grey-50:	#fafafa;		
+$color-grey-100:	#f5f5f5;
+$color-grey-200:	#eeeeee;		
+$color-grey-300:	#e0e0e0;
+$color-grey-400:	#bdbdbd;		
+$color-grey-500:	#9e9e9e;
+$color-grey-600:	#757575;		
+$color-grey-700:	#616161;
+$color-grey-800:	#424242;		
+$color-grey-900:	#212121;
+
+
 
 /*——————————————————*/
 /* Custom variables */
 /*——————————————————*/
-
-// So many different greys, tried to give them a material-like logic
-
-$mdc-theme-black: #000;
-$mdc-theme-grey700: #454647;
-$mdc-theme-grey600: #5A5A5A;
-$mdc-theme-grey500: #707070;
-$mdc-theme-grey400: #9E9E9E;
-
-$mdc-theme-grey200: #C5C6C5;
-$mdc-theme-grey100: #E1E2E1;
-$mdc-theme-grey50: #F5F5F6;
 
 // Breakpoints
 $bp-xsmall: 350px !default;

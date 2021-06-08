@@ -3,54 +3,66 @@
 //////////////////////////////////////////////////////
 // Utility Classes
 
+
+.text-50{	color: $color-50;	}
+.text-100{	color: $color-100; }
+.text-200{	color: $color-200;	}
+.text-300{	color: $color-300; }
+.text-400{	color: $color-400;	}
+.text-500{	color: $color-500; }
+.text-600{	color: $color-600;	}
+.text-700{	color: $color-700; }
+.text-800{	color: $color-800;	}
+.text-900{	color: $color-900; } 
+
 .text-primary-light {
-	color: $mdc-theme-primary-light !important;
+	color: $color-300 !important;
 }
 .text-primary {
-	color: $mdc-theme-primary !important;
+	color: $color-500 !important;
 }
 .text-primary-dark {
-	color: $mdc-theme-primary-dark !important;
+	color: $color-800 !important;
 }
 .text-secondary {
-	color: $mdc-theme-secondary !important;
+	color: $color-500 !important;
 }
 .text-on-primary {
-	color: $mdc-theme-on-primary !important;
+	color: $color-on-500 !important;
 }
 .text-on-secondary {
-	color: $mdc-theme-on-secondary !important;
+	color: $color-on-500 !important;
 }
 .text-background {
-	color: $mdc-theme-background !important;
+	color: $color-behind-500 !important;
 }
 .text-surface {
-	color: $mdc-theme-surface !important;
+	color: $color-behind-500 !important;
 }
  
 .bg-primary-light {
-	background: $mdc-theme-primary-light !important;
+	background: $color-300 !important;
 }
 .bg-primary {
-	background: $mdc-theme-primary !important;
+	background: $color-500 !important;
 }
 .bg-primary-dark {
-	background: $mdc-theme-primary-dark !important;
+	background: $color-800 !important;
 }
 .bg-secondary {
-	background: $mdc-theme-secondary !important;
+	background: $color-500 !important;
 }
 .bg-on-primary {
-	background: $mdc-theme-on-primary !important;
+	background: $color-on-500 !important;
 }
 .bg-on-secondary {
-	background: $mdc-theme-on-secondary !important;
+	background: $color-on-500 !important;
 }
 .bg-background {
-	background: $mdc-theme-background !important;
+	background: $color-behind-500 !important;
 }
 .bg-surface {
-	background: $mdc-theme-surface !important;
+	background: $color-behind-500 !important;
 }
  
 .text-align-right{

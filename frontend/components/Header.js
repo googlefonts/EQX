@@ -10,6 +10,7 @@ import SignUp from '../components/SignUp';
 import Router from 'next/router';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import SignIn from "../components/SignIn";
+import theme from '../src/theme';
 
 class CreatingHeader extends React.Component {
   constructor(props) {
@@ -120,7 +121,7 @@ class Header extends React.Component {
                 <Grid item xs={6}>
                   <Link href="/">
                     <a>
-                      <Typography variant="h5" className="logo" style={{fontWeight:"700"}}>EQX</Typography>
+                      <img src="/img/logo.png" alt="EQX" className="logo"/>
                     </a>
                   </Link>
                 </Grid>

@@ -39,11 +39,6 @@ const Page = Page => (
       return(
         <>
           
-          {
-          /* <Head>
-            <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
-            <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,400i,700,700i,900&display=swap" rel="stylesheet" />
-          </Head> */}
           { this.props.isAuthenticated ? 
             <Page {...this.props} />
           :
@@ -51,10 +46,10 @@ const Page = Page => (
               <Grid container spacing={2}>
                 <Grid item xs={12}>
                   <Box style={{margin: "8vw auto 0", maxWidth: "1000px" }}>
-                    <Typography color="primary" style={{ textShadow: "0px 0px 10vw rgba(255,255,255, 0.25)", fontWeight: "900", fontSize: "9vw", lineHeight: "1"}} paragraph={true} variant="h1">Start Visually Evaluating Font Quality</Typography>
+                    <Typography className="text-900" style={{ textShadow: "0px 0px 10vw rgba(255,255,255, 0.25)", fontWeight: "900", fontSize: "9vw", lineHeight: "1"}} paragraph={true} variant="h1">Visually Evaluate Font Quality</Typography>
                   </Box>
                   <Box style={{margin: "4rem auto", maxWidth: "700px" }}>
-                    <Typography style={{ color: "white"}} paragraph={true} variant="h4">A new way to test your typefaces, track your progress, and work with teams when designing families.</Typography>
+                    <Typography style={{ color: "white"}} paragraph={true} variant="h4">On average, type designers spend more time testing typefaces than drawing them. It's time that tests become democratized. EQX organizes the Q&A process, allows you to repeat it, track progress, and work with remote teams all in one place.</Typography>
                   </Box>
                 </Grid>
                 

@@ -1,13 +1,13 @@
 .test-overview{
 	.project-title{
-		color: $mdc-theme-grey600;
+		color: $color-grey-600;
 		margin-bottom: 0;
 	}
 	.test-title{
 		margin-top: 0.5rem;
 		margin-bottom: 0.5rem;
 		span{
-			color: $mdc-theme-grey200;
+			color: $color-grey-200;
 		}
 	}
 	.action-list{
@@ -17,10 +17,10 @@
 			display: inline-block;
 		}
 		p{
-			color: $mdc-theme-primary;
+			color: $color-500;
 			margin-right: 1rem;
 			padding-right: 1rem;
-			border-right: 2px solid $mdc-theme-grey100;
+			border-right: 2px solid $color-grey-100;
 		}
 		li:last-of-type p{
 			border-right: none;
@@ -46,12 +46,12 @@
 		margin-top: 1rem;
 	}
 	.user-completion-percentage{
-		color: $mdc-theme-grey400;
+		color: $color-grey-400;
 		margin: 0;
 		margin-left: 1rem;
 	}
 	.user-completion-fraction{
-		color: $mdc-theme-grey500;
+		color: $color-grey-500;
 		margin-top: 0.5rem;
 	}
 }

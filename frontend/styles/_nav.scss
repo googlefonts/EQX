@@ -2,7 +2,7 @@
 
 // .nav-drawer{
 // 	@include mdc-drawer-z-index(3);	
-// 	@include mdc-drawer-surface-fill-color($mdc-theme-grey50);
+// 	@include mdc-drawer-surface-fill-color($color-grey-50);
 // 	@include mdc-elevation(2);
 // 	position: fixed;
 // 	right: 0;
@@ -85,15 +85,15 @@ main:not(.no-auth) {
 }
 .MuiDrawer-root{
 	[data-active="true"]{
-		background: $mdc-theme-primary;
-		color: $mdc-theme-on-primary;
+		background: $color-500;
+		color: $color-on-500;
 		pointer-events: none;
 		&:hover {
-			background: $mdc-theme-primary;
-			color: $mdc-theme-on-primary;
+			background: $color-500;
+			color: $color-on-500;
 		  }
 		.blank {
-			color: rgba($mdc-theme-on-primary, 0.5);
+			color: rgba($color-on-500, 0.5);
 	  	}
 		.nav-item-event{
 			pointer-events: none;

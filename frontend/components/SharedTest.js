@@ -15,6 +15,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import EditableTitleAndDescription from "../components/EditableTitleAndDescription";
 import eachOf from 'async/eachOf';
 import async from 'async';
+import theme from '../src/theme';
 
 //////////////////////////////
 // Test Tests
@@ -159,8 +160,8 @@ class TestMembers extends React.Component {
                   <Box style={{ float: "left", width: "calc(100% - 150px)", display: "inline-block" }}>
                     <LinearProgress style={{ height: "40px"}} className="linear-progress-thick linear-progress-white" variant="determinate" value={this.props.testCompleteness ? Math.ceil(this.props.testCompleteness) : 0} />
                   </Box>
-                  <Box style={{ borderRadius: "0 5px 5px 0", float: "left", position: "relative", padding: "0 10px 0 0 ", background: this.props.testCompleteness >= 100 ? "#9c27b0" : "rgb(217, 172, 224)", width: "150px", display: "inline-block" }}>
-                    <Typography style={{color: "#9c27b0", lineHeight: "40px"}} align="right" variant="h5">{this.props.testCompleteness ? Math.ceil(this.props.testCompleteness) : 0}% Done</Typography>
+                  <Box style={{ borderRadius: "0 5px 5px 0", float: "left", position: "relative", padding: "0 10px 0 0 ", background: this.props.testCompleteness >= 100 ? theme.palette.primary.dark : theme.palette.primary.light, width: "150px", display: "inline-block" }}>
+                    <Typography style={{color: theme.palette.primary.dark, lineHeight: "40px"}} align="right" variant="h5">{this.props.testCompleteness ? Math.ceil(this.props.testCompleteness) : 0}% Done</Typography>
                   </Box>
                 </Grid>
                 
@@ -179,11 +180,11 @@ class TestMembers extends React.Component {
                 <Box p={1} pt={2} width="100%">
                   <Grid container spacing={0}>
                     <Grid item xs={12}>
-                      <Box style={{ width: "calc(100% - 110px)", display: "inline-block" }}>
+                      <Box style={{ width: "calc(100% - 140px)", display: "inline-block" }}>
                         <LinearProgress className="linear-progress-white" variant="determinate" value={user.answeredQuestions ? Math.ceil(user.answeredQuestions / this.props.test.questions.length * 100) : 0} />
                       </Box>
-                      <Box style={{ position: "relative", top:"3px", padding: "1px 10px 0 0 ", borderRadius: "5px", background: Math.ceil(user.answeredQuestions / this.props.test.questions.length * 100) >= 100 ? "white" : "rgb(217, 172, 224)", width: "110px", display: "inline-block" }}>
-                        <Typography style={{color: "#9c27b0"}} align="right" variant="h6">{user.answeredQuestions ? Math.ceil(user.answeredQuestions / this.props.test.questions.length * 100) : 0}% Done</Typography>
+                      <Box style={{ position: "relative", top:"3px", padding: "1px 10px 0 0 ", borderRadius: "5px", background: Math.ceil(user.answeredQuestions / this.props.test.questions.length * 100) >= 100 ? "white" : theme.palette.primary.light, width: "140px", display: "inline-block" }}>
+                        <Typography style={{color: theme.palette.primary.dark}} align="right" variant="h6">{user.answeredQuestions ? Math.ceil(user.answeredQuestions / this.props.test.questions.length * 100) : 0}% Done</Typography>
                       </Box>
                     </Grid>
                     <Grid item xs={12}>
@@ -449,22 +450,22 @@ class SharedTest extends React.Component {
                   {/* <Box> */}
                     <Link href={"/test-results?test=" + this.state.test.id}><a>
                       <Typography display="inline" variant="body2">
-                        <Box component="span" color="purple" className="inline-button" mr={2} >
+                        <Box component="span" className="inline-button" mr={2} >
                           <Button color="primary" size="large" variant="contained" >See Results</Button>
                         </Box>
                       </Typography>
                     </a></Link>
                     {/* <Divider display="inline-block" orientation="vertical" /> */}
                     <Typography display="inline" variant="body2">
-                      <Box component="span" color="purple" onClick={this.archive} className="inline-button" >Archive</Box>
+                      <Box component="span" onClick={this.archive} className="inline-button" >Archive</Box>
                     </Typography>
                     {/* <Divider display="inline-block" orientation="vertical" />
                     <Typography display="inline" variant="body2">
-                      <Box component="span" color="purple" className="inline-button" >Remind</Box>
+                      <Box component="span" className="inline-button" >Remind</Box>
                     </Typography> */}
                     {/* <Divider display="inline-block" orientation="vertical" />
                     <Typography display="inline" variant="body2">
-                      <Box component="span" color="purple" className="inline-button" >Share</Box>
+                      <Box component="span" className="inline-button" >Share</Box>
                     </Typography> */}
                   {/* </Box> */}
                 </Grid>

@@ -1,6 +1,6 @@
 .comment-section{
 	.MuiCardHeader-root{
-		background: $mdc-theme-primary;
+		background: $color-500;
 		.MuiTypography-root{
 			color: white; 
 			&.MuiCardHeader-subheader{
@@ -13,7 +13,7 @@
 		}
 	}
 	.MuiCardMedia-root{
-		background: $mdc-theme-grey50;
+		background: $color-grey-50;
 		max-height: 500px;
 		overflow: scroll;
 	}
