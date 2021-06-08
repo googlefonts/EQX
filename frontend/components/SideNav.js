@@ -208,88 +208,90 @@ class SideNavQuestion extends React.Component {
   render() {
     return (
       <>
-        <Drawer
-          className="create-question-drawer multi-drawer-1"
-          variant="permanent"
-          anchor="right"
-          PaperProps={{ elevation: 6 }}
-        >
-          <List padding={2} style={{paddingTop: "64px"}} >
-            {(this.props.page === "test-results") &&
-              <Link href="/"><a>
-                <ListItem selected={this.props.page === "dashboard" ? true : false} button>
-                  <ListItemIcon><DashboardIcon /></ListItemIcon>
-                  <ListItemText primary='Dashboard'/>
+        <Box displayPrint="none">
+          <Drawer
+            className="create-question-drawer multi-drawer-1"
+            variant="permanent"
+            anchor="right"
+            PaperProps={{ elevation: 6 }}
+          >
+            <List padding={2} style={{paddingTop: "64px"}} >
+              {(this.props.page === "test-results") &&
+                <Link href="/"><a>
+                  <ListItem selected={this.props.page === "dashboard" ? true : false} button>
+                    <ListItemIcon><DashboardIcon /></ListItemIcon>
+                    <ListItemText primary='Dashboard'/>
+                  </ListItem>
+                </a></Link>
+              }
+              {(this.props.page === "create-question") &&
+                <ListItem key="list-item-add-question" onClick={this.addQuestion} selected={this.props.page === "dashboard" ? true : false} button>
+                  <ListItemIcon><AddIcon /></ListItemIcon>
+                  <ListItemText primary='Add Question'/>
                 </ListItem>
-              </a></Link>
-            }
-            {(this.props.page === "create-question") &&
-              <ListItem key="list-item-add-question" onClick={this.addQuestion} selected={this.props.page === "dashboard" ? true : false} button>
-                <ListItemIcon><AddIcon /></ListItemIcon>
-                <ListItemText primary='Add Question'/>
-              </ListItem>
-            }
-            {(this.props.test.questions && (this.state.questionNumber < this.props.test.questions.length)) &&
-              <ListItem key="list-item-next-question" onClick={this.nextQuestion} selected={this.props.page === "tests" ? true : false} button>
-                <ListItemIcon><ArrowForwardIcon /></ListItemIcon>
-                <ListItemText primary='Next Question'/>
-              </ListItem>
-            }
-            {(this.props.test.questions && (this.state.questionNumber > 1)) &&
-              <ListItem key="list-item-prev-question" onClick={this.prevQuestion} selected={this.props.page === "tests" ? true : false} button>
-                <ListItemIcon><ArrowBackIcon /></ListItemIcon>
-                <ListItemText primary='Prev Question'/>
-              </ListItem>
-            }
-            <ListItem className="multi-drawer-toggle" key="list-item-overview" onClick={this.overviewToggle} selected={this.props.page === "tests" ? true : false} button>
-              <ListItemIcon><FormatListNumberedIcon /></ListItemIcon>
-              <ListItemText primary='Question List'/>
-            </ListItem>
-            {(this.props.page === "answer-question") &&
-              <Link href={"/test-results?test=" + this.props.test.id}><a>
-                <ListItem key="list-item-results" selected={this.props.page === "dashboard" ? true : false} button>
-                  <ListItemIcon><ShowChart /></ListItemIcon>
-                  <ListItemText primary='See Results'/>
+              }
+              {(this.props.test.questions && (this.state.questionNumber < this.props.test.questions.length)) &&
+                <ListItem key="list-item-next-question" onClick={this.nextQuestion} selected={this.props.page === "tests" ? true : false} button>
+                  <ListItemIcon><ArrowForwardIcon /></ListItemIcon>
+                  <ListItemText primary='Next Question'/>
                 </ListItem>
-              </a></Link>
-            }
-          </List>
-        </Drawer>
-        <Drawer
-          className="create-question-overview-drawer multi-drawer-2"
-          variant="permanent"
-          anchor="right"
-          PaperProps={{ elevation: 6 }}
-          data-open={false}
-        >
-          <List padding={2} style={{paddingTop: "64px"}} >
-            {(this.props.test.questions && this.props.test.questions.length) &&
-              this.props.test.questions.map((question, i) => 
-                <ListItem button key={"question-" + i} data-active={ ((i+1) === this.state.questionNumber) ? true : false }>
-                  <Box p={1} pt={2} width="100%">
-                    <Grid container spacing={2}>
-                      <Grid item xs={8} className="nav-item-event" onClick={() => this.sideQuestionNavUpdate(i+1)}>
-                        <Typography variant="body1" style={{overflow: "hidden", whiteSpace: "nowrap", textOverflow: "ellipsis"}}>
-                          { (typeof question.question !== "undefined" && question.question && question.question.trim() !== "" ) ? 
-                            question.question : 
-                            <Box color="text.disabled" component="span" className="blank">Blank Question</Box>
-                          }
-                        </Typography>
-                      </Grid>
-                      {(this.props.page === "create-question") &&
-                        <Grid item style={{position:"relative"}} xs={4} >
-                          <IconButton onClick={() => this.sideQuestionDelete(question.id, i+1)} style={{position:"absolute", right: "0", top: "-8px"}} component="span">
-                            <DeleteIcon />
-                          </IconButton>
+              }
+              {(this.props.test.questions && (this.state.questionNumber > 1)) &&
+                <ListItem key="list-item-prev-question" onClick={this.prevQuestion} selected={this.props.page === "tests" ? true : false} button>
+                  <ListItemIcon><ArrowBackIcon /></ListItemIcon>
+                  <ListItemText primary='Prev Question'/>
+                </ListItem>
+              }
+              <ListItem className="multi-drawer-toggle" key="list-item-overview" onClick={this.overviewToggle} selected={this.props.page === "tests" ? true : false} button>
+                <ListItemIcon><FormatListNumberedIcon /></ListItemIcon>
+                <ListItemText primary='Question List'/>
+              </ListItem>
+              {(this.props.page === "answer-question") &&
+                <Link href={"/test-results?test=" + this.props.test.id}><a>
+                  <ListItem key="list-item-results" selected={this.props.page === "dashboard" ? true : false} button>
+                    <ListItemIcon><ShowChart /></ListItemIcon>
+                    <ListItemText primary='See Results'/>
+                  </ListItem>
+                </a></Link>
+              }
+            </List>
+          </Drawer>
+          <Drawer
+            className="create-question-overview-drawer multi-drawer-2"
+            variant="permanent"
+            anchor="right"
+            PaperProps={{ elevation: 6 }}
+            data-open={false}
+          >
+            <List padding={2} style={{paddingTop: "64px"}} >
+              {(this.props.test.questions && this.props.test.questions.length) &&
+                this.props.test.questions.map((question, i) => 
+                  <ListItem button key={"question-" + i} data-active={ ((i+1) === this.state.questionNumber) ? true : false }>
+                    <Box p={1} pt={2} width="100%">
+                      <Grid container spacing={2}>
+                        <Grid item xs={8} className="nav-item-event" onClick={() => this.sideQuestionNavUpdate(i+1)}>
+                          <Typography variant="body1" style={{overflow: "hidden", whiteSpace: "nowrap", textOverflow: "ellipsis"}}>
+                            { (typeof question.question !== "undefined" && question.question && question.question.trim() !== "" ) ? 
+                              question.question : 
+                              <Box color="text.disabled" component="span" className="blank">Blank Question</Box>
+                            }
+                          </Typography>
                         </Grid>
-                      }
-                    </Grid>
-                  </Box>
-                </ListItem>
-              )
-            }
-          </List>
-        </Drawer>
+                        {(this.props.page === "create-question") &&
+                          <Grid item style={{position:"relative"}} xs={4} >
+                            <IconButton onClick={() => this.sideQuestionDelete(question.id, i+1)} style={{position:"absolute", right: "0", top: "-8px"}} component="span">
+                              <DeleteIcon />
+                            </IconButton>
+                          </Grid>
+                        }
+                      </Grid>
+                    </Box>
+                  </ListItem>
+                )
+              }
+            </List>
+          </Drawer>
+        </Box>
       </>
     );
   }

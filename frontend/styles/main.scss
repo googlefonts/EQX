@@ -93,12 +93,18 @@ main{
 	padding-right: 16px;
 	.layout-wrapper[data-has-progress-header="answering"] &, .layout-wrapper[data-has-progress-header="creating"] &{
 		margin-top: 128px; // Height of top-bar
+	}		
+	@media print {
+		margin-top: 0;
 	}
 	min-height: 90vh;
 	min-height: calc(100vh - 50px - 190px);
 	background: linear-gradient(45deg, $color-300, $color-300, $color-900);
 	&:not(.no-auth){
 		padding-right: 230px;
+		@media print {
+			padding-right: 0;
+		}
 	}
 	&:not(.no-auth):not([data-page="dashboard"]){
 		background: white
@@ -299,5 +305,19 @@ main{
 .MuiListItemText-root{
 	span.MuiTypography-root{
 		max-width: initial;
+	}
+}
+
+
+/*—————————————————————————*/
+/* Print CSS			      */
+/*—————————————————————————*/
+
+@media print {
+	@page {
+		margin-left: 0;
+		margin-right: 0;
+		margin-top: 0;
+		margin-bottom: 0;
 	}
 }

@@ -4,7 +4,7 @@ import React from "react";
 import defaultPage from "../hocs/defaultPage";
 import Layout from "../components/Layout";
 import AnswerQuestionFields from '../components/AnswerQuestionFields';
-import { Dialog, DialogTitle, DialogActions, DialogContentText, DialogContent, Button, TextField, Fab, Grid, LinearProgress, List, ListItem, ListItemAvatar, ListItemText, Avatar, AppBar, Tab, Tabs, Card, CardContent, Typography, Box, Divider } from '@material-ui/core';
+import { ButtonGroup, Dialog, DialogTitle, DialogActions, DialogContentText, DialogContent, Button, TextField, Fab, Grid, LinearProgress, List, ListItem, ListItemAvatar, ListItemText, Avatar, AppBar, Tab, Tabs, Card, CardContent, Typography, Box, Divider } from '@material-ui/core';
 import Cookies from "js-cookie";
 import axios from 'axios';
 import Link from "next/link";
@@ -17,8 +17,8 @@ import RadialGrade from "../components/RadialGrade";
 import RadialGradeSmall from "../components/RadialGradeSmall";
 import eachOf from 'async/eachOf';
 import async from 'async';
-import { withStyles } from "@material-ui/core/styles"
 import theme from '../src/theme';
+import GetAppIcon from '@material-ui/icons/GetApp';
 
 const saveTemplateAsFile = (filename, jsonToWrite) => {
   const blob = new Blob([jsonToWrite], { type: "text/json" });
@@ -183,14 +183,17 @@ class TestResultsPage extends React.Component {
   }
 
 
-  downloadTestJson = () => {
+  downloadTestJSON = () => {
     saveTemplateAsFile(this.state.test.name, JSON.stringify(this.state.test));
+  }
+  downloadTestPDF = () => {
+    window.print();
   }
 
   render() {
     return (
       <Layout page={this.state.page} headerType="creating" test={this.state.test} pageUpdate={this.pageUpdate} {...this.props}>
-        <Box pt={8} pb={8} bgcolor="#fff">
+        <Box className="test-result-header" pt={8} pb={8} bgcolor="#fff">
         {/* <TestOverview/>
         <UserCompletion/> */}
           <Grid container spacing={4} className="section">
@@ -221,7 +224,10 @@ class TestResultsPage extends React.Component {
             </Grid>
             <Grid item xs={12}>
               <Box component="span" className="inline-button" mr={2} >
-                <Button onClick={this.downloadTestJson} color="primary" size="large" variant="contained">Download</Button>
+                <Button onClick={this.downloadTestPDF} color="primary" size="large" variant="contained" startIcon={<GetAppIcon />}>PDF</Button>
+              </Box>
+              <Box component="span" className="inline-button" mr={2} >
+                <Button onClick={this.downloadTestJSON} color="primary" size="large" variant="contained" startIcon={<GetAppIcon />}>JSON</Button>
               </Box>
               <Typography color="inherit"  display="inline" variant="body2">{this.state.totalAnswers} total answers</Typography>
               <Divider display="inline" orientation="vertical" />
@@ -234,7 +240,7 @@ class TestResultsPage extends React.Component {
             <Grid item xs={12}>
               {(this.state.test.questions && this.state.test.questions.length) ?
                 this.state.test.questions.map((question, i) =>
-                  <ListItem key={"question-" + i}>
+                  <ListItem className="test-result-section" key={"question-" + i}>
                     <Box pt={2} pb={2} width="100%">
                       <Grid container spacing={2}>
                         <Grid item xs={8}>
