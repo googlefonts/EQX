@@ -40,9 +40,10 @@ const globalTheme = createMuiTheme({
 			}
 		},
 		h3: {
-			fontWeight: '700',
+			fontWeight: '900',
 			textTransform: "uppercase",
-			letterSpacing: "0.05em"
+			letterSpacing: "0.03em",
+			opacity: "0.3"
 		},
 	},
 });

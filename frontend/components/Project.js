@@ -117,10 +117,10 @@ class ProjectTests extends React.Component {
                       </Box>
                       <Typography style={{ width: "200px", display: "inline-block" }} align="right" variant="body1">{test.completeness}% Done</Typography>
                     */}
-                      {/* <Box style={{ width: "calc(100% - 110px)", display: "inline-block" }}>
+                      {/* <Box style={{ width: "calc(100% - 140px)", display: "inline-block" }}>
                         <LinearProgress variant="determinate" value={test.completeness ? Math.ceil(test.completeness) : 0} />
                       </Box>
-                      <Box style={{ position: "relative", top:"3px", padding: "1px 10px 0 0 ", borderRadius: "5px", background: theme.palette.primary.light, width: "110px", display: "inline-block" }}>
+                      <Box style={{ position: "relative", top:"3px", padding: "1px 10px 0 0 ", borderRadius: "5px", background: theme.palette.primary.light, width: "140px", display: "inline-block" }}>
                         <Typography style={{color: "white"}} align="right" variant="h6">{test.completeness ? Math.ceil(test.completeness) : 0}% Done</Typography>
                       </Box> */}
                     {/* </Grid> */}

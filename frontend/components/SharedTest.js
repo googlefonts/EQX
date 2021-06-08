@@ -180,10 +180,10 @@ class TestMembers extends React.Component {
                 <Box p={1} pt={2} width="100%">
                   <Grid container spacing={0}>
                     <Grid item xs={12}>
-                      <Box style={{ width: "calc(100% - 110px)", display: "inline-block" }}>
+                      <Box style={{ width: "calc(100% - 140px)", display: "inline-block" }}>
                         <LinearProgress className="linear-progress-white" variant="determinate" value={user.answeredQuestions ? Math.ceil(user.answeredQuestions / this.props.test.questions.length * 100) : 0} />
                       </Box>
-                      <Box style={{ position: "relative", top:"3px", padding: "1px 10px 0 0 ", borderRadius: "5px", background: Math.ceil(user.answeredQuestions / this.props.test.questions.length * 100) >= 100 ? "white" : theme.palette.primary.light, width: "110px", display: "inline-block" }}>
+                      <Box style={{ position: "relative", top:"3px", padding: "1px 10px 0 0 ", borderRadius: "5px", background: Math.ceil(user.answeredQuestions / this.props.test.questions.length * 100) >= 100 ? "white" : theme.palette.primary.light, width: "140px", display: "inline-block" }}>
                         <Typography style={{color: theme.palette.primary.dark}} align="right" variant="h6">{user.answeredQuestions ? Math.ceil(user.answeredQuestions / this.props.test.questions.length * 100) : 0}% Done</Typography>
                       </Box>
                     </Grid>

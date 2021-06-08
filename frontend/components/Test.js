@@ -115,10 +115,10 @@ class Test extends React.Component {
                   </Box>
 
                   <Box className="progress-bar" pb={3}>
-                    <Box style={{ width: "calc(100% - 110px)", display: "inline-block" }}>
+                    <Box style={{ width: "calc(100% - 140px)", display: "inline-block" }}>
                       <LinearProgress variant="determinate" value={this.state.testCompleteness ? Math.ceil(this.state.testCompleteness) : 0} />
                     </Box>
-                    <Box style={{ position: "relative", top:"3px", padding: "1px 10px 0 0 ", borderRadius: "5px", background: this.state.testCompleteness >= 100 ? theme.palette.primary.dark : theme.palette.primary.light, width: "110px", display: "inline-block" }}>
+                    <Box style={{ position: "relative", top:"3px", padding: "1px 10px 0 0 ", borderRadius: "5px", background: this.state.testCompleteness >= 100 ? theme.palette.primary.dark : theme.palette.primary.light, width: "140px", display: "inline-block" }}>
                       <Typography style={{color: "white"}} align="right" variant="h6">{this.state.testCompleteness ? Math.ceil(this.state.testCompleteness) : 0}% Done</Typography>
                     </Box>
                   </Box>

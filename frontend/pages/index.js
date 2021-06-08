@@ -57,7 +57,7 @@ class Index extends React.Component {
             { hasTests ? 
               <>
                 <Section bgcolor="none">
-                  <Typography variant="h3" paragraph={true} style={{color:theme.palette.primary[100]}}>Test to Complete</Typography>
+                  <Typography variant="h3" paragraph={true} style={{color:theme.palette.primary[100]}}>Your Tests</Typography>
                   {this.state.projects.map((project, i1) =>
                     project.tests.map((test, i2) =>
                       <Test key={"test-" + i2} testId={test.id} project={project} update={this.update} />

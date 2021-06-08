@@ -251,10 +251,10 @@ class TestResultsPage extends React.Component {
                         <Grid item xs={12}>
                                 
                           <Box className="progress-bar">
-                            <Box style={{ width: "calc(100% - 110px)", display: "inline-block" }}>
+                            <Box style={{ width: "calc(100% - 140px)", display: "inline-block" }}>
                               <LinearProgress variant="determinate" value={ typeof question.answers !== "undefined" ? Math.ceil((question.answers.length / this.state.test.users.length) * 100) : 0} />
                             </Box>
-                            <Box style={{ position: "relative", top:"3px", padding: "1px 10px 0 0 ", borderRadius: "5px", background: (typeof question.answers !== "undefined" && Math.ceil((question.answers.length / this.state.test.users.length) * 100) === 100) ? theme.palette.primary.dark : theme.palette.primary.light, width: "110px", display: "inline-block" }}>
+                            <Box style={{ position: "relative", top:"3px", padding: "1px 10px 0 0 ", borderRadius: "5px", background: (typeof question.answers !== "undefined" && Math.ceil((question.answers.length / this.state.test.users.length) * 100) === 100) ? theme.palette.primary.dark : theme.palette.primary.light, width: "140px", display: "inline-block" }}>
                               <Typography style={{color: theme.palette.primary[100]}} align="right" variant="h6">{ typeof question.answers !== "undefined" ? Math.ceil((question.answers.length / this.state.test.users.length) * 100) : 0}% Done</Typography>
                             </Box>
                             <Link href={"/answer-question?test=" + this.state.test.id + "&question=" + (i+1)}><a>
