@@ -120,7 +120,7 @@ class Header extends React.Component {
               <Grid item xs={6}>
                 <Link href="/">
                   <a>
-                    <Typography variant="h5" className="logo" style={{fontWeight:"700"}}>EQX</Typography>
+                    <img src="/img/logo.png" alt="EQX" className="logo"/>
                   </a>
                 </Link>
               </Grid>
