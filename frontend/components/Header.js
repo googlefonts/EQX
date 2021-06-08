@@ -112,49 +112,51 @@ class Header extends React.Component {
   render() {
     return (
       // <TopAppBar className="header">
-      <AppBar color="inherit" className="header">
-        <Container maxWidth={false}>
-          <TopAppBarRow>
-            <Grid container spacing={0}>
-              <Grid item xs={6}>
-                <Link href="/">
-                  <a>
-                    <Typography variant="h5" className="logo" style={{fontWeight:"700"}}>EQX</Typography>
-                  </a>
-                </Link>
-              </Grid>
-              <Grid item xs={6} className="header-right" align="right">
-                {this.props.auth ? (	
-                  <>
-                    <Typography display="inline" style={{top: "4px", position: "relative"}} variant="h6" >{this.props.loggedUser ? decodeURI(this.props.loggedUser) : ""}</Typography>
-                    <Avatar/>
-                    <IconButton color="primary" aria-label="notifications" style={{marginTop: "5px"}}>
-                      <NotificationsIcon style={{fontSize: "26px"}}/>
-                    </IconButton>
-                    {/* <IconButton className="header-notifications header-avatar">
-                      <MaterialIcon icon='avatar' />
-                    </IconButton> */}
-                  </>
-                ) : (
-                  <>
-                    <Button color="primary" style={{marginTop: "10px"}} className="sign-in-button" onClick={()=>{this.handleSignInOpen();this.handleSignUpClose();} }>Login</Button>
-                    <Button variant="contained" style={{marginTop: "10px"}} color="primary" className="sign-up-button" onClick={()=>{this.handleSignUpOpen();this.handleSignInClose();} }>Sign Up</Button>
+      <Box displayPrint="none">
+        <AppBar color="inherit" className="header">
+          <Container maxWidth={false}>
+            <TopAppBarRow>
+              <Grid container spacing={0}>
+                <Grid item xs={6}>
+                  <Link href="/">
+                    <a>
+                      <Typography variant="h5" className="logo" style={{fontWeight:"700"}}>EQX</Typography>
+                    </a>
+                  </Link>
+                </Grid>
+                <Grid item xs={6} className="header-right" align="right">
+                  {this.props.auth ? (	
+                    <>
+                      <Typography display="inline" style={{top: "4px", position: "relative"}} variant="h6" >{this.props.loggedUser ? decodeURI(this.props.loggedUser) : ""}</Typography>
+                      <Avatar/>
+                      <IconButton color="primary" aria-label="notifications" style={{marginTop: "5px"}}>
+                        <NotificationsIcon style={{fontSize: "26px"}}/>
+                      </IconButton>
+                      {/* <IconButton className="header-notifications header-avatar">
+                        <MaterialIcon icon='avatar' />
+                      </IconButton> */}
+                    </>
+                  ) : (
+                    <>
+                      <Button color="primary" style={{marginTop: "10px"}} className="sign-in-button" onClick={()=>{this.handleSignInOpen();this.handleSignUpClose();} }>Login</Button>
+                      <Button variant="contained" style={{marginTop: "10px"}} color="primary" className="sign-up-button" onClick={()=>{this.handleSignUpOpen();this.handleSignInClose();} }>Sign Up</Button>
 
-                    <Dialog open={this.state.openSignUp} onClose={()=>{this.handleSignInClose();this.handleSignUpClose();} }>
-                      <SignUp/>
+                      <Dialog open={this.state.openSignUp} onClose={()=>{this.handleSignInClose();this.handleSignUpClose();} }>
+                        <SignUp/>
+                      </Dialog>
+                      <Dialog open={this.state.openSignIn} onClose={()=>{this.handleSignInClose();this.handleSignUpClose();} }>
+                        <SignIn/>
                     </Dialog>
-                    <Dialog open={this.state.openSignIn} onClose={()=>{this.handleSignInClose();this.handleSignUpClose();} }>
-                      <SignIn/>
-                   </Dialog>
-                  </>
-                )}
+                    </>
+                  )}
+                </Grid>
               </Grid>
-            </Grid>
-          </TopAppBarRow>
-          {this.props.headerType == "creating" ? <CreatingHeader {...this.props}/> : null}  
-          {this.props.headerType == "answering" ? <AnsweringHeader progressBar={this.props.progressBar} {...this.props}/> : null}    
-        </Container>
-      </AppBar>
+            </TopAppBarRow>
+            {this.props.headerType == "creating" ? <CreatingHeader {...this.props}/> : null}  
+            {this.props.headerType == "answering" ? <AnsweringHeader progressBar={this.props.progressBar} {...this.props}/> : null}    
+          </Container>
+        </AppBar>
+      </Box>
     );
   }
 } 
