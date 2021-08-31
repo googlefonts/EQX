@@ -1,5 +1,5 @@
 commonLabels:
-  app: backend
+  app: new-backend
 
 resources:
 - deployment.yaml

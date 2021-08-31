@@ -1,50 +1,50 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: backend
+  name: new-backend
 spec:
   replicas: 1
   template:
     metadata:
       labels:
-        deployment: backend
+        deployment: new-backend
     spec:
       containers:
-      - name: backend
+      - name: new-backend
         image: gcr.io/eqx-host/backend
         command: ["npm", "start"]
         env:
         - name: DATABASE_HOST
           valueFrom:
             secretKeyRef:
-              name: backend
+              name: new-backend
               key: database-host
         - name: DATABASE_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: backend
-              key: postgresql-password
+              name: new-backend
+              key: mysql-password
         - name: APP_HOST
           valueFrom:
             secretKeyRef:
-              name: backend
+              name: new-backend
               key: app-host
         - name: ADMIN_JWT_SECRET
           valueFrom:
             secretKeyRef:
-              name: backend
+              name: new-backend
               key: admin-jwt-secret
         - name: PERMISSIONS_SET
           value: "false"
         - name: DATABASE_PORT
-          value: "5432"
+          value: "3306"
         - name: DATABASE_USERNAME
-          value: "postgres"
+          value: "strapi"
         - name: NODE_ENV
           value: "production"
         - name: DATABASE_SSL
           value: "true"
         - name: DATABASE_NAME
-          value: "postgres"
+          value: "strapi"
         ports:
         - containerPort: 1337

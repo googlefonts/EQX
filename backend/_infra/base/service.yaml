@@ -1,10 +1,10 @@
 kind: Service
 apiVersion: v1
 metadata:
-  name: backend
+  name: new-backend
 spec:
   selector:
-    deployment: backend
+    deployment: new-backend
   type: LoadBalancer
   ports:
   - protocol: TCP
