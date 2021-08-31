@@ -4,4 +4,4 @@ resources:
 - ./base
 images:
 - name: gcr.io/eqx-host/backend
-  newTag: 40a245a020fcf90d39851714ab9c6cccc2432cc9
+  newTag: 885b5a55e540408264fe369851fb481e930dc0a4

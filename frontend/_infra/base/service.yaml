@@ -2,10 +2,10 @@
 kind: Service
 apiVersion: v1
 metadata:
-  name: frontend
+  name: frontend-1
 spec:
   selector:
-    deployment: frontend
+    deployment: frontend-1
   type: LoadBalancer
   ports:
   - protocol: TCP

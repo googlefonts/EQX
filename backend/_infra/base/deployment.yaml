@@ -1,38 +1,38 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: new-backend
+  name: backend-1
 spec:
   replicas: 1
   template:
     metadata:
       labels:
-        deployment: new-backend
+        deployment: backend-1
     spec:
       containers:
-      - name: new-backend
+      - name: backend-1
         image: gcr.io/eqx-host/backend
         command: ["npm", "start"]
         env:
         - name: DATABASE_HOST
           valueFrom:
             secretKeyRef:
-              name: new-backend
+              name: backend-1
               key: database-host
         - name: DATABASE_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: new-backend
+              name: backend-1
               key: mysql-password
         - name: APP_HOST
           valueFrom:
             secretKeyRef:
-              name: new-backend
+              name: backend-1
               key: app-host
         - name: ADMIN_JWT_SECRET
           valueFrom:
             secretKeyRef:
-              name: new-backend
+              name: backend-1
               key: admin-jwt-secret
         - name: PERMISSIONS_SET
           value: "false"

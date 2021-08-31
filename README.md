@@ -21,13 +21,13 @@ He served on the board of ATypI from 2010-2018.
 # Demos
 
 ### EQX App
-<http://34.73.108.93>  
-Username: **example@example.com**  
+<http://35.237.163.30>
+Username: **example@example.com**
 Password: **example**
 
 ### Content API
-<http://35.231.157.252/admin>  
-Username: **example@admin.com**  
+<http://35.237.56.88/admin>
+Username: **example@admin.com**
 Password: **exampleAdmin1**
 
 
@@ -39,15 +39,15 @@ We use Docker to setup the EQX environment. Please open terminal, and running `d
 docker-compose up # Timeout issues? COMPOSE_HTTP_TIMEOUT=1000 docker-compose up
 ```
 
-**Frontend**: <http://localhost:3000>  
+**Frontend**: <http://localhost:3000>
 **Backend**: <http://localhost:1337>
-    
+
 
 # Resources
 
 ## Creating HTML visuals with EQX's Visual Generator
 
-This is a tool to help create visuals for use in EQX. It was created to be used with variable fonts to quickly update a package of HTML testing resources.  
+This is a tool to help create visuals for use in EQX. It was created to be used with variable fonts to quickly update a package of HTML testing resources.
 You can learn more about it by visiting its repo at <https://github.com/quitequinn/EQX-Visual-Generator>.
 
 ## Stack summary
@@ -60,8 +60,8 @@ You can learn more about it by visiting its repo at <https://github.com/quitequi
 
 ## Secrets
 
-We use [kubesec](https://github.com/shyiko/kubesec) and Google Cloud KMS to store encrypted secrets in this repo.  
-To add a new secret, first decrypt, then add secret, and then encrypt. 
+We use [kubesec](https://github.com/shyiko/kubesec) and Google Cloud KMS to store encrypted secrets in this repo.
+To add a new secret, first decrypt, then add secret, and then encrypt.
 
 ### Secret Encryption
 
