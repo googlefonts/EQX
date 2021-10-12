@@ -21,13 +21,14 @@ He served on the board of ATypI from 2010-2018.
 # Demos
 
 ### EQX App
-<http://35.237.163.30>
-Username: **example@example.com**
+=======
+<http://35.237.163.30>  
+Username: **example@example.com**  
 Password: **example**
 
 ### Content API
-<http://35.237.56.88/admin>
-Username: **example@admin.com**
+<http://35.237.56.88/admin>  
+Username: **example@admin.com**  
 Password: **exampleAdmin1**
 
 
