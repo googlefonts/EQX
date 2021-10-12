@@ -1,5 +1,5 @@
 commonLabels:
-  app: frontend
+  app: frontend-1
 
 resources:
 - deployment.yaml

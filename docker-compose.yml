@@ -7,6 +7,7 @@ services:
         ports:
             - 3000:3000
         environment:
+            API_URL: http://35.183.127.62:1337
             DOCKER_CLIENT_TIMEOUT: 120
             COMPOSE_HTTP_TIMEOUT: 120
         volumes:
@@ -18,10 +19,10 @@ services:
         image: strapi/strapi
         restart: unless-stopped
         environment:
-            DATABASE_CLIENT: postgres
+            DATABASE_CLIENT: mysql
             DATABASE_NAME: strapi
-            DATABASE_HOST: postgres
-            DATABASE_PORT: 5432
+            DATABASE_HOST: mariadb
+            DATABASE_PORT: 3306
             DATABASE_USERNAME: strapi
             DATABASE_PASSWORD: strapi
         volumes:
@@ -29,20 +30,21 @@ services:
         ports:
             - '1337:1337'
         depends_on:
-            - postgres
+            - mariadb
         networks:
             - eqx-app
 
-    postgres:
-        image: postgres
+    mariadb:
+        image: mariadb
         environment:
-            POSTGRES_DB: strapi
-            POSTGRES_USER: strapi
-            POSTGRES_PASSWORD: strapi
+          MYSQL_ROOT_PASSWORD: strapi
+          MYSQL_DATABASE: strapi
+          MYSQL_USER: strapi
+          MYSQL_PASSWORD: strapi
         volumes:
-            - dataDB:/var/lib/postgresql/data
+            - dataDB:/var/lib/mysql
         ports:
-            - '5432:5432'
+            - '3306:3306'
         networks:
             - eqx-app
 volumes:

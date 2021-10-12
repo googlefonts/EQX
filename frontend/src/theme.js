@@ -1,4 +1,4 @@
-import { createMuiTheme, responsiveFontSizes } from '@material-ui/core/styles';
+import { createTheme, responsiveFontSizes } from '@material-ui/core/styles';
 import { grey } from '@material-ui/core/colors';
 import { letterSpacing } from '@material-ui/system';
 
@@ -10,7 +10,7 @@ import { letterSpacing } from '@material-ui/system';
 // 800	#424242		900	#212121
 
 
-const globalTheme = createMuiTheme({
+const globalTheme = createTheme({
 	palette: {
    	primary: grey,
 		background: {
@@ -51,7 +51,7 @@ const globalTheme = createMuiTheme({
 // color: theme.palette.getContrastText(theme.palette.error.main),
 // background: theme.palette.error.main,
 
-let theme = createMuiTheme({
+let theme = createTheme({
 	overrides: {
 		MuiDrawer: {
 			paperAnchorDockedRight: {
@@ -115,7 +115,7 @@ let theme = createMuiTheme({
 		},
 		MuiListItem: {
 			root: {
-				"&$selected": { 
+				"&$selected": {
 					background: globalTheme.palette.primary.dark,
 					color: globalTheme.palette.getContrastText(globalTheme.palette.primary.dark),
 					"& .MuiSvgIcon-root": {
@@ -124,7 +124,7 @@ let theme = createMuiTheme({
 				},
 			},
 		},
-	}, 
+	},
 }, globalTheme);
 theme = responsiveFontSizes(theme);
 
