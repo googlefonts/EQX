@@ -131,9 +131,9 @@ jobs:
 
         kustomize edit set image $REGISTRY_HOSTNAME/$GKE_PROJECT/backend:${GITHUB_SHA}
         # need to kill deployment before deploying because we're on a really small node
-        kubectl delete deployment backend
+        kubectl delete deployment backend-1
         kustomize build . | kubectl apply -f -
-        kubectl rollout status deployment/backend
+        kubectl rollout status deployment/backend-1
         kubectl get services -o wide
 
     # Deploy the Docker image to the GKE cluster
