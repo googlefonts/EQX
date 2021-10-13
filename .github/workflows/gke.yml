@@ -143,7 +143,7 @@ jobs:
         cd frontend/_infra/
         kustomize edit set image $REGISTRY_HOSTNAME/$GKE_PROJECT/frontend:${GITHUB_SHA}
         # need to kill deployment before deploying because we're on a really small node
-        kubectl delete deployment frontend
+        kubectl delete deployment frontend-1
         kustomize build . | kubectl apply -f -
-        kubectl rollout status deployment/frontend
+        kubectl rollout status deployment/frontend-1
         kubectl get services -o wide
